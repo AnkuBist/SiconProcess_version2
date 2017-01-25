@@ -27,6 +27,7 @@ public class Utility {
 
     public static final String USER_ID = "user_id";
     public static final String LAST_LOGIN_ID = "last_login_id";
+    public static final String LAST_LOGIN_DATE = "last_login_date";
 
     /*save shared preferences*/
     public static void savePreference(Activity activity, String key, String value) {
@@ -44,8 +45,18 @@ public class Utility {
     }
 
     // get current date util
-    public static String getCurDate() throws ParseException {
+    public static String getCurDate() {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date today = new Date();
+        /*Date todayWithZeroTime = formatter.parse(formatter.format(today));
+        return todayWithZeroTime.toString();*/
+        String date = formatter.format(today);
+        // Date todayWithZeroTime = formatter.parse(formatter.format(today));
+        return date;
+    }
+
+    public static String getDate() {
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         Date today = new Date();
         /*Date todayWithZeroTime = formatter.parse(formatter.format(today));
         return todayWithZeroTime.toString();*/

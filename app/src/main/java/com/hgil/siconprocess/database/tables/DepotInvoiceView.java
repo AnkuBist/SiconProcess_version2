@@ -73,6 +73,12 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void eraseTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME); //delete all rows in a table
+        db.close();
+    }
+
     //insert single
     public boolean insertDepotInvoice(InvoiceDetailModel invoiceDetailModel) {
         SQLiteDatabase db = this.getWritableDatabase();

@@ -32,6 +32,8 @@ import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.internal.Utils;
+import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         // read shared preference if any
         saved_id = Utility.readPreference(this, Utility.USER_ID);
         existing_id = Utility.readPreference(this, Utility.LAST_LOGIN_ID);
+
         etUserId.setText(saved_id);
 
         /// initialise database objects
@@ -125,6 +128,20 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private void eraseAllTableData() {
+        dbRouteView.eraseTable();
+        dbRouteMapView.eraseTable();
+        dbPriceGroup.eraseTable();
+        dbCreditOpening.eraseTable();
+        dbCrateOpening.eraseTable();
+        dbCrateCollection.eraseTable();
+        dbInvoice.eraseTable();
+        dbDemandTarget.eraseTable();
+        dbFixedSample.eraseTable();
+        dbRejectionTarget.eraseTable();
+        dbEmployee.eraseTable();
+    }
+
     /*retrofit call test example*/
     public void getUserLogin(final String user_id, String password) {
 
@@ -145,6 +162,9 @@ public class LoginActivity extends AppCompatActivity {
                         Utility.savePreference(LoginActivity.this, Utility.USER_ID, user_id);
                     }
 
+                    // erase all tables data
+                    eraseAllTableData();
+
                     ObjLoginResponse objResponse = loginResult.getObjLoginResponse();
 
                     // sync data to local table and views
@@ -164,10 +184,11 @@ public class LoginActivity extends AppCompatActivity {
                     dbEmployee.insertDepotEmployee(routeData.getArrEmployees());
 
                     Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_ID, user_id);
-
+                    Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_DATE, Utility.getCurDate());
 
                     // after saving all values to database start new activity
-                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                    startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
+                    finish();
                 } else {
                     RetrofitUtil.showToast(LoginActivity.this, loginResult.getStrMessage());
                 }

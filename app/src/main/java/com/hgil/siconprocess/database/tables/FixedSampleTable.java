@@ -40,7 +40,7 @@ public class FixedSampleTable extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" (" + ID + " INTEGER NOT NULL, "
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + ID + " INTEGER NOT NULL, "
                 + STARTDT + " TEXT NOT NULL, " + DDAY + " TEXT NOT NULL, " + DEPOTID + " TEXT NOT NULL, "
                 + ROUTE + " TEXT NOT NULL, " + CUSTOMER_ID + " TEXT NOT NULL, " + ITEM_ID + " TEXT NOT NULL, "
                 + SQTY + " INTEGER NOT NULL, " + ENDDT + " TEXT NULL, " + UPDATEBY_PAYCODE + " TEXT NOT NULL, "
@@ -51,6 +51,12 @@ public class FixedSampleTable extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
+    }
+
+    public void eraseTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME); //delete all rows in a table
+        db.close();
     }
 
     //insert single
@@ -79,7 +85,20 @@ public class FixedSampleTable extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         for (int i = 0; i < arrList.size(); i++) {
             FixedSampleModel fixedSampleModel = arrList.get(i);
-
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(ID, fixedSampleModel.getID());
+            contentValues.put(STARTDT, fixedSampleModel.getStartDt());
+            contentValues.put(DDAY, fixedSampleModel.getDDay());
+            contentValues.put(DEPOTID, fixedSampleModel.getDepotID());
+            contentValues.put(ROUTE, fixedSampleModel.getRoute());
+            contentValues.put(CUSTOMER_ID, fixedSampleModel.getCustomerId());
+            contentValues.put(ITEM_ID, fixedSampleModel.getItemId());
+            contentValues.put(SQTY, fixedSampleModel.getSQty());
+            //contentValues.put(ENDDT, fixedSampleModel.getEndDt());
+            contentValues.put(UPDATEBY_PAYCODE, fixedSampleModel.getUpdatebyPaycode());
+            contentValues.put(UPDATEBY_DATE, fixedSampleModel.getUpdatebyDate());
+            contentValues.put(UPDATED_IP, fixedSampleModel.getUpdatedIp());
+            db.insert(TABLE_NAME, null, contentValues);
         }
         db.close();
         return true;

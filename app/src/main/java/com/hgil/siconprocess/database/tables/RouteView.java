@@ -51,6 +51,12 @@ public class RouteView extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void eraseTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME); //delete all rows in a table
+        db.close();
+    }
+
     //insert single
     public boolean insertRoute(RouteModel routeModel) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -101,11 +107,7 @@ public class RouteView extends SQLiteOpenHelper {
         return numRows;
     }
 
-    /*public boolean updateUserRoleMap(UserRoleMapModel userRoleMapModel) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(EMAIL, userRoleMapModel.getEmail());
-        contentValues.put(ROLE_ID, userRoleMapModel.getRole_id());
+    /*
         contentValues.put(IP, userRoleMapModel.getIp());
         contentValues.put(U_TS, userRoleMapModel.getU_ts());
         db.update(TABLE_NAME, contentValues, USER_ROLE_ID + "= ? ", new String[]{Integer.toString(userRoleMapModel.getUser_role_id())});
@@ -117,6 +119,31 @@ public class RouteView extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_NAME, USER_ROLE_ID + "= ? ", new String[]{Integer.toString(id)});
     }*/
+
+    public RouteModel getRoute() {
+        RouteModel routeModel = new RouteModel();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        if (res.moveToFirst()) {
+            //while (res.isAfterLast() == false) {
+            routeModel.setSubCompanyId(res.getString(res.getColumnIndex(SUB_COMPANY_ID)));
+            routeModel.setDepotId(res.getString(res.getColumnIndex(DEPOT_ID)));
+            routeModel.setSubDepotId(res.getString(res.getColumnIndex(SUBDEPOT_ID)));
+            routeModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
+            routeModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
+            routeModel.setRouteDescription(res.getString(res.getColumnIndex(ROUTE_DESCRIPTION)));
+            routeModel.setSaleDateParameter(res.getString(res.getColumnIndex(SALE_DATE_PARAMETER)));
+            routeModel.setLoadingType(res.getString(res.getColumnIndex(LOADING_TYPE)));
+            routeModel.setTCC(res.getInt(res.getColumnIndex(TCC)));
+            //routeModel.setMainDepot(res.getString(res.getColumnIndex(MAINDEPOT)));
+            routeModel.setFlag(res.getInt(res.getColumnIndex(FLAG)));
+            //}
+        }
+        res.close();
+        db.close();
+        return routeModel;
+    }
 
     public ArrayList<RouteModel> getAllRoutes() {
         ArrayList<RouteModel> array_list = new ArrayList<RouteModel>();

@@ -58,6 +58,12 @@ public class CreditOpeningTable extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void eraseTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME); //delete all rows in a table
+        db.close();
+    }
+
     //insert single
     public boolean insertCreditOpening(CreditOpeningModel creditOpeningModel) {
         SQLiteDatabase db = this.getWritableDatabase();

@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">SiconProcess</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <!--drawer items names-->
+    <string name="str_nav_home">Home</string>
+    <string name="str_nav_dashboard">Dashboard</string>
+    <string name="str_nav_inventory">Van Inventory</string>
+    <string name="str_nav_payment">Final Payment</string>
+    <string name="str_nav_outlet">Outlet Info</string>
+    <string name="str_nav_sync">Sync</string>
+    <string name="str_nav_logout">Logout</string>
 </resources>

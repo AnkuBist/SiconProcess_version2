@@ -64,6 +64,12 @@ public class RejectionTargetTable extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void eraseTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME); //delete all rows in a table
+        db.close();
+    }
+
     //insert single
     public boolean insertRejectionTarget(RejectionTargetModel rejectionTargetModel) {
         SQLiteDatabase db = this.getWritableDatabase();

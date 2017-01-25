@@ -1,9 +1,10 @@
 package com.hgil.siconprocess.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.EditText;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.database.tables.CrateCollectionView;
@@ -21,9 +22,7 @@ import com.hgil.siconprocess.database.tables.RouteView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.hgil.siconprocess.R.id.tv;
-
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends NavBaseActivity {
 
     @BindView(R.id.tv)
     TextView tv;
@@ -75,5 +74,25 @@ public class HomeActivity extends AppCompatActivity {
         dbFixedSample = new FixedSampleTable(this);
         dbRejectionTarget = new RejectionTargetTable(this);
         dbEmployee = new DepotEmployeeView(this);
+    }
+
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 }

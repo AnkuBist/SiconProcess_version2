@@ -58,6 +58,12 @@ public class PriceGroupView extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void eraseTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME); //delete all rows in a table
+        db.close();
+    }
+
     // insert multiple
     public boolean insertPrice(List<GroupPriceModel> arrList) {
         SQLiteDatabase db = this.getWritableDatabase();

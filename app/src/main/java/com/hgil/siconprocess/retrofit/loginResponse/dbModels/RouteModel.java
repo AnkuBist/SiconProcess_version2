@@ -5,12 +5,13 @@ package com.hgil.siconprocess.retrofit.loginResponse.dbModels;
  */
 
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RouteModel {
+public class RouteModel{
 
     @SerializedName("Sub_Company_id")
     @Expose

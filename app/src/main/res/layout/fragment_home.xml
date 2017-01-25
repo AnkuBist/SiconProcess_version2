@@ -1,0 +1,42 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hgil.siconprocess.activity.navFragments.HomeFragment">
+
+    <TextView
+        android:id="@+id/tvRouteName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorBackgroundBlack"
+        android:gravity="center"
+        android:text="Title"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_extra_large" />
+
+    <!-- View pager to swipe views -->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:layout_marginTop="50dp" />
+
+    <!-- our tablayout to display tabs  -->
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="?attr/colorPrimary"
+        android:divider="@android:color/white"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@android:color/black"
+        app:tabIndicatorHeight="2dp"
+        app:tabSelectedTextColor="@android:color/darker_gray"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+        app:tabTextColor="@android:color/black" />
+</FrameLayout>

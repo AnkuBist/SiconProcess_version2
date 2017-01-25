@@ -64,6 +64,12 @@ public class CustomerRouteMappingView extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void eraseTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME); //delete all rows in a table
+        db.close();
+    }
+
     // multiple insert
     //insert single
     public boolean insertCustomerRouteMap(List<CustomerRouteMapModel> arrList) {

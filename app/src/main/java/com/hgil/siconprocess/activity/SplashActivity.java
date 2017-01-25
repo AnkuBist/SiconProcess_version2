@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.utils.Utility;
 
 public class SplashActivity extends Activity {
 
@@ -27,7 +28,13 @@ public class SplashActivity extends Activity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                String lastLoginDate = Utility.readPreference(SplashActivity.this, Utility.LAST_LOGIN_DATE);
+
+                // direct pass user to home if user has already logged same day with any of the last saved id.
+                if ((Utility.getCurDate()).matches(lastLoginDate))
+                    startActivity(new Intent(SplashActivity.this, NavBaseActivity.class));
+                else
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
 
                 // close this activity
                 finish();
