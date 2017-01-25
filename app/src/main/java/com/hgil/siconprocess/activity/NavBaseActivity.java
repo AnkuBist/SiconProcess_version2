@@ -174,8 +174,13 @@ public class NavBaseActivity extends AppCompatActivity {
 
         if (fragment != null) {
             // Insert the fragment by replacing any existing fragment
+            String fragClassName = fragment.getClass().getName();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+            boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
+            if (!fragmentPopped) {
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment);
+            }
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(fragClassName).commit();
 
             // Highlight the selected item has been done by NavigationView
             menuItem.setChecked(true);

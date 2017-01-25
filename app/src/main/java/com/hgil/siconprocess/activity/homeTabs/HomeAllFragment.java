@@ -4,7 +4,6 @@ package com.hgil.siconprocess.activity.homeTabs;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import com.hgil.siconprocess.adapter.RouteMapRAdapter;
 import com.hgil.siconprocess.database.tables.CustomerRouteMappingView;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.CustomerRouteMapModel;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -33,6 +31,10 @@ public class HomeAllFragment extends Fragment {
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
 
+    private RouteMapRAdapter mapRAdapter;
+    private CustomerRouteMappingView routeMap;
+    private ArrayList<CustomerRouteMapModel> arrRouteMap;
+
     public HomeAllFragment() {
         // Required empty public constructor
     }
@@ -42,7 +44,6 @@ public class HomeAllFragment extends Fragment {
         return fragment;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,24 +51,20 @@ public class HomeAllFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_home_all, container, false);
     }
 
-    private RouteMapRAdapter mapRAdapter;
-    private CustomerRouteMappingView routeMap;
-    private ArrayList<CustomerRouteMapModel> arrRouteMap;
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
 
-        rvAllRouteMap = (RecyclerView) view.findViewById(R.id.rvAllRouteMap);
-        tvEmpty = (TextView) view.findViewById(R.id.tvEmpty);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvAllRouteMap.setLayoutManager(linearLayoutManager);
 
         routeMap = new CustomerRouteMappingView(getActivity());
+        arrRouteMap = new ArrayList<>();
+        mapRAdapter = new RouteMapRAdapter(getActivity(), arrRouteMap);
+        rvAllRouteMap.setAdapter(mapRAdapter);
     }
 
     @Override
@@ -76,8 +73,8 @@ public class HomeAllFragment extends Fragment {
         if (arrRouteMap != null)
             arrRouteMap.clear();
         arrRouteMap = routeMap.getAllCustomerRouteMap();
-        mapRAdapter = new RouteMapRAdapter(getActivity(), arrRouteMap);
         rvAllRouteMap.setAdapter(mapRAdapter);
+        mapRAdapter.notifyDataSetChanged();
         if (arrRouteMap.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
             rvAllRouteMap.setVisibility(View.GONE);

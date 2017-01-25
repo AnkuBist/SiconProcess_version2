@@ -33,7 +33,7 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
                 HomeAllFragment tab1 = HomeAllFragment.newInstance();
                 return tab1;
             case 1:
-                HomePendingFragment tab2 = new HomePendingFragment().newInstance();
+                HomePendingFragment tab2 = HomePendingFragment.newInstance();
                 return tab2;
             case 2:
                 HomeCompleteFragment tab3 = HomeCompleteFragment.newInstance();

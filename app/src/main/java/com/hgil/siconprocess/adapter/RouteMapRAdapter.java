@@ -1,6 +1,7 @@
 package com.hgil.siconprocess.adapter;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.NavBaseActivity;
+import com.hgil.siconprocess.activity.navFragments.CustomerInvoiceFragment;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.CustomerRouteMapModel;
 
 import java.util.ArrayList;
@@ -56,6 +59,10 @@ public class RouteMapRAdapter extends RecyclerView.Adapter<RouteMapRAdapter.View
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext, routeMapModel.getCustomerName(), Toast.LENGTH_SHORT).show();
+                CustomerInvoiceFragment fragment = CustomerInvoiceFragment.newInstance(routeMapModel.getCustomerId());
+                String fragClassName = fragment.getClass().getName();
+                FragmentManager fragmentManager = ((NavBaseActivity) mContext).getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(fragClassName).commit();
             }
         });
 

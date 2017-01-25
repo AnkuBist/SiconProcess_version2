@@ -55,7 +55,7 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" (" + MKEY + " TEXT NULL, "
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + MKEY + " TEXT NULL, "
                 + RKEY + " TEXT NULL, " + ROUTE_MANAGEMENT_DATE + " TEXT NULL, " + INVOICE_NO + " TEXT NULL, "
                 + INVOICE_DATE + " TEXT NULL, " + CUSTOMER_ID + " TEXT NULL, " + ROUTE_ID + " TEXT NULL, "
                 + VEHICLE_NO + " TEXT NULL, " + DRIVER_CODE + " TEXT NULL, "
@@ -217,11 +217,11 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
         return db.delete(TABLE_NAME, USER_ROLE_ID + "= ? ", new String[]{Integer.toString(id)});
     }*/
 
-    public ArrayList<InvoiceDetailModel> getAllDepotInvoice() {
+    public ArrayList<InvoiceDetailModel> getAllCustomerInvoice(String customer_id) {
         ArrayList<InvoiceDetailModel> array_list = new ArrayList<InvoiceDetailModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CUSTOMER_ID + "='" + customer_id + "'", null);
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 InvoiceDetailModel invoiceDetailModel = new InvoiceDetailModel();

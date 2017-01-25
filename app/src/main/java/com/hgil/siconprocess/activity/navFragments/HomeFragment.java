@@ -23,13 +23,12 @@ import butterknife.ButterKnife;
  */
 public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedListener {
 
-    //This is our tablayout
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
-
-    //This is our viewPager
+    @BindView(R.id.tvRouteName)
+    TextView tvRouteName;
     @BindView(R.id.pager)
     ViewPager viewPager;
+    @BindView(R.id.tabLayout)
+    TabLayout tabLayout;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -47,9 +46,6 @@ public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedLis
         }
     }
 
-    //@BindView(R.id.tvRouteName)
-    TextView tvRouteName;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,8 +57,6 @@ public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedLis
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //Initializing the tablayout
-        //tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         ButterKnife.bind(this, view);
 
         //Adding the tabs using addTab() method
@@ -71,9 +65,6 @@ public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedLis
         tabLayout.addTab(tabLayout.newTab().setText("Complete"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        //Initializing viewPager
-        //viewPager = (ViewPager) view.findViewById(R.id.pager);
-
         //Creating our pager adapter
         TabPagerAdapter adapter = new TabPagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
 
@@ -81,8 +72,6 @@ public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedLis
         viewPager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(viewPager);
-
-        tvRouteName = (TextView) view.findViewById(R.id.tvRouteName);
 
         // set route name to the route
         String routeName = SiconApp.getInstance().getRouteName();
@@ -101,11 +90,9 @@ public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedLis
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
-
     }
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
-
     }
 }

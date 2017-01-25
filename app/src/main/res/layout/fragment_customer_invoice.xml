@@ -2,10 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hgil.siconprocess.activity.homeTabs.HomeAllFragment">
+    tools:context="com.hgil.siconprocess.activity.navFragments.CustomerInvoiceFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvAllRouteMap"
+        android:id="@+id/rvCustomerInvoice"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none" />
