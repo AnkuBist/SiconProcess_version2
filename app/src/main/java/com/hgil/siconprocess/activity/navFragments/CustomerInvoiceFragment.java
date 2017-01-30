@@ -11,7 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.adapter.CustomerInvoiceAdapter;
+import com.hgil.siconprocess.adapter.invoice.CustomerInvoiceAdapter;
+import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
 import com.hgil.siconprocess.database.tables.DepotInvoiceView;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.InvoiceDetailModel;
 
@@ -35,7 +36,7 @@ public class CustomerInvoiceFragment extends Fragment {
 
     private CustomerInvoiceAdapter invoiceAdapter;
     private DepotInvoiceView customerInvoice;
-    private ArrayList<InvoiceDetailModel> arrInvoiceItems;
+    private ArrayList<InvoiceModel> arrInvoiceItems;
 
     public CustomerInvoiceFragment() {
         // Required empty public constructor
@@ -80,7 +81,7 @@ public class CustomerInvoiceFragment extends Fragment {
         super.onResume();
         if (arrInvoiceItems != null)
             arrInvoiceItems.clear();
-        arrInvoiceItems = customerInvoice.getAllCustomerInvoice(customer_id);
+        arrInvoiceItems = customerInvoice.getCustomerInvoice(customer_id);
         invoiceAdapter = new CustomerInvoiceAdapter(getActivity(), arrInvoiceItems);
         rvCustomerInvoice.setAdapter(invoiceAdapter);
         if (arrInvoiceItems.size() == 0) {

@@ -7,7 +7,11 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
+import com.hgil.siconprocess.retrofit.loginResponse.dbModels.DemandTargetModel;
+import com.hgil.siconprocess.retrofit.loginResponse.dbModels.FixedSampleModel;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.InvoiceDetailModel;
+import com.hgil.siconprocess.retrofit.loginResponse.dbModels.ProductModel;
 import com.hgil.siconprocess.utils.Constant;
 
 import java.util.ArrayList;
@@ -49,8 +53,11 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
     private static final String SURCHARGE_AMOUNT = "Surcharge_Amount";
     private static final String TOTAL_AMOUNT = "Total_Amount";
 
+    private Context mContext;
+
     public DepotInvoiceView(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        this.mContext = context;
     }
 
     @Override
@@ -253,12 +260,100 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
                 invoiceDetailModel.setSurchargeAmount(res.getFloat(res.getColumnIndex(SURCHARGE_AMOUNT)));
                 invoiceDetailModel.setTotalAmount(res.getFloat(res.getColumnIndex(TOTAL_AMOUNT)));
 
-                array_list.add(invoiceDetailModel);
+
+                if (new ProductView(mContext).checkProduct(invoiceDetailModel.getItemId()))
+                    array_list.add(invoiceDetailModel);
                 res.moveToNext();
             }
         }
         res.close();
         db.close();
         return array_list;
+    }
+
+
+    /*required details by the application side in single pojo*/
+    public ArrayList<InvoiceModel> getCustomerInvoice(String customer_id) {
+        ArrayList<InvoiceModel> array_list = new ArrayList<InvoiceModel>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CUSTOMER_ID + "='" + customer_id + "'", null);
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                InvoiceModel invoiceModel = new InvoiceModel();
+                invoiceModel.setMkey(res.getString(res.getColumnIndex(MKEY)));
+                invoiceModel.setRKey(res.getString(res.getColumnIndex(RKEY)));
+                invoiceModel.setRouteManagemnetDate(res.getString(res.getColumnIndex(ROUTE_MANAGEMENT_DATE)));
+                invoiceModel.setInvoiceNo(res.getString(res.getColumnIndex(INVOICE_NO)));
+                invoiceModel.setInvoiceDate(res.getString(res.getColumnIndex(INVOICE_DATE)));
+                invoiceModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+                invoiceModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
+                invoiceModel.setVehicleNo(res.getString(res.getColumnIndex(VEHICLE_NO)));
+                //invoiceModel.setDriverCode(res.getString(res.getColumnIndex(DRIVER_CODE)));
+                invoiceModel.setCashierCode(res.getString(res.getColumnIndex(CASHIER_CODE)));
+                invoiceModel.setSupervisorPaycode(res.getString(res.getColumnIndex(SUPERVISOR_PAYCODE)));
+                invoiceModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
+                invoiceModel.setCrateId(res.getString(res.getColumnIndex(CRATE_ID)));
+                invoiceModel.setInvQtyCr(res.getFloat(res.getColumnIndex(INVQTY_CR)));
+                invoiceModel.setInvQtyPs(res.getFloat(res.getColumnIndex(INVQTY_PS)));
+                invoiceModel.setGroupId(res.getString(res.getColumnIndex(GROUP_ID)));
+                invoiceModel.setGroupPriceDate(res.getString(res.getColumnIndex(GROUP_PRICE_DATE)));
+                invoiceModel.setItemRate(res.getFloat(res.getColumnIndex(ITEM_RATE)));
+                invoiceModel.setItemDiscount(res.getFloat(res.getColumnIndex(ITEM_DISCOUNT)));
+                invoiceModel.setItemCST(res.getFloat(res.getColumnIndex(ITEM_CST)));
+                invoiceModel.setItemVAT(res.getFloat(res.getColumnIndex(ITEM_VAT)));
+                invoiceModel.setItemSurcharge(res.getFloat(res.getColumnIndex(ITEM_SURCHARGE)));
+                invoiceModel.setDiscountAmount(res.getFloat(res.getColumnIndex(DISCOUNT_AMOUNT)));
+                invoiceModel.setCSTAmount(res.getFloat(res.getColumnIndex(CST_AMOUNT)));
+                invoiceModel.setVATAmount(res.getFloat(res.getColumnIndex(VAT_AMOUNT)));
+                invoiceModel.setSurchargeAmount(res.getFloat(res.getColumnIndex(SURCHARGE_AMOUNT)));
+                invoiceModel.setTotalAmount(res.getFloat(res.getColumnIndex(TOTAL_AMOUNT)));
+
+                String item_id = invoiceModel.getItemId();
+
+                //---------------if invoice exists-------------------//
+                ProductView dbItemDetails = new ProductView(mContext);
+                ProductModel itemDetail = dbItemDetails.getProductById(item_id);
+
+                // get item sample
+                FixedSampleTable dbSample = new FixedSampleTable(mContext);
+                FixedSampleModel fixedSampleModel = dbSample.getFixedSampleItem(item_id, customer_id);
+
+                // get invoice item target
+                DemandTargetTable dbDemandTarget = new DemandTargetTable(mContext);
+                DemandTargetModel demandTarget = dbDemandTarget.getDemandTargetByItem(item_id, customer_id);
+
+                invoiceModel.setFixedSample(fixedSampleModel.getSQty());
+                invoiceModel.setDemandTargetQty(demandTarget.getTargetQty());
+                invoiceModel.setOrderAmount(demandTarget.getTargetQty() * invoiceModel.getItemRate());
+                invoiceModel.setStockAvail(getLoadingCount(item_id));
+
+                if (new ProductView(mContext).checkProduct(invoiceModel.getItemId()))
+                    array_list.add(invoiceModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return array_list;
+    }
+
+    // get van loading count
+    public int getLoadingCount(String item_id) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        /*String query = "select distinct " + ITEM_ID + ", " + ITEM_RATE + ", sum(" + INVQTY_PS + ") over (partition by " + ITEM_ID + ") as loading_qty " +
+                "from " + TABLE_NAME + " where " + ITEM_ID + "=?";*/
+        String query = "select distinct " + ITEM_ID + ", sum(" + INVQTY_PS + ") as loading_qty " +
+                "from " + TABLE_NAME + " where " + ITEM_ID + "=? group by " + ITEM_ID;
+        Cursor res = db.rawQuery(query, new String[]{item_id});
+
+        int total_item_amount = 0;
+        if (res.moveToFirst()) {
+            total_item_amount = res.getInt(res.getColumnIndex("loading_qty"));
+        }
+        res.close();
+        db.close();
+        return total_item_amount;
     }
 }

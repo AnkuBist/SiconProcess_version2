@@ -38,7 +38,7 @@ public class ProductView extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" (" + ITEMSEQUENCE + " INTEGER NOT NULL, "
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + ITEMSEQUENCE + " INTEGER NOT NULL, "
                 + PRODUCTRANKING + " INTEGER NULL, " + ITEM_ID + " TEXT NULL, " + ITEM_SHORT_NAME + " TEXT NULL, "
                 + ITEM_NAME + " TEXT NULL, " + ITEM_DESCRIPTION + " TEXT NULL, " + DATAAREAID + " TEXT NULL, "
                 + NETWEIGHT + " REAL NULL, " + ITEMGROUPID + " TEXT NULL, " + FLAG + " INTEGER NULL)");
@@ -75,7 +75,7 @@ public class ProductView extends SQLiteOpenHelper {
         return true;
     }
 
-    public ProductModel getpProductById(String item_id) {
+    public ProductModel getProductById(String item_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ITEM_ID + "='" + item_id + "'", null);
 
@@ -91,7 +91,6 @@ public class ProductView extends SQLiteOpenHelper {
             productModel.setNETWEIGHT(res.getFloat(res.getColumnIndex(NETWEIGHT)));
             productModel.setITEMGROUPID(res.getString(res.getColumnIndex(ITEMGROUPID)));
             productModel.setFLAG(res.getInt(res.getColumnIndex(FLAG)));
-
         }
         res.close();
         db.close();
@@ -121,6 +120,26 @@ public class ProductView extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_NAME, USER_ROLE_ID + "= ? ", new String[]{Integer.toString(id)});
     }*/
+
+    /*check product exists or not*/
+    public boolean checkProduct(String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        /*Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ITEM_ID + "='" + item_id + "'", null);
+        //res.moveToFirst();
+        boolean exists = (res.getCount() > 0);
+        res.close();
+        db.close();*/
+
+        String[] columns = {ITEM_NAME};
+        String selection = ITEM_ID + " =?";
+        String[] selectionArgs = {item_id};
+        String limit = "1";
+
+        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null, limit);
+        boolean exists = (cursor.getCount() > 0);
+
+        return exists;
+    }
 
     public ArrayList<ProductModel> getAllProducts() {
         ArrayList<ProductModel> array_list = new ArrayList<ProductModel>();

@@ -56,6 +56,11 @@ public class HomeAllFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -72,8 +77,7 @@ public class HomeAllFragment extends Fragment {
         super.onResume();
         if (arrRouteMap != null)
             arrRouteMap.clear();
-        arrRouteMap = routeMap.getAllCustomerRouteMap();
-        rvAllRouteMap.setAdapter(mapRAdapter);
+        arrRouteMap.addAll(routeMap.getAllCustomerRouteMap());
         mapRAdapter.notifyDataSetChanged();
         if (arrRouteMap.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);

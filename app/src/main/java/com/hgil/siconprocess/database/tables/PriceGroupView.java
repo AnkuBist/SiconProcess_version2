@@ -38,13 +38,16 @@ public class PriceGroupView extends SQLiteOpenHelper {
     private static final String MODULE = "MODULE";
     private static final String SUB_COMPANY_ID = "Sub_Company_id";
 
+    private Context mContext;
+
     public PriceGroupView(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        this.mContext = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" (" + ACCOUNTCODE + " NUMERIC NOT NULL, "
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + ACCOUNTCODE + " NUMERIC NOT NULL, "
                 + ITEMRELATION + " TEXT NULL, " + ACCOUNTRELATION + " TEXT NULL, " + QUANTITYAMOUNT + " TEXT NULL, "
                 + FROMDATE + " TEXT NULL, " + TODATE + " TEXT NULL, " + AMOUNT + " TEXT NULL, "
                 + CURRENCY + " REAL NULL, " + DISCOUNT + " REAL NULL, " + DISCOUNT1 + " REAL NULL, "
@@ -85,6 +88,10 @@ public class PriceGroupView extends SQLiteOpenHelper {
             contentValues.put(SURCHARGE, groupPriceModel.getSurcharge());
             contentValues.put(MODULE, groupPriceModel.getMODULE());
             contentValues.put(SUB_COMPANY_ID, groupPriceModel.getSubCompanyId());
+
+            // insert product here only
+            new ProductView(mContext).insertProduct(groupPriceModel.getItemObj());
+
             db.insert(TABLE_NAME, null, contentValues);
         }
         db.close();

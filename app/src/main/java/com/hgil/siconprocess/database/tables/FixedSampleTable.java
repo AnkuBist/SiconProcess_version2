@@ -104,9 +104,9 @@ public class FixedSampleTable extends SQLiteOpenHelper {
         return true;
     }
 
-    public FixedSampleModel getFixedSampleyRoute(String route_id) {
+    public FixedSampleModel getFixedSampleItem(String item_id, String customer_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ROUTE + "='" + route_id + "'", null);
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ITEM_ID + "=? and " + CUSTOMER_ID + "=?", new String[]{item_id, customer_id});
 
         FixedSampleModel fixedSampleModel = new FixedSampleModel();
         if (res.moveToFirst()) {

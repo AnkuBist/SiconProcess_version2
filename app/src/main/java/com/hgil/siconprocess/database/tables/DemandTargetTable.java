@@ -42,7 +42,7 @@ public class DemandTargetTable extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" (" + RCE_ID + " NUMERIC NOT NULL, "
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + RCE_ID + " NUMERIC NOT NULL, "
                 + DDATE + " TEXT NOT NULL, " + DDAY + " TEXT NOT NULL, " + MMONTH + " INTEGER NOT NULL, "
                 + DEPOT_ID + " TEXT NOT NULL, " + PSM_ID + " TEXT NOT NULL, " + ROUTE_ID + " TEXT NOT NULL, "
                 + CUSTOMER_ID + " TEXT NULL, " + ITEM_ID + " TEXT NOT NULL, " + TARGET_QTY + " REAL NOT NULL, "
@@ -111,9 +111,9 @@ public class DemandTargetTable extends SQLiteOpenHelper {
         return true;
     }
 
-    public DemandTargetModel getDemandTargetByRoute(String route_id) {
+    public DemandTargetModel getDemandTargetByItem(String item_id, String customer_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ROUTE_ID + "='" + route_id + "'", null);
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ITEM_ID + "=? and " + CUSTOMER_ID + "=?", new String[]{item_id, customer_id});
 
         DemandTargetModel demandTargetModel = new DemandTargetModel();
         if (res.moveToFirst()) {
