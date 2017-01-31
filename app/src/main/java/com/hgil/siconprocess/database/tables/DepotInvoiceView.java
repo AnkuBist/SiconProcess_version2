@@ -13,6 +13,7 @@ import com.hgil.siconprocess.retrofit.loginResponse.dbModels.FixedSampleModel;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.InvoiceDetailModel;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.ProductModel;
 import com.hgil.siconprocess.utils.Constant;
+import com.hgil.siconprocess.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -313,23 +314,27 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
 
                 //---------------if invoice exists-------------------//
                 ProductView dbItemDetails = new ProductView(mContext);
-                ProductModel itemDetail = dbItemDetails.getProductById(item_id);
 
                 // get item sample
                 FixedSampleTable dbSample = new FixedSampleTable(mContext);
-                FixedSampleModel fixedSampleModel = dbSample.getFixedSampleItem(item_id, customer_id);
 
                 // get invoice item target
                 DemandTargetTable dbDemandTarget = new DemandTargetTable(mContext);
-                DemandTargetModel demandTarget = dbDemandTarget.getDemandTargetByItem(item_id, customer_id);
+                float targetQty = dbDemandTarget.getDemandTargetByItem(item_id, customer_id).getTargetQty();
 
-                invoiceModel.setFixedSample(fixedSampleModel.getSQty());
-                invoiceModel.setDemandTargetQty(demandTarget.getTargetQty());
-                invoiceModel.setOrderAmount(demandTarget.getTargetQty() * invoiceModel.getItemRate());
-                invoiceModel.setStockAvail(getLoadingCount(item_id));
+                invoiceModel.setFixedSample(dbSample.getFixedSampleItem(item_id, customer_id).getSQty());
+                invoiceModel.setDemandTargetQty(targetQty);
+                invoiceModel.setOrderAmount(Utility.roundTwoDecimals(targetQty * invoiceModel.getItemRate()));
 
-                if (new ProductView(mContext).checkProduct(invoiceModel.getItemId()))
+                int stock = getLoadingCount(item_id);
+
+                invoiceModel.setStockAvail(stock);
+                invoiceModel.setTempStock(stock);
+
+                if (dbItemDetails.checkProduct(invoiceModel.getItemId()) && stock > 0) {
                     array_list.add(invoiceModel);
+                    invoiceModel.setItemName(dbItemDetails.getProductById(item_id).getItemName());
+                }
                 res.moveToNext();
             }
         }

@@ -27,25 +27,36 @@ import butterknife.ButterKnife;
 public class CustomerInvoiceFragment extends Fragment {
 
     private static final String CUSTOMER_ID = "customer_id";
-    private String customer_id;
+    private static final String CUSTOMER_NAME = "customer_name";
+    private String customer_id, customer_name;
 
+    @BindView(R.id.tvCustomerName)
+    TextView tvCustomerName;
     @BindView(R.id.rvCustomerInvoice)
     RecyclerView rvCustomerInvoice;
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
+    //@BindView(R.id.tvCustomerTotal)
+    public static TextView tvCustomerTotal;
+
+    public static double grandTotal;
+
 
     private CustomerInvoiceAdapter invoiceAdapter;
     private DepotInvoiceView customerInvoice;
     private ArrayList<InvoiceModel> arrInvoiceItems;
 
+    public static ArrayList<Double> listItemOrderAmount;
+
     public CustomerInvoiceFragment() {
         // Required empty public constructor
     }
 
-    public static CustomerInvoiceFragment newInstance(String customer_id) {
+    public static CustomerInvoiceFragment newInstance(String customer_id, String customer_name) {
         CustomerInvoiceFragment fragment = new CustomerInvoiceFragment();
         Bundle bundle = new Bundle();
         bundle.putString(CUSTOMER_ID, customer_id);
+        bundle.putString(CUSTOMER_NAME, customer_name);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -53,15 +64,16 @@ public class CustomerInvoiceFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null)
+        if (getArguments() != null) {
             customer_id = getArguments().getString(CUSTOMER_ID);
+            customer_name = getArguments().getString(CUSTOMER_NAME);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_customer_invoice, container, false);
-
     }
 
     @Override
@@ -69,19 +81,29 @@ public class CustomerInvoiceFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
+        if (customer_name != null)
+            tvCustomerName.setText(customer_name);
+
+        tvCustomerTotal = (TextView) view.findViewById(R.id.tvCustomerTotal);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvCustomerInvoice.setLayoutManager(linearLayoutManager);
 
         customerInvoice = new DepotInvoiceView(getActivity());
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+        listItemOrderAmount = new ArrayList<>();
         if (arrInvoiceItems != null)
             arrInvoiceItems.clear();
         arrInvoiceItems = customerInvoice.getCustomerInvoice(customer_id);
+        for (int i = 0; i < arrInvoiceItems.size(); i++) {
+            double itemOrrderAmount = arrInvoiceItems.get(i).getOrderAmount();
+            listItemOrderAmount.add(itemOrrderAmount);
+            grandTotal += itemOrrderAmount;
+        }
+
+        tvCustomerTotal.setText(String.valueOf(grandTotal));
+
         invoiceAdapter = new CustomerInvoiceAdapter(getActivity(), arrInvoiceItems);
         rvCustomerInvoice.setAdapter(invoiceAdapter);
         if (arrInvoiceItems.size() == 0) {
@@ -91,5 +113,14 @@ public class CustomerInvoiceFragment extends Fragment {
             tvEmpty.setVisibility(View.GONE);
             rvCustomerInvoice.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    public void updateData(int position, InvoiceModel invoiceModel) {
+        invoiceAdapter.notifyItemChanged(position, invoiceModel);
     }
 }

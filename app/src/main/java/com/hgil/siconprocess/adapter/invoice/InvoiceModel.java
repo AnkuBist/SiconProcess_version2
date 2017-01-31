@@ -36,8 +36,26 @@ public class InvoiceModel {
     // new added value
     private int fixedSample;
     private float demandTargetQty;
-    private float orderAmount;
+    private double orderAmount;
     private int stockAvail;
+    private int tempStock;
+    private String itemName;
+
+    public int getTempStock() {
+        return tempStock;
+    }
+
+    public void setTempStock(int tempStock) {
+        this.tempStock = tempStock;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
 
     public int getStockAvail() {
         return stockAvail;
@@ -55,11 +73,11 @@ public class InvoiceModel {
         this.fixedSample = fixedSample;
     }
 
-    public float getOrderAmount() {
+    public double getOrderAmount() {
         return orderAmount;
     }
 
-    public void setOrderAmount(float orderAmount) {
+    public void setOrderAmount(double orderAmount) {
         this.orderAmount = orderAmount;
     }
 
