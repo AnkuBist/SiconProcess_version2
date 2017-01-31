@@ -15,6 +15,7 @@ import com.hgil.siconprocess.adapter.invoice.CustomerInvoiceAdapter;
 import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
 import com.hgil.siconprocess.database.tables.DepotInvoiceView;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.InvoiceDetailModel;
+import com.hgil.siconprocess.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -39,7 +40,7 @@ public class CustomerInvoiceFragment extends Fragment {
     //@BindView(R.id.tvCustomerTotal)
     public static TextView tvCustomerTotal;
 
-    public static double grandTotal;
+    public static double grandTotal = 0;
 
 
     private CustomerInvoiceAdapter invoiceAdapter;
@@ -64,6 +65,7 @@ public class CustomerInvoiceFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        grandTotal = 0;
         if (getArguments() != null) {
             customer_id = getArguments().getString(CUSTOMER_ID);
             customer_name = getArguments().getString(CUSTOMER_NAME);
@@ -92,20 +94,25 @@ public class CustomerInvoiceFragment extends Fragment {
 
         customerInvoice = new DepotInvoiceView(getActivity());
 
+        arrInvoiceItems = new ArrayList<>();
         listItemOrderAmount = new ArrayList<>();
+        invoiceAdapter = new CustomerInvoiceAdapter(getActivity(), arrInvoiceItems);
+        rvCustomerInvoice.setAdapter(invoiceAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         if (arrInvoiceItems != null)
             arrInvoiceItems.clear();
-        arrInvoiceItems = customerInvoice.getCustomerInvoice(customer_id);
+        arrInvoiceItems.addAll(customerInvoice.getCustomerInvoice(customer_id));
         for (int i = 0; i < arrInvoiceItems.size(); i++) {
             double itemOrrderAmount = arrInvoiceItems.get(i).getOrderAmount();
             listItemOrderAmount.add(itemOrrderAmount);
             grandTotal += itemOrrderAmount;
         }
 
-        tvCustomerTotal.setText(String.valueOf(grandTotal));
-
-        invoiceAdapter = new CustomerInvoiceAdapter(getActivity(), arrInvoiceItems);
-        rvCustomerInvoice.setAdapter(invoiceAdapter);
+        tvCustomerTotal.setText(getResources().getString(R.string.strRupee) + String.valueOf(Utility.roundTwoDecimals(grandTotal)));
         if (arrInvoiceItems.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
             rvCustomerInvoice.setVisibility(View.GONE);
@@ -113,11 +120,6 @@ public class CustomerInvoiceFragment extends Fragment {
             tvEmpty.setVisibility(View.GONE);
             rvCustomerInvoice.setVisibility(View.VISIBLE);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     public void updateData(int position, InvoiceModel invoiceModel) {

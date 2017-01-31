@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -71,6 +72,13 @@ public class Utility {
         Date now = new Date();
         SimpleDateFormat simpleDateformat = new SimpleDateFormat("E"); // the day of the week abbreviated
         return simpleDateformat.format(now);
+    }
+
+    /*date month and year*/
+    public static String getDateMonth() {
+        Format formatter = new SimpleDateFormat("dd, MMMM yyyy");
+        String today = formatter.format(new Date());
+        return today;
     }
 
     /*result to two decimal places*/

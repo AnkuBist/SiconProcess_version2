@@ -58,7 +58,7 @@ public class RouteMapRAdapter extends RecyclerView.Adapter<RouteMapRAdapter.View
         holder.customer_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, routeMapModel.getCustomerName(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(mContext, routeMapModel.getCustomerName(), Toast.LENGTH_SHORT).show();
                 CustomerInvoiceFragment fragment = CustomerInvoiceFragment.newInstance(routeMapModel.getCustomerId(), routeMapModel.getCustomerName());
                 String fragClassName = fragment.getClass().getName();
                 FragmentManager fragmentManager = ((NavBaseActivity) mContext).getSupportFragmentManager();

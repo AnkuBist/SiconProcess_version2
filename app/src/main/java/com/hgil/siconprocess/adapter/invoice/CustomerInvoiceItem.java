@@ -58,12 +58,12 @@ public class CustomerInvoiceItem {
 
         tvItemName.setText(itemName);
         tvStock.setText("Stock : " + tempStock);
-        tvRate.setText("Rate : " + price);
+        tvRate.setText("Rate : " + mContext.getResources().getString(R.string.strRupee) + price);
         tvTarget.setText("TGT : ");
         tvTarget.setVisibility(View.GONE);
         etQty.setText(String.valueOf((int) demandQty));
         etSample.setText(String.valueOf(itemInvoice.getFixedSample()));
-        etAmount.setText(String.valueOf(orderAmount));
+        etAmount.setText(mContext.getResources().getString(R.string.strRupee) + String.valueOf(orderAmount));
 
         // now calculate the total price of the entered quantity
         etQty.addTextChangedListener(new TextWatcher() {
@@ -91,7 +91,7 @@ public class CustomerInvoiceItem {
                         itemInvoice.setTempStock(updateStock);
                         itemInvoice.setOrderAmount(orderAmount);
                         tvStock.setText("Stock : " + itemInvoice.getTempStock());
-                        etAmount.setText(String.valueOf(orderAmount));
+                        etAmount.setText(mContext.getResources().getString(R.string.strRupee) + String.valueOf(orderAmount));
 
                         CustomerInvoiceFragment.listItemOrderAmount.set(position, orderAmount);
                     } else {
@@ -102,12 +102,12 @@ public class CustomerInvoiceItem {
                         itemInvoice.setOrderAmount(0);
                         tvStock.setText("Stock : " + stockAvail);
                         etQty.setText("0");
-                        etAmount.setText("0.0");
+                        etAmount.setText(mContext.getResources().getString(R.string.strRupee) + "0.0");
 
                         CustomerInvoiceFragment.listItemOrderAmount.set(position, (double) (0));
                     }
                 } else if (s.length() == 0) {
-                    etAmount.setText("0.0");
+                    etAmount.setText(mContext.getResources().getString(R.string.strRupee) + "0.0");
                     tvStock.setText("Stock : " + stockAvail);
 
                     itemInvoice.setDemandTargetQty(0);
@@ -128,7 +128,7 @@ public class CustomerInvoiceItem {
                     CustomerInvoiceFragment.grandTotal += CustomerInvoiceFragment.listItemOrderAmount.get(i);
                 }
                 //
-                CustomerInvoiceFragment.tvCustomerTotal.setText(String.valueOf(CustomerInvoiceFragment.grandTotal));
+                CustomerInvoiceFragment.tvCustomerTotal.setText(mContext.getResources().getString(R.string.strRupee) + String.valueOf(Utility.roundTwoDecimals(CustomerInvoiceFragment.grandTotal)));
 
             }
         });

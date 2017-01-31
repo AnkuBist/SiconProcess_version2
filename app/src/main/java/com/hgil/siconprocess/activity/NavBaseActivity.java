@@ -3,16 +3,21 @@ package com.hgil.siconprocess.activity;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.SiconApp;
@@ -24,6 +29,7 @@ import com.hgil.siconprocess.activity.navFragments.SyncFragment;
 import com.hgil.siconprocess.activity.navFragments.VanInventoryFragment;
 import com.hgil.siconprocess.database.tables.RouteView;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
+import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,11 +40,14 @@ public class NavBaseActivity extends AppCompatActivity {
     DrawerLayout mDrawer;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.tvNavTitle)
+    TextView tvNavTitle;
+    @BindView(R.id.tvNavDate)
+    TextView tvNavDate;
     @BindView(R.id.nvView)
     NavigationView nvDrawer;
 
-    // Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
-    // The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
     private ActionBarDrawerToggle drawerToggle;
 
     @BindView(R.id.flContent)
@@ -50,32 +59,33 @@ public class NavBaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nav_base);
 
         ButterKnife.bind(this);
-        // Set a Toolbar to replace the ActionBar.
-        //toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //containerFrame = (FrameLayout) findViewById(R.id.flContent);
+        ActionBar actionbar = getSupportActionBar();
 
-        // Find our drawer view
-        // mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
+        actionbar.setDefaultDisplayHomeAsUpEnabled(false);
+        actionbar.setDisplayHomeAsUpEnabled(false);
+        actionbar.setDisplayShowCustomEnabled(true);
+        actionbar.setDisplayShowHomeEnabled(false);
+        actionbar.setDisplayShowTitleEnabled(false);
+        actionbar.setDisplayUseLogoEnabled(false);
+        actionbar.setHomeButtonEnabled(false);
+       /* getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        toolbar.setContentInsetsAbsolute(0, 0);
+*/
         // drawer hamburger icons
         drawerToggle = setupDrawerToggle();
 
         // Tie DrawerLayout events to the ActionBarToggle
         mDrawer.addDrawerListener(drawerToggle);
 
-        // ...From section above...
-        // Find our drawer view
-        //nvDrawer = (NavigationView) findViewById(R.id.nvView);
-
-        // Inflate the header view at runtime
-        //View headerLayout = nvDrawer.inflateHeaderView(R.layout.nav_header);
-// We can now look up items within the header if needed
-        //ImageView ivHeaderPhoto = (ImageView) headerLayout.findViewById(R.id.imageView);
-
         // Setup drawer view
         setupDrawerContent(nvDrawer);
+
+        tvNavDate.setText(Utility.getDateMonth());
 
         // call the home item selected and activated on first launch
         firstLaunch();
@@ -83,38 +93,8 @@ public class NavBaseActivity extends AppCompatActivity {
 
     // set default home nav item selected and launch this on first view
     private void firstLaunch() {
-        /* default home item checked*/
-        //nvDrawer.setCheckedItem(R.id.nav_home);
-
-        // call the home fragment
-       /* Fragment fragment = HomeFragment.newInstance();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();*/
-
-        // method 1
-        /*if (nvDrawer.getMenu().findItem(R.id.nav_home).isChecked())
-            setTitle(nvDrawer.getMenu().findItem(R.id.nav_home).getTitle().toString());*/
-
-        // method 2
-        //if (nvDrawer.getMenu().findItem(R.id.nav_home).isChecked())
         nvDrawer.getMenu().performIdentifierAction(R.id.nav_home, 0);
-
-        //onNavigationItemSelected(nvDrawer.getMenu().findItem(R.id.nav_home));
-
-        //setTitle(getResources().getString(R.string.str_nav_home));
     }
-
-  /*  @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // The action bar home/up action should open or close the drawer.
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawer.openDrawer(GravityCompat.START);
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -166,12 +146,6 @@ public class NavBaseActivity extends AppCompatActivity {
                 fragment = HomeFragment.newInstance();
         }
 
-     /*   try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
         if (fragment != null) {
             // Insert the fragment by replacing any existing fragment
             String fragClassName = fragment.getClass().getName();
@@ -185,9 +159,10 @@ public class NavBaseActivity extends AppCompatActivity {
             // Highlight the selected item has been done by NavigationView
             menuItem.setChecked(true);
             // Set action bar title
-            setTitle(menuItem.getTitle());
-            // Close the navigation drawer
+            //setTitle(menuItem.getTitle());
+            tvNavTitle.setText(menuItem.getTitle());
         }
+        // Close the navigation drawer
         mDrawer.closeDrawers();
 
         initiateAppInstance();
@@ -202,9 +177,6 @@ public class NavBaseActivity extends AppCompatActivity {
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
-        // NOTE: Make sure you pass in a valid toolbar reference.  ActionBarDrawToggle() does not require it
-        // and will not render the hamburger icon without it.
-        //return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
@@ -222,10 +194,6 @@ public class NavBaseActivity extends AppCompatActivity {
 
     }
 
-    // `onPostCreate` called when activity start-up is complete after `onStart()`
-    // NOTE 1: Make sure to override the method with only a single `Bundle` argument
-    // Note 2: Make sure you implement the correct `onPostCreate(Bundle savedInstanceState)` method.
-    // There are 2 signatures and only `onPostCreate(Bundle state)` shows the hamburger icon.
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -253,4 +221,38 @@ public class NavBaseActivity extends AppCompatActivity {
         getLayoutInflater().inflate(layoutResID, baseFrame, true);
         //flContent.addView(contentView, 0);
     }*/
+
+    boolean doubleBackToExitPressedOnce = false;
+
+    private final String HOME_FRAGMENT = "com.hgil.siconprocess.activity.navFragments.HomeFragment";
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+            mDrawer.closeDrawer(GravityCompat.START);
+        } else {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 1 && (getSupportFragmentManager().getBackStackEntryAt(0).getName()).matches(HOME_FRAGMENT)) {
+                if (doubleBackToExitPressedOnce) {
+                    super.onBackPressed();
+                    finish();
+                    //return;
+                }
+
+                this.doubleBackToExitPressedOnce = true;
+                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000);
+            } else {
+                // do nothing
+                super.onBackPressed();
+                //getFragmentManager().popBackStack();
+                //finish();
+            }
+        }
+    }
 }

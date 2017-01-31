@@ -15,4 +15,6 @@
     <string name="str_nav_outlet">Outlet Info</string>
     <string name="str_nav_sync">Sync</string>
     <string name="str_nav_logout">Logout</string>
+
+    <string name="strRupee">\u20B9</string>
 </resources>
