@@ -29,7 +29,7 @@ public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedLis
     ViewPager viewPager;
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
-     private TabPagerAdapter adapter;
+    private TabPagerAdapter adapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -51,8 +51,7 @@ public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        View view =  inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
 
         //Adding the tabs using addTab() method
@@ -76,7 +75,28 @@ public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedLis
 
         return view;
     }
-/*
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        //viewPager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+    }
+
+
+
+    void selectPage(int pageIndex) {
+        tabLayout.setScrollPosition(pageIndex, 0f, true);
+        viewPager.setCurrentItem(pageIndex);
+    }
+
+    /*
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -104,9 +124,9 @@ public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedLis
         if (routeName != null && !routeName.isEmpty())
             tvRouteName.setText(routeName);*/
 
-        // deprecated source
-        //Adding onTabSelectedListener to swipe views
-        //tabLayout.setOnTabSelectedListener(this);
+    // deprecated source
+    //Adding onTabSelectedListener to swipe views
+    //tabLayout.setOnTabSelectedListener(this);
  /*   }*/
 
     @Override
@@ -114,7 +134,7 @@ public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedLis
         super.onResume();
         //updateTabSelection(0);
         //tabLayout.getTabAt(2).select();
-       // viewPager.setCurrentItem(0);
+        // viewPager.setCurrentItem(0);
     }
 
     // if you've set a custom view
@@ -128,23 +148,5 @@ public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedLis
         tabLayout.setScrollPosition(position, 0, true);
 
         // ... your logic to swap out your fragments
-    }
-
-    void selectPage(int pageIndex) {
-        tabLayout.setScrollPosition(pageIndex, 0f, true);
-        viewPager.setCurrentItem(pageIndex);
-    }
-
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        //viewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
     }
 }

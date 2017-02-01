@@ -7,11 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.HomeActivity;
 import com.hgil.siconprocess.activity.NavBaseActivity;
 import com.hgil.siconprocess.activity.navFragments.CustomerInvoiceFragment;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.CustomerRouteMapModel;
@@ -58,11 +57,11 @@ public class RouteMapRAdapter extends RecyclerView.Adapter<RouteMapRAdapter.View
         holder.customer_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Toast.makeText(mContext, routeMapModel.getCustomerName(), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(mContext, routeMapModel.getCustomerName(), Toast.LENGTH_SHORT).show();
                 CustomerInvoiceFragment fragment = CustomerInvoiceFragment.newInstance(routeMapModel.getCustomerId(), routeMapModel.getCustomerName());
                 String fragClassName = fragment.getClass().getName();
-                FragmentManager fragmentManager = ((NavBaseActivity) mContext).getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(fragClassName).commit();
+                FragmentManager fragmentManager = ((HomeActivity) mContext).getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.homeFrame, fragment).addToBackStack(fragClassName).commit();
             }
         });
 

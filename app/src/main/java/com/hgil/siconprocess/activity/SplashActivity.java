@@ -2,11 +2,9 @@ package com.hgil.siconprocess.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 
-import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.utils.Utility;
 
 public class SplashActivity extends Activity {
@@ -32,7 +30,7 @@ public class SplashActivity extends Activity {
 
                 // direct pass user to home if user has already logged same day with any of the last saved id.
                 if ((Utility.getCurDate()).matches(lastLoginDate))
-                    startActivity(new Intent(SplashActivity.this, NavBaseActivity.class));
+                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                 else
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
 

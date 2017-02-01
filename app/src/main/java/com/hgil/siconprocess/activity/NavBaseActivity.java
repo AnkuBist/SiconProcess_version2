@@ -1,9 +1,13 @@
 package com.hgil.siconprocess.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +17,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -33,8 +38,10 @@ import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Optional;
 
-public class NavBaseActivity extends AppCompatActivity {
+public abstract class NavBaseActivity extends BaseActivity {
+
 
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawer;
@@ -54,11 +61,12 @@ public class NavBaseActivity extends AppCompatActivity {
     FrameLayout containerFrame;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nav_base);
+    public void setContentView(@LayoutRes int layoutResID) {
+        getLayoutInflater().inflate(layoutResID, containerFrame, true);
+    }
 
-        ButterKnife.bind(this);
+    public void setup() {
+
         setSupportActionBar(toolbar);
 
         ActionBar actionbar = getSupportActionBar();
@@ -70,12 +78,7 @@ public class NavBaseActivity extends AppCompatActivity {
         actionbar.setDisplayShowTitleEnabled(false);
         actionbar.setDisplayUseLogoEnabled(false);
         actionbar.setHomeButtonEnabled(false);
-       /* getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setHomeButtonEnabled(false);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        toolbar.setContentInsetsAbsolute(0, 0);
-*/
+
         // drawer hamburger icons
         drawerToggle = setupDrawerToggle();
 
@@ -85,17 +88,16 @@ public class NavBaseActivity extends AppCompatActivity {
         // Setup drawer view
         setupDrawerContent(nvDrawer);
 
+        nvDrawer.getMenu().findItem(R.id.nav_home).setChecked(true);
+
         tvNavDate.setText(Utility.getDateMonth());
+    }
 
-        // call the home item selected and activated on first launch
-        firstLaunch();
-
-       /* getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-
-            }
-        });*/
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        super.setContentView(R.layout.activity_nav_base);
+        setup();
     }
 
     // set default home nav item selected and launch this on first view
@@ -128,7 +130,11 @@ public class NavBaseActivity extends AppCompatActivity {
         //  Class fragmentClass;
         switch (menuItem.getItemId()) {
             case R.id.nav_home:
-                fragment = HomeFragment.newInstance();
+                //fragment = HomeFragment.newInstance();
+               /* Intent intent = new Intent(this, NavBaseActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();*/
                 break;
             case R.id.nav_dashboard:
                 fragment = DashboardFragment.newInstance();
@@ -153,7 +159,7 @@ public class NavBaseActivity extends AppCompatActivity {
                 fragment = HomeFragment.newInstance();
         }
 
-        if (fragment != null) {
+        if (fragment != null && menuItem.getItemId() != R.id.nav_home) {
             // Insert the fragment by replacing any existing fragment
             String fragClassName = fragment.getClass().getName();
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -171,16 +177,6 @@ public class NavBaseActivity extends AppCompatActivity {
         }
         // Close the navigation drawer
         mDrawer.closeDrawers();
-
-        initiateAppInstance();
-    }
-
-    private void initiateAppInstance() {
-        RouteView routeView = new RouteView(this);
-        RouteModel routeModel = routeView.getRoute();
-        SiconApp.getInstance().setRouteModel(routeModel);
-        SiconApp.getInstance().setRouteId(routeModel.getRouteId());
-        SiconApp.getInstance().setRouteName(routeModel.getRouteName());
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
@@ -215,43 +211,30 @@ public class NavBaseActivity extends AppCompatActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    /**
-     * called in extending activities instead of setContentView...
-     *
-     * @param layoutId The content Layout Id of extending activities
-     */
-   /* public void setContentView(int layoutResID) {
-        *//*LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);*//*
-        //View contentView = inflater.inflate(layoutId, null, false);
-        FrameLayout baseFrame = (FrameLayout) (getLayoutInflater().inflate(R.layout.activity_nav_base, null)).findViewById(R.id.flContent);
-        getLayoutInflater().inflate(layoutResID, baseFrame, true);
-        //flContent.addView(contentView, 0);
-    }*/
-
     boolean doubleBackToExitPressedOnce = false;
 
     private final String HOME_FRAGMENT = "com.hgil.siconprocess.activity.navFragments.HomeFragment";
 
-    @Override
+/*    @Override
     public void onBackPressed() {
-        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+        super.onBackPressed();*/
+       /* if (mDrawer.isDrawerOpen(GravityCompat.START)) {
             mDrawer.closeDrawer(GravityCompat.START);
         } else {
 
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.executePendingTransactions();
-            if (fragmentManager.getBackStackEntryCount() < 1){
+            if (fragmentManager.getBackStackEntryCount() < 1) {
                 //super.onBackPressed();
                 finish();
             } else {
                 fragmentManager.executePendingTransactions();
                 fragmentManager.popBackStack();
                 fragmentManager.executePendingTransactions();
-                if (fragmentManager.getBackStackEntryCount() < 1){
+                if (fragmentManager.getBackStackEntryCount() < 1) {
                     drawerToggle.setDrawerIndicatorEnabled(true);
                 }
-            }
+            }*/
 
 
             /*if (getSupportFragmentManager().getBackStackEntryCount() == 1 && (getSupportFragmentManager().getBackStackEntryAt(0).getName()).matches(HOME_FRAGMENT)) {
@@ -276,6 +259,28 @@ public class NavBaseActivity extends AppCompatActivity {
                 //getFragmentManager().popBackStack();
                 //finish();
             }*/
+    //}
+    //}
+
+
+    //boolean doubleBackToExitPressedOnce = false;
+
+  /*  @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
         }
-    }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
+    }*/
+
 }

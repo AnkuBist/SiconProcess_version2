@@ -187,7 +187,7 @@ public class LoginActivity extends AppCompatActivity {
                     Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_DATE, Utility.getCurDate());
 
                     // after saving all values to database start new activity
-                    startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
+                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                     finish();
                 } else {
                     RetrofitUtil.showToast(LoginActivity.this, loginResult.getStrMessage());
