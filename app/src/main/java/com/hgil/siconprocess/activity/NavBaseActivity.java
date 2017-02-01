@@ -89,6 +89,13 @@ public class NavBaseActivity extends AppCompatActivity {
 
         // call the home item selected and activated on first launch
         firstLaunch();
+
+       /* getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+
+            }
+        });*/
     }
 
     // set default home nav item selected and launch this on first view
@@ -151,10 +158,10 @@ public class NavBaseActivity extends AppCompatActivity {
             String fragClassName = fragment.getClass().getName();
             FragmentManager fragmentManager = getSupportFragmentManager();
             boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
-            if (!fragmentPopped) {
+            /*if (!fragmentPopped) {
                 fragmentManager.beginTransaction().replace(R.id.flContent, fragment);
-            }
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(fragClassName).commit();
+            }*/
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
 
             // Highlight the selected item has been done by NavigationView
             menuItem.setChecked(true);
@@ -231,7 +238,23 @@ public class NavBaseActivity extends AppCompatActivity {
         if (mDrawer.isDrawerOpen(GravityCompat.START)) {
             mDrawer.closeDrawer(GravityCompat.START);
         } else {
-            if (getSupportFragmentManager().getBackStackEntryCount() == 1 && (getSupportFragmentManager().getBackStackEntryAt(0).getName()).matches(HOME_FRAGMENT)) {
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.executePendingTransactions();
+            if (fragmentManager.getBackStackEntryCount() < 1){
+                //super.onBackPressed();
+                finish();
+            } else {
+                fragmentManager.executePendingTransactions();
+                fragmentManager.popBackStack();
+                fragmentManager.executePendingTransactions();
+                if (fragmentManager.getBackStackEntryCount() < 1){
+                    drawerToggle.setDrawerIndicatorEnabled(true);
+                }
+            }
+
+
+            /*if (getSupportFragmentManager().getBackStackEntryCount() == 1 && (getSupportFragmentManager().getBackStackEntryAt(0).getName()).matches(HOME_FRAGMENT)) {
                 if (doubleBackToExitPressedOnce) {
                     super.onBackPressed();
                     finish();
@@ -252,7 +275,7 @@ public class NavBaseActivity extends AppCompatActivity {
                 super.onBackPressed();
                 //getFragmentManager().popBackStack();
                 //finish();
-            }
+            }*/
         }
     }
 }
