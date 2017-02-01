@@ -61,6 +61,10 @@ public class RouteMapRAdapter extends RecyclerView.Adapter<RouteMapRAdapter.View
                 CustomerInvoiceFragment fragment = CustomerInvoiceFragment.newInstance(routeMapModel.getCustomerId(), routeMapModel.getCustomerName());
                 String fragClassName = fragment.getClass().getName();
                 FragmentManager fragmentManager = ((HomeActivity) mContext).getSupportFragmentManager();
+               /* boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
+                if (!fragmentPopped) {
+                    fragmentManager.beginTransaction().replace(R.id.homeFrame, fragment);
+                }*/
                 fragmentManager.beginTransaction().replace(R.id.homeFrame, fragment).addToBackStack(fragClassName).commit();
             }
         });

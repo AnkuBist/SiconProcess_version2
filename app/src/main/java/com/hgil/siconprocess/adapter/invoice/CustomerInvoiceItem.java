@@ -127,9 +127,8 @@ public class CustomerInvoiceItem {
                 for (int i = 0; i < CustomerInvoiceFragment.listItemOrderAmount.size(); i++) {
                     CustomerInvoiceFragment.grandTotal += CustomerInvoiceFragment.listItemOrderAmount.get(i);
                 }
-                //
+                
                 CustomerInvoiceFragment.tvCustomerTotal.setText(mContext.getResources().getString(R.string.strRupee) + String.valueOf(Utility.roundTwoDecimals(CustomerInvoiceFragment.grandTotal)));
-
             }
         });
     }

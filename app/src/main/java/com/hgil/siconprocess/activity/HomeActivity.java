@@ -53,7 +53,7 @@ public class HomeActivity extends NavBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        ButterKnife.bind(this);
+        //ButterKnife.bind(this);
 
         //Adding the tabs using addTab() method
         /*tabLayout.addTab(tabLayout.newTab().setText("All"));
@@ -75,7 +75,9 @@ public class HomeActivity extends NavBaseActivity {
             tvRouteName.setText(routeName);*/
 
         HomeFragment fragment = HomeFragment.newInstance();
-        getSupportFragmentManager().beginTransaction().replace(R.id.homeFrame, fragment).commit();
+        getSupportFragmentManager().beginTransaction()
+                //.addToBackStack(null)
+                .replace(R.id.homeFrame, fragment).commit();
 
     }
 
@@ -97,9 +99,10 @@ public class HomeActivity extends NavBaseActivity {
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-super.onBackPressed();
+            super.onBackPressed();
         } else {
             if (doubleBackToExitPressedOnce) {
+                //finish();
                 super.onBackPressed();
                 return;
             }

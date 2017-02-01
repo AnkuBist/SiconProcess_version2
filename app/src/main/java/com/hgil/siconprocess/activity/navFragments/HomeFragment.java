@@ -61,7 +61,7 @@ public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedLis
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         //Creating our pager adapter
-        adapter = new TabPagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
+        adapter = new TabPagerAdapter(getChildFragmentManager(), tabLayout.getTabCount());
 
         //Adding adapter to pager
         viewPager.setAdapter(adapter);
