@@ -1,9 +1,8 @@
-package com.hgil.siconprocess.activity;
+package com.hgil.siconprocess.base;
 
 import android.support.v7.app.AppCompatActivity;
 
-import com.hgil.siconprocess.SiconApp;
-import com.hgil.siconprocess.database.tables.RouteView;
+import com.hgil.siconprocess.database.masterTables.RouteView;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
 
 import butterknife.ButterKnife;
@@ -17,8 +16,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
-        ButterKnife.bind(this);
+        bindViews();
         initiateAppInstance();
+    }
+
+    private void bindViews() {
+        ButterKnife.bind(this);
     }
 
     private void initiateAppInstance() {

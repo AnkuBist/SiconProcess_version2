@@ -30,7 +30,7 @@ public class SplashActivity extends Activity {
 
                 // direct pass user to home if user has already logged same day with any of the last saved id.
                 if ((Utility.getCurDate()).matches(lastLoginDate))
-                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                    startActivity(new Intent(SplashActivity.this, NavBaseActivity.class));
                 else
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
 

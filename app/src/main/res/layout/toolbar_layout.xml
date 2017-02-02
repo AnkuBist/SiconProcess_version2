@@ -43,8 +43,10 @@
 
     <!--right save button-->
     <ImageView
+        android:id="@+id/imgSave"
         android:layout_width="35dp"
         android:layout_height="35dp"
+        android:layout_marginRight="8dp"
         android:layout_gravity="right|center_vertical"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_nav_save" />
 </android.support.v7.widget.Toolbar>

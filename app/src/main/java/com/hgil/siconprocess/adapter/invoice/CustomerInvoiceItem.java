@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.navFragments.CustomerInvoiceFragment;
+import com.hgil.siconprocess.activity.navFragments.fragments.CustomerInvoiceFragment;
 import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.BindView;
@@ -20,7 +20,6 @@ import butterknife.ButterKnife;
  */
 
 public class CustomerInvoiceItem {
-
     private Context mContext;
     @BindView(R.id.tvItemName)
     TextView tvItemName;
@@ -37,7 +36,6 @@ public class CustomerInvoiceItem {
     @BindView(R.id.etAmount)
     EditText etAmount;
 
-
     public CustomerInvoiceItem(Context mContext, View v) {
         this.mContext = mContext;
         ButterKnife.bind(this, v);
@@ -46,7 +44,7 @@ public class CustomerInvoiceItem {
     private int stockAvail, tempStock;
 
     public void updateInvoiceItem(final CustomerInvoiceAdapter.ViewHolder holder, final InvoiceModel itemInvoice, final int position) {
-        String itemName = itemInvoice.getItemName();
+        final String itemName = itemInvoice.getItemName();
         final float price = itemInvoice.getItemRate();
         float demandQty = itemInvoice.getDemandTargetQty();
         final double orderAmount = itemInvoice.getOrderAmount();
@@ -81,7 +79,7 @@ public class CustomerInvoiceItem {
             public void afterTextChanged(Editable s) {
                 // qty cant exceed the available stock
                 // amount to be calculated on basis of qty and price
-                double oldOrderAmount = orderAmount;
+                double oldOrderAmount = itemInvoice.getOrderAmount();
                 if (s.length() != 0) {
                     int enteredQty = Integer.valueOf(etQty.getText().toString());
                     if (stockAvail >= enteredQty) {
@@ -117,17 +115,9 @@ public class CustomerInvoiceItem {
                     CustomerInvoiceFragment.listItemOrderAmount.set(position, (double) (0));
                 }
 
-                // calculate the total of invoice
-                //  for(int i = 0; i<holder.m)
-                //float currentOrderAmount = itemInvoice.getOrderAmount();
-                //float amountToUpdateTotal = currentOrderAmount - oldOrderAmount;
+                double updated_amount = itemInvoice.getOrderAmount();
+                CustomerInvoiceFragment.grandTotal += (-oldOrderAmount + updated_amount);
 
-                //CustomerInvoiceFragment.grandTotal += Double.parseDouble(etAmount.getText().toString());
-                CustomerInvoiceFragment.grandTotal = 0;
-                for (int i = 0; i < CustomerInvoiceFragment.listItemOrderAmount.size(); i++) {
-                    CustomerInvoiceFragment.grandTotal += CustomerInvoiceFragment.listItemOrderAmount.get(i);
-                }
-                
                 CustomerInvoiceFragment.tvCustomerTotal.setText(mContext.getResources().getString(R.string.strRupee) + String.valueOf(Utility.roundTwoDecimals(CustomerInvoiceFragment.grandTotal)));
             }
         });

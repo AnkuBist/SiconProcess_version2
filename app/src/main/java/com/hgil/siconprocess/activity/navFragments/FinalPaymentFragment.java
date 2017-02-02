@@ -1,14 +1,12 @@
 package com.hgil.siconprocess.activity.navFragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.base.BaseFragment;
 
-public class FinalPaymentFragment extends Fragment {
+public class FinalPaymentFragment extends BaseFragment{
 
     public FinalPaymentFragment() {
         // Required empty public constructor
@@ -24,11 +22,16 @@ public class FinalPaymentFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_final_payment, container, false);
+    protected int getFragmentLayout() {
+        return R.layout.fragment_final_payment;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        hideSaveButton();
     }
 
 }

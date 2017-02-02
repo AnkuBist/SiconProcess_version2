@@ -1,47 +1,38 @@
 package com.hgil.siconprocess.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.SiconApp;
 import com.hgil.siconprocess.activity.navFragments.DashboardFragment;
 import com.hgil.siconprocess.activity.navFragments.FinalPaymentFragment;
 import com.hgil.siconprocess.activity.navFragments.HomeFragment;
 import com.hgil.siconprocess.activity.navFragments.OutletInfoFragment;
 import com.hgil.siconprocess.activity.navFragments.SyncFragment;
 import com.hgil.siconprocess.activity.navFragments.VanInventoryFragment;
-import com.hgil.siconprocess.database.tables.RouteView;
-import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
+import com.hgil.siconprocess.base.BaseActivity;
 import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Optional;
 
-public abstract class NavBaseActivity extends BaseActivity {
-
+public class NavBaseActivity extends BaseActivity {
 
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawer;
@@ -49,9 +40,11 @@ public abstract class NavBaseActivity extends BaseActivity {
     Toolbar toolbar;
 
     @BindView(R.id.tvNavTitle)
-    TextView tvNavTitle;
+    public TextView tvNavTitle;
     @BindView(R.id.tvNavDate)
-    TextView tvNavDate;
+    public TextView tvNavDate;
+    @BindView(R.id.imgSave)
+    public ImageView imgSave;
     @BindView(R.id.nvView)
     NavigationView nvDrawer;
 
@@ -60,17 +53,16 @@ public abstract class NavBaseActivity extends BaseActivity {
     @BindView(R.id.flContent)
     FrameLayout containerFrame;
 
+    private final String HOME_FRAGMENT = "com.hgil.siconprocess.activity.navFragments.HomeFragment";
+
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         getLayoutInflater().inflate(layoutResID, containerFrame, true);
     }
 
     public void setup() {
-
         setSupportActionBar(toolbar);
-
         ActionBar actionbar = getSupportActionBar();
-
         actionbar.setDefaultDisplayHomeAsUpEnabled(false);
         actionbar.setDisplayHomeAsUpEnabled(false);
         actionbar.setDisplayShowCustomEnabled(true);
@@ -88,9 +80,17 @@ public abstract class NavBaseActivity extends BaseActivity {
         // Setup drawer view
         setupDrawerContent(nvDrawer);
 
-        nvDrawer.getMenu().findItem(R.id.nav_home).setChecked(true);
+        MenuItem menuItem = nvDrawer.getMenu().findItem(R.id.nav_home);
+
+        HomeFragment fragment = HomeFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).commit();
+
+        menuItem.setChecked(true);
+
+        tvNavTitle.setText(menuItem.getTitle());
 
         tvNavDate.setText(Utility.getDateMonth());
+        //  firstLaunch();
     }
 
     @Override
@@ -127,14 +127,9 @@ public abstract class NavBaseActivity extends BaseActivity {
     public void selectDrawerItem(MenuItem menuItem) {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
-        //  Class fragmentClass;
         switch (menuItem.getItemId()) {
             case R.id.nav_home:
-                //fragment = HomeFragment.newInstance();
-               /* Intent intent = new Intent(this, NavBaseActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();*/
+                fragment = HomeFragment.newInstance();
                 break;
             case R.id.nav_dashboard:
                 fragment = DashboardFragment.newInstance();
@@ -159,21 +154,29 @@ public abstract class NavBaseActivity extends BaseActivity {
                 fragment = HomeFragment.newInstance();
         }
 
-        if (fragment != null && menuItem.getItemId() != R.id.nav_home) {
-            // Insert the fragment by replacing any existing fragment
+        if (fragment != null) {
             String fragClassName = fragment.getClass().getName();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
-            /*if (!fragmentPopped) {
-                fragmentManager.beginTransaction().replace(R.id.flContent, fragment);
-            }*/
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            if (menuItem.getItemId() != R.id.nav_home) {
+                // Insert the fragment by replacing any existing fragment
+                boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
+                if (!fragmentPopped) {
+                    ft.replace(R.id.flContent, fragment);
+                }
+            } else {
+                ft.replace(R.id.flContent, fragment);
+            }
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.addToBackStack(fragClassName);
+            ft.commit();
 
             // Highlight the selected item has been done by NavigationView
             menuItem.setChecked(true);
+
             // Set action bar title
-            //setTitle(menuItem.getTitle());
             tvNavTitle.setText(menuItem.getTitle());
+            imgSave.setVisibility(View.GONE);
         }
         // Close the navigation drawer
         mDrawer.closeDrawers();
@@ -213,7 +216,28 @@ public abstract class NavBaseActivity extends BaseActivity {
 
     boolean doubleBackToExitPressedOnce = false;
 
-    private final String HOME_FRAGMENT = "com.hgil.siconprocess.activity.navFragments.HomeFragment";
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            super.onBackPressed();
+        } else {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+        }
+    }
+
 
 /*    @Override
     public void onBackPressed() {

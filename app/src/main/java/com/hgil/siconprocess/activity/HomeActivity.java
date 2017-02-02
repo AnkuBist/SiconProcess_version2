@@ -1,42 +1,14 @@
 package com.hgil.siconprocess.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.SiconApp;
 import com.hgil.siconprocess.activity.navFragments.HomeFragment;
-import com.hgil.siconprocess.adapter.TabPagerAdapter;
-import com.hgil.siconprocess.database.tables.CrateCollectionView;
-import com.hgil.siconprocess.database.tables.CrateOpeningTable;
-import com.hgil.siconprocess.database.tables.CreditOpeningTable;
-import com.hgil.siconprocess.database.tables.CustomerRouteMappingView;
-import com.hgil.siconprocess.database.tables.DemandTargetTable;
-import com.hgil.siconprocess.database.tables.DepotEmployeeView;
-import com.hgil.siconprocess.database.tables.DepotInvoiceView;
-import com.hgil.siconprocess.database.tables.FixedSampleTable;
-import com.hgil.siconprocess.database.tables.PriceGroupView;
-import com.hgil.siconprocess.database.tables.RejectionTargetTable;
-import com.hgil.siconprocess.database.tables.RouteView;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class HomeActivity extends NavBaseActivity {
-        //implements TabLayout.OnTabSelectedListener {
+    //implements TabLayout.OnTabSelectedListener {
 
 /*    @Nullable
     @BindView(R.id.tvRouteName)

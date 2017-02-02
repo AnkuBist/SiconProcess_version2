@@ -12,17 +12,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.database.tables.CrateCollectionView;
-import com.hgil.siconprocess.database.tables.CrateOpeningTable;
-import com.hgil.siconprocess.database.tables.CreditOpeningTable;
-import com.hgil.siconprocess.database.tables.CustomerRouteMappingView;
-import com.hgil.siconprocess.database.tables.DemandTargetTable;
-import com.hgil.siconprocess.database.tables.DepotEmployeeView;
-import com.hgil.siconprocess.database.tables.DepotInvoiceView;
-import com.hgil.siconprocess.database.tables.FixedSampleTable;
-import com.hgil.siconprocess.database.tables.PriceGroupView;
-import com.hgil.siconprocess.database.tables.RejectionTargetTable;
-import com.hgil.siconprocess.database.tables.RouteView;
+import com.hgil.siconprocess.database.masterTables.CrateCollectionView;
+import com.hgil.siconprocess.database.masterTables.CrateOpeningTable;
+import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
+import com.hgil.siconprocess.database.masterTables.CustomerRouteMappingView;
+import com.hgil.siconprocess.database.masterTables.DemandTargetTable;
+import com.hgil.siconprocess.database.masterTables.DepotEmployeeView;
+import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
+import com.hgil.siconprocess.database.masterTables.FixedSampleTable;
+import com.hgil.siconprocess.database.masterTables.PriceGroupView;
+import com.hgil.siconprocess.database.masterTables.RejectionTargetTable;
+import com.hgil.siconprocess.database.masterTables.RouteView;
 import com.hgil.siconprocess.retrofit.RetrofitService;
 import com.hgil.siconprocess.retrofit.RetrofitUtil;
 import com.hgil.siconprocess.retrofit.loginResponse.ObjLoginResponse;
@@ -32,8 +32,6 @@ import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.internal.Utils;
-import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -162,7 +160,7 @@ public class LoginActivity extends AppCompatActivity {
                         Utility.savePreference(LoginActivity.this, Utility.USER_ID, user_id);
                     }
 
-                    // erase all tables data
+                    // erase all masterTables data
                     eraseAllTableData();
 
                     ObjLoginResponse objResponse = loginResult.getObjLoginResponse();
@@ -187,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
                     Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_DATE, Utility.getCurDate());
 
                     // after saving all values to database start new activity
-                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                    startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
                     finish();
                 } else {
                     RetrofitUtil.showToast(LoginActivity.this, loginResult.getStrMessage());

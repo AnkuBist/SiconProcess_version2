@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.database.tables;
+package com.hgil.siconprocess.database.masterTables;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
-import com.hgil.siconprocess.utils.Constant;
 
 import java.util.ArrayList;
 

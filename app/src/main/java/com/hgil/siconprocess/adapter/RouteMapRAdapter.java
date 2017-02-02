@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.activity.HomeActivity;
 import com.hgil.siconprocess.activity.NavBaseActivity;
-import com.hgil.siconprocess.activity.navFragments.CustomerInvoiceFragment;
+import com.hgil.siconprocess.activity.navFragments.fragments.CustomerInvoiceFragment;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.CustomerRouteMapModel;
 
 import java.util.ArrayList;
@@ -60,12 +60,12 @@ public class RouteMapRAdapter extends RecyclerView.Adapter<RouteMapRAdapter.View
                 // Toast.makeText(mContext, routeMapModel.getCustomerName(), Toast.LENGTH_SHORT).show();
                 CustomerInvoiceFragment fragment = CustomerInvoiceFragment.newInstance(routeMapModel.getCustomerId(), routeMapModel.getCustomerName());
                 String fragClassName = fragment.getClass().getName();
-                FragmentManager fragmentManager = ((HomeActivity) mContext).getSupportFragmentManager();
+                FragmentManager fragmentManager = ((NavBaseActivity) mContext).getSupportFragmentManager();
                /* boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
                 if (!fragmentPopped) {
                     fragmentManager.beginTransaction().replace(R.id.homeFrame, fragment);
                 }*/
-                fragmentManager.beginTransaction().replace(R.id.homeFrame, fragment).addToBackStack(fragClassName).commit();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(fragClassName).commit();
             }
         });
 

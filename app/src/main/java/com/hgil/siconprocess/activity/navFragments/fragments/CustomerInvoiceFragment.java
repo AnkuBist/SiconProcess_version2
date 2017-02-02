@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.activity.navFragments;
+package com.hgil.siconprocess.activity.navFragments.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,12 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.adapter.invoice.CustomerInvoiceAdapter;
 import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
-import com.hgil.siconprocess.database.tables.DepotInvoiceView;
-import com.hgil.siconprocess.retrofit.loginResponse.dbModels.InvoiceDetailModel;
+import com.hgil.siconprocess.base.BaseFragment;
+import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
 import com.hgil.siconprocess.utils.Utility;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CustomerInvoiceFragment extends Fragment {
+public class CustomerInvoiceFragment extends BaseFragment {
 
     private static final String CUSTOMER_ID = "customer_id";
     private static final String CUSTOMER_NAME = "customer_name";
@@ -73,15 +74,13 @@ public class CustomerInvoiceFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_customer_invoice, container, false);
+    protected int getFragmentLayout() {
+        return R.layout.fragment_customer_invoice;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
 
         if (customer_name != null)
             tvCustomerName.setText(customer_name);
@@ -98,6 +97,18 @@ public class CustomerInvoiceFragment extends Fragment {
         listItemOrderAmount = new ArrayList<>();
         invoiceAdapter = new CustomerInvoiceAdapter(getActivity(), arrInvoiceItems);
         rvCustomerInvoice.setAdapter(invoiceAdapter);
+
+        setTitle("Today's Sale");
+        showSaveButton();
+        imgSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Saving data to local database under process.", Toast.LENGTH_SHORT).show();
+
+                // move to next fragment to review user order with the items ordered
+                
+            }
+        });
     }
 
     @Override
@@ -106,6 +117,12 @@ public class CustomerInvoiceFragment extends Fragment {
         if (arrInvoiceItems != null)
             arrInvoiceItems.clear();
         arrInvoiceItems.addAll(customerInvoice.getCustomerInvoice(customer_id));
+
+        // if there is no invoice data exists for the user then get all available stock to the user
+        if (arrInvoiceItems.size() == 0) {
+            arrInvoiceItems.addAll(customerInvoice.getCustomerInvoiceOff(customer_id));
+        }
+
         for (int i = 0; i < arrInvoiceItems.size(); i++) {
             double itemOrrderAmount = arrInvoiceItems.get(i).getOrderAmount();
             listItemOrderAmount.add(itemOrrderAmount);
@@ -120,9 +137,5 @@ public class CustomerInvoiceFragment extends Fragment {
             tvEmpty.setVisibility(View.GONE);
             rvCustomerInvoice.setVisibility(View.VISIBLE);
         }
-    }
-
-    public void updateData(int position, InvoiceModel invoiceModel) {
-        invoiceAdapter.notifyItemChanged(position, invoiceModel);
     }
 }
