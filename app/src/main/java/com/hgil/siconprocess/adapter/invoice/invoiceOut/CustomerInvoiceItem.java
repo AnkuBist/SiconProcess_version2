@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.adapter.invoice;
+package com.hgil.siconprocess.adapter.invoice.invoiceOut;
 
 import android.content.Context;
 import android.text.Editable;
@@ -9,7 +9,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.navFragments.fragments.CustomerInvoiceFragment;
+import com.hgil.siconprocess.activity.navFragments.fragments.InvoiceOutFragment;
+import com.hgil.siconprocess.activity.navFragments.fragments.InvoiceOutFragment;
+import com.hgil.siconprocess.adapter.invoice.invoiceSale.InvoiceModel;
 import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.BindView;
@@ -39,6 +41,7 @@ public class CustomerInvoiceItem {
     public CustomerInvoiceItem(Context mContext, View v) {
         this.mContext = mContext;
         ButterKnife.bind(this, v);
+        etQty.setEnabled(false);
     }
 
     private int stockAvail, tempStock;
@@ -48,11 +51,10 @@ public class CustomerInvoiceItem {
         final float price = itemInvoice.getItemRate();
         float demandQty = itemInvoice.getDemandTargetQty();
         final double orderAmount = itemInvoice.getOrderAmount();
-        CustomerInvoiceFragment.listItemOrderAmount.set(position, Utility.roundTwoDecimals(orderAmount));
 
         // get product stock
-        stockAvail = itemInvoice.getStockAvail();
-        tempStock = itemInvoice.getTempStock();
+        stockAvail = itemInvoice.getStockAvail() + (int) demandQty;
+        tempStock = itemInvoice.getTempStock() + (int) demandQty;
 
         tvItemName.setText(itemName);
         tvStock.setText("Stock : " + tempStock);
@@ -90,8 +92,6 @@ public class CustomerInvoiceItem {
                         itemInvoice.setOrderAmount(orderAmount);
                         tvStock.setText("Stock : " + itemInvoice.getTempStock());
                         etAmount.setText(mContext.getResources().getString(R.string.strRupee) + String.valueOf(orderAmount));
-
-                        CustomerInvoiceFragment.listItemOrderAmount.set(position, orderAmount);
                     } else {
                         Toast.makeText(mContext, "Can't enter quantity more than available quantity", Toast.LENGTH_SHORT).show();
 
@@ -102,7 +102,6 @@ public class CustomerInvoiceItem {
                         etQty.setText("0");
                         etAmount.setText(mContext.getResources().getString(R.string.strRupee) + "0.0");
 
-                        CustomerInvoiceFragment.listItemOrderAmount.set(position, (double) (0));
                     }
                 } else if (s.length() == 0) {
                     etAmount.setText(mContext.getResources().getString(R.string.strRupee) + "0.0");
@@ -111,14 +110,12 @@ public class CustomerInvoiceItem {
                     itemInvoice.setDemandTargetQty(0);
                     itemInvoice.setTempStock(stockAvail);
                     itemInvoice.setOrderAmount(0);
-
-                    CustomerInvoiceFragment.listItemOrderAmount.set(position, (double) (0));
                 }
 
                 double updated_amount = itemInvoice.getOrderAmount();
-                CustomerInvoiceFragment.grandTotal += (-oldOrderAmount + updated_amount);
-
-                CustomerInvoiceFragment.tvCustomerTotal.setText(mContext.getResources().getString(R.string.strRupee) + String.valueOf(Utility.roundTwoDecimals(CustomerInvoiceFragment.grandTotal)));
+                InvoiceOutFragment.grandTotal += (-oldOrderAmount + updated_amount);
+                String customerTotalInvoiceAmount = mContext.getResources().getString(R.string.strRupee) + String.valueOf(Utility.roundTwoDecimals(InvoiceOutFragment.grandTotal));
+                InvoiceOutFragment.tvCustomerTotal.setText(customerTotalInvoiceAmount);
             }
         });
     }

@@ -1,10 +1,14 @@
-package com.hgil.siconprocess.adapter.invoice;
+package com.hgil.siconprocess.adapter.invoice.invoiceSale;
+
+import android.os.Parcelable;
+
+import java.io.Serializable;
 
 /**
  * Created by mohan.giri on 30-01-2017.
  */
 
-public class InvoiceModel {
+public class InvoiceModel implements Serializable {
 
     private String mkey;
     private String rKey;

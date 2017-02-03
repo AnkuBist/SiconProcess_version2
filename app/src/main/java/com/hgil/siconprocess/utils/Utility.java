@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -90,6 +93,11 @@ public class Utility {
     public static double roundTwoDecimals(double d) {
         DecimalFormat twoDForm = new DecimalFormat("#.##");
         return Double.valueOf(twoDForm.format(d));
+    }
+
+    public static void closeKeyboard(Context c, View view) {
+        InputMethodManager mgr = (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
+        mgr.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 

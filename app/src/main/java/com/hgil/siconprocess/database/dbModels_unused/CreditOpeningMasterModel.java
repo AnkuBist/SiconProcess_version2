@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.hgil.siconprocess.database.dbModels;
+package com.hgil.siconprocess.database.dbModels_unused;
 
 /**
+ *
  * @author mohan.giri
  */
-public class CrateOpeningMasterModel {
-
+public class CreditOpeningMasterModel {
+    
     private long Rce_id;
     private String Subcompany_id;       //null
     private String Depot_Id;        //null
@@ -17,14 +18,15 @@ public class CrateOpeningMasterModel {
     private String Route_id;        //null
     private String Customer_id;     //null
     private String DDate;       //null
-    private String Crate_id;       //null
     private float Opening;      //null
-    private float Issue;      //null
-    private float Receive;      //null
-    private float Balance;     //null
-    private String updateby_paycode;
-    private String updateby_Date;
-    private String updated_ip;
+    private float Sale_Amt;     //null
+    private float Receive_Amt;  //null
+    private float Discount_Amt;  //null
+    private float Balance;  //null
+    private String updateby_paycode;  
+    private String updateby_Date;  
+    private String updated_ip;  
+    private float ChequeAmt;  //null
 
     public long getRce_id() {
         return Rce_id;
@@ -82,14 +84,6 @@ public class CrateOpeningMasterModel {
         this.DDate = DDate;
     }
 
-    public String getCrate_id() {
-        return Crate_id;
-    }
-
-    public void setCrate_id(String Crate_id) {
-        this.Crate_id = Crate_id;
-    }
-
     public float getOpening() {
         return Opening;
     }
@@ -98,20 +92,28 @@ public class CrateOpeningMasterModel {
         this.Opening = Opening;
     }
 
-    public float getIssue() {
-        return Issue;
+    public float getSale_Amt() {
+        return Sale_Amt;
     }
 
-    public void setIssue(float Issue) {
-        this.Issue = Issue;
+    public void setSale_Amt(float Sale_Amt) {
+        this.Sale_Amt = Sale_Amt;
     }
 
-    public float getReceive() {
-        return Receive;
+    public float getReceive_Amt() {
+        return Receive_Amt;
     }
 
-    public void setReceive(float Receive) {
-        this.Receive = Receive;
+    public void setReceive_Amt(float Receive_Amt) {
+        this.Receive_Amt = Receive_Amt;
+    }
+
+    public float getDiscount_Amt() {
+        return Discount_Amt;
+    }
+
+    public void setDiscount_Amt(float Discount_Amt) {
+        this.Discount_Amt = Discount_Amt;
     }
 
     public float getBalance() {
@@ -146,4 +148,12 @@ public class CrateOpeningMasterModel {
         this.updated_ip = updated_ip;
     }
 
+    public float getChequeAmt() {
+        return ChequeAmt;
+    }
+
+    public void setChequeAmt(float ChequeAmt) {
+        this.ChequeAmt = ChequeAmt;
+    }
+    
 }

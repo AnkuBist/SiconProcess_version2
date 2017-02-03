@@ -1,14 +1,17 @@
 package com.hgil.siconprocess.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.ButterKnife;
 
@@ -24,6 +27,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // setRetainInstance(true);
     }
 
    /* @Override public void onAttach(Activity activity) {
@@ -40,6 +44,8 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // setRetainInstance(true);
+        Utility.closeKeyboard(getActivity(), getView());
         bindViews(view);
         getToolbarView();
     }
@@ -52,10 +58,10 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getFragmentLayout();
 
- /*   private void injectDependencies() {
-        ((BaseActivity) getActivity()).bind(this);
-    }*/
-
+    /* private void injectDependencies() {
+         ((BaseActivity) getActivity()).bind(this);
+     }
+ */
     private void bindViews(final View view) {
         ButterKnife.bind(this, view);
     }
@@ -72,5 +78,9 @@ public abstract class BaseFragment extends Fragment {
     public void hideSaveButton() {
         imgSave.setVisibility(View.GONE);
     }
+
+    /*public void onDestroyView(){
+        // do nothing
+    }*/
 
 }
