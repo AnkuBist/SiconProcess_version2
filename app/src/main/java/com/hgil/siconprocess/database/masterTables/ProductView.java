@@ -7,6 +7,8 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.hgil.siconprocess.adapter.productSelection.ProductSelectModel;
+import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.ProductModel;
 
 import java.util.ArrayList;
@@ -30,9 +32,11 @@ public class ProductView extends SQLiteOpenHelper {
     private static final String ITEMGROUPID = "ITEMGROUPID";
     private static final String FLAG = "FLAG";
 
+    private Context mContext;
 
     public ProductView(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        this.mContext = context;
     }
 
     @Override
@@ -140,6 +144,7 @@ public class ProductView extends SQLiteOpenHelper {
         return exists;
     }
 
+    // get all products loaded in van
     public ArrayList<ProductModel> getAllProducts() {
         ArrayList<ProductModel> array_list = new ArrayList<ProductModel>();
 
@@ -160,6 +165,39 @@ public class ProductView extends SQLiteOpenHelper {
                 productModel.setFLAG(res.getInt(res.getColumnIndex(FLAG)));
 
                 array_list.add(productModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return array_list;
+    }
+
+    // get all products loaded in van for customer to select for rejection....this has to be filtered with user rejection list if exists
+    public ArrayList<ProductSelectModel> getRejectionProductsAvailable(String customer_id, ArrayList<String> alreadyRejected) {
+        ArrayList<ProductSelectModel> array_list = new ArrayList<ProductSelectModel>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                ProductSelectModel pSelectModel = new ProductSelectModel();
+                pSelectModel.setItem_id(res.getString(res.getColumnIndex(ITEM_ID)));
+                pSelectModel.setItem_name(res.getString(res.getColumnIndex(ITEM_NAME)));
+
+               /* CustomerRejectionTable rejectionTable = new CustomerRejectionTable(mContext);
+                // get here if this product exists in the table of not
+                if (rejectionTable.custRejExists(customer_id, pSelectModel.getItem_id()) > 0) {
+                    // do nothing
+                } else {
+                    array_list.add(pSelectModel);
+                }*/
+
+                if (alreadyRejected.contains(pSelectModel.getItem_id())) {
+                    // do not add this product
+                } else {
+                    array_list.add(pSelectModel);
+                }
                 res.moveToNext();
             }
         }

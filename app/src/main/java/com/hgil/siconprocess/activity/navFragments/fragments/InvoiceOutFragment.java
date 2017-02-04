@@ -3,6 +3,7 @@ package com.hgil.siconprocess.activity.navFragments.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,9 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.adapter.invoice.invoiceOut.CustomerInvoiceAdapter;
+import com.hgil.siconprocess.adapter.invoice.invoiceOut.CustomerInvoiceOutAdapter;
 import com.hgil.siconprocess.adapter.invoice.invoiceSale.InvoiceModel;
 import com.hgil.siconprocess.base.BaseFragment;
+import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.utils.Utility;
 
@@ -40,7 +42,7 @@ public class InvoiceOutFragment extends BaseFragment {
 
     public static double grandTotal = 0;
 
-    private CustomerInvoiceAdapter invoiceAdapter;
+    private CustomerInvoiceOutAdapter invoiceAdapter;
     private InvoiceOutTable invoiceOutTable;
     private ArrayList<InvoiceModel> arrInvoiceItems;
 
@@ -89,7 +91,7 @@ public class InvoiceOutFragment extends BaseFragment {
 
         invoiceOutTable = new InvoiceOutTable(getContext());
 
-        invoiceAdapter = new CustomerInvoiceAdapter(getActivity(), arrInvoiceItems);
+        invoiceAdapter = new CustomerInvoiceOutAdapter(getActivity(), arrInvoiceItems);
         rvCustomerInvoice.setAdapter(invoiceAdapter);
 
         setTitle("Today's Sale Summary");
@@ -101,6 +103,15 @@ public class InvoiceOutFragment extends BaseFragment {
 
                 // move to next fragment to review user order with the items ordered
                 invoiceOutTable.insertInvoiceOut(arrInvoiceItems, customer_id);
+
+                // start rejection fragment
+                CustomerRejectionFragment rejectionFragment = CustomerRejectionFragment.newInstance(customer_id, customer_name);
+                String fragClassName = rejectionFragment.getClass().getName();
+                FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
+                //FragmentManager fragmentManager = (getChildFragmentManager());
+                fragmentManager.beginTransaction().replace(R.id.flContent, rejectionFragment)
+                        .addToBackStack(fragClassName)
+                        .commit();
             }
         });
     }

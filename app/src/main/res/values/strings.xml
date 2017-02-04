@@ -17,4 +17,5 @@
     <string name="str_nav_logout">Logout</string>
 
     <string name="strRupee">\u20B9</string>
+    <string name="title_activity_product_list_select">ProductListSelectActivity</string>
 </resources>

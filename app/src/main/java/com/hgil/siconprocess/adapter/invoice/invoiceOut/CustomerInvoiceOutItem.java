@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.activity.navFragments.fragments.InvoiceOutFragment;
-import com.hgil.siconprocess.activity.navFragments.fragments.InvoiceOutFragment;
 import com.hgil.siconprocess.adapter.invoice.invoiceSale.InvoiceModel;
 import com.hgil.siconprocess.utils.Utility;
 
@@ -21,7 +20,7 @@ import butterknife.ButterKnife;
  * Created by mohan.giri on 25-01-2017.
  */
 
-public class CustomerInvoiceItem {
+public class CustomerInvoiceOutItem {
     private Context mContext;
     @BindView(R.id.tvItemName)
     TextView tvItemName;
@@ -38,7 +37,7 @@ public class CustomerInvoiceItem {
     @BindView(R.id.etAmount)
     EditText etAmount;
 
-    public CustomerInvoiceItem(Context mContext, View v) {
+    public CustomerInvoiceOutItem(Context mContext, View v) {
         this.mContext = mContext;
         ButterKnife.bind(this, v);
         etQty.setEnabled(false);
@@ -46,7 +45,7 @@ public class CustomerInvoiceItem {
 
     private int stockAvail, tempStock;
 
-    public void updateInvoiceItem(final CustomerInvoiceAdapter.ViewHolder holder, final InvoiceModel itemInvoice, final int position) {
+    public void updateInvoiceItem(final CustomerInvoiceOutAdapter.ViewHolder holder, final InvoiceModel itemInvoice, final int position) {
         final String itemName = itemInvoice.getItemName();
         final float price = itemInvoice.getItemRate();
         float demandQty = itemInvoice.getDemandTargetQty();

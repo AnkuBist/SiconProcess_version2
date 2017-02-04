@@ -295,6 +295,23 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
         return demandQty;
     }
 
+    //TODO
+    // get customer grand total for invoice prepared.
+    public double custOrderTotalAmount(String customer_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select sum(" + DEMAND_TARGET_QUANTITY + "*" + TOTAL_AMOUNT + ") as total " +
+                "from " + TABLE_NAME + " where " + CUSTOMER_ID + "=?";
+        Cursor res = db.rawQuery(query, new String[]{customer_id});
+
+        double amount = 0;
+        if (res.moveToFirst()) {
+            amount = res.getInt(res.getColumnIndex("total"));
+        }
+        res.close();
+        db.close();
+        return amount;
+    }
+
     // this function is to display the invoice is there is not invoice exists for the customer.
     // this will calculate the available items in stock and display to the user.
     public ArrayList<InvoiceModel> getCustomerInvoiceOff(String customer_id) {

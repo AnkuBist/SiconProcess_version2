@@ -17,17 +17,17 @@ import butterknife.ButterKnife;
  * Created by mohan.giri on 25-01-2017.
  */
 
-public class CustomerInvoiceAdapter extends RecyclerView.Adapter<CustomerInvoiceAdapter.ViewHolder> {
+public class CustomerInvoiceOutAdapter extends RecyclerView.Adapter<CustomerInvoiceOutAdapter.ViewHolder> {
     private Context mContext;
     public ArrayList<InvoiceModel> mDataset;
 
-    public CustomerInvoiceAdapter(Context mContext, ArrayList<InvoiceModel> myDataset) {
+    public CustomerInvoiceOutAdapter(Context mContext, ArrayList<InvoiceModel> myDataset) {
         this.mContext = mContext;
         this.mDataset = myDataset;
     }
 
     @Override
-    public CustomerInvoiceAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CustomerInvoiceOutAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.item_customer_invoice, null, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -48,12 +48,12 @@ public class CustomerInvoiceAdapter extends RecyclerView.Adapter<CustomerInvoice
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private CustomerInvoiceItem invoiceItemView;
+        private CustomerInvoiceOutItem invoiceItemView;
 
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
-            invoiceItemView = new CustomerInvoiceItem(mContext, v);
+            invoiceItemView = new CustomerInvoiceOutItem(mContext, v);
         }
     }
 }
