@@ -1,6 +1,7 @@
 package com.hgil.siconprocess.adapter.invoiceRejection;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.FreshRejectionActivity;
+import com.hgil.siconprocess.activity.MarketRejectionActivity;
 
 import java.util.ArrayList;
 
@@ -41,6 +44,19 @@ public class InvoiceRejectionAdapter extends RecyclerView.Adapter<InvoiceRejecti
         final CRejectionModel cRejectionModel = mDataset.get(position);
         holder.tvItemName.setText(cRejectionModel.getItem_name());
 
+        holder.btnMarketRejection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(new Intent(mContext, MarketRejectionActivity.class));
+            }
+        });
+        holder.btnFreshRejection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(new Intent(mContext, FreshRejectionActivity.class));
+            }
+        });
+
         holder.setIsRecyclable(false);
     }
 
@@ -52,6 +68,10 @@ public class InvoiceRejectionAdapter extends RecyclerView.Adapter<InvoiceRejecti
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvItemName)
         public TextView tvItemName;
+        @BindView(R.id.btnMarketRejection)
+        public TextView btnMarketRejection;
+        @BindView(R.id.btnFreshRejection)
+        public TextView btnFreshRejection;
 
         public ViewHolder(View v) {
             super(v);

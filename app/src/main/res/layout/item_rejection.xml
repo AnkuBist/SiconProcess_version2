@@ -10,8 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginRight="15dp"
-        android:layout_toLeftOf="@+id/cbItem"
         android:paddingLeft="12dp"
         android:paddingRight="6dp"
         android:paddingTop="6dp"
@@ -26,6 +24,163 @@
         android:text="Return Goods"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/text_size_small" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="3dp"
+        android:weightSum="5">
+
+        <TextView
+            android:id="@+id/btnMarketRejection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="3dp"
+            android:layout_weight="1.4"
+            android:background="@color/colorTextBlue"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="Market Rejection"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_small" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1.1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Ret. Qty"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="@dimen/text_size_small" />
+
+            <EditText
+                android:id="@+id/etRetQty"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/et_round_shape"
+                android:editable="false"
+                android:gravity="right|center_vertical"
+                android:inputType="number"
+                android:padding="6dp"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="@dimen/text_size_medium" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1.1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Ret. Price"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="@dimen/text_size_small" />
+
+            <EditText
+                android:id="@+id/etRetPrice"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/et_round_shape"
+                android:editable="false"
+                android:gravity="right|center_vertical"
+                android:inputType="number"
+                android:padding="6dp"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="@dimen/text_size_medium" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.4"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Ret. Amount"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="@dimen/text_size_small" />
+
+            <EditText
+                android:id="@+id/etRetAmount"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/et_round_shape"
+                android:editable="false"
+                android:gravity="right|center_vertical"
+                android:inputType="number"
+                android:padding="6dp"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="@dimen/text_size_medium" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="3dp"
+        android:weightSum="4.5">
+
+        <TextView
+            android:id="@+id/btnFreshRejection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="3dp"
+            android:layout_weight="2.5"
+            android:background="@color/colorTextBlue"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="Fresh Rejection"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Ret. Qty"
+            android:textColor="@color/colorTextBlack"
+            android:textSize="@dimen/text_size_small" />
+
+        <EditText
+            android:id="@+id/etRetFreshQty"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/et_round_shape"
+            android:editable="false"
+            android:gravity="right|center_vertical"
+            android:inputType="number"
+            android:padding="6dp"
+            android:textColor="@color/colorTextBlack"
+            android:textSize="@dimen/text_size_medium" />
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

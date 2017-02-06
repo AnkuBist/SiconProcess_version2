@@ -8,7 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.hgil.siconprocess.adapter.productSelection.ProductSelectModel;
+import com.hgil.siconprocess.adapter.vanStock.VanStockModel;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
+import com.hgil.siconprocess.database.tables.InvoiceOutTable;
+import com.hgil.siconprocess.retrofit.loginResponse.dbModels.FixedSampleModel;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.ProductModel;
 
 import java.util.ArrayList;
@@ -205,4 +208,47 @@ public class ProductView extends SQLiteOpenHelper {
         db.close();
         return array_list;
     }
+
+    /*get product data for van stock*/
+    public ArrayList<VanStockModel> getVanStock() {
+        ArrayList<VanStockModel> array_list = new ArrayList<VanStockModel>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        DepotInvoiceView depotInvoiceView = new DepotInvoiceView(mContext);
+        FixedSampleTable fixedSampleTable = new FixedSampleTable(mContext);
+        InvoiceOutTable invoiceOutTable = new InvoiceOutTable(mContext);
+
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                VanStockModel vanStockModel = new VanStockModel();
+                vanStockModel.setItem_id(res.getString(res.getColumnIndex(ITEM_ID)));
+                vanStockModel.setItem_name(res.getString(res.getColumnIndex(ITEM_NAME)));
+
+                int loadingQty = depotInvoiceView.getLoadingCount(vanStockModel.getItem_id());
+                int saleQty = invoiceOutTable.getItemOrderQty(vanStockModel.getItem_id());
+                int sampleQty = fixedSampleTable.getSampleCount(vanStockModel.getItem_id());
+
+                // get product total stock in van
+                vanStockModel.setLoadQty(loadingQty);
+                // total product quantity sold
+                vanStockModel.setGross_sale(saleQty);
+                // van sample loads
+                vanStockModel.setSample(sampleQty);
+
+
+                int leftOver = loadingQty - saleQty - sampleQty;
+                vanStockModel.setLeft_over(leftOver);
+
+                array_list.add(vanStockModel);
+                res.moveToNext();
+            }
+        }
+
+        res.close();
+        db.close();
+        return array_list;
+    }
+
 }

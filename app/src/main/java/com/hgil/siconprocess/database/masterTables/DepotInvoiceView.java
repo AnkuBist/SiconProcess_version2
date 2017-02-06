@@ -274,6 +274,11 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
         ArrayList<InvoiceModel> array_list = new ArrayList<InvoiceModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
+        ProductView dbItemDetails = new ProductView(mContext);
+        InvoiceOutTable invoiceOutTable = new InvoiceOutTable(mContext);
+        DemandTargetTable dbDemandTarget = new DemandTargetTable(mContext);
+        FixedSampleTable dbSample = new FixedSampleTable(mContext);
+
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CUSTOMER_ID + "='" + customer_id + "'", null);
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
@@ -309,41 +314,37 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
                 String item_id = invoiceModel.getItemId();
 
                 //---------------if invoice exists-------------------//
-                ProductView dbItemDetails = new ProductView(mContext);
 
                 float orderQty = 0;
 
                 // get item demand if invoice made lastly
-                InvoiceOutTable invoiceOutTable = new InvoiceOutTable(mContext);
                 int invoiceQty = invoiceOutTable.getDemandQuantity(customer_id, item_id);
 
                 if (invoiceQty > 0) {
                     orderQty = invoiceQty;
                 } else {
                     // get invoice item target
-                    DemandTargetTable dbDemandTarget = new DemandTargetTable(mContext);
                     orderQty = dbDemandTarget.getDemandTargetByItem(item_id, customer_id).getTargetQty();
                 }
                 invoiceModel.setDemandTargetQty(orderQty);
                 invoiceModel.setOrderAmount(Utility.roundTwoDecimals(orderQty * invoiceModel.getItemRate()));
 
                 // get item sample
-                FixedSampleTable dbSample = new FixedSampleTable(mContext);
                 invoiceModel.setFixedSample(dbSample.getFixedSampleItem(item_id, customer_id).getSQty());
+                int total_sample_stock = dbSample.getSampleCount(item_id);
 
-                //TODO
                 // exactly have to calculate the actual orders placed for the same in out invoice
                 int totalDemand = invoiceOutTable.getItemOrderQty(item_id);
 
                 // subtract ordered quantity from stock and also the sample collected
-                int stock = getLoadingCount(item_id) - totalDemand - invoiceModel.getFixedSample();
+                int stock = getLoadingCount(item_id) - totalDemand - total_sample_stock;
 
                 invoiceModel.setStockAvail(stock);
                 invoiceModel.setTempStock(stock);
 
                 if (dbItemDetails.checkProduct(invoiceModel.getItemId()) && stock > 0) {
-                    array_list.add(invoiceModel);
                     invoiceModel.setItemName(dbItemDetails.getProductById(item_id).getItemName());
+                    array_list.add(invoiceModel);
                 }
                 res.moveToNext();
             }
@@ -378,6 +379,8 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
         ArrayList<InvoiceModel> array_list = new ArrayList<InvoiceModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
+        FixedSampleTable dbSample = new FixedSampleTable(mContext);
+
         /*select sum(InvQty_ps) as loading_qty, Item_id
 from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route_id='R/mom/0041' group by Item_id*/
 
@@ -392,7 +395,9 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
                         InvoiceOutTable invoiceOutTable = new InvoiceOutTable(mContext);
                         int totalDemand = invoiceOutTable.getItemOrderQty(item_id);
 
-                        stock += (-invoiceModel.getFixedSample() - totalDemand);
+                        int total_sample_stock = dbSample.getSampleCount(item_id);
+
+                        stock += (-total_sample_stock - totalDemand);
 
                         invoiceModel.setStockAvail(stock);
                         invoiceModel.setTempStock(stock);
@@ -410,7 +415,13 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
 
 
     public InvoiceModel getDepotInvoiceByItemId(String customer_id, String item_id) {
+
         SQLiteDatabase db = this.getReadableDatabase();
+        ProductView dbItemDetails = new ProductView(mContext);
+        InvoiceOutTable invoiceOutTable = new InvoiceOutTable(mContext);
+        DemandTargetTable dbDemandTarget = new DemandTargetTable(mContext);
+        FixedSampleTable dbSample = new FixedSampleTable(mContext);
+
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ITEM_ID + "='" + item_id + "'", null);
 
         InvoiceModel invoiceModel = new InvoiceModel();
@@ -444,26 +455,21 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
             invoiceModel.setTotalAmount(res.getFloat(res.getColumnIndex(TOTAL_AMOUNT)));
 
             //---------------if invoice exists-------------------//
-            ProductView dbItemDetails = new ProductView(mContext);
-
             float orderQty = 0;
 
             // get item demand if invoice made lastly
-            InvoiceOutTable invoiceOutTable = new InvoiceOutTable(mContext);
             int invoiceQty = invoiceOutTable.getDemandQuantity(customer_id, item_id);
 
             if (invoiceQty > 0) {
                 orderQty = invoiceQty;
             } else {
                 // get invoice item target
-                DemandTargetTable dbDemandTarget = new DemandTargetTable(mContext);
                 orderQty = dbDemandTarget.getDemandTargetByItem(item_id, customer_id).getTargetQty();
             }
             invoiceModel.setDemandTargetQty(orderQty);
             invoiceModel.setOrderAmount(Utility.roundTwoDecimals(orderQty * invoiceModel.getItemRate()));
 
             // get item sample
-            FixedSampleTable dbSample = new FixedSampleTable(mContext);
             invoiceModel.setFixedSample(dbSample.getFixedSampleItem(item_id, customer_id).getSQty());
 
             if (dbItemDetails.checkProduct(invoiceModel.getItemId())) {

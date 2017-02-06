@@ -43,6 +43,12 @@ public class ProductSelectAdapter extends RecyclerView.Adapter<ProductSelectAdap
         final ProductSelectModel pSelectModel = mDataset.get(position);
         holder.tvItemName.setText(pSelectModel.getItem_name());
 
+        if (pSelectModel.isSelected()) {
+            holder.cbItem.setChecked(true);
+        } else {
+            holder.cbItem.setChecked(false);
+        }
+
         holder.cbItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

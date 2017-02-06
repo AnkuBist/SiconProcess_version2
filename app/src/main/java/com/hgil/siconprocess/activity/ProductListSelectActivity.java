@@ -60,6 +60,7 @@ public class ProductListSelectActivity extends AppCompatActivity implements View
 
         ButterKnife.bind(this);
 
+        if(customer_name!=null)
         tvCustomerName.setText(customer_name);
 
        /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

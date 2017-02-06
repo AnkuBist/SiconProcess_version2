@@ -228,4 +228,20 @@ public class CrateCollectionView extends SQLiteOpenHelper {
         db.close();
         return array_list;
     }
+
+    /*get van crate total*/
+    public int vanTotalCrate() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select sum(" + CRATE_QTY + ") as total_crates " +
+                "from " + TABLE_NAME;
+        Cursor res = db.rawQuery(query, null);
+
+        int total_crates = 0;
+        if (res.moveToFirst()) {
+            total_crates = res.getInt(res.getColumnIndex("total_crates"));
+        }
+        res.close();
+        db.close();
+        return total_crates;
+    }
 }

@@ -23,11 +23,14 @@ public abstract class BaseFragment extends Fragment {
 
     protected TextView tvNavTitle, tvNavDate;
     protected ImageView imgSave;
+    protected String routeId, routeName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // setRetainInstance(true);
+        routeId = SiconApp.getInstance().getRouteId();
+        routeName = SiconApp.getInstance().getRouteName();
     }
 
    /* @Override public void onAttach(Activity activity) {
@@ -82,5 +85,13 @@ public abstract class BaseFragment extends Fragment {
     /*public void onDestroyView(){
         // do nothing
     }*/
+
+    public String getRouteId() {
+        return routeId;
+    }
+
+    public String getRouteName() {
+        return routeName;
+    }
 
 }

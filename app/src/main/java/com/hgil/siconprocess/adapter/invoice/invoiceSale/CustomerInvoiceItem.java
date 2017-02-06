@@ -51,7 +51,7 @@ public class CustomerInvoiceItem {
 
         // get product stock
         stockAvail = itemInvoice.getStockAvail() + (int) demandQty;
-        tempStock = itemInvoice.getTempStock() + (int) demandQty;
+        tempStock = itemInvoice.getTempStock();
 
         tvItemName.setText(itemName);
         tvStock.setText("Stock : " + tempStock);

@@ -279,7 +279,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
         return demandQty;
     }
 
-    // get van loading count
+    // get van sold item count
     public int getItemOrderQty(String item_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "select distinct " + ITEM_ID + ", sum(" + DEMAND_TARGET_QUANTITY + ") as loading_qty " +

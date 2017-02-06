@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_market_rejection"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.hgil.siconprocess.activity.MarketRejectionActivity">
+
+    <TextView
+        android:id="@+id/tvCustomerName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorBackgroundBlack"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:text="Title"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_extra_large" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTextGrey">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:alpha="0.88"
+            android:background="@color/cardview_light_background"
+            android:orientation="vertical">
+
+            <RelativeLayout style="@style/rejectionItemHolder">
+
+                <TextView
+                    style="@style/RejectionTvLabel"
+                    android:text="Damaged" />
+
+                <EditText
+                    android:id="@+id/etDamaged"
+                    style="@style/RejectionEtStyle" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorBackgroundBlack" />
+
+            <RelativeLayout style="@style/rejectionItemHolder">
+
+                <TextView
+                    style="@style/RejectionTvLabel"
+                    android:text="Expired" />
+
+                <EditText
+                    android:id="@+id/etExpired"
+                    style="@style/RejectionEtStyle"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="23dp"
+                    android:layout_marginRight="23dp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorBackgroundBlack" />
+
+            <RelativeLayout style="@style/rejectionItemHolder">
+
+                <TextView
+                    style="@style/RejectionTvLabel"
+                    android:text="Rat Eaten" />
+
+                <EditText
+                    android:id="@+id/etRatEaten"
+                    style="@style/RejectionEtStyle" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorBackgroundBlack" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

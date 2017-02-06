@@ -180,4 +180,25 @@ public class FixedSampleTable extends SQLiteOpenHelper {
         db.close();
         return array_list;
     }
+
+    // get sample count
+    public int getSampleCount(String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        /*String query = "select distinct " + ITEM_ID + ", " + ITEM_RATE + ", sum(" + INVQTY_PS + ") over (partition by " + ITEM_ID + ") as loading_qty " +
+                "from " + TABLE_NAME + " where " + ITEM_ID + "=?";*/
+        String query = "select distinct " + ITEM_ID + ", sum(" + SQTY + ") as loading_sample_qty " +
+                "from " + TABLE_NAME + " where " + ITEM_ID + "=? group by " + ITEM_ID;
+        Cursor res = db.rawQuery(query, new String[]{item_id});
+
+        int total_item_count = 0;
+        if (res.moveToFirst()) {
+            total_item_count = res.getInt(res.getColumnIndex("loading_sample_qty"));
+        }
+        res.close();
+        db.close();
+        return total_item_count;
+
+    }
+
+
 }

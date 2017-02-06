@@ -29,4 +29,81 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!--van stock adapter title textview-->
+    <style name="VanStockAdapterLayoutTop">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:weightSum">5</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <!--van stock adapter title textview-->
+    <style name="VanStockAdapterLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:weightSum">6</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <!--van stock adapter title textview-->
+    <style name="VanStockAdapterTitle">
+        <item name="android:singleLine">false</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginRight">3dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center|center_vertical</item>
+        <item name="android:textColor">@color/colorTextBlack</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <!--van stock adapter detail textview-->
+    <style name="VanStockAdapterDesc">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginRight">3dp</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:background">@drawable/et_round_shape</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:textColor">@color/colorTextBlack</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
+
+    <!--rejection layout styles-->
+    <style name="rejectionItemHolder">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:background">@color/colorWhite</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="RejectionTvLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorTextBlack</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
+    </style>
+
+    <style name="RejectionEtStyle">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:background">@drawable/et_round_shape</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:inputType">number</item>
+        <item name="android:textColor">@color/colorTextBlack</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
 </resources>

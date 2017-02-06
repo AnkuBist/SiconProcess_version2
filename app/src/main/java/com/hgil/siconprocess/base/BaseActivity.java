@@ -13,6 +13,8 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
+    protected String routeId, routeName;
+
     @Override
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
@@ -27,8 +29,18 @@ public abstract class BaseActivity extends AppCompatActivity {
     private void initiateAppInstance() {
         RouteView routeView = new RouteView(this);
         RouteModel routeModel = routeView.getRoute();
+        routeId = routeModel.getRouteId();
+        routeName = routeModel.getRouteName();
         SiconApp.getInstance().setRouteModel(routeModel);
-        SiconApp.getInstance().setRouteId(routeModel.getRouteId());
-        SiconApp.getInstance().setRouteName(routeModel.getRouteName());
+        SiconApp.getInstance().setRouteId(routeId);
+        SiconApp.getInstance().setRouteName(routeName);
+    }
+
+    public String getRouteId() {
+        return routeId;
+    }
+
+    public String getRouteName() {
+        return routeName;
     }
 }

@@ -38,7 +38,9 @@
         <activity
             android:name=".activity.ProductListSelectActivity"
             android:label="@string/title_activity_product_list_select"
-            android:theme="@style/AppTheme1"></activity>
+            android:theme="@style/AppTheme1" />
+        <activity android:name=".activity.FreshRejectionActivity" />
+        <activity android:name=".activity.MarketRejectionActivity"></activity>
     </application>
 
 </manifest>

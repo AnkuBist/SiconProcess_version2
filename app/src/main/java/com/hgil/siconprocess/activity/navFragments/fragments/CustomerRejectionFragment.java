@@ -78,7 +78,7 @@ public class CustomerRejectionFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ButterKnife.bind(this, view);
+       // ButterKnife.bind(this, view);
 
         if (customer_name != null)
             tvCustomerName.setText(customer_name);

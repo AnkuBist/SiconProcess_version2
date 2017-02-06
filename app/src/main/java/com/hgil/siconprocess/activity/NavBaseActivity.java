@@ -26,7 +26,7 @@ import com.hgil.siconprocess.activity.navFragments.FinalPaymentFragment;
 import com.hgil.siconprocess.activity.navFragments.HomeFragment;
 import com.hgil.siconprocess.activity.navFragments.OutletInfoFragment;
 import com.hgil.siconprocess.activity.navFragments.SyncFragment;
-import com.hgil.siconprocess.activity.navFragments.VanInventoryFragment;
+import com.hgil.siconprocess.activity.navFragments.fragments.VanInventoryFragment;
 import com.hgil.siconprocess.base.BaseActivity;
 import com.hgil.siconprocess.utils.Utility;
 
@@ -90,7 +90,7 @@ public class NavBaseActivity extends BaseActivity {
         tvNavTitle.setText(menuItem.getTitle());
 
         tvNavDate.setText(Utility.getDateMonth());
-        //  firstLaunch();
+        // firstLaunch();
     }
 
     @Override
@@ -306,5 +306,29 @@ public class NavBaseActivity extends BaseActivity {
             }
         }, 2000);
     }*/
+
+    //TODO
+    /*correct method*/
+    /*   @Override
+    public void onBackPressed() {
+
+        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+            mDrawer.closeDrawer(GravityCompat.START);
+
+        } else {
+            int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
+
+            if (backStackCount >= 1) {
+                getSupportFragmentManager().popBackStack();
+                // Change to hamburger icon if at bottom of stack
+                if(backStackCount == 1){
+                    showUpButton(false);
+                }
+            } else {
+                super.onBackPressed();
+            }
+        }
+    }
+*/
 
 }
