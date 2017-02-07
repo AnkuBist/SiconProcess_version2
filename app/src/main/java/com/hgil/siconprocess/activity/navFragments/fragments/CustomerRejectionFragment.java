@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,9 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.NavBaseActivity;
 import com.hgil.siconprocess.activity.ProductListSelectActivity;
 import com.hgil.siconprocess.adapter.invoiceRejection.CRejectionModel;
+import com.hgil.siconprocess.adapter.invoiceRejection.FreshRejectionModel;
 import com.hgil.siconprocess.adapter.invoiceRejection.InvoiceRejectionAdapter;
+import com.hgil.siconprocess.adapter.invoiceRejection.MarketRejectionModel;
 import com.hgil.siconprocess.adapter.productSelection.ProductSelectModel;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
@@ -22,15 +26,11 @@ import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class CustomerRejectionFragment extends BaseFragment {
-    private static final String CUSTOMER_ID = "customer_id";
-    private static final String CUSTOMER_NAME = "customer_name";
-    private String customer_id, customer_name;
 
     @BindView(R.id.tvCustomerName)
     TextView tvCustomerName;
@@ -78,8 +78,6 @@ public class CustomerRejectionFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-       // ButterKnife.bind(this, view);
-
         if (customer_name != null)
             tvCustomerName.setText(customer_name);
 
@@ -99,7 +97,19 @@ public class CustomerRejectionFragment extends BaseFragment {
         imgSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO
                 // save rejections to table here only and move to the final payment fragment
+                rejectionTable.insertCustRejections(arrRejection, customer_id);
+
+                // now move to next fragment to make payment and dispay the user payment
+                // start rejection fragment
+                CustomerPaymentFragment rejectionFragment = CustomerPaymentFragment.newInstance(customer_id, customer_name);
+                String fragClassName = rejectionFragment.getClass().getName();
+                FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
+                //FragmentManager fragmentManager = (getChildFragmentManager());
+                fragmentManager.beginTransaction().replace(R.id.flContent, rejectionFragment)
+                        .addToBackStack(fragClassName)
+                        .commit();
 
             }
         });
@@ -116,7 +126,7 @@ public class CustomerRejectionFragment extends BaseFragment {
                 }
                 intent.putStringArrayListExtra("rejected_items", arrItems);
 
-                startActivityForResult(intent, REJECTION_LIST);
+                ((NavBaseActivity) getActivity()).startActivityForResult(intent, REJECTION_LIST);
             }
         });
     }
@@ -124,7 +134,6 @@ public class CustomerRejectionFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
         refreshScreen();
     }
 
@@ -139,25 +148,56 @@ public class CustomerRejectionFragment extends BaseFragment {
         }
     }
 
+    public static int FRESH_REJECTION_ID = 0;
+    public static int MARKET_REJECTION_ID = 0;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REJECTION_LIST && resultCode == getActivity().RESULT_OK) {
+        if (resultCode == getActivity().RESULT_OK) {
             Bundle bundle = data.getExtras();
 
-            ArrayList<ProductSelectModel> arrProduct = (ArrayList<ProductSelectModel>) bundle.getSerializable("selected_products");
-            for (int i = 0; i < arrProduct.size(); i++) {
-                ProductSelectModel pModel = arrProduct.get(i);
-                CRejectionModel rejectionModel = new CRejectionModel();
-                rejectionModel.setItem_id(pModel.getItem_id());
-                rejectionModel.setItem_name(pModel.getItem_name());
-                rejectionModel.setCustomer_id(customer_id);
-                rejectionModel.setCustomer_name(customer_name);
-                if (pModel.isSelected())
-                    arrRejection.add(rejectionModel);
+            if (requestCode == REJECTION_LIST) {
+                ArrayList<ProductSelectModel> arrProduct = (ArrayList<ProductSelectModel>) bundle.getSerializable("selected_products");
+                for (int i = 0; i < arrProduct.size(); i++) {
+                    ProductSelectModel pModel = arrProduct.get(i);
+                    CRejectionModel rejectionModel = new CRejectionModel();
+                    rejectionModel.setItem_id(pModel.getItem_id());
+                    rejectionModel.setItem_name(pModel.getItem_name());
+                    rejectionModel.setCustomer_id(customer_id);
+                    rejectionModel.setCustomer_name(customer_name);
+                    rejectionModel.setPrice(pModel.getItem_price());
+                    if (pModel.isSelected())
+                        arrRejection.add(rejectionModel);
+                }
+            }
+            // market rejection details entered
+            else if (requestCode == MARKET_REJECTION_ID) {
+                arrRejection.get(getMarketRejectionId()).setMarketRejection((MarketRejectionModel) bundle.getSerializable("marketRejection"));
+            }
+            // fresh rejection details entered
+            else if (requestCode == FRESH_REJECTION_ID) {
+                arrRejection.get(getFreshRejectionId()).setFreshRejection((FreshRejectionModel) bundle.getSerializable("freshRejection"));
             }
             rejectionAdapter.notifyDataSetChanged();
             refreshScreen();
         }
+    }
+
+
+    public static void setFreshRejectionId(int id) {
+        FRESH_REJECTION_ID = id;
+    }
+
+    public static void setMarketRejectionId(int id) {
+        MARKET_REJECTION_ID = id;
+    }
+
+    public static int getFreshRejectionId() {
+        return FRESH_REJECTION_ID;
+    }
+
+    public static int getMarketRejectionId() {
+        return MARKET_REJECTION_ID;
     }
 }

@@ -7,6 +7,8 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.hgil.siconprocess.adapter.routeMap.RouteCustomerModel;
+import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.CustomerRouteMapModel;
 
 import java.util.ArrayList;
@@ -41,13 +43,16 @@ public class CustomerRouteMappingView extends SQLiteOpenHelper {
     private static final String ACCOUNTNUM = "ACCOUNTNUM";
     private static final String MANDT = "Mandt";
 
+    private Context mContext;
+
     public CustomerRouteMappingView(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        this.mContext = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" (" + REC_ID + " NUMERIC NOT NULL, "
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + REC_ID + " NUMERIC NOT NULL, "
                 + SUB_COMPANY_ID + " TEXT NULL, " + DEPOT + " TEXT NULL, " + ROUTE_ID + " TEXT NULL, "
                 + ROUTE_NAME + " TEXT NULL, " + SALE_DATE_PARAMETER + " TEXT NULL, " + PSMID + " TEXT NULL, "
                 + CUSTOMER_ID + " TEXT NULL, " + CUSTOMER_NAME + " TEXT NOT NULL, " + PRICEGROUP + " TEXT NOT NULL, "
@@ -217,6 +222,31 @@ public class CustomerRouteMappingView extends SQLiteOpenHelper {
                 customerRouteMapModel.setMandt(res.getInt(res.getColumnIndex(MANDT)));
 
                 array_list.add(customerRouteMapModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return array_list;
+    }
+
+    public ArrayList<RouteCustomerModel> getRouteCustomers() {
+        ArrayList<RouteCustomerModel> array_list = new ArrayList<RouteCustomerModel>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        InvoiceOutTable invoiceOutTable = new InvoiceOutTable(mContext);
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                RouteCustomerModel routeCustomerModel = new RouteCustomerModel();
+                routeCustomerModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
+                routeCustomerModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
+                routeCustomerModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+                routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
+                routeCustomerModel.setStatus("PENDING");
+                routeCustomerModel.setSaleAmount(invoiceOutTable.custInvoiceTotalAmount(routeCustomerModel.getCustomerId()));
+
+                array_list.add(routeCustomerModel);
                 res.moveToNext();
             }
         }

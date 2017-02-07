@@ -278,6 +278,7 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
         InvoiceOutTable invoiceOutTable = new InvoiceOutTable(mContext);
         DemandTargetTable dbDemandTarget = new DemandTargetTable(mContext);
         FixedSampleTable dbSample = new FixedSampleTable(mContext);
+        CustomerItemPriceTable dbPriceTable = new CustomerItemPriceTable(mContext);
 
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CUSTOMER_ID + "='" + customer_id + "'", null);
         if (res.moveToFirst()) {
@@ -300,7 +301,8 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
                 invoiceModel.setInvQtyPs(res.getFloat(res.getColumnIndex(INVQTY_PS)));
                 invoiceModel.setGroupId(res.getString(res.getColumnIndex(GROUP_ID)));
                 invoiceModel.setGroupPriceDate(res.getString(res.getColumnIndex(GROUP_PRICE_DATE)));
-                invoiceModel.setItemRate(res.getFloat(res.getColumnIndex(ITEM_RATE)));
+                // reset item price/rate with actual price
+                //invoiceModel.setItemRate(res.getFloat(res.getColumnIndex(ITEM_RATE)));
                 invoiceModel.setItemDiscount(res.getFloat(res.getColumnIndex(ITEM_DISCOUNT)));
                 invoiceModel.setItemCST(res.getFloat(res.getColumnIndex(ITEM_CST)));
                 invoiceModel.setItemVAT(res.getFloat(res.getColumnIndex(ITEM_VAT)));
@@ -312,6 +314,7 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
                 invoiceModel.setTotalAmount(res.getFloat(res.getColumnIndex(TOTAL_AMOUNT)));
 
                 String item_id = invoiceModel.getItemId();
+                invoiceModel.setItemRate((float) (dbPriceTable.getItemPriceById(item_id, customer_id)));
 
                 //---------------if invoice exists-------------------//
 
@@ -421,6 +424,7 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
         InvoiceOutTable invoiceOutTable = new InvoiceOutTable(mContext);
         DemandTargetTable dbDemandTarget = new DemandTargetTable(mContext);
         FixedSampleTable dbSample = new FixedSampleTable(mContext);
+        CustomerItemPriceTable dbPriceTable = new CustomerItemPriceTable(mContext);
 
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ITEM_ID + "='" + item_id + "'", null);
 
@@ -443,7 +447,8 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
             invoiceModel.setInvQtyPs(res.getFloat(res.getColumnIndex(INVQTY_PS)));
             invoiceModel.setGroupId(res.getString(res.getColumnIndex(GROUP_ID)));
             invoiceModel.setGroupPriceDate(res.getString(res.getColumnIndex(GROUP_PRICE_DATE)));
-            invoiceModel.setItemRate(res.getFloat(res.getColumnIndex(ITEM_RATE)));
+            // reset item price/rate for customer
+            //invoiceModel.setItemRate(res.getFloat(res.getColumnIndex(ITEM_RATE)));
             invoiceModel.setItemDiscount(res.getFloat(res.getColumnIndex(ITEM_DISCOUNT)));
             invoiceModel.setItemCST(res.getFloat(res.getColumnIndex(ITEM_CST)));
             invoiceModel.setItemVAT(res.getFloat(res.getColumnIndex(ITEM_VAT)));
@@ -455,6 +460,8 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
             invoiceModel.setTotalAmount(res.getFloat(res.getColumnIndex(TOTAL_AMOUNT)));
 
             //---------------if invoice exists-------------------//
+            invoiceModel.setItemRate((float) (dbPriceTable.getItemPriceById(item_id, customer_id)));
+
             float orderQty = 0;
 
             // get item demand if invoice made lastly

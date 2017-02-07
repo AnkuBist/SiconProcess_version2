@@ -223,4 +223,5 @@ public class RejectionTargetTable extends SQLiteOpenHelper {
         db.close();
         return array_list;
     }
+
 }

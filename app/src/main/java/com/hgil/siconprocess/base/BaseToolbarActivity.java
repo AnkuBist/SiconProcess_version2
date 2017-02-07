@@ -46,6 +46,7 @@ public abstract class BaseToolbarActivity extends BaseActivity {
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setDisplayShowHomeEnabled(true);
+        actionbar.setDisplayShowTitleEnabled(false);
 
         setNavDate(Utility.getDateMonth());
     }

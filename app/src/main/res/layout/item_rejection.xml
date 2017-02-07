@@ -27,7 +27,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="3dp"
         android:weightSum="5">
@@ -49,7 +49,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginRight="3dp"
             android:layout_weight="1.1"
             android:orientation="vertical">
@@ -63,12 +63,13 @@
                 android:textSize="@dimen/text_size_small" />
 
             <EditText
-                android:id="@+id/etRetQty"
+                android:id="@+id/etMarketRetQty"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginTop="2dp"
                 android:background="@drawable/et_round_shape"
                 android:editable="false"
+                android:enabled="false"
                 android:gravity="right|center_vertical"
                 android:inputType="number"
                 android:padding="6dp"
@@ -92,12 +93,13 @@
                 android:textSize="@dimen/text_size_small" />
 
             <EditText
-                android:id="@+id/etRetPrice"
+                android:id="@+id/etMarketRetPrice"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginTop="2dp"
                 android:background="@drawable/et_round_shape"
                 android:editable="false"
+                android:enabled="false"
                 android:gravity="right|center_vertical"
                 android:inputType="number"
                 android:padding="6dp"
@@ -120,12 +122,13 @@
                 android:textSize="@dimen/text_size_small" />
 
             <EditText
-                android:id="@+id/etRetAmount"
+                android:id="@+id/etMarketRetAmount"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginTop="2dp"
                 android:background="@drawable/et_round_shape"
                 android:editable="false"
+                android:enabled="false"
                 android:gravity="right|center_vertical"
                 android:inputType="number"
                 android:padding="6dp"
@@ -167,7 +170,7 @@
             android:textSize="@dimen/text_size_small" />
 
         <EditText
-            android:id="@+id/etRetFreshQty"
+            android:id="@+id/etFreshRetQty"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_gravity="center_vertical"
@@ -175,6 +178,7 @@
             android:layout_weight="1"
             android:background="@drawable/et_round_shape"
             android:editable="false"
+            android:enabled="false"
             android:gravity="right|center_vertical"
             android:inputType="number"
             android:padding="6dp"

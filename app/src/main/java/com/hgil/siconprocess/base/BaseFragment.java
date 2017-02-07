@@ -20,6 +20,9 @@ import butterknife.ButterKnife;
  */
 
 public abstract class BaseFragment extends Fragment {
+    protected static final String CUSTOMER_ID = "customer_id";
+    protected static final String CUSTOMER_NAME = "customer_name";
+    protected String customer_id, customer_name;
 
     protected TextView tvNavTitle, tvNavDate;
     protected ImageView imgSave;

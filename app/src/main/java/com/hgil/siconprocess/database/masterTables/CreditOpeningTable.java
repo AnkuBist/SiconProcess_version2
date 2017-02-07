@@ -43,7 +43,7 @@ public class CreditOpeningTable extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" ("+ RCE_ID + " NUMERIC NOT NULL, "
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + RCE_ID + " NUMERIC NOT NULL, "
                 + SUBCOMPANY_ID + " TEXT NULL, " + DEPOT_ID + " TEXT NULL, " + SUBDEPOT_ID + " TEXT NULL, "
                 + ROUTE_ID + " TEXT NULL, " + CUSTOMER_ID + " TEXT NULL, " + DDATE + " TEXT NULL, "
                 + OPENING + " REAL NULL, " + SALE_AMT + " REAL NULL, " + RECEIVE_AMT + " REAL NULL, "
@@ -200,5 +200,22 @@ public class CreditOpeningTable extends SQLiteOpenHelper {
         res.close();
         db.close();
         return array_list;
+    }
+
+
+    // customer credit balance
+    // get customer invoice total
+    public double custCreditAmount(String customer_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select " + BALANCE + " from " + TABLE_NAME + " where " + CUSTOMER_ID + "=?";
+        Cursor res = db.rawQuery(query, new String[]{customer_id});
+
+        double amount = 0;
+        if (res.moveToFirst()) {
+            amount = res.getInt(res.getColumnIndex(BALANCE));
+        }
+        res.close();
+        db.close();
+        return amount;
     }
 }

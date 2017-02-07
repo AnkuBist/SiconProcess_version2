@@ -10,7 +10,16 @@ public class ProductSelectModel implements Serializable {
 
     private String item_id;
     private String item_name;
+    private double item_price;
     private boolean isSelected;
+
+    public double getItem_price() {
+        return item_price;
+    }
+
+    public void setItem_price(double item_price) {
+        this.item_price = item_price;
+    }
 
     public boolean isSelected() {
         return isSelected;

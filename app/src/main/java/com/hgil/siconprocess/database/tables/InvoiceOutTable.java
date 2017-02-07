@@ -125,10 +125,10 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
                 contentValues.put(TOTAL_AMOUNT, invoiceModel.getTotalAmount());
                 contentValues.put(FIXED_SAMPLE, invoiceModel.getFixedSample());
                 contentValues.put(DEMAND_TARGET_QUANTITY, invoiceModel.getDemandTargetQty());
-                contentValues.put(TOTAL_AMOUNT, invoiceModel.getOrderAmount());
-                contentValues.put(TOTAL_AMOUNT, invoiceModel.getStockAvail());
-                contentValues.put(TOTAL_AMOUNT, invoiceModel.getTempStock());
-                contentValues.put(TOTAL_AMOUNT, invoiceModel.getItemName());
+                contentValues.put(ORDER_AMOUNT, invoiceModel.getOrderAmount());
+                contentValues.put(STOCK_AVAIL, invoiceModel.getStockAvail());
+                contentValues.put(TEMP_STOCK, invoiceModel.getTempStock());
+                contentValues.put(ITEM_NAME, invoiceModel.getItemName());
                 db.insert(TABLE_NAME, null, contentValues);
             }
         }
@@ -371,6 +371,22 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
         res.close();
         db.close();
         return invoiceModel;
+    }
+
+    // get customer invoice total
+    public double custInvoiceTotalAmount(String customer_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select sum(" + ORDER_AMOUNT + ") as total " +
+                "from " + TABLE_NAME + " where " + CUSTOMER_ID + "=?";
+        Cursor res = db.rawQuery(query, new String[]{customer_id});
+
+        double amount = 0;
+        if (res.moveToFirst()) {
+            amount = res.getInt(res.getColumnIndex("total"));
+        }
+        res.close();
+        db.close();
+        return amount;
     }
 
 }

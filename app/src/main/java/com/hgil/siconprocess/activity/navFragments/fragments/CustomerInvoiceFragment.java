@@ -30,11 +30,6 @@ import butterknife.BindView;
  * A simple {@link Fragment} subclass.
  */
 public class CustomerInvoiceFragment extends BaseFragment {
-
-    private static final String CUSTOMER_ID = "customer_id";
-    private static final String CUSTOMER_NAME = "customer_name";
-    private String customer_id, customer_name;
-
     @BindView(R.id.tvCustomerName)
     TextView tvCustomerName;
     @BindView(R.id.rvCustomerInvoice)

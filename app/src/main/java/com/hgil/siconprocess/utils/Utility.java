@@ -100,5 +100,13 @@ public class Utility {
         mgr.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    public static Integer getInteger(String str) {
+        if (str == null || str.length() == 0) {
+            return new Integer(0);
+        } else {
+            return Integer.parseInt(str);
+        }
+    }
+
 
 }

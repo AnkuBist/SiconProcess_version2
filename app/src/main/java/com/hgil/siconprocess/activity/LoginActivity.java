@@ -15,6 +15,7 @@ import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.database.masterTables.CrateCollectionView;
 import com.hgil.siconprocess.database.masterTables.CrateOpeningTable;
 import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
+import com.hgil.siconprocess.database.masterTables.CustomerItemPriceTable;
 import com.hgil.siconprocess.database.masterTables.CustomerRouteMappingView;
 import com.hgil.siconprocess.database.masterTables.DemandTargetTable;
 import com.hgil.siconprocess.database.masterTables.DepotEmployeeView;
@@ -69,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private RouteView dbRouteView;
     private CustomerRouteMappingView dbRouteMapView;
+    private CustomerItemPriceTable dbCustomerItemPrice;
     private PriceGroupView dbPriceGroup;
     private CreditOpeningTable dbCreditOpening;
     private CrateOpeningTable dbCrateOpening;
@@ -82,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
     private void initialiseDBObj() {
         dbRouteView = new RouteView(this);
         dbRouteMapView = new CustomerRouteMappingView(this);
+        dbCustomerItemPrice = new CustomerItemPriceTable(this);
         dbPriceGroup = new PriceGroupView(this);
         dbCreditOpening = new CreditOpeningTable(this);
         dbCrateOpening = new CrateOpeningTable(this);
@@ -129,6 +132,7 @@ public class LoginActivity extends AppCompatActivity {
     private void eraseAllTableData() {
         dbRouteView.eraseTable();
         dbRouteMapView.eraseTable();
+        dbCustomerItemPrice.eraseTable();
         dbPriceGroup.eraseTable();
         dbCreditOpening.eraseTable();
         dbCrateOpening.eraseTable();
@@ -171,6 +175,7 @@ public class LoginActivity extends AppCompatActivity {
                     RouteModel routeData = objResponse.getRouteDetail();
 
                     dbRouteMapView.insertCustomerRouteMap(routeData.getArrCustomerRouteMap());
+                    dbCustomerItemPrice.insertCustomerItemPrice(routeData.getArrCustomerItemPrice());
                     dbPriceGroup.insertPrice(routeData.getArrGroupPrice());
                     dbCreditOpening.insertCreditOpening(routeData.getArrCreditOpening());
                     dbCrateOpening.insertCrateOpening(routeData.getArrCrateOpening());

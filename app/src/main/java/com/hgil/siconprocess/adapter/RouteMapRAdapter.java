@@ -13,6 +13,7 @@ import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.activity.HomeActivity;
 import com.hgil.siconprocess.activity.NavBaseActivity;
 import com.hgil.siconprocess.activity.navFragments.fragments.CustomerInvoiceFragment;
+import com.hgil.siconprocess.adapter.routeMap.RouteCustomerModel;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.CustomerRouteMapModel;
 
 import java.util.ArrayList;
@@ -26,10 +27,10 @@ import butterknife.ButterKnife;
 
 public class RouteMapRAdapter extends RecyclerView.Adapter<RouteMapRAdapter.ViewHolder> {
     private Context mContext;
-    private ArrayList<CustomerRouteMapModel> mDataset;
+    private ArrayList<RouteCustomerModel> mDataset;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RouteMapRAdapter(Context mContext, ArrayList<CustomerRouteMapModel> myDataset) {
+    public RouteMapRAdapter(Context mContext, ArrayList<RouteCustomerModel> myDataset) {
         this.mContext = mContext;
         this.mDataset = myDataset;
     }
@@ -50,15 +51,14 @@ public class RouteMapRAdapter extends RecyclerView.Adapter<RouteMapRAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final CustomerRouteMapModel routeMapModel = mDataset.get(position);
-        holder.tvCustomerName.setText(routeMapModel.getCustomerName());
-        holder.tvStatus.setText("Status-" + "Pending");
-        holder.tvTotalSaleAmt.setText("Total Sale Amt-" + "0");
+        final RouteCustomerModel routeCustomerModel = mDataset.get(position);
+        holder.tvCustomerName.setText(routeCustomerModel.getCustomerName());
+        holder.tvStatus.setText("Status:" + routeCustomerModel.getStatus());
+        holder.tvTotalSaleAmt.setText("Total Sale Amt:" + routeCustomerModel.getSaleAmount());
         holder.customer_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Toast.makeText(mContext, routeMapModel.getCustomerName(), Toast.LENGTH_SHORT).show();
-                CustomerInvoiceFragment fragment = CustomerInvoiceFragment.newInstance(routeMapModel.getCustomerId(), routeMapModel.getCustomerName());
+                CustomerInvoiceFragment fragment = CustomerInvoiceFragment.newInstance(routeCustomerModel.getCustomerId(), routeCustomerModel.getCustomerName());
                 String fragClassName = fragment.getClass().getName();
                 FragmentManager fragmentManager = ((NavBaseActivity) mContext).getSupportFragmentManager();
                /* boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);

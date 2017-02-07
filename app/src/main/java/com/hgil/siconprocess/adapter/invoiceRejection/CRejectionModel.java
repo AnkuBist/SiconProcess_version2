@@ -15,6 +15,25 @@ public class CRejectionModel {
     private double price;
     private double total;
 
+    private MarketRejectionModel marketRejection;
+    private FreshRejectionModel freshRejection;
+
+    public FreshRejectionModel getFreshRejection() {
+        return freshRejection;
+    }
+
+    public void setFreshRejection(FreshRejectionModel freshRejection) {
+        this.freshRejection = freshRejection;
+    }
+
+    public MarketRejectionModel getMarketRejection() {
+        return marketRejection;
+    }
+
+    public void setMarketRejection(MarketRejectionModel marketRejection) {
+        this.marketRejection = marketRejection;
+    }
+
     public String getItem_id() {
         return item_id;
     }

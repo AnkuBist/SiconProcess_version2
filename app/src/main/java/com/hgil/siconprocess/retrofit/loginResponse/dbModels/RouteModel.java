@@ -11,7 +11,7 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RouteModel{
+public class RouteModel {
 
     @SerializedName("Sub_Company_id")
     @Expose
@@ -73,6 +73,17 @@ public class RouteModel{
     @SerializedName("arrEmployees")
     @Expose
     private List<EmployeeModel> arrEmployees = null;
+    @SerializedName("arrCustomerItemPrice")
+    @Expose
+    private List<CustomerItemPriceModel> arrCustomerItemPrice = null;
+
+    public List<CustomerItemPriceModel> getArrCustomerItemPrice() {
+        return arrCustomerItemPrice;
+    }
+
+    public void setArrCustomerItemPrice(List<CustomerItemPriceModel> arrCustomerItemPrice) {
+        this.arrCustomerItemPrice = arrCustomerItemPrice;
+    }
 
     public String getSubCompanyId() {
         return subCompanyId;

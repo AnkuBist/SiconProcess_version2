@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.adapter.routeMap.RouteCustomerModel;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.adapter.RouteMapRAdapter;
 import com.hgil.siconprocess.database.masterTables.CustomerRouteMappingView;
@@ -31,7 +32,7 @@ public class HomeAllFragment extends BaseFragment {
 
     private RouteMapRAdapter mapRAdapter;
     private CustomerRouteMappingView routeMap;
-    private ArrayList<CustomerRouteMapModel> arrRouteMap;
+    private ArrayList<RouteCustomerModel> arrRouteMap = new ArrayList<>();
 
     public HomeAllFragment() {
         // Required empty public constructor
@@ -56,8 +57,7 @@ public class HomeAllFragment extends BaseFragment {
         rvAllRouteMap.setLayoutManager(linearLayoutManager);
 
         routeMap = new CustomerRouteMappingView(getActivity());
-        arrRouteMap = new ArrayList<>();
-        arrRouteMap.addAll(routeMap.getAllCustomerRouteMap());
+        arrRouteMap.addAll(routeMap.getRouteCustomers());
         mapRAdapter = new RouteMapRAdapter(getActivity(), arrRouteMap);
         rvAllRouteMap.setAdapter(mapRAdapter);
     }
@@ -65,10 +65,6 @@ public class HomeAllFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (arrRouteMap != null)
-            arrRouteMap.clear();
-        arrRouteMap.addAll(routeMap.getAllCustomerRouteMap());
-        mapRAdapter.notifyDataSetChanged();
         if (arrRouteMap.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
             rvAllRouteMap.setVisibility(View.GONE);

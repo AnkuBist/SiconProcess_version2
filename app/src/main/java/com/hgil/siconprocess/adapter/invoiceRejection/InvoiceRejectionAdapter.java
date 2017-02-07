@@ -6,11 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.activity.FreshRejectionActivity;
 import com.hgil.siconprocess.activity.MarketRejectionActivity;
+import com.hgil.siconprocess.activity.NavBaseActivity;
+import com.hgil.siconprocess.activity.navFragments.fragments.CustomerRejectionFragment;
+import com.hgil.siconprocess.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -40,20 +44,50 @@ public class InvoiceRejectionAdapter extends RecyclerView.Adapter<InvoiceRejecti
     }
 
     @Override
-    public void onBindViewHolder(InvoiceRejectionAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(InvoiceRejectionAdapter.ViewHolder holder, final int position) {
         final CRejectionModel cRejectionModel = mDataset.get(position);
         holder.tvItemName.setText(cRejectionModel.getItem_name());
+
+        double price = cRejectionModel.getPrice();
+        holder.etMarketRetPrice.setText(mContext.getResources().getString(R.string.strRupee) + String.valueOf(cRejectionModel.getPrice()));
+
+        final MarketRejectionModel marketRejectionModel = cRejectionModel.getMarketRejection();
+        final FreshRejectionModel freshRejectionModel = cRejectionModel.getFreshRejection();
+        if (marketRejectionModel != null) {
+            int total = marketRejectionModel.getTotal();
+            double totalAmount = total * price;
+            holder.etMarketRetQty.setText(String.valueOf(Utility.roundTwoDecimals(marketRejectionModel.getTotal())));
+
+            holder.etMarketRetAmount.setText(mContext.getResources().getString(R.string.strRupee) + totalAmount);
+        } else {
+            holder.etMarketRetQty.setText("0");
+            holder.etMarketRetAmount.setText(mContext.getResources().getString(R.string.strRupee) + "0.00");
+        }
+
+        if (freshRejectionModel != null) {
+            holder.etFreshRetQty.setText(String.valueOf(freshRejectionModel.getTotal()));
+        } else {
+            holder.etFreshRetQty.setText("0");
+        }
 
         holder.btnMarketRejection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, MarketRejectionActivity.class));
+                Intent intent = new Intent(mContext, MarketRejectionActivity.class);
+                CustomerRejectionFragment.setMarketRejectionId(position);
+                CustomerRejectionFragment.setFreshRejectionId(-1);
+                intent.putExtra("marketRejection", marketRejectionModel);
+                ((NavBaseActivity) mContext).startActivityForResult(intent, CustomerRejectionFragment.getMarketRejectionId());
             }
         });
         holder.btnFreshRejection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, FreshRejectionActivity.class));
+                Intent intent = new Intent(mContext, FreshRejectionActivity.class);
+                CustomerRejectionFragment.setFreshRejectionId(position);
+                CustomerRejectionFragment.setMarketRejectionId(-1);
+                intent.putExtra("freshRejection", freshRejectionModel);
+                ((NavBaseActivity) mContext).startActivityForResult(intent, CustomerRejectionFragment.getFreshRejectionId());
             }
         });
 
@@ -72,6 +106,15 @@ public class InvoiceRejectionAdapter extends RecyclerView.Adapter<InvoiceRejecti
         public TextView btnMarketRejection;
         @BindView(R.id.btnFreshRejection)
         public TextView btnFreshRejection;
+
+        @BindView(R.id.etMarketRetQty)
+        public EditText etMarketRetQty;
+        @BindView(R.id.etMarketRetPrice)
+        public EditText etMarketRetPrice;
+        @BindView(R.id.etMarketRetAmount)
+        public EditText etMarketRetAmount;
+        @BindView(R.id.etFreshRetQty)
+        public EditText etFreshRetQty;
 
         public ViewHolder(View v) {
             super(v);
