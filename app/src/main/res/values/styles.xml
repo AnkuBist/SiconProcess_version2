@@ -93,7 +93,7 @@
     </style>
 
     <style name="RejectionEtStyle">
-        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_width">120dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_centerVertical">true</item>
@@ -103,6 +103,39 @@
         <item name="android:background">@drawable/et_round_shape</item>
         <item name="android:gravity">right|center_vertical</item>
         <item name="android:inputType">number</item>
+        <item name="android:textColor">@color/colorTextBlack</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
+
+    <!--cheque details layout-->
+    <style name="checkDetailLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:weightSum">3</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@color/colorWhite</item>
+    </style>
+
+    <style name="chequeTvLabel">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1.2</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/colorTextBlack</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
+
+    <style name="chequeEtStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1.8</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:background">@drawable/et_round_shape</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:layout_gravity">center_vertical</item>
         <item name="android:textColor">@color/colorTextBlack</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
     </style>

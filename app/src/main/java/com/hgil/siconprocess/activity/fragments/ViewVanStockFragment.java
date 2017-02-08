@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.activity.navFragments.fragments;
+package com.hgil.siconprocess.activity.fragments;
 
 
 import android.os.Bundle;

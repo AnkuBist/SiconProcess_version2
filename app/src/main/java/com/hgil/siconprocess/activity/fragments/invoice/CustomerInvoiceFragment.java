@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.activity.navFragments.fragments;
+package com.hgil.siconprocess.activity.fragments.invoice;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.NavBaseActivity;
 import com.hgil.siconprocess.adapter.invoice.invoiceSale.CustomerInvoiceAdapter;
 import com.hgil.siconprocess.adapter.invoice.invoiceSale.InvoiceModel;
 import com.hgil.siconprocess.base.BaseFragment;
@@ -195,7 +194,7 @@ public class CustomerInvoiceFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        tvInvoiceTotal.setText(getResources().getString(R.string.strRupee) + String.valueOf(Utility.roundTwoDecimals(grandTotal)));
+        tvInvoiceTotal.setText(strRupee + String.valueOf(Utility.roundTwoDecimals(grandTotal)));
         if (arrInvoiceItems.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
             rvCustomerInvoice.setVisibility(View.GONE);

@@ -13,11 +13,12 @@ import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.activity.FreshRejectionActivity;
 import com.hgil.siconprocess.activity.MarketRejectionActivity;
 import com.hgil.siconprocess.activity.NavBaseActivity;
-import com.hgil.siconprocess.activity.navFragments.fragments.CustomerRejectionFragment;
+import com.hgil.siconprocess.activity.fragments.invoice.CustomerRejectionFragment;
 import com.hgil.siconprocess.utils.Utility;
 
 import java.util.ArrayList;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -49,19 +50,19 @@ public class InvoiceRejectionAdapter extends RecyclerView.Adapter<InvoiceRejecti
         holder.tvItemName.setText(cRejectionModel.getItem_name());
 
         double price = cRejectionModel.getPrice();
-        holder.etMarketRetPrice.setText(mContext.getResources().getString(R.string.strRupee) + String.valueOf(cRejectionModel.getPrice()));
+        holder.etMarketRetPrice.setText(holder.strRupee + String.valueOf(cRejectionModel.getPrice()));
 
         final MarketRejectionModel marketRejectionModel = cRejectionModel.getMarketRejection();
         final FreshRejectionModel freshRejectionModel = cRejectionModel.getFreshRejection();
         if (marketRejectionModel != null) {
             int total = marketRejectionModel.getTotal();
             double totalAmount = total * price;
-            holder.etMarketRetQty.setText(String.valueOf(Utility.roundTwoDecimals(marketRejectionModel.getTotal())));
+            holder.etMarketRetQty.setText(String.valueOf(marketRejectionModel.getTotal()));
 
-            holder.etMarketRetAmount.setText(mContext.getResources().getString(R.string.strRupee) + totalAmount);
+            holder.etMarketRetAmount.setText(holder.strRupee + Utility.roundTwoDecimals(totalAmount));
         } else {
             holder.etMarketRetQty.setText("0");
-            holder.etMarketRetAmount.setText(mContext.getResources().getString(R.string.strRupee) + "0.00");
+            holder.etMarketRetAmount.setText(holder.strRupee + "0.00");
         }
 
         if (freshRejectionModel != null) {
@@ -115,6 +116,9 @@ public class InvoiceRejectionAdapter extends RecyclerView.Adapter<InvoiceRejecti
         public EditText etMarketRetAmount;
         @BindView(R.id.etFreshRetQty)
         public EditText etFreshRetQty;
+
+        @BindString(R.string.strRupee)
+        public String strRupee;
 
         public ViewHolder(View v) {
             super(v);

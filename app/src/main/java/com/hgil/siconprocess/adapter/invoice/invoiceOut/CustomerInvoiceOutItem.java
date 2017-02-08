@@ -9,10 +9,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.navFragments.fragments.InvoiceOutFragment;
+import com.hgil.siconprocess.activity.fragments.invoice.InvoiceOutFragment;
 import com.hgil.siconprocess.adapter.invoice.invoiceSale.InvoiceModel;
 import com.hgil.siconprocess.utils.Utility;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -36,6 +37,8 @@ public class CustomerInvoiceOutItem {
     EditText etSample;
     @BindView(R.id.etAmount)
     EditText etAmount;
+    @BindString(R.string.strRupee)
+    String strRupee;
 
     public CustomerInvoiceOutItem(Context mContext, View v) {
         this.mContext = mContext;
@@ -57,12 +60,12 @@ public class CustomerInvoiceOutItem {
 
         tvItemName.setText(itemName);
         tvStock.setText("Stock : " + tempStock);
-        tvRate.setText("Rate : " + mContext.getResources().getString(R.string.strRupee) + price);
+        tvRate.setText("Rate : " + strRupee + price);
         tvTarget.setText("TGT : ");
         tvTarget.setVisibility(View.GONE);
         etQty.setText(String.valueOf((int) demandQty));
         etSample.setText(String.valueOf(itemInvoice.getFixedSample()));
-        etAmount.setText(mContext.getResources().getString(R.string.strRupee) + String.valueOf(orderAmount));
+        etAmount.setText(strRupee + String.valueOf(orderAmount));
 
         // now calculate the total price of the entered quantity
         etQty.addTextChangedListener(new TextWatcher() {
@@ -90,7 +93,7 @@ public class CustomerInvoiceOutItem {
                         itemInvoice.setTempStock(updateStock);
                         itemInvoice.setOrderAmount(orderAmount);
                         tvStock.setText("Stock : " + itemInvoice.getTempStock());
-                        etAmount.setText(mContext.getResources().getString(R.string.strRupee) + String.valueOf(orderAmount));
+                        etAmount.setText(strRupee + String.valueOf(orderAmount));
                     } else {
                         Toast.makeText(mContext, "Can't enter quantity more than available quantity", Toast.LENGTH_SHORT).show();
 
@@ -99,11 +102,11 @@ public class CustomerInvoiceOutItem {
                         itemInvoice.setOrderAmount(0);
                         tvStock.setText("Stock : " + stockAvail);
                         etQty.setText("0");
-                        etAmount.setText(mContext.getResources().getString(R.string.strRupee) + "0.0");
+                        etAmount.setText(strRupee + "0.0");
 
                     }
                 } else if (s.length() == 0) {
-                    etAmount.setText(mContext.getResources().getString(R.string.strRupee) + "0.0");
+                    etAmount.setText(strRupee + "0.0");
                     tvStock.setText("Stock : " + stockAvail);
 
                     itemInvoice.setDemandTargetQty(0);
@@ -113,7 +116,7 @@ public class CustomerInvoiceOutItem {
 
                 double updated_amount = itemInvoice.getOrderAmount();
                 InvoiceOutFragment.grandTotal += (-oldOrderAmount + updated_amount);
-                String customerTotalInvoiceAmount = mContext.getResources().getString(R.string.strRupee) + String.valueOf(Utility.roundTwoDecimals(InvoiceOutFragment.grandTotal));
+                String customerTotalInvoiceAmount = strRupee + String.valueOf(Utility.roundTwoDecimals(InvoiceOutFragment.grandTotal));
                 InvoiceOutFragment.tvCustomerTotal.setText(customerTotalInvoiceAmount);
             }
         });

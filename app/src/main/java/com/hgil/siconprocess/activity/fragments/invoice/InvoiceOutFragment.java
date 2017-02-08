@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.activity.navFragments.fragments;
+package com.hgil.siconprocess.activity.fragments.invoice;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,10 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.NavBaseActivity;
 import com.hgil.siconprocess.adapter.invoice.invoiceOut.CustomerInvoiceOutAdapter;
 import com.hgil.siconprocess.adapter.invoice.invoiceSale.InvoiceModel;
 import com.hgil.siconprocess.base.BaseFragment;
-import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.utils.Utility;
 
@@ -104,7 +104,7 @@ public class InvoiceOutFragment extends BaseFragment {
                 // start rejection fragment
                 CustomerRejectionFragment rejectionFragment = CustomerRejectionFragment.newInstance(customer_id, customer_name);
                 String fragClassName = rejectionFragment.getClass().getName();
-                FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
+                FragmentManager fragmentManager = ((NavBaseActivity) getActivity()).getSupportFragmentManager();
                 //FragmentManager fragmentManager = (getChildFragmentManager());
                 fragmentManager.beginTransaction().replace(R.id.flContent, rejectionFragment)
                         .addToBackStack(fragClassName)
@@ -117,11 +117,11 @@ public class InvoiceOutFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         for (int i = 0; i < arrInvoiceItems.size(); i++) {
-            double itemOrrderAmount = arrInvoiceItems.get(i).getOrderAmount();
-            grandTotal += itemOrrderAmount;
+            double itemOrderAmount = arrInvoiceItems.get(i).getOrderAmount();
+            grandTotal += itemOrderAmount;
         }
 
-        tvCustomerTotal.setText(getResources().getString(R.string.strRupee) + String.valueOf(Utility.roundTwoDecimals(grandTotal)));
+        tvCustomerTotal.setText(strRupee + String.valueOf(Utility.roundTwoDecimals(grandTotal)));
         if (arrInvoiceItems.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
             rvCustomerInvoice.setVisibility(View.GONE);

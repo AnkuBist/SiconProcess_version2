@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.utils.Utility;
 
+import butterknife.BindString;
 import butterknife.ButterKnife;
 
 /**
@@ -27,6 +28,9 @@ public abstract class BaseFragment extends Fragment {
     protected TextView tvNavTitle, tvNavDate;
     protected ImageView imgSave;
     protected String routeId, routeName;
+
+    @BindString(R.string.strRupee)
+    protected String strRupee;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -27,8 +27,7 @@ import com.hgil.siconprocess.activity.navFragments.FinalPaymentFragment;
 import com.hgil.siconprocess.activity.navFragments.HomeFragment;
 import com.hgil.siconprocess.activity.navFragments.OutletInfoFragment;
 import com.hgil.siconprocess.activity.navFragments.SyncFragment;
-import com.hgil.siconprocess.activity.navFragments.fragments.CustomerRejectionFragment;
-import com.hgil.siconprocess.activity.navFragments.fragments.VanInventoryFragment;
+import com.hgil.siconprocess.activity.fragments.VanInventoryFragment;
 import com.hgil.siconprocess.base.BaseActivity;
 import com.hgil.siconprocess.utils.Utility;
 
@@ -336,8 +335,11 @@ public class NavBaseActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+        /*for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             fragment.onActivityResult(requestCode, resultCode, data);
-        }
+        }*/
+        // get current fragment in container
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.flContent);
+        fragment.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -10,11 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.HomeActivity;
 import com.hgil.siconprocess.activity.NavBaseActivity;
-import com.hgil.siconprocess.activity.navFragments.fragments.CustomerInvoiceFragment;
+import com.hgil.siconprocess.activity.fragments.invoice.CustomerInvoiceFragment;
 import com.hgil.siconprocess.adapter.routeMap.RouteCustomerModel;
-import com.hgil.siconprocess.retrofit.loginResponse.dbModels.CustomerRouteMapModel;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.activity.navFragments.fragments;
+package com.hgil.siconprocess.activity.fragments.invoice;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.NavBaseActivity;
 import com.hgil.siconprocess.activity.ProductListSelectActivity;
 import com.hgil.siconprocess.adapter.invoiceRejection.CRejectionModel;
 import com.hgil.siconprocess.adapter.invoiceRejection.FreshRejectionModel;
@@ -126,7 +124,7 @@ public class CustomerRejectionFragment extends BaseFragment {
                 }
                 intent.putStringArrayListExtra("rejected_items", arrItems);
 
-                ((NavBaseActivity) getActivity()).startActivityForResult(intent, REJECTION_LIST);
+                startActivityForResult(intent, REJECTION_LIST);
             }
         });
     }

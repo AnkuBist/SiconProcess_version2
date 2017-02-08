@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
-    tools:context="com.hgil.siconprocess.activity.navFragments.fragments.VanInventoryFragment">
+    tools:context=".activity.fragments.VanInventoryFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -37,10 +37,10 @@
         <activity android:name=".activity.HomeActivity" />
         <activity
             android:name=".activity.ProductListSelectActivity"
-            android:label="@string/title_activity_product_list_select"
-            android:theme="@style/AppTheme1" />
+            android:label="@string/title_activity_product_list_select" />
         <activity android:name=".activity.FreshRejectionActivity" />
-        <activity android:name=".activity.MarketRejectionActivity"></activity>
+        <activity android:name=".activity.MarketRejectionActivity" />
+        <activity android:name=".activity.fragments.invoice.ChequeDetailsActivity"></activity>
     </application>
 
 </manifest>

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorTextGrey"
-    tools:context="com.hgil.siconprocess.activity.navFragments.fragments.CustomerPaymentFragment">
+    tools:context=".activity.fragments.invoice.CustomerPaymentFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -162,60 +162,6 @@
 
                     <EditText
                         android:id="@+id/etCheque"
-                        style="@style/RejectionEtStyle" />
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/colorBackgroundBlack" />
-
-                <RelativeLayout style="@style/rejectionItemHolder">
-
-                    <TextView
-                        style="@style/RejectionTvLabel"
-                        android:text="DD"
-                        android:textColor="@color/colorTextBlue" />
-
-                    <EditText
-                        android:id="@+id/etDD"
-                        style="@style/RejectionEtStyle" />
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/colorBackgroundBlack" />
-
-                <RelativeLayout style="@style/rejectionItemHolder">
-
-                    <TextView
-                        style="@style/RejectionTvLabel"
-                        android:text="RTGS"
-                        android:textColor="@color/colorTextBlue" />
-
-                    <EditText
-                        android:id="@+id/etRTGS"
-                        style="@style/RejectionEtStyle" />
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/colorBackgroundBlack" />
-
-                <RelativeLayout style="@style/rejectionItemHolder">
-
-                    <TextView
-                        style="@style/RejectionTvLabel"
-                        android:text="NEFT"
-                        android:textColor="@color/colorTextBlue" />
-
-                    <EditText
-                        android:id="@+id/etNEFT"
                         style="@style/RejectionEtStyle" />
                 </RelativeLayout>
 

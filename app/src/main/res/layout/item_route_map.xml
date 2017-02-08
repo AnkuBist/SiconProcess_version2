@@ -30,7 +30,7 @@
             android:id="@+id/tvStatus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.2"
+            android:layout_weight="1"
             android:textColor="@color/colorTextBlack"
             android:textSize="@dimen/text_size_medium" />
 
@@ -38,7 +38,7 @@
             android:id="@+id/tvTotalSaleAmt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.8"
+            android:layout_weight="1"
             android:textColor="@color/colorTextBlack"
             android:textSize="@dimen/text_size_medium" />
 

@@ -108,5 +108,13 @@ public class Utility {
         }
     }
 
+    public static double getDouble(String str) {
+        if (str == null || str.length() == 0) {
+            return new Double(0);
+        } else {
+            return Double.parseDouble(str);
+        }
+    }
+
 
 }

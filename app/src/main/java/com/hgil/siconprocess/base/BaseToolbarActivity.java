@@ -20,6 +20,10 @@ import butterknife.BindView;
  */
 
 public abstract class BaseToolbarActivity extends BaseActivity {
+    protected static final String CUSTOMER_ID = "customer_id";
+    protected static final String CUSTOMER_NAME = "customer_name";
+    protected String customer_id, customer_name;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -79,5 +83,11 @@ public abstract class BaseToolbarActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

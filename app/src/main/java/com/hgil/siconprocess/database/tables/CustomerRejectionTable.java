@@ -155,10 +155,12 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
                 freshRejection.setFungus(res.getInt(res.getColumnIndex(FRESH_FUNGUS)));
                 freshRejection.setWetBread(res.getInt(res.getColumnIndex(FRESH_WET_BREAD)));
                 freshRejection.setOthers(res.getInt(res.getColumnIndex(FRESH_OTHERS)));
+                freshRejection.setTotal(freshRejection.getmShaped() + freshRejection.getTornPolly() + freshRejection.getWetBread() + freshRejection.getOthers());
 
                 marketRejection.setDamaged(res.getInt(res.getColumnIndex(MARKET_DAMAGED)));
                 marketRejection.setExpired(res.getInt(res.getColumnIndex(MARKET_EXPIRED)));
                 marketRejection.setRatEaten(res.getInt(res.getColumnIndex(MARKET_RAT_EATEN)));
+                marketRejection.setTotal(marketRejection.getDamaged() + marketRejection.getExpired() + marketRejection.getRatEaten());
 
                 rejectionModel.setFreshRejection(freshRejection);
                 rejectionModel.setMarketRejection(marketRejection);

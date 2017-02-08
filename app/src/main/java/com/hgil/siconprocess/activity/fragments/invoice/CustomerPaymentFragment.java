@@ -1,21 +1,25 @@
-package com.hgil.siconprocess.activity.navFragments.fragments;
+package com.hgil.siconprocess.activity.fragments.invoice;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.view.LayoutInflater;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.base.BaseFragment;
+import com.hgil.siconprocess.database.dbModels.ChequeDetailsModel;
 import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
+import com.hgil.siconprocess.utils.Utility;
 
+import butterknife.BindString;
 import butterknife.BindView;
 
 /**
@@ -32,12 +36,6 @@ public class CustomerPaymentFragment extends BaseFragment {
     EditText etCash;
     @BindView(R.id.etCheque)
     EditText etCheque;
-    @BindView(R.id.etDD)
-    EditText etDD;
-    @BindView(R.id.etRTGS)
-    EditText etRTGS;
-    @BindView(R.id.etNEFT)
-    EditText etNEFT;
 
     @BindView(R.id.tvSaleAmount)
     TextView tvSaleAmount;
@@ -46,7 +44,6 @@ public class CustomerPaymentFragment extends BaseFragment {
 
     @BindView(R.id.tvCustomerTotal)
     TextView tvCustomerTotal;
-
 
     public CustomerPaymentFragment() {
         // Required empty public constructor
@@ -83,10 +80,12 @@ public class CustomerPaymentFragment extends BaseFragment {
             tvCustomerName.setText(customer_name);
         }
 
+        tvCustomerTotal.setText(strRupee + "0.00");
+
         // get customer credit outstanding
         CreditOpeningTable creditOpeningTable = new CreditOpeningTable(getContext());
         double creditOs = creditOpeningTable.custCreditAmount(customer_id);
-        tvCreditOs.setText(getContext().getResources().getString(R.string.strRupee) + creditOs);
+        tvCreditOs.setText(strRupee + creditOs);
 
         //get customer sale amount.....rejection is also substracted from this
         InvoiceOutTable invoiceOutTable = new InvoiceOutTable(getContext());
@@ -94,12 +93,11 @@ public class CustomerPaymentFragment extends BaseFragment {
         double invoiceTotal = invoiceOutTable.custInvoiceTotalAmount(customer_id);
         double rejectionTotal = rejectionTable.custRejTotalAmount(customer_id);
         double saleTotal = invoiceTotal - rejectionTotal;
+        tvSaleAmount.setText(strRupee + saleTotal);
 
         // calculate payable amount
         double payable_amount = saleTotal + creditOs;
-
-        tvSaleAmount.setText(getContext().getResources().getString(R.string.strRupee) + saleTotal);
-
+        tvTotalOs.setText(strRupee + payable_amount);
 
         setTitle("Payment");
         showSaveButton();
@@ -119,5 +117,69 @@ public class CustomerPaymentFragment extends BaseFragment {
 
             }
         });
+
+        etCash.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() != 0) {
+                    tvCustomerTotal.setText(strRupee + Utility.roundTwoDecimals(Double.parseDouble(etCash.getText().toString())));
+                } else if (s.length() == 0) {
+                    tvCustomerTotal.setText(strRupee + "0.00");
+                }
+            }
+        });
+
+        //etCheque.setEnabled(false);
+        /*etCheque.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ChequeDetailsActivity.class);
+                startActivityForResult(intent, CHEQUE_DETAILS);
+
+            }
+        });*/
+        etCheque.setOnTouchListener(new View.OnTouchListener()
+
+                                    {
+                                        @Override
+                                        public boolean onTouch(View v, MotionEvent event) {
+           /*     if(MotionEvent.ACTION_UP == event.getAction())
+                    Toast.makeText(getApplicationContext(), "onTouch: Up", Toast.LENGTH_SHORT).show();
+                return false;*/
+                                            Intent intent = new Intent(getContext(), ChequeDetailsActivity.class);
+                                            startActivityForResult(intent, CHEQUE_DETAILS);
+                                            return false;
+                                            // return false;
+                                        }
+                                    }
+
+        );
+    }
+
+    public static final int CHEQUE_DETAILS = 100;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == getActivity().RESULT_OK) {
+            Bundle bundle = data.getExtras();
+
+            if (requestCode == CHEQUE_DETAILS) {
+                ChequeDetailsModel chequeDetail = (ChequeDetailsModel) bundle.getSerializable("cheque_detail");
+                chequeDetail.setCustomer_name(customer_name);
+                chequeDetail.setCustomer_id(customer_id);
+                tvCustomerTotal.setText(strRupee + Utility.roundTwoDecimals(chequeDetail.getChequeAmount()));
+            }
+        }
     }
 }

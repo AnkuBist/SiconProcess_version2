@@ -3,6 +3,7 @@ package com.hgil.siconprocess.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.adapter.productSelection.ProductSelectAdapter;
 import com.hgil.siconprocess.adapter.productSelection.ProductSelectModel;
+import com.hgil.siconprocess.base.BaseToolbarActivity;
 import com.hgil.siconprocess.database.masterTables.ProductView;
 
 import java.util.ArrayList;
@@ -23,20 +25,20 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProductListSelectActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProductListSelectActivity extends BaseToolbarActivity implements View.OnClickListener {
 
-    private static final String CUSTOMER_ID = "customer_id";
-    private static final String CUSTOMER_NAME = "customer_name";
-    private String customer_id, customer_name;
-
+    @Nullable
     @BindView(R.id.tvCustomerName)
     TextView tvCustomerName;
+    @Nullable
     @BindView(R.id.rvProductList)
     RecyclerView rvProductList;
+    @Nullable
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
+/*    @Nullable
     @BindView(R.id.btnSave)
-    Button btnSave;
+    Button btnSave;*/
 
     private ProductSelectAdapter itemListAdapter;
     private ProductView productView;
@@ -48,9 +50,10 @@ public class ProductListSelectActivity extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_list_select);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        ButterKnife.bind(this);
+        tvCustomerName.setText(getRouteName());
+        setNavTitle("Goods Return");
+        showSaveBtn();
 
         if (getIntent() != null) {
             customer_id = getIntent().getStringExtra(CUSTOMER_ID);
@@ -60,8 +63,8 @@ public class ProductListSelectActivity extends AppCompatActivity implements View
 
         ButterKnife.bind(this);
 
-        if(customer_name!=null)
-        tvCustomerName.setText(customer_name);
+        if (customer_name != null)
+            tvCustomerName.setText(customer_name);
 
        /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
@@ -76,7 +79,7 @@ public class ProductListSelectActivity extends AppCompatActivity implements View
         itemListAdapter = new ProductSelectAdapter(this, arrProduct);
         rvProductList.setAdapter(itemListAdapter);
 
-        btnSave.setOnClickListener(this);
+        imgSave.setOnClickListener(this);
     }
 
     @Override
@@ -95,7 +98,7 @@ public class ProductListSelectActivity extends AppCompatActivity implements View
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnSave:
+            case R.id.imgSave:
                 //TODO
                 // do stuff here
                 // send only selected product

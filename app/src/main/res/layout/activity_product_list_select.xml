@@ -51,7 +51,8 @@
             android:text="Save"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/text_size_large" />
+            android:textSize="@dimen/text_size_large"
+            android:visibility="gone" />
 
 
     </RelativeLayout>
