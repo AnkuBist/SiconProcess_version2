@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.activity;
+package com.hgil.siconprocess.activity.fragments.invoice.rejActivities;
 
 import android.app.Activity;
 import android.content.Intent;

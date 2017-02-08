@@ -96,8 +96,6 @@ public class InvoiceOutFragment extends BaseFragment {
         imgSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Saving data to local database under process.", Toast.LENGTH_SHORT).show();
-
                 // move to next fragment to review user order with the items ordered
                 invoiceOutTable.insertInvoiceOut(arrInvoiceItems, customer_id);
 
@@ -105,7 +103,6 @@ public class InvoiceOutFragment extends BaseFragment {
                 CustomerRejectionFragment rejectionFragment = CustomerRejectionFragment.newInstance(customer_id, customer_name);
                 String fragClassName = rejectionFragment.getClass().getName();
                 FragmentManager fragmentManager = ((NavBaseActivity) getActivity()).getSupportFragmentManager();
-                //FragmentManager fragmentManager = (getChildFragmentManager());
                 fragmentManager.beginTransaction().replace(R.id.flContent, rejectionFragment)
                         .addToBackStack(fragClassName)
                         .commit();

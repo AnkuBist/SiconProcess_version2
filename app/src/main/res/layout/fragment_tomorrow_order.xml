@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.fragments.invoice.CustomerRejectionFragment">
+    tools:context="com.hgil.siconprocess.activity.fragments.invoice.TomorrowOrderFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,13 +20,12 @@
             android:textSize="@dimen/text_size_extra_large" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvCustomerRejection"
+            android:id="@+id/rvCustomerOrder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/tvCustomerName"
             android:layout_marginBottom="45dp"
             android:scrollbars="none" />
-
 
         <TextView
             android:id="@+id/tvEmpty"
@@ -35,7 +34,7 @@
             android:layout_below="@+id/tvCustomerName"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="No Customer Rejections Found"
+            android:text="No Item is available. Please click on Add Items"
             android:textColor="@color/colorTextBlack"
             android:textSize="@dimen/text_size_large"
             android:visibility="gone" />
@@ -51,7 +50,5 @@
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_size_large" />
-
     </RelativeLayout>
-
 </FrameLayout>

@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.FreshRejectionActivity;
-import com.hgil.siconprocess.activity.MarketRejectionActivity;
+import com.hgil.siconprocess.activity.fragments.invoice.rejActivities.FreshRejectionActivity;
+import com.hgil.siconprocess.activity.fragments.invoice.rejActivities.MarketRejectionActivity;
 import com.hgil.siconprocess.activity.NavBaseActivity;
 import com.hgil.siconprocess.activity.fragments.invoice.CustomerRejectionFragment;
 import com.hgil.siconprocess.utils.Utility;

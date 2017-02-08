@@ -4,7 +4,7 @@
     android:id="@+id/homeFrame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hgil.siconprocess.activity.HomeActivity">
+    tools:context="com.hgil.siconprocess.activity.fragments.invoice.rejActivities.ProductListSelectActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -40,20 +40,6 @@
             android:textColor="@color/colorTextBlack"
             android:textSize="@dimen/text_size_large"
             android:visibility="gone" />
-
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorTextBlue"
-            android:elevation="5dp"
-            android:text="Save"
-            android:textAllCaps="false"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/text_size_large"
-            android:visibility="gone" />
-
 
     </RelativeLayout>
 </FrameLayout>

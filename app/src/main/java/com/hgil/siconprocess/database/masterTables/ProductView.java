@@ -175,7 +175,7 @@ public class ProductView extends SQLiteOpenHelper {
     }
 
     // get all products loaded in van for customer to select for rejection....this has to be filtered with user rejection list if exists
-    public ArrayList<ProductSelectModel> getRejectionProductsAvailable(String customer_id, ArrayList<String> alreadyRejected) {
+    public ArrayList<ProductSelectModel> getAvailableProducts(String customer_id, ArrayList<String> alreadyExists) {
         ArrayList<ProductSelectModel> array_list = new ArrayList<ProductSelectModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -197,7 +197,7 @@ public class ProductView extends SQLiteOpenHelper {
                     array_list.add(pSelectModel);
                 }*/
 
-                if (alreadyRejected.contains(pSelectModel.getItem_id())) {
+                if (alreadyExists.contains(pSelectModel.getItem_id())) {
                     // do not add this product
                 } else {
                     array_list.add(pSelectModel);

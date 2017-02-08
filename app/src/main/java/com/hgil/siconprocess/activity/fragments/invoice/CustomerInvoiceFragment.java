@@ -166,11 +166,6 @@ public class CustomerInvoiceFragment extends BaseFragment {
         imgSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Saving data to local database under process.", Toast.LENGTH_SHORT).show();
-
-                /*// move to next fragment to review user order with the items ordered
-                invoiceOutTable.insertInvoiceOut(arrInvoiceItems, customer_id);*/
-
                 ArrayList<InvoiceModel> reviewOrderData = new ArrayList<InvoiceModel>();
                 for (int i = 0; i < arrInvoiceItems.size(); i++) {
                     InvoiceModel invoiceModel = arrInvoiceItems.get(i);
@@ -183,7 +178,6 @@ public class CustomerInvoiceFragment extends BaseFragment {
                 InvoiceOutFragment invoiceOutFragment = InvoiceOutFragment.newInstance(customer_id, customer_name, reviewOrderData);
                 String fragClassName = invoiceOutFragment.getClass().getName();
                 FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
-                //FragmentManager fragmentManager = (getChildFragmentManager());
                 fragmentManager.beginTransaction().replace(R.id.flContent, invoiceOutFragment)
                         .addToBackStack(fragClassName)
                         .commit();

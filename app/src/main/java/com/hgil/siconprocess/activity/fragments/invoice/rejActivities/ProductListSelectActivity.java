@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.activity;
+package com.hgil.siconprocess.activity.fragments.invoice.rejActivities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -36,9 +36,6 @@ public class ProductListSelectActivity extends BaseToolbarActivity implements Vi
     @Nullable
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
-/*    @Nullable
-    @BindView(R.id.btnSave)
-    Button btnSave;*/
 
     private ProductSelectAdapter itemListAdapter;
     private ProductView productView;
@@ -61,20 +58,15 @@ public class ProductListSelectActivity extends BaseToolbarActivity implements Vi
             alreadyRejected = getIntent().getStringArrayListExtra("rejected_items");
         }
 
-        ButterKnife.bind(this);
-
         if (customer_name != null)
             tvCustomerName.setText(customer_name);
-
-       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvProductList.setLayoutManager(linearLayoutManager);
 
         productView = new ProductView(this);
-        arrProduct = productView.getRejectionProductsAvailable(customer_id, alreadyRejected);
+        arrProduct = productView.getAvailableProducts(customer_id, alreadyRejected);
 
         itemListAdapter = new ProductSelectAdapter(this, arrProduct);
         rvProductList.setAdapter(itemListAdapter);
@@ -113,27 +105,5 @@ public class ProductListSelectActivity extends BaseToolbarActivity implements Vi
             default:
                 break;
         }
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.e("TAG", "onDestroy: activity");
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish(); // close this activity and return to preview activity (if there is any)
-                break;
-
-            default:
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

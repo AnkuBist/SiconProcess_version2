@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.CrateOpeningModel;
 
+import java.sql.DriverPropertyInfo;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class CrateOpeningTable extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" (" + RCE_ID + " NUMERIC NOT NULL, "
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + RCE_ID + " NUMERIC NOT NULL, "
                 + SUBCOMPANY_ID + " TEXT NULL, " + DEPOT_ID + " TEXT NULL, " + SUBDEPOT_ID + " TEXT NULL, "
                 + ROUTE_ID + " TEXT NULL, " + CUSTOMER_ID + " TEXT NULL, " + DDATE + " TEXT NULL, "
                 + CRATE_ID + " TEXT NULL, " + OPENING + " REAL NULL, " + ISSUE + " REAL NULL, "
@@ -194,5 +195,21 @@ public class CrateOpeningTable extends SQLiteOpenHelper {
         res.close();
         db.close();
         return array_list;
+    }
+
+
+    // get crate opening by user id
+    public int custCreditCrates(String customer_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select " + OPENING + " from " + TABLE_NAME + " where " + CUSTOMER_ID + "=?";
+        Cursor res = db.rawQuery(query, new String[]{customer_id});
+
+        int crate = 0;
+        if (res.moveToFirst()) {
+            crate = res.getInt(res.getColumnIndex(OPENING));
+        }
+        res.close();
+        db.close();
+        return crate;
     }
 }
