@@ -1,0 +1,261 @@
+package com.hgil.siconprocess.database.tables;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import com.hgil.siconprocess.adapter.invoice.invoiceSale.InvoiceModel;
+import com.hgil.siconprocess.database.dbModels.NextDayOrderModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by mohan.giri on 09-02-2017.
+ */
+
+public class NextDayOrderTable extends SQLiteOpenHelper {
+
+    private static final String DATABASE_NAME = "next_day_order_db";
+    private static final String TABLE_NAME = "next_day_order_table";
+
+    private static final String CUSTOMER_ID = "Customer_id";
+    private static final String CUSTOMER_NAME = "Customer_name";
+    private static final String ITEM_ID = "Item_id";
+    private static final String ITEM_NAME = "Item_name";
+    private static final String ITEM_QTY = "order_quantity";
+
+    private Context mContext;
+
+    public NextDayOrderTable(Context context) {
+        super(context, DATABASE_NAME, null, 1);
+        this.mContext = context;
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + CUSTOMER_ID + " TEXT NOT NULL, "
+                + CUSTOMER_NAME + " TEXT NOT NULL, " + ITEM_ID + " TEXT NOT NULL, " + ITEM_NAME + " TEXT NOT NULL, "
+                + ITEM_QTY + " INTEGER NOT NULL)");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        onCreate(db);
+    }
+
+    public void eraseTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME); //delete all rows in a table
+        db.close();
+    }
+
+    //insert single
+    public boolean insertNextDayOrder(NextDayOrderModel nextDayOrderModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CUSTOMER_ID, nextDayOrderModel.getCustomerId());
+        contentValues.put(CUSTOMER_NAME, nextDayOrderModel.getCustomerName());
+        contentValues.put(ITEM_ID, nextDayOrderModel.getItemId());
+        contentValues.put(ITEM_NAME, nextDayOrderModel.getItemName());
+        contentValues.put(ITEM_QTY, nextDayOrderModel.getQuantity());
+        db.insert(TABLE_NAME, null, contentValues);
+        db.close();
+        return true;
+    }
+
+    // insert multiple
+    public boolean insertNextOrder(List<NextDayOrderModel> arrList, String customer_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // first erase the recent invoice belong to the same user
+        eraseUserOrder(db, customer_id);
+
+        for (int i = 0; i < arrList.size(); i++) {
+            NextDayOrderModel nextDayOrderModel = arrList.get(i);
+            if (nextDayOrderModel.getQuantity() > 0) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(CUSTOMER_ID, nextDayOrderModel.getCustomerId());
+                contentValues.put(CUSTOMER_NAME, nextDayOrderModel.getCustomerName());
+                contentValues.put(ITEM_ID, nextDayOrderModel.getItemId());
+                contentValues.put(ITEM_NAME, nextDayOrderModel.getItemName());
+                contentValues.put(ITEM_QTY, nextDayOrderModel.getQuantity());
+                db.insert(TABLE_NAME, null, contentValues);
+            }
+        }
+        db.close();
+        return true;
+    }
+
+    /* erase customer recent invoice items*/
+    private void eraseUserOrder(SQLiteDatabase db, String customer_id) {
+        db.delete(TABLE_NAME, CUSTOMER_ID + " = ?", new String[]{customer_id});
+    }
+
+    public NextDayOrderModel getCustOrderItem(String customer_id, String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CUSTOMER_ID + "=? and " + ITEM_ID + "=?", new String[]{customer_id, item_id});
+
+        NextDayOrderModel nextDayOrderModel = new NextDayOrderModel();
+        if (res.moveToFirst()) {
+            nextDayOrderModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+            nextDayOrderModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
+            nextDayOrderModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
+            nextDayOrderModel.setItemName(res.getString(res.getColumnIndex(ITEM_NAME)));
+            nextDayOrderModel.setQuantity(res.getInt(res.getColumnIndex(ITEM_QTY)));
+        }
+        res.close();
+        db.close();
+        return nextDayOrderModel;
+    }
+
+    public int numberOfRows() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
+        db.close();
+        return numRows;
+    }
+
+ /*   public Integer deleteUserRoleMapById(Integer id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NAME, USER_ROLE_ID + "= ? ", new String[]{Integer.toString(id)});
+    }*/
+
+    public ArrayList<NextDayOrderModel> getCustomerOrder(String customer_id) {
+        ArrayList<NextDayOrderModel> array_list = new ArrayList<NextDayOrderModel>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CUSTOMER_ID + "=?", new String[]{customer_id});
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                NextDayOrderModel nextDayOrderModel = new NextDayOrderModel();
+                nextDayOrderModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+                nextDayOrderModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
+                nextDayOrderModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
+                nextDayOrderModel.setItemName(res.getString(res.getColumnIndex(ITEM_NAME)));
+                nextDayOrderModel.setQuantity(res.getInt(res.getColumnIndex(ITEM_QTY)));
+                array_list.add(nextDayOrderModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return array_list;
+    }
+
+    /*// get item demand for customer
+    public int getDemandQuantity(String customer_id, String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select distinct " + DEMAND_TARGET_QUANTITY + " from " + TABLE_NAME + " where " + ITEM_ID + "=? AND " + CUSTOMER_ID + "=?";
+        Cursor res = db.rawQuery(query, new String[]{item_id, customer_id});
+
+        int demandQty = 0;
+        if (res.moveToFirst()) {
+            demandQty = res.getInt(res.getColumnIndex(DEMAND_TARGET_QUANTITY));
+        }
+        res.close();
+        db.close();
+        return demandQty;
+    }
+
+    // get van sold item count
+    public int getItemOrderQty(String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select distinct " + ITEM_ID + ", sum(" + DEMAND_TARGET_QUANTITY + ") as loading_qty " +
+                "from " + TABLE_NAME + " where " + ITEM_ID + "=? group by " + ITEM_ID;
+        Cursor res = db.rawQuery(query, new String[]{item_id});
+
+        int demandQty = 0;
+        if (res.moveToFirst()) {
+            demandQty = res.getInt(res.getColumnIndex("loading_qty"));
+        }
+        res.close();
+        db.close();
+        return demandQty;
+    }
+
+    //TODO
+    // get customer grand total for invoice prepared.
+    public double custOrderTotalAmount(String customer_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select sum(" + DEMAND_TARGET_QUANTITY + "*" + TOTAL_AMOUNT + ") as total " +
+                "from " + TABLE_NAME + " where " + CUSTOMER_ID + "=?";
+        Cursor res = db.rawQuery(query, new String[]{customer_id});
+
+        double amount = 0;
+        if (res.moveToFirst()) {
+            amount = res.getInt(res.getColumnIndex("total"));
+        }
+        res.close();
+        db.close();
+        return amount;
+    }
+
+    // this function is to display the invoice is there is not invoice exists for the customer.
+    // this will calculate the available items in stock and display to the user.
+    public ArrayList<InvoiceModel> getCustomerInvoiceOff(String customer_id) {
+        ArrayList<InvoiceModel> array_list = new ArrayList<InvoiceModel>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        *//*select sum(InvQty_ps) as loading_qty, Item_id
+from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route_id='R/mom/0041' group by Item_id*//*
+
+        Cursor res = db.rawQuery("SELECT sum(" + INVQTY_PS + ") as loading_qty, " + ITEM_ID + " FROM " + TABLE_NAME + " GROUP BY " + ITEM_ID, null);
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                String item_id = res.getString(res.getColumnIndex(ITEM_ID));
+                int stock = res.getInt(res.getColumnIndex("loading_qty"));
+                if (stock > 0) {
+                    InvoiceModel invoiceModel = getDepotInvoiceByItemId(customer_id, item_id);
+                    if (invoiceModel != null) {
+                        invoiceModel.setStockAvail(stock);
+                        invoiceModel.setTempStock(stock);
+                        invoiceModel.setCustomerId(customer_id);
+                        array_list.add(invoiceModel);
+                    }
+                }
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return array_list;
+    }
+
+
+    public InvoiceModel getDepotInvoiceByItemId(String customer_id, String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ITEM_ID + "='" + item_id + "'", null);
+
+        InvoiceModel invoiceModel = new InvoiceModel();
+        if (res.moveToFirst()) {
+            invoiceModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+            invoiceModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
+
+        }
+        res.close();
+        db.close();
+        return invoiceModel;
+    }
+
+    // get customer invoice total
+    public double custInvoiceTotalAmount(String customer_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select sum(" + ORDER_AMOUNT + ") as total " +
+                "from " + TABLE_NAME + " where " + CUSTOMER_ID + "=?";
+        Cursor res = db.rawQuery(query, new String[]{customer_id});
+
+        double amount = 0;
+        if (res.moveToFirst()) {
+            amount = res.getInt(res.getColumnIndex("total"));
+        }
+        res.close();
+        db.close();
+        return amount;
+    }
+*/
+}

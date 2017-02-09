@@ -77,6 +77,7 @@ public class InvoiceRejectionAdapter extends RecyclerView.Adapter<InvoiceRejecti
                 Intent intent = new Intent(mContext, MarketRejectionActivity.class);
                 CustomerRejectionFragment.setMarketRejectionId(position);
                 CustomerRejectionFragment.setFreshRejectionId(-1);
+                intent.putExtra("customerName", CustomerRejectionFragment.getCustomerName());
                 intent.putExtra("marketRejection", marketRejectionModel);
                 ((NavBaseActivity) mContext).startActivityForResult(intent, CustomerRejectionFragment.getMarketRejectionId());
             }
@@ -87,6 +88,7 @@ public class InvoiceRejectionAdapter extends RecyclerView.Adapter<InvoiceRejecti
                 Intent intent = new Intent(mContext, FreshRejectionActivity.class);
                 CustomerRejectionFragment.setFreshRejectionId(position);
                 CustomerRejectionFragment.setMarketRejectionId(-1);
+                intent.putExtra("customerName", CustomerRejectionFragment.getCustomerName());
                 intent.putExtra("freshRejection", freshRejectionModel);
                 ((NavBaseActivity) mContext).startActivityForResult(intent, CustomerRejectionFragment.getFreshRejectionId());
             }

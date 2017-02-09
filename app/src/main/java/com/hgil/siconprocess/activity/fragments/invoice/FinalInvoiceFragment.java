@@ -77,16 +77,16 @@ public class FinalInvoiceFragment extends BaseFragment {
         // get customer credit outstanding
         CreditOpeningTable creditOpeningTable = new CreditOpeningTable(getContext());
         double creditOs = creditOpeningTable.custCreditAmount(customer_id);
-        tvOpeningBalance.setText(String.valueOf(creditOs));
+        tvOpeningBalance.setText(strRupee + String.valueOf(creditOs));
 
         PaymentTable paymentTable = new PaymentTable(getContext());
         PaymentModel paymentModel = paymentTable.getCustomerPaymentInfo(customer_id);
         double todaySale = paymentModel.getSaleAmount();
         double amountCollected = paymentModel.getTotalPaidAmount();
         double osBalance = creditOs + todaySale - amountCollected;
-        tvTodaySale.setText(String.valueOf(todaySale));
-        tvAmountCollected.setText(String.valueOf(amountCollected));
-        tvOsBalance.setText(String.valueOf(osBalance));
+        tvTodaySale.setText(strRupee + String.valueOf(todaySale));
+        tvAmountCollected.setText(strRupee + String.valueOf(amountCollected));
+        tvOsBalance.setText(strRupee + String.valueOf(osBalance));
 
         setTitle("Invoice");
         hideSaveButton();

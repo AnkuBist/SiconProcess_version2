@@ -42,6 +42,9 @@ public class MarketRejectionActivity extends BaseToolbarActivity {
         showSaveBtn();
 
         if (getIntent().getExtras() != null) {
+            String customerName = getIntent().getStringExtra("customerName");
+            tvCustomerName.setText(customerName);
+
             MarketRejectionModel marketRejectionModel = (MarketRejectionModel) getIntent().getExtras().getSerializable("marketRejection");
             if (marketRejectionModel != null) {
                 int damaged = marketRejectionModel.getDamaged();

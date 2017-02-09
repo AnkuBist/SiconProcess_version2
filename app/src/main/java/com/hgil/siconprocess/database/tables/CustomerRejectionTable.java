@@ -183,7 +183,6 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
         return numRows;
     }
 
-    //TODO
     // get grand total for customer rejections
     public double custRejTotalAmount(String customer_id) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -193,12 +192,44 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
 
         double amount = 0;
         if (res.moveToFirst()) {
-            amount = res.getInt(res.getColumnIndex("total"));
+            amount = res.getDouble(res.getColumnIndex("total"));
         }
         res.close();
         db.close();
         return amount;
     }
 
+    // get product total market rejection
+    public int productMarketRejection(String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select sum(" + MARKET_DAMAGED + "+" + MARKET_EXPIRED + "+" + MARKET_RAT_EATEN + ") as total_rej " +
+                "from " + TABLE_NAME + " where " + ITEM_ID + "=?";
+        Cursor res = db.rawQuery(query, new String[]{item_id});
+
+        int rej_total = 0;
+        if (res.moveToFirst()) {
+            rej_total = res.getInt(res.getColumnIndex("total_rej"));
+        }
+        res.close();
+        db.close();
+        return rej_total;
+    }
+
+    // get product total fresh rejection
+    public int productFreshRejection(String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select sum(" + FRESH_M_SHAPED + "+" + FRESH_TORN_POLLY + "+"
+                + FRESH_FUNGUS + "+" + FRESH_WET_BREAD + "+" + FRESH_OTHERS + ") as total_rej " +
+                "from " + TABLE_NAME + " where " + ITEM_ID + "=?";
+        Cursor res = db.rawQuery(query, new String[]{item_id});
+
+        int rej_total = 0;
+        if (res.moveToFirst()) {
+            rej_total = res.getInt(res.getColumnIndex("total_rej"));
+        }
+        res.close();
+        db.close();
+        return rej_total;
+    }
 }
 

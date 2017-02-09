@@ -50,6 +50,9 @@ public class FreshRejectionActivity extends BaseToolbarActivity {
         showSaveBtn();
 
         if (getIntent().getExtras() != null) {
+            String customerName = getIntent().getStringExtra("customerName");
+            tvCustomerName.setText(customerName);
+
             FreshRejectionModel freshRejectionModel = (FreshRejectionModel) getIntent().getExtras().getSerializable("freshRejection");
             if (freshRejectionModel != null) {
                 int mShaped = freshRejectionModel.getmShaped();

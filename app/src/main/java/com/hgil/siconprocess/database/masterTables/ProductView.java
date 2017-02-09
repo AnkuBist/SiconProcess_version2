@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.hgil.siconprocess.adapter.productSelection.ProductSelectModel;
 import com.hgil.siconprocess.adapter.vanStock.VanStockModel;
+import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.ProductModel;
 
@@ -219,6 +220,7 @@ public class ProductView extends SQLiteOpenHelper {
         DepotInvoiceView depotInvoiceView = new DepotInvoiceView(mContext);
         FixedSampleTable fixedSampleTable = new FixedSampleTable(mContext);
         InvoiceOutTable invoiceOutTable = new InvoiceOutTable(mContext);
+        CustomerRejectionTable customerRejTable = new CustomerRejectionTable(mContext);
 
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         if (res.moveToFirst()) {
@@ -238,6 +240,12 @@ public class ProductView extends SQLiteOpenHelper {
                 // van sample loads
                 vanStockModel.setSample(sampleQty);
 
+                // get product market and fresh rejection total
+                int marketRejection = customerRejTable.productMarketRejection(vanStockModel.getItem_id());
+                int freshRejection = customerRejTable.productFreshRejection(vanStockModel.getItem_id());
+
+                vanStockModel.setMarket_rejection(marketRejection);
+                vanStockModel.setFresh_rejection(freshRejection);
 
                 int leftOver = loadingQty - saleQty - sampleQty;
                 vanStockModel.setLeft_over(leftOver);

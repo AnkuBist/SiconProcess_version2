@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.adapter;
+package com.hgil.siconprocess.adapter.routeMap;
 
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
@@ -11,8 +11,7 @@ import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.activity.NavBaseActivity;
-import com.hgil.siconprocess.activity.fragments.invoice.CustomerInvoiceFragment;
-import com.hgil.siconprocess.adapter.routeMap.RouteCustomerModel;
+import com.hgil.siconprocess.activity.fragments.invoice.makeSaleInvoice.CustomerInvoiceFragment;
 
 import java.util.ArrayList;
 

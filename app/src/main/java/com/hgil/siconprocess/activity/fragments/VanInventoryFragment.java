@@ -1,5 +1,6 @@
 package com.hgil.siconprocess.activity.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -56,10 +57,11 @@ public class VanInventoryFragment extends BaseFragment {
         tvViewVanStock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewVanStockFragment fragment = ViewVanStockFragment.newInstance();
+                startActivity(new Intent(getContext(), ViewVanStockActivity.class));
+                /*ViewVanStockActivity fragment = ViewVanStockActivity.newInstance();
                 String fragClassName = fragment.getClass().getName();
                 FragmentManager fragmentManager = ((NavBaseActivity) getActivity()).getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(fragClassName).commit();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(fragClassName).commit();*/
             }
         });
 

@@ -162,7 +162,8 @@
 
                     <EditText
                         android:id="@+id/etCheque"
-                        style="@style/RejectionEtStyle" />
+                        style="@style/RejectionEtStyle"
+                        android:editable="false" />
                 </RelativeLayout>
 
                 <View

@@ -12,9 +12,8 @@ import android.widget.TextView;
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.adapter.routeMap.RouteCustomerModel;
 import com.hgil.siconprocess.base.BaseFragment;
-import com.hgil.siconprocess.adapter.RouteMapRAdapter;
+import com.hgil.siconprocess.adapter.routeMap.RouteMapRAdapter;
 import com.hgil.siconprocess.database.masterTables.CustomerRouteMappingView;
-import com.hgil.siconprocess.retrofit.loginResponse.dbModels.CustomerRouteMapModel;
 
 import java.util.ArrayList;
 
@@ -32,7 +31,7 @@ public class HomeAllFragment extends BaseFragment {
 
     private RouteMapRAdapter mapRAdapter;
     private CustomerRouteMappingView routeMap;
-    private ArrayList<RouteCustomerModel> arrRouteMap = new ArrayList<>();
+    private ArrayList<RouteCustomerModel> arrRouteMap;
 
     public HomeAllFragment() {
         // Required empty public constructor
@@ -56,6 +55,7 @@ public class HomeAllFragment extends BaseFragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvAllRouteMap.setLayoutManager(linearLayoutManager);
 
+        arrRouteMap = new ArrayList<>();
         routeMap = new CustomerRouteMappingView(getActivity());
         arrRouteMap.addAll(routeMap.getRouteCustomers());
         mapRAdapter = new RouteMapRAdapter(getActivity(), arrRouteMap);

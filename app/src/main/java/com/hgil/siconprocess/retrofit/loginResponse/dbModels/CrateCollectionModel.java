@@ -9,9 +9,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class CrateCollectionModel {
 
-    @SerializedName("Rec_id")
+  /*  @SerializedName("Rec_id")
     @Expose
-    private Long recId;
+    private Long recId;*/
     @SerializedName("DDate")
     @Expose
     private String dDate;
@@ -70,13 +70,13 @@ public class CrateCollectionModel {
     @Expose
     private String updatedIp;
 
-    public Long getRecId() {
+    /*public Long getRecId() {
         return recId;
     }
 
     public void setRecId(Long recId) {
         this.recId = recId;
-    }
+    }*/
 
     public String getDDate() {
         return dDate;

@@ -4,10 +4,31 @@
     android:layout_height="match_parent"
     tools:context="com.hgil.siconprocess.activity.navFragments.OutletInfoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="50dp"
+        android:background="@color/colorBackgroundBlack"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:text="List Of Outlets"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_extra_large" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvOutlets"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:scrollbars="none" />
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:gravity="center_horizontal"
+        android:text="No Outlet found"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="@dimen/text_size_large"
+        android:visibility="gone" />
 </FrameLayout>

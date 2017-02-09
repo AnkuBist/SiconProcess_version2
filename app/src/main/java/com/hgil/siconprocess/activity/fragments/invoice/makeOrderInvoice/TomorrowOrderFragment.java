@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.activity.fragments.invoice;
+package com.hgil.siconprocess.activity.fragments.invoice.makeOrderInvoice;
 
 
 import android.content.Intent;
@@ -7,21 +7,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.fragments.invoice.rejActivities.ProductListSelectActivity;
-import com.hgil.siconprocess.adapter.invoiceRejection.CRejectionModel;
-import com.hgil.siconprocess.adapter.invoiceRejection.InvoiceRejectionAdapter;
+import com.hgil.siconprocess.activity.fragments.invoice.FinalInvoiceFragment;
+import com.hgil.siconprocess.adapter.invoice.invoiceSale.InvoiceModel;
+import com.hgil.siconprocess.adapter.nextDayOrder.DisplayNextDayOrderAdapter;
+import com.hgil.siconprocess.adapter.nextDayOrder.NextDayOrderAdapter;
 import com.hgil.siconprocess.adapter.productSelection.ProductSelectModel;
 import com.hgil.siconprocess.base.BaseFragment;
-import com.hgil.siconprocess.database.dbModels.ChequeDetailsModel;
-import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
-import com.hgil.siconprocess.utils.Utility;
+import com.hgil.siconprocess.database.dbModels.NextDayOrderModel;
+import com.hgil.siconprocess.database.tables.NextDayOrderTable;
 
 import java.util.ArrayList;
 
@@ -41,9 +39,9 @@ public class TomorrowOrderFragment extends BaseFragment {
     @BindView(R.id.btnAddItems)
     Button btnAddItems;
 
-    private InvoiceRejectionAdapter rejectionAdapter;
-    private CustomerRejectionTable rejectionTable;
-    private ArrayList<CRejectionModel> arrRejection;
+    private NextDayOrderAdapter orderAdapter;
+    private NextDayOrderTable orderTable;
+    private ArrayList<NextDayOrderModel> arrOrder = new ArrayList<>();
 
     public TomorrowOrderFragment() {
         // Required empty public constructor
@@ -84,22 +82,27 @@ public class TomorrowOrderFragment extends BaseFragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvCustomerOrder.setLayoutManager(linearLayoutManager);
 
-        rejectionTable = new CustomerRejectionTable(getContext());
-        arrRejection = rejectionTable.getCustomerRejections(customer_id);
+        orderTable = new NextDayOrderTable(getContext());
+        arrOrder = orderTable.getCustomerOrder(customer_id);
 
-        rejectionAdapter = new InvoiceRejectionAdapter(getActivity(), arrRejection);
-        rvCustomerOrder.setAdapter(rejectionAdapter);
+        orderAdapter = new NextDayOrderAdapter(getActivity(), arrOrder);
+        rvCustomerOrder.setAdapter(orderAdapter);
 
         setTitle("Tomorrow's Order");
         showSaveButton();
         imgSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // save the crate details to the database
-
+                ArrayList<NextDayOrderModel> reviewOrderData = new ArrayList<NextDayOrderModel>();
+                for (int i = 0; i < arrOrder.size(); i++) {
+                    NextDayOrderModel nextDayOrderModel = arrOrder.get(i);
+                    if (nextDayOrderModel.getQuantity() > 0) {
+                        reviewOrderData.add(nextDayOrderModel);
+                    }
+                }
 
                 //move to next fragment
-                FinalInvoiceFragment fragment = FinalInvoiceFragment.newInstance(customer_id, customer_name);
+                DisplayTomorrowOrderFragment fragment = DisplayTomorrowOrderFragment.newInstance(customer_id, customer_name, reviewOrderData);
                 String fragClassName = fragment.getClass().getName();
                 FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
                 fragmentManager.beginTransaction().replace(R.id.flContent, fragment)
@@ -115,8 +118,8 @@ public class TomorrowOrderFragment extends BaseFragment {
                 intent.putExtra("customer_id", customer_id);
                 intent.putExtra("customer_name", customer_name);
                 ArrayList<String> arrItems = new ArrayList<String>();
-                for (int i = 0; i < arrRejection.size(); i++) {
-                    arrItems.add(arrRejection.get(i).getItem_id());
+                for (int i = 0; i < arrOrder.size(); i++) {
+                    arrItems.add(arrOrder.get(i).getItemId());
                 }
                 intent.putStringArrayListExtra("existing_items", arrItems);
 
@@ -134,7 +137,7 @@ public class TomorrowOrderFragment extends BaseFragment {
 
     // refresh screen
     private void refreshScreen() {
-        if (arrRejection.size() == 0) {
+        if (arrOrder.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
             rvCustomerOrder.setVisibility(View.GONE);
         } else {
@@ -155,16 +158,15 @@ public class TomorrowOrderFragment extends BaseFragment {
                 ArrayList<ProductSelectModel> arrProduct = (ArrayList<ProductSelectModel>) bundle.getSerializable("selected_products");
                 for (int i = 0; i < arrProduct.size(); i++) {
                     ProductSelectModel pModel = arrProduct.get(i);
-                    CRejectionModel rejectionModel = new CRejectionModel();
-                    rejectionModel.setItem_id(pModel.getItem_id());
-                    rejectionModel.setItem_name(pModel.getItem_name());
-                    rejectionModel.setCustomer_id(customer_id);
-                    rejectionModel.setCustomer_name(customer_name);
-                    rejectionModel.setPrice(pModel.getItem_price());
+                    NextDayOrderModel orderModel = new NextDayOrderModel();
+                    orderModel.setItemId(pModel.getItem_id());
+                    orderModel.setItemName(pModel.getItem_name());
+                    orderModel.setCustomerId(customer_id);
+                    orderModel.setCustomerName(customer_name);
                     if (pModel.isSelected())
-                        arrRejection.add(rejectionModel);
+                        arrOrder.add(orderModel);
                 }
-                rejectionAdapter.notifyDataSetChanged();
+                orderAdapter.notifyDataSetChanged();
                 refreshScreen();
             }
         }

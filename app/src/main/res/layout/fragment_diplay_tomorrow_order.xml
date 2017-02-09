@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hgil.siconprocess.activity.fragments.invoice.makeOrderInvoice.TomorrowOrderFragment">
+    tools:context="com.hgil.siconprocess.activity.fragments.invoice.makeOrderInvoice.DisplayTomorrowOrderFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,21 +34,10 @@
             android:layout_below="@+id/tvCustomerName"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="No Item is available. Please click on Add Items"
+            android:text="No Item is added."
             android:textColor="@color/colorTextBlack"
             android:textSize="@dimen/text_size_large"
             android:visibility="gone" />
-
-        <Button
-            android:id="@+id/btnAddItems"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorTextBlue"
-            android:elevation="5dp"
-            android:text="Add Items"
-            android:textAllCaps="false"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/text_size_large" />
     </RelativeLayout>
+
 </FrameLayout>

@@ -3,19 +3,12 @@ package com.hgil.siconprocess.database.tables;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.hgil.siconprocess.adapter.invoiceRejection.CRejectionModel;
-import com.hgil.siconprocess.adapter.invoiceRejection.FreshRejectionModel;
-import com.hgil.siconprocess.adapter.invoiceRejection.MarketRejectionModel;
 import com.hgil.siconprocess.database.dbModels.ChequeDetailsModel;
 import com.hgil.siconprocess.database.dbModels.CrateDetailModel;
 import com.hgil.siconprocess.database.dbModels.PaymentModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by mohan.giri on 08-02-2017.
@@ -157,7 +150,7 @@ public class PaymentTable extends SQLiteOpenHelper {
             chequeDetailsModel.setBankName(res.getString(res.getColumnIndex(BANK_NAME)));
             chequeDetailsModel.setBankBranch(res.getString(res.getColumnIndex(BANK_BRANCH)));
             chequeDetailsModel.setInvoiceId(res.getString(res.getColumnIndex(INVOICE_ID)));
-            
+
             paymentModel.setChequeDetail(chequeDetailsModel);
         }
         res.close();
@@ -189,7 +182,6 @@ public class PaymentTable extends SQLiteOpenHelper {
         return numRows;
     }*/
 
-    //TODO
   /*  // get grand total for customer rejections
     public double custRejTotalAmount(String customer_id) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -205,5 +197,37 @@ public class PaymentTable extends SQLiteOpenHelper {
         db.close();
         return amount;
     }*/
+
+    // get total issued crates for the route
+    public int routeIssuedCrate() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select sum(" + ISSUED_CRATES + ") as total " +
+                "from " + TABLE_NAME;
+        Cursor res = db.rawQuery(query, null);
+
+        int total = 0;
+        if (res.moveToFirst()) {
+            total = res.getInt(res.getColumnIndex("total"));
+        }
+        res.close();
+        db.close();
+        return total;
+    }
+
+    // get total issued crates for the route
+    public int routeReceivedCrate() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select sum(" + RECEIVED_CRATES + ") as total " +
+                "from " + TABLE_NAME;
+        Cursor res = db.rawQuery(query, null);
+
+        int total = 0;
+        if (res.moveToFirst()) {
+            total = res.getInt(res.getColumnIndex("total"));
+        }
+        res.close();
+        db.close();
+        return total;
+    }
 
 }

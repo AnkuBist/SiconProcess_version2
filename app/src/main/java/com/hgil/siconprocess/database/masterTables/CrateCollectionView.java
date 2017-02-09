@@ -20,7 +20,7 @@ public class CrateCollectionView extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "sicon_crate_collection";
     private static final String TABLE_NAME = "V_SD_Crate_Collection_Master";
-    private static final String REC_ID = "Rec_id";
+   // private static final String REC_ID = "Rec_id";
     private static final String DDATE = "DDate";
     private static final String SUB_COMPANY_ID = "Sub_Company_id";
     private static final String DEPOT_ID = "Depot_id";
@@ -48,7 +48,7 @@ public class CrateCollectionView extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + REC_ID + " NUMERIC NOT NULL, "
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" //+ REC_ID + " NUMERIC NOT NULL, "
                 + DDATE + " TEXT NULL, " + SUB_COMPANY_ID + " TEXT NULL, " + DEPOT_ID + " TEXT NULL, "
                 + SUB_DEPOT_ID + " TEXT NULL, " + ROUTE_ID + " TEXT NULL, " + ROUTE_MANAGEMENT_ID + " TEXT NULL, "
                 + ROUTE_MANAGEMENT_DATE + " TEXT NULL, " + CUSTOMER_ID + " TEXT NULL, " + INVOICE_NO + " TEXT NULL, " + INVOICE_DATE + " TEXT NULL, "
@@ -74,7 +74,7 @@ public class CrateCollectionView extends SQLiteOpenHelper {
     public boolean insertCrateCollection(CrateCollectionModel crateCollectionModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(REC_ID, crateCollectionModel.getRecId());
+       // contentValues.put(REC_ID, crateCollectionModel.getRecId());
         contentValues.put(DDATE, crateCollectionModel.getDDate());
         contentValues.put(SUB_COMPANY_ID, crateCollectionModel.getSubCompanyId());
         contentValues.put(DEPOT_ID, crateCollectionModel.getDepotId());
@@ -106,7 +106,7 @@ public class CrateCollectionView extends SQLiteOpenHelper {
         for (int i = 0; i < arrList.size(); i++) {
             CrateCollectionModel crateCollectionModel = arrList.get(i);
             ContentValues contentValues = new ContentValues();
-            contentValues.put(REC_ID, crateCollectionModel.getRecId());
+           // contentValues.put(REC_ID, crateCollectionModel.getRecId());
             contentValues.put(DDATE, crateCollectionModel.getDDate());
             contentValues.put(SUB_COMPANY_ID, crateCollectionModel.getSubCompanyId());
             contentValues.put(DEPOT_ID, crateCollectionModel.getDepotId());
@@ -139,7 +139,7 @@ public class CrateCollectionView extends SQLiteOpenHelper {
 
         CrateCollectionModel crateCollectionModel = new CrateCollectionModel();
         if (res.moveToFirst()) {
-            crateCollectionModel.setRecId(res.getLong(res.getColumnIndex(REC_ID)));
+           // crateCollectionModel.setRecId(res.getLong(res.getColumnIndex(REC_ID)));
             crateCollectionModel.setDDate(res.getString(res.getColumnIndex(DDATE)));
             crateCollectionModel.setSubCompanyId(res.getString(res.getColumnIndex(SUB_COMPANY_ID)));
             crateCollectionModel.setDepotId(res.getString(res.getColumnIndex(DEPOT_ID)));
@@ -198,7 +198,7 @@ public class CrateCollectionView extends SQLiteOpenHelper {
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 CrateCollectionModel crateCollectionModel = new CrateCollectionModel();
-                crateCollectionModel.setRecId(res.getLong(res.getColumnIndex(REC_ID)));
+             //   crateCollectionModel.setRecId(res.getLong(res.getColumnIndex(REC_ID)));
                 crateCollectionModel.setDDate(res.getString(res.getColumnIndex(DDATE)));
                 crateCollectionModel.setSubCompanyId(res.getString(res.getColumnIndex(SUB_COMPANY_ID)));
                 crateCollectionModel.setDepotId(res.getString(res.getColumnIndex(DEPOT_ID)));

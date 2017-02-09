@@ -4,7 +4,7 @@
     android:id="@+id/activity_tomorrow_order_product_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hgil.siconprocess.activity.fragments.invoice.TomorrowOrderProductListActivity">
+    tools:context="com.hgil.siconprocess.activity.fragments.invoice.makeOrderInvoice.TomorrowOrderProductListActivity">
 
     <TextView
         android:id="@+id/tvCustomerName"

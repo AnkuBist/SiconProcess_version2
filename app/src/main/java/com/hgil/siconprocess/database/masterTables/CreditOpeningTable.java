@@ -207,12 +207,12 @@ public class CreditOpeningTable extends SQLiteOpenHelper {
     // get customer invoice total
     public double custCreditAmount(String customer_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "select " + BALANCE + " from " + TABLE_NAME + " where " + CUSTOMER_ID + "=?";
+        String query = "select " + OPENING + " from " + TABLE_NAME + " where " + CUSTOMER_ID + "=?";
         Cursor res = db.rawQuery(query, new String[]{customer_id});
 
         double amount = 0;
         if (res.moveToFirst()) {
-            amount = res.getInt(res.getColumnIndex(BALANCE));
+            amount = res.getInt(res.getColumnIndex(OPENING));
         }
         res.close();
         db.close();

@@ -35,13 +35,13 @@
             android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".activity.HomeActivity" />
-        <activity
-            android:name=".activity.fragments.invoice.rejActivities.ProductListSelectActivity"
-            android:label="@string/title_activity_product_list_select" />
+        <activity android:name=".activity.fragments.invoice.rejActivities.ProductListSelectActivity" />
         <activity android:name=".activity.fragments.invoice.rejActivities.FreshRejectionActivity" />
         <activity android:name=".activity.fragments.invoice.rejActivities.MarketRejectionActivity" />
         <activity android:name=".activity.fragments.invoice.ChequeDetailsActivity" />
-        <activity android:name=".activity.fragments.invoice.TomorrowOrderProductListActivity"></activity>
+        <activity android:name=".activity.fragments.ViewVanStockActivity" />
+        <activity android:name=".activity.fragments.invoice.makeOrderInvoice.TomorrowOrderProductListActivity" />
+        <activity android:name=".activity.SelectedOutletInfoActivity"></activity>
     </application>
 
 </manifest>

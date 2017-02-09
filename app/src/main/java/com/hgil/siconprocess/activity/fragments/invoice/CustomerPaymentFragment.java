@@ -87,12 +87,6 @@ public class CustomerPaymentFragment extends BaseFragment {
             tvCustomerName.setText(customer_name);
         }
 
-        tvCustomerTotal.setText(strRupee + "0.00");
-
-        paymentTable = new PaymentTable(getContext());
-        PaymentModel paymentModel = paymentTable.getCustomerPaymentInfo(customer_id);
-        chequeDetailsModel = paymentModel.getChequeDetail();
-
         // get customer credit outstanding
         CreditOpeningTable creditOpeningTable = new CreditOpeningTable(getContext());
         double creditOs = creditOpeningTable.custCreditAmount(customer_id);
@@ -110,6 +104,20 @@ public class CustomerPaymentFragment extends BaseFragment {
         final double payable_amount = saleTotal + creditOs;
         tvTotalOs.setText(strRupee + payable_amount);
 
+        paymentTable = new PaymentTable(getContext());
+        PaymentModel paymentModel = paymentTable.getCustomerPaymentInfo(customer_id);
+        chequeDetailsModel = paymentModel.getChequeDetail();
+
+        if (chequeDetailsModel == null)
+            chequeDetailsModel = new ChequeDetailsModel();
+
+        // payment details exists then display the existing values to et and respective data
+        if (paymentModel != null) {
+            etCash.setText(String.valueOf(paymentModel.getCashPaid()));
+            etCheque.setText(String.valueOf(chequeDetailsModel.getChequeAmount()));
+            tvCustomerTotal.setText(strRupee + paymentModel.getTotalPaidAmount());
+        }
+
         setTitle("Payment");
         showSaveButton();
         imgSave.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +128,11 @@ public class CustomerPaymentFragment extends BaseFragment {
                 paymentModel.setCustomerId(customer_id);
                 paymentModel.setCustomerName(customer_name);
                 paymentModel.setSaleAmount(saleTotal);
+                paymentModel.setChequeDetail(chequeDetailsModel);
+                paymentModel.setCashPaid(Utility.getDouble(etCash.getText().toString().trim()));
+                paymentModel.setTotalPaidAmount(Utility.getDouble(String.valueOf(paymentModel.getCashPaid() + paymentModel.getChequeDetail().getChequeAmount())));
+
+                paymentTable.insertCustPayment(paymentModel);
 
                 //move to next fragment
                 CratesManagementFragment rejectionFragment = CratesManagementFragment.newInstance(customer_id, customer_name);
@@ -145,15 +158,16 @@ public class CustomerPaymentFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() != 0) {
-                    tvCustomerTotal.setText(strRupee + Utility.roundTwoDecimals(Double.parseDouble(etCash.getText().toString())));
-                } else if (s.length() == 0) {
-                    tvCustomerTotal.setText(strRupee + "0.00");
-                }
+                double chequeAmount = Utility.roundTwoDecimals(Utility.getDouble(etCheque.getText().toString()));
+                //  if (s.length() != 0) {
+                tvCustomerTotal.setText(strRupee + (chequeAmount + Utility.roundTwoDecimals(Utility.getDouble(etCash.getText().toString()))));
+                // } else if (s.length() == 0) {
+                //      tvCustomerTotal.setText(strRupee + chequeAmount);
+                //  }
             }
         });
 
-        etCheque.setEnabled(false);
+        // etCheque.setEnabled(false);
         etCheque.setOnTouchListener(new View.OnTouchListener()
 
         {
@@ -161,6 +175,7 @@ public class CustomerPaymentFragment extends BaseFragment {
             public boolean onTouch(View v, MotionEvent event) {
                 if (MotionEvent.ACTION_UP == event.getAction()) {
                     Intent intent = new Intent(getContext(), ChequeDetailsActivity.class);
+                    intent.putExtra("saved_cheque_details", chequeDetailsModel);
                     startActivityForResult(intent, CHEQUE_DETAILS);
                 }
                 return false;
@@ -177,11 +192,12 @@ public class CustomerPaymentFragment extends BaseFragment {
             Bundle bundle = data.getExtras();
 
             if (requestCode == CHEQUE_DETAILS) {
-                ChequeDetailsModel chequeDetail = (ChequeDetailsModel) bundle.getSerializable("cheque_detail");
-                chequeDetail.setCustomer_name(customer_name);
-                chequeDetail.setCustomer_id(customer_id);
-                tvCustomerTotal.setText(strRupee + Utility.roundTwoDecimals(chequeDetail.getChequeAmount()));
-                etCheque.setText(String.valueOf(Utility.roundTwoDecimals(chequeDetail.getChequeAmount())));
+                chequeDetailsModel = (ChequeDetailsModel) bundle.getSerializable("cheque_detail");
+                chequeDetailsModel.setCustomer_name(customer_name);
+                chequeDetailsModel.setCustomer_id(customer_id);
+
+                tvCustomerTotal.setText(strRupee + Utility.roundTwoDecimals(chequeDetailsModel.getChequeAmount() + Utility.roundTwoDecimals(Utility.getDouble(etCash.getText().toString()))));
+                etCheque.setText(String.valueOf(Utility.roundTwoDecimals(chequeDetailsModel.getChequeAmount())));
             }
         }
     }

@@ -64,6 +64,7 @@ public class CustomerRejectionFragment extends BaseFragment {
         if (getArguments() != null) {
             customer_id = getArguments().getString(CUSTOMER_ID);
             customer_name = getArguments().getString(CUSTOMER_NAME);
+            setCustomerName(customer_name);
         }
     }
 
@@ -181,6 +182,15 @@ public class CustomerRejectionFragment extends BaseFragment {
         }
     }
 
+    private static String customerName;
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public static String getCustomerName() {
+        return customerName;
+    }
 
     public static void setFreshRejectionId(int id) {
         FRESH_REJECTION_ID = id;

@@ -66,6 +66,16 @@ public class ChequeDetailsActivity extends BaseToolbarActivity {
         setNavTitle("Cheque Details");
         hideSaveBtn();
 
+        ChequeDetailsModel chequeDetailsModel = (ChequeDetailsModel) getIntent().getSerializableExtra("saved_cheque_details");
+        if (chequeDetailsModel != null) {
+            etChequeNumber.setText(Utility.getString(chequeDetailsModel.getChequeNumber()));
+            etChequeDate.setText(Utility.getString(chequeDetailsModel.getChequeDate()));
+            etChequeAmount.setText(String.valueOf(chequeDetailsModel.getChequeAmount()));
+            etBankName.setText(Utility.getString(chequeDetailsModel.getBankName()));
+            etBankBranch.setText(Utility.getString(chequeDetailsModel.getBankBranch()));
+            etInvoiceId.setText(Utility.getString(chequeDetailsModel.getInvoiceId()));
+        }
+
         myCalendar = Calendar.getInstance();
 
         date = new DatePickerDialog.OnDateSetListener() {
@@ -81,16 +91,18 @@ public class ChequeDetailsActivity extends BaseToolbarActivity {
             }
         };
 
-        etChequeDate.setEnabled(false);
+        //etChequeDate.setEnabled(false);
         etChequeDate.setOnTouchListener(new View.OnTouchListener()
 
         {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (MotionEvent.ACTION_UP == event.getAction()) {
-                    new DatePickerDialog(ChequeDetailsActivity.this, date, myCalendar
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(ChequeDetailsActivity.this, date, myCalendar
                             .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                            myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                            myCalendar.get(Calendar.DAY_OF_MONTH));//.show();
+                    datePickerDialog.getDatePicker().setMinDate(myCalendar.getTimeInMillis());
+                    datePickerDialog.show();
                 }
                 return false;
             }

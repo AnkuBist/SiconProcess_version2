@@ -42,7 +42,9 @@
                     <EditText
                         android:id="@+id/etOpeningCrates"
                         style="@style/RejectionEtStyle"
-                        android:background="@drawable/et_uneditable_round_shape" />
+                        android:background="@drawable/et_uneditable_round_shape"
+                        android:editable="false"
+                        android:enabled="false" />
                 </RelativeLayout>
 
                 <View
@@ -94,7 +96,9 @@
                     <EditText
                         android:id="@+id/etBalanceCrates"
                         style="@style/RejectionEtStyle"
-                        android:background="@drawable/et_uneditable_round_shape" />
+                        android:background="@drawable/et_uneditable_round_shape"
+                        android:editable="false"
+                        android:enabled="false" />
                 </RelativeLayout>
 
                 <View
