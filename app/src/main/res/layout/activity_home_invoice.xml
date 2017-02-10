@@ -16,7 +16,7 @@
 
         <!-- The main content view where fragments are loaded -->
         <FrameLayout
-            android:id="@+id/flContent"
+            android:id="@+id/flInvoiceContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/actionBarSize"
@@ -32,5 +32,5 @@
         android:layout_gravity="start"
         android:background="@android:color/white"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/nav_drawer_view" />
+        app:menu="@menu/home_drawer_view" />
 </android.support.v4.widget.DrawerLayout>

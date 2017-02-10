@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -101,14 +100,13 @@ public class CustomerRejectionFragment extends BaseFragment {
 
                 // now move to next fragment to make payment and dispay the user payment
                 // start rejection fragment
-                CustomerPaymentFragment rejectionFragment = CustomerPaymentFragment.newInstance(customer_id, customer_name);
-                String fragClassName = rejectionFragment.getClass().getName();
+                CustomerPaymentFragment fragment = CustomerPaymentFragment.newInstance(customer_id, customer_name);
+                launchInvoiceFragment(fragment);
+                /* String fragClassName = fragment.getClass().getName();
                 FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
-                //FragmentManager fragmentManager = (getChildFragmentManager());
-                fragmentManager.beginTransaction().replace(R.id.flContent, rejectionFragment)
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment)
                         .addToBackStack(fragClassName)
-                        .commit();
-
+                        .commit();*/
             }
         });
 
@@ -123,7 +121,6 @@ public class CustomerRejectionFragment extends BaseFragment {
                     arrItems.add(arrRejection.get(i).getItem_id());
                 }
                 intent.putStringArrayListExtra("rejected_items", arrItems);
-
                 startActivityForResult(intent, REJECTION_LIST);
             }
         });

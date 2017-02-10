@@ -1,0 +1,33 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/str_nav_home" />
+        <item
+            android:id="@+id/nav_dashboard"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/str_nav_dashboard" />
+        <item
+            android:id="@+id/nav_van_inventory"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/str_nav_inventory" />
+        <item
+            android:id="@+id/nav_final_payment"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/str_nav_final_payment" />
+        <item
+            android:id="@+id/nav_outlet_info"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/str_nav_outlet" />
+        <item
+            android:id="@+id/nav_sync"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/str_nav_sync" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/str_nav_logout" />
+    </group>
+</menu>

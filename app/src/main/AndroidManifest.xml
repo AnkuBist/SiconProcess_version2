@@ -41,7 +41,10 @@
         <activity android:name=".activity.fragments.invoice.ChequeDetailsActivity" />
         <activity android:name=".activity.fragments.ViewVanStockActivity" />
         <activity android:name=".activity.fragments.invoice.makeOrderInvoice.TomorrowOrderProductListActivity" />
-        <activity android:name=".activity.SelectedOutletInfoActivity"></activity>
+        <activity android:name=".activity.SelectedOutletInfoActivity" />
+        <activity
+            android:name=".activity.HomeInvoiceActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

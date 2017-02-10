@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
 
 import java.util.ArrayList;
 

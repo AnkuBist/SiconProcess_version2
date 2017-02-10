@@ -3,6 +3,7 @@ package com.hgil.siconprocess.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,14 @@ public abstract class BaseFragment extends Fragment {
  */
     private void bindViews(final View view) {
         ButterKnife.bind(this, view);
+    }
+
+    protected void launchInvoiceFragment(Fragment fragment) {
+        String fragClassName = fragment.getClass().getName();
+        FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
+        fragmentManager.beginTransaction().replace(R.id.flInvoiceContent, fragment)
+                .addToBackStack(fragClassName)
+                .commit();
     }
 
     /*handling views using common method for fragments*/

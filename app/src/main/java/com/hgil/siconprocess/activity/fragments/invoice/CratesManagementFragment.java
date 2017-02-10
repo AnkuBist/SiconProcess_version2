@@ -138,12 +138,14 @@ public class CratesManagementFragment extends BaseFragment {
                 paymentTable.insertCustomerCrates(crateDetailModel);
 
                 //move to next fragment
-                TomorrowOrderFragment rejectionFragment = TomorrowOrderFragment.newInstance(customer_id, customer_name);
-                String fragClassName = rejectionFragment.getClass().getName();
+                TomorrowOrderFragment fragment = TomorrowOrderFragment.newInstance(customer_id, customer_name);
+                launchInvoiceFragment(fragment);
+
+                /* String fragClassName = fragment.getClass().getName();
                 FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
-                fragmentManager.beginTransaction().replace(R.id.flContent, rejectionFragment)
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment)
                         .addToBackStack(fragClassName)
-                        .commit();
+                        .commit();*/
             }
         });
     }

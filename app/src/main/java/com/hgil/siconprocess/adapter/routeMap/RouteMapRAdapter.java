@@ -1,6 +1,7 @@
 package com.hgil.siconprocess.adapter.routeMap;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.HomeInvoiceActivity;
 import com.hgil.siconprocess.activity.NavBaseActivity;
 import com.hgil.siconprocess.activity.fragments.invoice.makeSaleInvoice.CustomerInvoiceFragment;
 
@@ -55,14 +57,20 @@ public class RouteMapRAdapter extends RecyclerView.Adapter<RouteMapRAdapter.View
         holder.customer_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomerInvoiceFragment fragment = CustomerInvoiceFragment.newInstance(routeCustomerModel.getCustomerId(), routeCustomerModel.getCustomerName());
+                //launch activity with updated nav bar
+                Intent intent = new Intent(mContext, HomeInvoiceActivity.class);
+                intent.putExtra("customer_id", routeCustomerModel.getCustomerId());
+                intent.putExtra("customer_name", routeCustomerModel.getCustomerName());
+                mContext.startActivity(intent);
+
+                /*CustomerInvoiceFragment fragment = CustomerInvoiceFragment.newInstance(routeCustomerModel.getCustomerId(), routeCustomerModel.getCustomerName());
                 String fragClassName = fragment.getClass().getName();
                 FragmentManager fragmentManager = ((NavBaseActivity) mContext).getSupportFragmentManager();
-               /* boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
+               *//* boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
                 if (!fragmentPopped) {
                     fragmentManager.beginTransaction().replace(R.id.homeFrame, fragment);
-                }*/
-                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(fragClassName).commit();
+                }*//*
+                fragmentManager.beginTransaction().replace(R.id., fragment).addToBackStack(fragClassName).commit();*/
             }
         });
 

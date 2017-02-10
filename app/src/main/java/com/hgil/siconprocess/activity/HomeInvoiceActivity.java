@@ -23,17 +23,24 @@ import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.activity.fragments.VanInventoryFragment;
+import com.hgil.siconprocess.activity.fragments.invoice.CratesManagementFragment;
+import com.hgil.siconprocess.activity.fragments.invoice.CustomerPaymentFragment;
+import com.hgil.siconprocess.activity.fragments.invoice.CustomerRejectionFragment;
+import com.hgil.siconprocess.activity.fragments.invoice.FinalInvoiceFragment;
+import com.hgil.siconprocess.activity.fragments.invoice.makeOrderInvoice.TomorrowOrderFragment;
+import com.hgil.siconprocess.activity.fragments.invoice.makeSaleInvoice.CustomerInvoiceFragment;
 import com.hgil.siconprocess.activity.navFragments.DashboardFragment;
 import com.hgil.siconprocess.activity.navFragments.FinalPaymentFragment;
 import com.hgil.siconprocess.activity.navFragments.HomeFragment;
 import com.hgil.siconprocess.activity.navFragments.OutletInfoFragment;
 import com.hgil.siconprocess.activity.navFragments.SyncFragment;
 import com.hgil.siconprocess.base.BaseActivity;
+import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.BindView;
 
-public class NavBaseActivity extends BaseActivity {
+public class HomeInvoiceActivity extends BaseActivity {
 
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawer;
@@ -51,10 +58,8 @@ public class NavBaseActivity extends BaseActivity {
 
     private ActionBarDrawerToggle drawerToggle;
 
-    @BindView(R.id.flContent)
+    @BindView(R.id.flInvoiceContent)
     FrameLayout containerFrame;
-
-    private final String HOME_FRAGMENT = "com.hgil.siconprocess.activity.navFragments.HomeFragment";
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -81,29 +86,37 @@ public class NavBaseActivity extends BaseActivity {
         // Setup drawer view
         setupDrawerContent(nvDrawer);
 
-        MenuItem menuItem = nvDrawer.getMenu().findItem(R.id.nav_home);
+        MenuItem menuItem = nvDrawer.getMenu().findItem(R.id.nav_today_sale);
 
-        HomeFragment fragment = HomeFragment.newInstance();
-        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).commit();
+        CustomerInvoiceFragment fragment = CustomerInvoiceFragment.newInstance(customer_id, customer_name);
+        getSupportFragmentManager().beginTransaction().replace(R.id.flInvoiceContent, fragment).commit();
 
         menuItem.setChecked(true);
 
         tvNavTitle.setText(menuItem.getTitle());
-
         tvNavDate.setText(Utility.getDateMonth());
         // firstLaunch();
     }
 
+    protected String customer_id;
+    protected String customer_name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.activity_nav_base);
+        super.setContentView(R.layout.activity_home_invoice);
+
+        if (getIntent() != null) {
+            customer_id = getIntent().getStringExtra("customer_id");
+            customer_name = getIntent().getStringExtra("customer_name");
+        }
+
         setup();
     }
 
     // set default home nav item selected and launch this on first view
     private void firstLaunch() {
-        nvDrawer.getMenu().performIdentifierAction(R.id.nav_home, 0);
+        nvDrawer.getMenu().performIdentifierAction(R.id.nav_today_sale, 0);
     }
 
     @Override
@@ -130,26 +143,29 @@ public class NavBaseActivity extends BaseActivity {
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_home:
-                fragment = HomeFragment.newInstance();
+                //fragment = HomeFragment.newInstance();
+                // start nav base activity here only
+                Intent intent = new Intent(this, NavBaseActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 break;
-            case R.id.nav_dashboard:
-                fragment = DashboardFragment.newInstance();
+            case R.id.nav_today_sale:
+                fragment = CustomerInvoiceFragment.newInstance(customer_id, customer_name);
                 break;
-            case R.id.nav_van_inventory:
-                fragment = VanInventoryFragment.newInstance();
+            case R.id.nav_goods_return:
+                fragment = CustomerRejectionFragment.newInstance(customer_id, customer_name);
                 break;
-            case R.id.nav_final_payment:
-                fragment = FinalPaymentFragment.newInstance();
+            case R.id.nav_payment:
+                fragment = CustomerPaymentFragment.newInstance(customer_id, customer_name);
                 break;
-            case R.id.nav_outlet_info:
-                fragment = OutletInfoFragment.newInstance();
+            case R.id.nav_crate_management:
+                fragment = CratesManagementFragment.newInstance(customer_id, customer_name);
                 break;
-            case R.id.nav_sync:
-                fragment = SyncFragment.newInstance();
+            case R.id.nav_tomorrow_order:
+                fragment = TomorrowOrderFragment.newInstance(customer_id, customer_name);
                 break;
-            case R.id.nav_logout:
-                // put the code to logout user from application
-
+            case R.id.nav_final_invoice:
+                fragment = FinalInvoiceFragment.newInstance(customer_id, customer_name);
                 break;
             default:
                 fragment = HomeFragment.newInstance();
@@ -163,10 +179,10 @@ public class NavBaseActivity extends BaseActivity {
                 // Insert the fragment by replacing any existing fragment
                 boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
                 if (!fragmentPopped) {
-                    ft.replace(R.id.flContent, fragment);
+                    ft.replace(R.id.flInvoiceContent, fragment);
                 }
             } else {
-                ft.replace(R.id.flContent, fragment);
+                ft.replace(R.id.flInvoiceContent, fragment);
             }
             //fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
@@ -223,124 +239,17 @@ public class NavBaseActivity extends BaseActivity {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             super.onBackPressed();
         } else {
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed();
-                return;
-            }
-
-            this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    doubleBackToExitPressedOnce = false;
-                }
-            }, 2000);
-        }
-    }
-
-
-/*    @Override
-    public void onBackPressed() {
-        super.onBackPressed();*/
-       /* if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-            mDrawer.closeDrawer(GravityCompat.START);
-        } else {
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.executePendingTransactions();
-            if (fragmentManager.getBackStackEntryCount() < 1) {
-                //super.onBackPressed();
-                finish();
-            } else {
-                fragmentManager.executePendingTransactions();
-                fragmentManager.popBackStack();
-                fragmentManager.executePendingTransactions();
-                if (fragmentManager.getBackStackEntryCount() < 1) {
-                    drawerToggle.setDrawerIndicatorEnabled(true);
-                }
-            }*/
-
-
-            /*if (getSupportFragmentManager().getBackStackEntryCount() == 1 && (getSupportFragmentManager().getBackStackEntryAt(0).getName()).matches(HOME_FRAGMENT)) {
-                if (doubleBackToExitPressedOnce) {
-                    super.onBackPressed();
-                    finish();
-                    //return;
-                }
-
-                this.doubleBackToExitPressedOnce = true;
-                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        doubleBackToExitPressedOnce = false;
-                    }
-                }, 2000);
-            } else {
-                // do nothing
-                super.onBackPressed();
-                //getFragmentManager().popBackStack();
-                //finish();
-            }*/
-    //}
-    //}
-
-
-    //boolean doubleBackToExitPressedOnce = false;
-
-  /*  @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 2000);
-    }*/
-
-    //TODO
-    /*correct method*/
-    /*   @Override
-    public void onBackPressed() {
-
-        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-            mDrawer.closeDrawer(GravityCompat.START);
-
-        } else {
-            int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
-
-            if (backStackCount >= 1) {
-                getSupportFragmentManager().popBackStack();
-                // Change to hamburger icon if at bottom of stack
-                if(backStackCount == 1){
-                    showUpButton(false);
-                }
-            } else {
-                super.onBackPressed();
-            }
+            finish();
         }
     }
-*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            fragment.onActivityResult(requestCode, resultCode, data);
-        }*/
+
         // get current fragment in container
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.flContent);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.flInvoiceContent);
         fragment.onActivityResult(requestCode, resultCode, data);
     }
 }

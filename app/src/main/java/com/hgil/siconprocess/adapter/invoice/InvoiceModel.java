@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.adapter.invoice.invoiceSale;
+package com.hgil.siconprocess.adapter.invoice;
 
 import android.os.Parcelable;
 

@@ -90,12 +90,10 @@ public class FinalInvoiceFragment extends BaseFragment {
 
         setTitle("Invoice");
         hideSaveButton();
-
     }
 
     @OnClick(R.id.btnInvoiceCancel)
     public void onInvoiceCancel(View view) {
-
     }
 
     @OnClick(R.id.btnSendSms)

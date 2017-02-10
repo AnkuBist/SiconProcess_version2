@@ -4,7 +4,6 @@ package com.hgil.siconprocess.activity.fragments.invoice.makeOrderInvoice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,9 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.fragments.invoice.FinalInvoiceFragment;
-import com.hgil.siconprocess.adapter.invoice.invoiceSale.InvoiceModel;
-import com.hgil.siconprocess.adapter.nextDayOrder.DisplayNextDayOrderAdapter;
 import com.hgil.siconprocess.adapter.nextDayOrder.NextDayOrderAdapter;
 import com.hgil.siconprocess.adapter.productSelection.ProductSelectModel;
 import com.hgil.siconprocess.base.BaseFragment;
@@ -103,11 +99,14 @@ public class TomorrowOrderFragment extends BaseFragment {
 
                 //move to next fragment
                 DisplayTomorrowOrderFragment fragment = DisplayTomorrowOrderFragment.newInstance(customer_id, customer_name, reviewOrderData);
-                String fragClassName = fragment.getClass().getName();
+                launchInvoiceFragment(fragment);
+
+
+                /*String fragClassName = fragment.getClass().getName();
                 FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
                 fragmentManager.beginTransaction().replace(R.id.flContent, fragment)
                         .addToBackStack(fragClassName)
-                        .commit();
+                        .commit();*/
             }
         });
 
@@ -122,7 +121,6 @@ public class TomorrowOrderFragment extends BaseFragment {
                     arrItems.add(arrOrder.get(i).getItemId());
                 }
                 intent.putStringArrayListExtra("existing_items", arrItems);
-
                 startActivityForResult(intent, PRODUCT_LIST);
             }
         });

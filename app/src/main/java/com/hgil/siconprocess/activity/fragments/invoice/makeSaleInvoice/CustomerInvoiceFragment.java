@@ -3,7 +3,6 @@ package com.hgil.siconprocess.activity.fragments.invoice.makeSaleInvoice;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.adapter.invoice.invoiceSale.CustomerInvoiceAdapter;
-import com.hgil.siconprocess.adapter.invoice.invoiceSale.InvoiceModel;
+import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
@@ -174,12 +173,14 @@ public class CustomerInvoiceFragment extends BaseFragment {
                 }
 
                 // here simply forward the collected array data to the next fragmen to let the user choose whether to save invoice or not
-                InvoiceOutFragment invoiceOutFragment = InvoiceOutFragment.newInstance(customer_id, customer_name, reviewOrderData);
-                String fragClassName = invoiceOutFragment.getClass().getName();
+                InvoiceOutFragment fragment = InvoiceOutFragment.newInstance(customer_id, customer_name, reviewOrderData);
+                launchInvoiceFragment(fragment);
+
+                /*String fragClassName = invoiceOutFragment.getClass().getName();
                 FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
-                fragmentManager.beginTransaction().replace(R.id.flContent, invoiceOutFragment)
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment)
                         .addToBackStack(fragClassName)
-                        .commit();
+                        .commit();*/
             }
         });
     }

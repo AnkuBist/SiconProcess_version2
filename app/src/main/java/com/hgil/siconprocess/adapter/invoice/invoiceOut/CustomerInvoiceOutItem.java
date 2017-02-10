@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.activity.fragments.invoice.makeSaleInvoice.InvoiceOutFragment;
-import com.hgil.siconprocess.adapter.invoice.invoiceSale.InvoiceModel;
+import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
 import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.BindString;

@@ -91,11 +91,12 @@ public class DisplayTomorrowOrderFragment extends BaseFragment {
 
                 //move to next fragment
                 FinalInvoiceFragment fragment = FinalInvoiceFragment.newInstance(customer_id, customer_name);
-                String fragClassName = fragment.getClass().getName();
+                launchInvoiceFragment(fragment);
+                /*String fragClassName = fragment.getClass().getName();
                 FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
                 fragmentManager.beginTransaction().replace(R.id.flContent, fragment)
                         .addToBackStack(fragClassName)
-                        .commit();
+                        .commit();*/
             }
         });
     }

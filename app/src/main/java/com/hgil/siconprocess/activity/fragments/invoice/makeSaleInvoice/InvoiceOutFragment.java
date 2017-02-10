@@ -3,17 +3,15 @@ package com.hgil.siconprocess.activity.fragments.invoice.makeSaleInvoice;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.NavBaseActivity;
 import com.hgil.siconprocess.activity.fragments.invoice.CustomerRejectionFragment;
 import com.hgil.siconprocess.adapter.invoice.invoiceOut.CustomerInvoiceOutAdapter;
-import com.hgil.siconprocess.adapter.invoice.invoiceSale.InvoiceModel;
+import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.utils.Utility;
@@ -100,12 +98,14 @@ public class InvoiceOutFragment extends BaseFragment {
                 invoiceOutTable.insertInvoiceOut(arrInvoiceItems, customer_id);
 
                 // start rejection fragment
-                CustomerRejectionFragment rejectionFragment = CustomerRejectionFragment.newInstance(customer_id, customer_name);
-                String fragClassName = rejectionFragment.getClass().getName();
+                CustomerRejectionFragment fragment = CustomerRejectionFragment.newInstance(customer_id, customer_name);
+                launchInvoiceFragment(fragment);
+
+                /* String fragClassName = fragment.getClass().getName();
                 FragmentManager fragmentManager = ((NavBaseActivity) getActivity()).getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.flContent, rejectionFragment)
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment)
                         .addToBackStack(fragClassName)
-                        .commit();
+                        .commit();*/
             }
         });
     }
