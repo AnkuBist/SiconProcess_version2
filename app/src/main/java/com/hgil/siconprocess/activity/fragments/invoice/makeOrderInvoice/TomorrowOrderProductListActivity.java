@@ -96,6 +96,7 @@ public class TomorrowOrderProductListActivity extends BaseToolbarActivity implem
                 resultIntent.putExtras(bundle);
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
+                overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
                 break;
             default:
                 break;

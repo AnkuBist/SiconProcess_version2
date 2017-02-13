@@ -148,6 +148,10 @@ public class HomeInvoiceActivity extends BaseActivity {
                 Intent intent = new Intent(this, NavBaseActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                // from right to left
+                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+                // from left to right
+                //overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
                 break;
             case R.id.nav_today_sale:
                 fragment = CustomerInvoiceFragment.newInstance(customer_id, customer_name);
@@ -168,7 +172,7 @@ public class HomeInvoiceActivity extends BaseActivity {
                 fragment = FinalInvoiceFragment.newInstance(customer_id, customer_name);
                 break;
             default:
-                fragment = HomeFragment.newInstance();
+                //fragment = HomeFragment.newInstance();
         }
 
         if (fragment != null) {
@@ -185,7 +189,8 @@ public class HomeInvoiceActivity extends BaseActivity {
                 ft.replace(R.id.flInvoiceContent, fragment);
             }
             //fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             ft.addToBackStack(fragClassName);
             ft.commit();
 
@@ -238,10 +243,12 @@ public class HomeInvoiceActivity extends BaseActivity {
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             super.onBackPressed();
+            //getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
         } else {
             super.onBackPressed();
             finish();
         }
+        overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
     }
 
     @Override

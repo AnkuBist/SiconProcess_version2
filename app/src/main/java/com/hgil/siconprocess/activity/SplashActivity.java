@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.utils.Utility;
 
 public class SplashActivity extends Activity {
@@ -36,6 +37,8 @@ public class SplashActivity extends Activity {
 
                 // close this activity
                 finish();
+                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+
             }
         }, SPLASH_TIME_OUT);
 

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.NavBaseActivity;
 import com.hgil.siconprocess.activity.SelectedOutletInfoActivity;
 import com.hgil.siconprocess.adapter.routeMap.RouteCustomerModel;
 
@@ -48,6 +49,8 @@ public class OutletListAdapter extends RecyclerView.Adapter<OutletListAdapter.Vi
                 Intent intent = new Intent(mContext, SelectedOutletInfoActivity.class);
                 intent.putExtra("customer_id", routeCustomerModel.getCustomerId());
                 mContext.startActivity(intent);
+                ((NavBaseActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+
             }
         });
 

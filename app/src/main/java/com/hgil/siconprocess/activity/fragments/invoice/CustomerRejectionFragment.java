@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.HomeInvoiceActivity;
 import com.hgil.siconprocess.activity.fragments.invoice.rejActivities.ProductListSelectActivity;
 import com.hgil.siconprocess.adapter.invoiceRejection.CRejectionModel;
 import com.hgil.siconprocess.adapter.invoiceRejection.FreshRejectionModel;
@@ -122,6 +123,7 @@ public class CustomerRejectionFragment extends BaseFragment {
                 }
                 intent.putStringArrayListExtra("rejected_items", arrItems);
                 startActivityForResult(intent, REJECTION_LIST);
+                ((HomeInvoiceActivity) getContext()).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
             }
         });
     }

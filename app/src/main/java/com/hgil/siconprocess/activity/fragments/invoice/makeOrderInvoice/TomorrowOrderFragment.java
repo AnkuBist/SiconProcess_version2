@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.HomeInvoiceActivity;
 import com.hgil.siconprocess.adapter.nextDayOrder.NextDayOrderAdapter;
 import com.hgil.siconprocess.adapter.productSelection.ProductSelectModel;
 import com.hgil.siconprocess.base.BaseFragment;
@@ -122,9 +123,9 @@ public class TomorrowOrderFragment extends BaseFragment {
                 }
                 intent.putStringArrayListExtra("existing_items", arrItems);
                 startActivityForResult(intent, PRODUCT_LIST);
+                ((HomeInvoiceActivity) getContext()).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
             }
         });
-
     }
 
     @Override

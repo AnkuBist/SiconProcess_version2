@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.activity.HomeInvoiceActivity;
+import com.hgil.siconprocess.activity.fragments.invoice.CustomerRejectionFragment;
 import com.hgil.siconprocess.activity.fragments.invoice.rejActivities.FreshRejectionActivity;
 import com.hgil.siconprocess.activity.fragments.invoice.rejActivities.MarketRejectionActivity;
-import com.hgil.siconprocess.activity.fragments.invoice.CustomerRejectionFragment;
 import com.hgil.siconprocess.utils.Utility;
 
 import java.util.ArrayList;
@@ -80,6 +80,7 @@ public class InvoiceRejectionAdapter extends RecyclerView.Adapter<InvoiceRejecti
                 intent.putExtra("customerName", CustomerRejectionFragment.getCustomerName());
                 intent.putExtra("marketRejection", marketRejectionModel);
                 ((HomeInvoiceActivity) mContext).startActivityForResult(intent, CustomerRejectionFragment.getMarketRejectionId());
+                ((HomeInvoiceActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
             }
         });
         holder.btnFreshRejection.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +92,7 @@ public class InvoiceRejectionAdapter extends RecyclerView.Adapter<InvoiceRejecti
                 intent.putExtra("customerName", CustomerRejectionFragment.getCustomerName());
                 intent.putExtra("freshRejection", freshRejectionModel);
                 ((HomeInvoiceActivity) mContext).startActivityForResult(intent, CustomerRejectionFragment.getFreshRejectionId());
+                ((HomeInvoiceActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
             }
         });
 

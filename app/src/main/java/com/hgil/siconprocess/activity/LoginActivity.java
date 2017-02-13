@@ -192,6 +192,7 @@ public class LoginActivity extends AppCompatActivity {
                     // after saving all values to database start new activity
                     startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
                     finish();
+                    overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
                 } else {
                     RetrofitUtil.showToast(LoginActivity.this, loginResult.getStrMessage());
                 }

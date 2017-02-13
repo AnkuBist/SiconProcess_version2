@@ -2,7 +2,6 @@ package com.hgil.siconprocess.adapter.routeMap;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.activity.HomeInvoiceActivity;
 import com.hgil.siconprocess.activity.NavBaseActivity;
-import com.hgil.siconprocess.activity.fragments.invoice.makeSaleInvoice.CustomerInvoiceFragment;
 
 import java.util.ArrayList;
 
@@ -62,6 +60,7 @@ public class RouteMapRAdapter extends RecyclerView.Adapter<RouteMapRAdapter.View
                 intent.putExtra("customer_id", routeCustomerModel.getCustomerId());
                 intent.putExtra("customer_name", routeCustomerModel.getCustomerName());
                 mContext.startActivity(intent);
+                ((NavBaseActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
 
                 /*CustomerInvoiceFragment fragment = CustomerInvoiceFragment.newInstance(routeCustomerModel.getCustomerId(), routeCustomerModel.getCustomerName());
                 String fragClassName = fragment.getClass().getName();

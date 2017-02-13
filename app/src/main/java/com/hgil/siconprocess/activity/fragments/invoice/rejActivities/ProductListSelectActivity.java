@@ -77,7 +77,6 @@ public class ProductListSelectActivity extends BaseToolbarActivity implements Vi
     @Override
     public void onResume() {
         super.onResume();
-
         if (arrProduct.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
             rvProductList.setVisibility(View.GONE);
@@ -101,6 +100,7 @@ public class ProductListSelectActivity extends BaseToolbarActivity implements Vi
                 resultIntent.putExtras(bundle);
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
+                overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
                 break;
             default:
                 break;

@@ -77,6 +77,7 @@ public abstract class BaseToolbarActivity extends BaseActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish(); // close this activity and return to preview activity (if there is any)
+                overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
                 break;
 
             default:
@@ -89,5 +90,6 @@ public abstract class BaseToolbarActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+        overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
     }
 }

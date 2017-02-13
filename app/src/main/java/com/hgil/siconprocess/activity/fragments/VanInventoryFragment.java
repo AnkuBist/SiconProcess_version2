@@ -58,6 +58,8 @@ public class VanInventoryFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), ViewVanStockActivity.class));
+                ((NavBaseActivity) getContext()).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+
                 /*ViewVanStockActivity fragment = ViewVanStockActivity.newInstance();
                 String fragClassName = fragment.getClass().getName();
                 FragmentManager fragmentManager = ((NavBaseActivity) getActivity()).getSupportFragmentManager();

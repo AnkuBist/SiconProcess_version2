@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +81,9 @@ public abstract class BaseFragment extends Fragment {
     protected void launchInvoiceFragment(Fragment fragment) {
         String fragClassName = fragment.getClass().getName();
         FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
-        fragmentManager.beginTransaction().replace(R.id.flInvoiceContent, fragment)
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+        transaction.replace(R.id.flInvoiceContent, fragment)
                 .addToBackStack(fragClassName)
                 .commit();
     }

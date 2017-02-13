@@ -136,9 +136,9 @@ public class CustomerRouteMappingView extends SQLiteOpenHelper {
         return true;
     }
 
-    public CustomerRouteMapModel getCustomerRouteMapByRoute(String route_id) {
+    public CustomerRouteMapModel getCustomerRouteMapByCustomer(String customer_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ROUTE_ID + "='" + route_id + "'", null);
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CUSTOMER_ID + "='" + customer_id + "'", null);
 
         CustomerRouteMapModel customerRouteMapModel = new CustomerRouteMapModel();
         if (res.moveToFirst()) {

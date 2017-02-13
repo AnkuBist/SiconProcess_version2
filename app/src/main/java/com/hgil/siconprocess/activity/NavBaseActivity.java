@@ -89,7 +89,6 @@ public class NavBaseActivity extends BaseActivity {
         menuItem.setChecked(true);
 
         tvNavTitle.setText(menuItem.getTitle());
-
         tvNavDate.setText(Utility.getDateMonth());
         // firstLaunch();
     }
@@ -169,7 +168,8 @@ public class NavBaseActivity extends BaseActivity {
                 ft.replace(R.id.flContent, fragment);
             }
             //fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             ft.addToBackStack(fragClassName);
             ft.commit();
 
@@ -222,9 +222,11 @@ public class NavBaseActivity extends BaseActivity {
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             super.onBackPressed();
+            overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
         } else {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
+                overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
                 return;
             }
 

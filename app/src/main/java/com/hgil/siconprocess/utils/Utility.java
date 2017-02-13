@@ -49,6 +49,11 @@ public class Utility {
         return restoredText;
     }
 
+    /*clear shared preference data*/
+    public static void clearPreference(Activity activity) {
+        PreferenceManager.getDefaultSharedPreferences(activity).edit().clear().apply();
+    }
+
     // get current date util
     public static String getCurDate() {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

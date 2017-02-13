@@ -2,10 +2,8 @@ package com.hgil.siconprocess.activity.fragments.invoice;
 
 
 import android.content.Intent;
-import android.media.AudioRouting;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
@@ -14,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.HomeInvoiceActivity;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.dbModels.ChequeDetailsModel;
 import com.hgil.siconprocess.database.dbModels.PaymentModel;
@@ -23,7 +22,6 @@ import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.database.tables.PaymentTable;
 import com.hgil.siconprocess.utils.Utility;
 
-import butterknife.BindString;
 import butterknife.BindView;
 
 /**
@@ -178,6 +176,7 @@ public class CustomerPaymentFragment extends BaseFragment {
                     Intent intent = new Intent(getContext(), ChequeDetailsActivity.class);
                     intent.putExtra("saved_cheque_details", chequeDetailsModel);
                     startActivityForResult(intent, CHEQUE_DETAILS);
+                    ((HomeInvoiceActivity) getContext()).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
                 }
                 return false;
             }
