@@ -95,11 +95,10 @@ public class CustomerRejectionFragment extends BaseFragment {
         imgSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
                 // save rejections to table here only and move to the final payment fragment
                 rejectionTable.insertCustRejections(arrRejection, customer_id);
 
-                // now move to next fragment to make payment and dispay the user payment
+                // now move to next fragment to make payment and display the user payment
                 // start rejection fragment
                 CustomerPaymentFragment fragment = CustomerPaymentFragment.newInstance(customer_id, customer_name);
                 launchInvoiceFragment(fragment);

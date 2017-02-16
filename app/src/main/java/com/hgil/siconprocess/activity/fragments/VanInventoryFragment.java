@@ -63,7 +63,7 @@ public class VanInventoryFragment extends BaseFragment {
                 /*ViewVanStockActivity fragment = ViewVanStockActivity.newInstance();
                 String fragClassName = fragment.getClass().getName();
                 FragmentManager fragmentManager = ((NavBaseActivity) getActivity()).getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(fragClassName).commit();*/
+                    fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(fragClassName).commit();*/
             }
         });
 

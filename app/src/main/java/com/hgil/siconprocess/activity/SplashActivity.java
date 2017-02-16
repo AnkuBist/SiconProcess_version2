@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.utils.Utility;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class SplashActivity extends Activity {
 
@@ -41,6 +45,5 @@ public class SplashActivity extends Activity {
 
             }
         }, SPLASH_TIME_OUT);
-
     }
 }

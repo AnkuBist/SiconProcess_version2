@@ -1,14 +1,29 @@
 package com.hgil.siconprocess.activity;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
+import android.os.Parcelable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
@@ -31,6 +46,10 @@ import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
 import com.hgil.siconprocess.retrofit.loginResponse.loginResponse;
 import com.hgil.siconprocess.utils.Utility;
 
+import org.w3c.dom.Text;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -50,6 +69,19 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.coordinateLayout)
     CoordinatorLayout coordinateLayout;
 
+    private RouteView dbRouteView;
+    private CustomerRouteMappingView dbRouteMapView;
+    private CustomerItemPriceTable dbCustomerItemPrice;
+    private PriceGroupView dbPriceGroup;
+    private CreditOpeningTable dbCreditOpening;
+    private CrateOpeningTable dbCrateOpening;
+    private CrateCollectionView dbCrateCollection;
+    private DepotInvoiceView dbInvoice;
+    private DemandTargetTable dbDemandTarget;
+    private FixedSampleTable dbFixedSample;
+    private RejectionTargetTable dbRejectionTarget;
+    private DepotEmployeeView dbEmployee;
+
     private String existing_id = "", saved_id = "";
 
     @Override
@@ -66,20 +98,108 @@ public class LoginActivity extends AppCompatActivity {
 
         /// initialise database objects
         initialiseDBObj();
+
+        // get user current location
+        getUserLocation();
     }
 
-    private RouteView dbRouteView;
-    private CustomerRouteMappingView dbRouteMapView;
-    private CustomerItemPriceTable dbCustomerItemPrice;
-    private PriceGroupView dbPriceGroup;
-    private CreditOpeningTable dbCreditOpening;
-    private CrateOpeningTable dbCrateOpening;
-    private CrateCollectionView dbCrateCollection;
-    private DepotInvoiceView dbInvoice;
-    private DemandTargetTable dbDemandTarget;
-    private FixedSampleTable dbFixedSample;
-    private RejectionTargetTable dbRejectionTarget;
-    private DepotEmployeeView dbEmployee;
+    private void getUserLocation() {
+        // Acquire a reference to the system Location Manager
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+// Define a listener that responds to location updates
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                // Called when a new location is found by the network location provider.
+                //makeUseOfNewLocation(location);
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
+
+            public void onProviderEnabled(String provider) {
+            }
+
+            public void onProviderDisabled(String provider) {
+            }
+        };
+
+
+        int MyVersion = Build.VERSION.SDK_INT;
+        if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (!checkIfAlreadyHavePermission()) {
+                requestForSpecificPermission();
+            } else {
+                Location location = getLastKnownLocation(locationManager);
+                printCoordinates(location);
+                //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, locationListener);
+            }
+        }
+        // for pre lolipop devices run this directly
+        else {
+            Location location = getLastKnownLocation(locationManager);
+            printCoordinates(location);
+            //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        }
+    }
+
+    private static final String TAG = LoginActivity.class.getName();
+
+    // get best last location
+    private Location getLastKnownLocation(LocationManager mLocationManager) {
+       /* List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            Location l = mLocationManager.getLastKnownLocation(provider);
+            //Log.e(TAG, "last known location, provider: %s, location: %s", provider,
+            //        l);
+
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null
+                    || l.getAccuracy() < bestLocation.getAccuracy()) {
+                //Log.e(TAG, "found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        if (bestLocation == null) {
+            return null;
+        }*/
+
+        Location bestLocation = mLocationManager.getLastKnownLocation(mLocationManager.NETWORK_PROVIDER);
+        if (bestLocation == null)
+            bestLocation = mLocationManager.getLastKnownLocation(mLocationManager.GPS_PROVIDER);
+
+        return bestLocation;
+    }
+
+    // get coordinates
+    private void getCoordinates(LocationManager locationManager) {
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setCostAllowed(false);
+        String providerName = locationManager.getBestProvider(criteria, true);
+        Location location = locationManager.getLastKnownLocation(providerName);
+        if (location != null) {
+            double lat = location.getLatitude();
+            double lng = location.getLongitude();
+            Log.e(TAG, "getCoordinates: " + lat + "," + lng);
+        } else {
+            Log.e(TAG, "getCoordinates: location object is null");
+        }
+    }
+
+    // print coordinates
+    private void printCoordinates(Location location) {
+        if (location != null) {
+            double lat = location.getLatitude();
+            double lng = location.getLongitude();
+            Log.e(TAG, "getCoordinates: " + lat + "," + lng);
+        } else {
+            Log.e(TAG, "getCoordinates: location object is null");
+        }
+    }
 
     private void initialiseDBObj() {
         dbRouteView = new RouteView(this);
@@ -206,5 +326,50 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    // check permission
+    private boolean checkIfAlreadyHavePermission() {
+        int result_COARSE_LOCATION = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+        int result_FINE_LOCATION = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if ((result_COARSE_LOCATION == PackageManager.PERMISSION_GRANTED) && (result_FINE_LOCATION == PackageManager.PERMISSION_GRANTED)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // request permission
+    private void requestForSpecificPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+    }
+
+    // request permissions result
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    getUserLocation();
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(this, "Permission denied to get your location", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+                // other 'case' lines to check for other
+                // permissions this app might request
+        }
     }
 }

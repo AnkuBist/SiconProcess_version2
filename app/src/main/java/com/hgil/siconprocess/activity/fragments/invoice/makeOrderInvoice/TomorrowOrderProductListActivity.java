@@ -86,8 +86,6 @@ public class TomorrowOrderProductListActivity extends BaseToolbarActivity implem
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imgSave:
-                //TODO
-                // do stuff here
                 // send only selected product
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("selected_products", arrProduct);
