@@ -29,6 +29,14 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!--test code-->
+    <style name="PrimaryFlatButton" parent="Widget.AppCompat.Button.Borderless.Colored">
+        <item name="colorButtonNormal">@color/colorWhite</item>
+        <item name="colorControlHighlight">@color/colorTextBlack</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorTextGrey</item>
+    </style>
+
     <!--van stock adapter title textview-->
     <style name="VanStockAdapterLayoutTop">
         <item name="android:layout_width">match_parent</item>

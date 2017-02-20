@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.hgil.siconprocess.activity.navFragments.invoiceSync.SyncInvoiceDetailModel;
 import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.InvoiceDetailModel;
@@ -418,7 +419,6 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
 
 
     public InvoiceModel getDepotInvoiceByItemId(String customer_id, String item_id) {
-
         SQLiteDatabase db = this.getReadableDatabase();
         ProductView dbItemDetails = new ProductView(mContext);
         InvoiceOutTable invoiceOutTable = new InvoiceOutTable(mContext);
@@ -490,4 +490,34 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
         return invoiceModel;
     }
 
+
+    // get sync invoice details
+    public ArrayList<SyncInvoiceDetailModel> getSyncInvoice() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        ArrayList<SyncInvoiceDetailModel> arrayList = new ArrayList<>();
+
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                SyncInvoiceDetailModel invoiceModel = new SyncInvoiceDetailModel();
+                //invoiceModel.setRoute_management_id(res.getString(res.getColumnIndex(MANAGER)));
+                invoiceModel.setInvoice_no(res.getString(res.getColumnIndex(INVOICE_NO)));
+                invoiceModel.setInvoice_date(res.getString(res.getColumnIndex(INVOICE_DATE)));
+                invoiceModel.setCustomer_id(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+                invoiceModel.setRoute_id(res.getString(res.getColumnIndex(ROUTE_ID)));
+                invoiceModel.setItem_id(res.getString(res.getColumnIndex(ITEM_ID)));
+                invoiceModel.setCashier_code(res.getString(res.getColumnIndex(CASHIER_CODE)));
+                invoiceModel.setLoading(res.getInt(res.getColumnIndex(INVQTY_PS)));
+
+                // get invoice product sample for user.
+
+
+            }
+        }
+
+        res.close();
+        db.close();
+        return arrayList;
+    }
 }

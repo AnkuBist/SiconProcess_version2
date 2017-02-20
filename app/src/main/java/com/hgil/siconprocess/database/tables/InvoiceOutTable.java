@@ -22,7 +22,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "depot_invoice_out";
 
     private static final String INVOICE_NO = "Invoice_No";
-    private static final String INVOICE_DATE = "Invoice_Date";
+    private static final String INVOICE_DATE = " ";
     private static final String CUSTOMER_ID = "Customer_id";
     private static final String ROUTE_ID = "Route_Id";
     private static final String VEHICLE_NO = "Vehicle_No";
@@ -32,6 +32,8 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
     private static final String INVQTY_PS = "InvQty_ps";
     private static final String ITEM_RATE = "Item_Rate";
     private static final String TOTAL_AMOUNT = "Total_Amount";
+
+    // columns to be added for sync process only
 
     /*new added columns only merged to this invoice out table*/
     private static final String FIXED_SAMPLE = "fixedSample";

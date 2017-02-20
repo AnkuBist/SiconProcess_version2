@@ -6,9 +6,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.hgil.siconprocess.activity.navFragments.invoiceSync.CollectionCashModel;
+import com.hgil.siconprocess.activity.navFragments.invoiceSync.CollectionCrateModel;
+import com.hgil.siconprocess.activity.navFragments.invoiceSync.CrateStockCheck;
 import com.hgil.siconprocess.database.dbModels.ChequeDetailsModel;
 import com.hgil.siconprocess.database.dbModels.CrateDetailModel;
 import com.hgil.siconprocess.database.dbModels.PaymentModel;
+import com.hgil.siconprocess.database.masterTables.CrateCollectionView;
+import com.hgil.siconprocess.database.masterTables.CrateOpeningTable;
+import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
+
+import java.util.ArrayList;
 
 /**
  * Created by mohan.giri on 08-02-2017.
@@ -36,8 +44,11 @@ public class PaymentTable extends SQLiteOpenHelper {
     private static final String ISSUED_CRATES = "issuedCrates";
     private static final String RECEIVED_CRATES = "receivedCrates";
 
+    private Context mContext;
+
     public PaymentTable(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        this.mContext = context;
     }
 
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + CUSTOMER_ID + " TEXT NOT NULL, "
@@ -228,6 +239,74 @@ public class PaymentTable extends SQLiteOpenHelper {
         res.close();
         db.close();
         return total;
+    }
+
+    // customer cash collection details
+    public ArrayList<CollectionCashModel> syncCashDetail() {
+        ArrayList<CollectionCashModel> array_list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        CreditOpeningTable creditOpeningTable = new CreditOpeningTable(mContext);
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                CollectionCashModel cashModel = new CollectionCashModel();
+                cashModel.setCustomer_id(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+                cashModel.setOpening(creditOpeningTable.custCreditAmount(cashModel.getCustomer_id()));
+                cashModel.setSale(res.getDouble(res.getColumnIndex(SALE_AMOUNT)));
+                cashModel.setReceive(res.getDouble(res.getColumnIndex(TOTAL_PAID_AMOUNT)));
+                cashModel.setBalance(cashModel.getOpening() + cashModel.getSale() - cashModel.getReceive());
+
+                array_list.add(cashModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return array_list;
+    }
+
+    // customer cash collection details
+    public ArrayList<CollectionCrateModel> syncCrateDetail() {
+        ArrayList<CollectionCrateModel> array_list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        CrateOpeningTable crateOpeningTable = new CrateOpeningTable(mContext);
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                CollectionCrateModel crateModel = new CollectionCrateModel();
+                crateModel.setCustomer_id(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+                crateModel.setOpening(crateOpeningTable.custCreditCrates(crateModel.getCustomer_id()));
+                crateModel.setIssued(res.getInt(res.getColumnIndex(ISSUED_CRATES)));
+                crateModel.setReceive(res.getInt(res.getColumnIndex(RECEIVED_CRATES)));
+                crateModel.setBalance(-crateModel.getOpening() - crateModel.getIssued() + crateModel.getReceive());
+
+                array_list.add(crateModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return array_list;
+    }
+
+    // get total crate info
+    public CrateStockCheck syncCrateStock(String route_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        CrateCollectionView crateCollectionView = new CrateCollectionView(mContext);
+        CrateStockCheck crateStock = new CrateStockCheck();
+
+        Cursor res = db.rawQuery("SELECT sum(" + ISSUED_CRATES + ") as issued, sum(" + RECEIVED_CRATES + ") as received  FROM " + TABLE_NAME, null);
+        if (res.moveToFirst()) {
+            crateStock.setRouteId(route_id);
+            crateStock.setOpening(crateCollectionView.vanTotalCrate());
+            crateStock.setIssued(res.getInt(res.getColumnIndex("issued")));
+            crateStock.setReceived(res.getInt(res.getColumnIndex("received")));
+            crateStock.setBalance(-crateStock.getOpening() - crateStock.getIssued() + crateStock.getReceived());
+        }
+        res.close();
+        db.close();
+        return crateStock;
     }
 
 }

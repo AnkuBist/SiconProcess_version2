@@ -64,16 +64,20 @@ public class NavBaseActivity extends BaseActivity {
     public void setup() {
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayShowTitleEnabled(false);
         actionbar.setDefaultDisplayHomeAsUpEnabled(false);
         actionbar.setDisplayHomeAsUpEnabled(false);
-        actionbar.setDisplayShowCustomEnabled(true);
+        /*actionbar.setDisplayShowCustomEnabled(true);
         actionbar.setDisplayShowHomeEnabled(false);
-        actionbar.setDisplayShowTitleEnabled(false);
+
         actionbar.setDisplayUseLogoEnabled(false);
-        actionbar.setHomeButtonEnabled(false);
+        actionbar.setHomeButtonEnabled(false);*/
 
         // drawer hamburger icons
         drawerToggle = setupDrawerToggle();
+
+        // to disable hamburger icon
+        //drawerToggle.setDrawerIndicatorEnabled(false);
 
         // Tie DrawerLayout events to the ActionBarToggle
         mDrawer.addDrawerListener(drawerToggle);
@@ -199,7 +203,6 @@ public class NavBaseActivity extends BaseActivity {
             }//this method helps you to aside menu drawer
         };
         return toggle;
-
     }
 
     @Override

@@ -9,21 +9,17 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
-import android.os.Parcelable;
+import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
@@ -45,10 +41,6 @@ import com.hgil.siconprocess.retrofit.loginResponse.ObjLoginResponse;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
 import com.hgil.siconprocess.retrofit.loginResponse.loginResponse;
 import com.hgil.siconprocess.utils.Utility;
-
-import org.w3c.dom.Text;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -346,8 +338,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // request permissions result
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case 1: {
 

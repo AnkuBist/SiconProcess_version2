@@ -14,11 +14,13 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
+
+/* release key and password details*/
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
