@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 
+import com.hgil.siconprocess.activity.navFragments.invoiceSync.SyncInvoiceDetailModel;
 import com.hgil.siconprocess.adapter.invoiceRejection.CRejectionModel;
 import com.hgil.siconprocess.adapter.invoiceRejection.FreshRejectionModel;
 import com.hgil.siconprocess.adapter.invoiceRejection.MarketRejectionModel;
@@ -230,6 +231,78 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
         res.close();
         db.close();
         return rej_total;
+    }
+
+    // total of rejections
+    // get total market rejection
+    public int routeMarketRejection() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select sum(" + MARKET_DAMAGED + "+" + MARKET_EXPIRED + "+" + MARKET_RAT_EATEN + ") as total_rej " +
+                "from " + TABLE_NAME;
+        Cursor res = db.rawQuery(query, null);
+
+        int rej_total = 0;
+        if (res.moveToFirst()) {
+            rej_total = res.getInt(res.getColumnIndex("total_rej"));
+        }
+        res.close();
+        db.close();
+        return rej_total;
+    }
+
+    // get total fresh rejection
+    public int routeFreshRejection() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select sum(" + FRESH_M_SHAPED + "+" + FRESH_TORN_POLLY + "+"
+                + FRESH_FUNGUS + "+" + FRESH_WET_BREAD + "+" + FRESH_OTHERS + ") as total_rej " +
+                "from " + TABLE_NAME;
+        Cursor res = db.rawQuery(query, null);
+
+        int rej_total = 0;
+        if (res.moveToFirst()) {
+            rej_total = res.getInt(res.getColumnIndex("total_rej"));
+        }
+        res.close();
+        db.close();
+        return rej_total;
+    }
+
+    // get product rejections over route
+    public ArrayList<SyncInvoiceDetailModel> syncRejection(String route_id) {
+        ArrayList<SyncInvoiceDetailModel> arrayList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                SyncInvoiceDetailModel rejectionModel = new SyncInvoiceDetailModel();
+                rejectionModel.setRoute_id(route_id);
+                rejectionModel.setCustomer_id(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+                rejectionModel.setItem_id(res.getString(res.getColumnIndex(ITEM_ID)));
+
+                int m_shaped = (res.getInt(res.getColumnIndex(FRESH_M_SHAPED)));
+                int torn_polly = (res.getInt(res.getColumnIndex(FRESH_TORN_POLLY)));
+                int fungus = (res.getInt(res.getColumnIndex(FRESH_FUNGUS)));
+                int wet_bread = (res.getInt(res.getColumnIndex(FRESH_WET_BREAD)));
+                int others = (res.getInt(res.getColumnIndex(FRESH_OTHERS)));
+                int total_fresh = m_shaped + torn_polly + fungus + wet_bread + others;
+
+                int damaged = (res.getInt(res.getColumnIndex(MARKET_DAMAGED)));
+                int expired = (res.getInt(res.getColumnIndex(MARKET_EXPIRED)));
+                int rat_eaten = (res.getInt(res.getColumnIndex(MARKET_RAT_EATEN)));
+                int total_market = damaged + expired + rat_eaten;
+
+                rejectionModel.setFresh_rej(total_fresh);
+                rejectionModel.setMarket_rej(total_market);
+                arrayList.add(rejectionModel);
+                res.moveToNext();
+            }
+        }
+
+        res.close();
+        db.close();
+        return arrayList;
     }
 }
 

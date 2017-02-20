@@ -7,7 +7,9 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.hgil.siconprocess.activity.navFragments.invoiceSync.SyncInvoiceDetailModel;
 import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
+import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,10 +95,10 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
         contentValues.put(TOTAL_AMOUNT, invoiceModel.getTotalAmount());
         contentValues.put(FIXED_SAMPLE, invoiceModel.getFixedSample());
         contentValues.put(DEMAND_TARGET_QUANTITY, invoiceModel.getDemandTargetQty());
-        contentValues.put(TOTAL_AMOUNT, invoiceModel.getOrderAmount());
-        contentValues.put(TOTAL_AMOUNT, invoiceModel.getStockAvail());
-        contentValues.put(TOTAL_AMOUNT, invoiceModel.getTempStock());
-        contentValues.put(TOTAL_AMOUNT, invoiceModel.getItemName());
+        contentValues.put(ORDER_AMOUNT, invoiceModel.getOrderAmount());
+        contentValues.put(STOCK_AVAIL, invoiceModel.getStockAvail());
+        contentValues.put(TEMP_STOCK, invoiceModel.getTempStock());
+        contentValues.put(ITEM_NAME, invoiceModel.getItemName());
 
         db.insert(TABLE_NAME, null, contentValues);
         db.close();
@@ -389,6 +391,44 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
         res.close();
         db.close();
         return amount;
+    }
+
+    /*generate array list to sync data*/
+    public ArrayList<SyncInvoiceDetailModel> syncInvoice() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<SyncInvoiceDetailModel> arrayList = new ArrayList<>();
+        DepotInvoiceView depotInvoiceTable = new DepotInvoiceView(mContext);
+
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                SyncInvoiceDetailModel syncModel = new SyncInvoiceDetailModel();
+                syncModel.setRoute_id(res.getString(res.getColumnIndex(ROUTE_ID)));
+                syncModel.setCustomer_id(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+                syncModel.setInvoice_no(res.getString(res.getColumnIndex(INVOICE_NO)));
+                syncModel.setInvoice_date(res.getString(res.getColumnIndex(INVOICE_DATE)));
+                //syncModel.setCashier_code(res.getString(res.getColumnIndex()));
+                syncModel.setItem_id(res.getString(res.getColumnIndex(ITEM_ID)));
+
+                //get van item total count
+                int item_total_count = depotInvoiceTable.getLoadingCount(syncModel.getItem_id());
+                syncModel.setLoading(item_total_count);
+                syncModel.setSale(res.getInt(res.getColumnIndex(DEMAND_TARGET_QUANTITY)));
+                syncModel.setSample(res.getInt(res.getColumnIndex(FIXED_SAMPLE)));
+
+
+                // get rejection details for the same customer and item id
+                // will be displayed in another object
+                // TODO
+
+
+                arrayList.add(syncModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return arrayList;
     }
 
 }

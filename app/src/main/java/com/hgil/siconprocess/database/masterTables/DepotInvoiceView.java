@@ -360,13 +360,31 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
 
     // get van loading count
     public int getLoadingCount(String item_id) {
-
         SQLiteDatabase db = this.getReadableDatabase();
         /*String query = "select distinct " + ITEM_ID + ", " + ITEM_RATE + ", sum(" + INVQTY_PS + ") over (partition by " + ITEM_ID + ") as loading_qty " +
                 "from " + TABLE_NAME + " where " + ITEM_ID + "=?";*/
         String query = "select distinct " + ITEM_ID + ", sum(" + INVQTY_PS + ") as loading_qty " +
                 "from " + TABLE_NAME + " where " + ITEM_ID + "=? group by " + ITEM_ID;
         Cursor res = db.rawQuery(query, new String[]{item_id});
+
+        int total_item_count = 0;
+        if (res.moveToFirst()) {
+            total_item_count = res.getInt(res.getColumnIndex("loading_qty"));
+        }
+        res.close();
+        db.close();
+        return total_item_count;
+    }
+
+    // total van item loading count
+    // get van loading count
+    public int totalItemCount() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        /*String query = "select distinct " + ITEM_ID + ", " + ITEM_RATE + ", sum(" + INVQTY_PS + ") over (partition by " + ITEM_ID + ") as loading_qty " +
+                "from " + TABLE_NAME + " where " + ITEM_ID + "=?";*/
+        String query = "select sum(" + INVQTY_PS + ") as loading_qty " +
+                "from " + TABLE_NAME;
+        Cursor res = db.rawQuery(query, null);
 
         int total_item_count = 0;
         if (res.moveToFirst()) {
@@ -512,7 +530,8 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
 
                 // get invoice product sample for user.
 
-
+                arrayList.add(invoiceModel);
+                res.moveToNext();
             }
         }
 

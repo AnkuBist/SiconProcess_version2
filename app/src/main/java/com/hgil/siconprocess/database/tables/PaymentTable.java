@@ -241,6 +241,22 @@ public class PaymentTable extends SQLiteOpenHelper {
         return total;
     }
 
+    // get total issued crates for the route
+    public double routeTotalAmountCollection() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select sum(" + TOTAL_PAID_AMOUNT + ") as total " +
+                "from " + TABLE_NAME;
+        Cursor res = db.rawQuery(query, null);
+
+        double total = 0;
+        if (res.moveToFirst()) {
+            total = res.getInt(res.getColumnIndex("total"));
+        }
+        res.close();
+        db.close();
+        return total;
+    }
+
     // customer cash collection details
     public ArrayList<CollectionCashModel> syncCashDetail() {
         ArrayList<CollectionCashModel> array_list = new ArrayList<>();
