@@ -321,11 +321,10 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
 
                 float orderQty = 0;
 
-                // get item demand if invoice made lastly
-                int invoiceQty = invoiceOutTable.getDemandQuantity(customer_id, item_id);
-
-                if (invoiceQty > 0) {
-                    orderQty = invoiceQty;
+                //first check whether invoice out table contains the user or not
+                if (invoiceOutTable.checkUser(customer_id)) {
+                    // get item demand if invoice made lastly
+                    orderQty = invoiceOutTable.getDemandQuantity(customer_id, item_id);
                 } else {
                     // get invoice item target
                     orderQty = dbDemandTarget.getDemandTargetByItem(item_id, customer_id).getTargetQty();
@@ -482,11 +481,10 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
 
             float orderQty = 0;
 
-            // get item demand if invoice made lastly
-            int invoiceQty = invoiceOutTable.getDemandQuantity(customer_id, item_id);
-
-            if (invoiceQty > 0) {
-                orderQty = invoiceQty;
+            //first check whether invoice out table contains the user or not
+            if (invoiceOutTable.checkUser(customer_id)) {
+                // get item demand if invoice made lastly
+                orderQty = invoiceOutTable.getDemandQuantity(customer_id, item_id);
             } else {
                 // get invoice item target
                 orderQty = dbDemandTarget.getDemandTargetByItem(item_id, customer_id).getTargetQty();
@@ -510,6 +508,8 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
 
 
     // get sync invoice details
+    // TODO
+    // code not required
     public ArrayList<SyncInvoiceDetailModel> getSyncInvoice() {
         SQLiteDatabase db = this.getReadableDatabase();
 

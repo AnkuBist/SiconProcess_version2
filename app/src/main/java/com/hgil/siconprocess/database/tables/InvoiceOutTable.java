@@ -24,7 +24,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "depot_invoice_out";
 
     private static final String INVOICE_NO = "Invoice_No";
-    private static final String INVOICE_DATE = " ";
+    private static final String INVOICE_DATE = "Invoice_Date";
     private static final String CUSTOMER_ID = "Customer_id";
     private static final String ROUTE_ID = "Route_Id";
     private static final String VEHICLE_NO = "Vehicle_No";
@@ -62,7 +62,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
                 + CRATE_ID + " TEXT NULL, " + INVQTY_CR + " REAL NULL, " + INVQTY_PS + " REAL NULL, "
                 + ITEM_RATE + " REAL NULL, " + TOTAL_AMOUNT + " REAL NULL, "
                 + FIXED_SAMPLE + " INTEGER NULL, " + DEMAND_TARGET_QUANTITY + " REAL NULL, " + ORDER_AMOUNT + " REAL NULL, "
-                + STOCK_AVAIL + " INTEGER NULL, " + TEMP_STOCK + " INETEGER NULL, " + ITEM_NAME + " TEXT NULL)");
+                + STOCK_AVAIL + " INTEGER NULL, " + TEMP_STOCK + " INTEGER NULL, " + ITEM_NAME + " TEXT NULL)");
                /* + REJECTION_QTY + " INTEGER NULL, " + REJECTION_TOTAL_AMOUNT + " REAL NULL)");*/
     }
 
@@ -266,6 +266,23 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
         res.close();
         db.close();
         return array_list;
+    }
+
+    // check for user exists in invoice or not
+    public boolean checkUser(String customer_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select distinct " + CUSTOMER_ID + " from " + TABLE_NAME + " where " + CUSTOMER_ID + "=?";
+        Cursor res = db.rawQuery(query, new String[]{customer_id});
+
+        boolean status = false;
+        if (res != null) {
+            if (res.moveToFirst()) {
+                status = true;
+            }
+        }
+        res.close();
+        db.close();
+        return status;
     }
 
     // get item demand for customer

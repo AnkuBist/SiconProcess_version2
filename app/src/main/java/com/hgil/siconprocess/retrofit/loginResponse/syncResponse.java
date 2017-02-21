@@ -1,23 +1,19 @@
 package com.hgil.siconprocess.retrofit.loginResponse;
 
-/**
- * Created by mohan.giri on 24-01-2017.
- */
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class loginResponse {
+/**
+ * Created by mohan.giri on 21-02-2017.
+ */
 
+public class syncResponse {
     @SerializedName("returnCode")
     @Expose
     private Boolean returnCode;
     @SerializedName("strMessage")
     @Expose
     private String strMessage;
-    @SerializedName("objLoginResponse")
-    @Expose
-    private ObjLoginResponse objLoginResponse;
 
     public Boolean getReturnCode() {
         return returnCode;
@@ -35,13 +31,4 @@ public class loginResponse {
         this.strMessage = strMessage;
     }
 
-    public ObjLoginResponse getObjLoginResponse() {
-        return objLoginResponse;
-    }
-
-    public void setObjLoginResponse(ObjLoginResponse objLoginResponse) {
-        this.objLoginResponse = objLoginResponse;
-    }
-
 }
-

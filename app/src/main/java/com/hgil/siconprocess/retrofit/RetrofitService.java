@@ -1,7 +1,10 @@
 package com.hgil.siconprocess.retrofit;
 
 import com.hgil.siconprocess.retrofit.loginResponse.loginResponse;
+import com.hgil.siconprocess.retrofit.loginResponse.syncResponse;
 import com.hgil.siconprocess.utils.API;
+
+import org.json.JSONObject;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -26,4 +29,8 @@ public interface RetrofitService {
     /*@FormUrlEncoded
     @POST(API.LOGIN_URL)
     Call<ResponseBody> testLogin(@Field("username") String username, @Field("password") String password);*/
+
+    @FormUrlEncoded
+    @POST(API.SYNC_URL)
+    Call<syncResponse> syncRouteData(@Field("route_id") String username, @Field("route_data") String route_data);
 }

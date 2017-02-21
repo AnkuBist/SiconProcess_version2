@@ -1,11 +1,14 @@
 package com.hgil.siconprocess.activity.navFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.LoginActivity;
+import com.hgil.siconprocess.activity.NavBaseActivity;
 import com.hgil.siconprocess.activity.navFragments.invoiceSync.CashCheck;
 import com.hgil.siconprocess.activity.navFragments.invoiceSync.CollectionCashModel;
 import com.hgil.siconprocess.activity.navFragments.invoiceSync.CollectionCrateModel;
@@ -20,12 +23,23 @@ import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.database.tables.PaymentTable;
+import com.hgil.siconprocess.retrofit.RetrofitService;
+import com.hgil.siconprocess.retrofit.RetrofitUtil;
+import com.hgil.siconprocess.retrofit.loginResponse.ObjLoginResponse;
+import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
+import com.hgil.siconprocess.retrofit.loginResponse.loginResponse;
+import com.hgil.siconprocess.retrofit.loginResponse.syncResponse;
+import com.hgil.siconprocess.utils.Utility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SyncFragment extends BaseFragment {
 
@@ -132,14 +146,58 @@ public class SyncFragment extends BaseFragment {
 
 
         String json = new Gson().toJson(syncData);
+        JSONObject jObj = null;
         try {
-            JSONObject jObj = new JSONObject(json);
+            jObj = new JSONObject(json);
             Log.e(TAG, json);
             Log.e(TAG + "1", jObj.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+        // make retrofit request call
+        syncRouteInvoice(getRouteId(), jObj);
+    }
+
+    // sync process retrofit call
+    /*retrofit call test example*/
+    public void syncRouteInvoice(final String route_id, JSONObject route_data) {
+        RetrofitUtil.showDialog(getContext());
+        RetrofitService service = RetrofitUtil.retrofitClient();
+        Call<syncResponse> apiCall = service.syncRouteData(route_id, route_data.toString());
+        apiCall.enqueue(new Callback<syncResponse>() {
+            @Override
+            public void onResponse(Call<syncResponse> call, Response<syncResponse> response) {
+                RetrofitUtil.hideDialog();
+                syncResponse syncResponse = response.body();
+                // rest call to read data from api service
+                if (syncResponse.getReturnCode()) {
+                    //check if call completed or not
+                    RetrofitUtil.showToast(getContext(), syncResponse.getStrMessage());
+
+                    //erase all masterTables data
+                    //eraseAllSyncTableData();
+
+                    //after saving all values to database start new activity
+                    //startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
+                    // finish();
+                    //overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+                } else {
+                    RetrofitUtil.showToast(getContext(), syncResponse.getStrMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<syncResponse> call, Throwable t) {
+                RetrofitUtil.hideDialog();
+                // show some error toast or message to display the api call issue
+                RetrofitUtil.showToast(getContext(), "Unable to access API");
+            }
+        });
+    }
+
+    //TODO
+    public void eraseAllSyncTables() {
     }
 
 }
