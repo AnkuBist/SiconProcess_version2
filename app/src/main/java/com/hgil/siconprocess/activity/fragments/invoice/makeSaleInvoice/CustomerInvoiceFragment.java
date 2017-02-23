@@ -12,11 +12,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.adapter.invoice.invoiceSale.CustomerInvoiceAdapter;
 import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
+import com.hgil.siconprocess.adapter.invoice.invoiceSale.CustomerInvoiceAdapter;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
-import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.utils.Utility;
 
 import java.util.ArrayList;
@@ -41,7 +40,6 @@ public class CustomerInvoiceFragment extends BaseFragment {
 
     private CustomerInvoiceAdapter invoiceAdapter;
     private DepotInvoiceView customerInvoice;
-    private InvoiceOutTable invoiceOutTable;
     private ArrayList<InvoiceModel> arrInvoiceItems = new ArrayList<>();
 
     public CustomerInvoiceFragment() {
@@ -70,7 +68,6 @@ public class CustomerInvoiceFragment extends BaseFragment {
 
         // initialise the values at first time
         customerInvoice = new DepotInvoiceView(getContext());
-        invoiceOutTable = new InvoiceOutTable(getContext());
 
         invoiceAdapter = new CustomerInvoiceAdapter(getActivity(), arrInvoiceItems);
 
@@ -82,11 +79,6 @@ public class CustomerInvoiceFragment extends BaseFragment {
         if (arrInvoiceItems.size() == 0) {
             arrInvoiceItems.addAll(customerInvoice.getCustomerInvoiceOff(customer_id));
         }
-
-        /*get customer existing or saved invoice from the outlet*/
-       /* ArrayList<InvoiceModel> tempInvoice = invoiceOutTable.getCustomerInvoice(customer_id);
-        for ()*/
-
 
         for (int i = 0; i < arrInvoiceItems.size(); i++) {
             double itemOrderAmount = arrInvoiceItems.get(i).getOrderAmount();

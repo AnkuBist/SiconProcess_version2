@@ -37,13 +37,6 @@ public class HomeFragment extends BaseFragment implements TabLayout.OnTabSelecte
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
-    }
-
-    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -62,9 +55,7 @@ public class HomeFragment extends BaseFragment implements TabLayout.OnTabSelecte
         tabLayout.setupWithViewPager(viewPager);
 
         // set route name to the route
-        String routeName = SiconApp.getInstance().getRouteName();
-        if (routeName != null && !routeName.isEmpty())
-            tvRouteName.setText(routeName);
+        tvRouteName.setText(getRouteName());
 
         setTitle("Route");
         hideSaveButton();

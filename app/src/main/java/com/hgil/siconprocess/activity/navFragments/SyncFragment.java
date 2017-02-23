@@ -56,13 +56,6 @@ public class SyncFragment extends BaseFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
-    }
-
-    @Override
     protected int getFragmentLayout() {
         return R.layout.fragment_sync;
     }
@@ -81,6 +74,7 @@ public class SyncFragment extends BaseFragment {
         DepotInvoiceView depot_invoice = new DepotInvoiceView(getContext());
         InvoiceOutTable invoiceOutTable = new InvoiceOutTable(getContext());
         CustomerRejectionTable rejectionTable = new CustomerRejectionTable(getContext());
+        PaymentTable paymentTable = new PaymentTable(getContext());
 
         // invoice sync
         //TODO
@@ -89,8 +83,6 @@ public class SyncFragment extends BaseFragment {
         // get rejections details
         ArrayList<SyncInvoiceDetailModel> syncInvoiceRejection = rejectionTable.syncRejection(getRouteId());
 
-
-        PaymentTable paymentTable = new PaymentTable(getContext());
         ArrayList<CollectionCashModel> cashCollection = paymentTable.syncCashDetail();
         ArrayList<CollectionCrateModel> crateCollection = paymentTable.syncCrateDetail();
         CrateStockCheck crateStock = paymentTable.syncCrateStock(getRouteId());
@@ -113,16 +105,23 @@ public class SyncFragment extends BaseFragment {
 
         // cross check items left and rejections
         int items_loaded = depot_invoice.totalItemCount();
+        int items_sold = invoiceOutTable.soldItemCount();
+        int items_leftover = items_loaded - items_sold;
+        int items_delivered = 0; //ui
         int items_fresh_rejection = rejectionTable.routeFreshRejection();
+        int items_fresh_rej_received = 0;   //ui
         int items_market_rejection = rejectionTable.routeMarketRejection();
-        int items_delivered_by_cashier = 0; // ui task
+        int items_market_rej_received = 0;  //ui
 
         VanStockCheck vanStockCheck = new VanStockCheck();
         vanStockCheck.setItems_loaded(items_loaded);
+        vanStockCheck.setItems_sold(items_sold);
+        vanStockCheck.setItems_leftover(items_leftover);
+        vanStockCheck.setItem_delivered(items_delivered);
         vanStockCheck.setFresh_rejections(items_fresh_rejection);
+        vanStockCheck.setFresh_rejections_delivered(items_fresh_rej_received);
         vanStockCheck.setMarket_rejection(items_market_rejection);
-        vanStockCheck.setItem_delivered(items_delivered_by_cashier);
-
+        vanStockCheck.setMarket_rejection_delivered(items_market_rej_received);
 
         // get van actual stock
         /*
@@ -144,7 +143,6 @@ public class SyncFragment extends BaseFragment {
         syncData.setCashCheck(cashCheck);
         syncData.setCrateCheck(crateCheck);
         syncData.setVanStockCheck(vanStockCheck);
-
 
         String json = new Gson().toJson(syncData);
         JSONObject jObj = null;

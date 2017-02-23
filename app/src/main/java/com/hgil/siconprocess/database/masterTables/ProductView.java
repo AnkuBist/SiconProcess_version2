@@ -222,7 +222,7 @@ public class ProductView extends SQLiteOpenHelper {
         InvoiceOutTable invoiceOutTable = new InvoiceOutTable(mContext);
         CustomerRejectionTable customerRejTable = new CustomerRejectionTable(mContext);
 
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + FLAG + "=0", null);
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 VanStockModel vanStockModel = new VanStockModel();

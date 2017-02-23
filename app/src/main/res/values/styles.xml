@@ -91,11 +91,12 @@
     </style>
 
     <style name="RejectionTvLabel">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_marginLeft">20dp</item>
-        <item name="android:gravity">center</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:gravity">left</item>
         <item name="android:textColor">@color/colorTextBlack</item>
         <item name="android:textSize">@dimen/text_size_large</item>
     </style>
@@ -192,5 +193,14 @@
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:textColor">@color/colorTextBlack</item>
         <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <!--final payment layout holder-->
+    <!--rejection layout styles-->
+    <style name="finalPaymentItemHolder">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">55dp</item>
+        <item name="android:background">@color/colorWhite</item>
+        <item name="android:orientation">vertical</item>
     </style>
 </resources>

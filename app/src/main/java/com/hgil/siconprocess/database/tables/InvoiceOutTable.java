@@ -449,4 +449,20 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
         return arrayList;
     }
 
+    // totals items sold overall count
+    public int soldItemCount() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select sum(" + FIXED_SAMPLE + "+" + DEMAND_TARGET_QUANTITY + ") as total " +
+                "from " + TABLE_NAME;
+        Cursor res = db.rawQuery(query, null);
+
+        int total = 0;
+        if (res.moveToFirst()) {
+            total = res.getInt(res.getColumnIndex("total"));
+        }
+        res.close();
+        db.close();
+        return total;
+    }
+
 }

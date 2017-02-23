@@ -37,13 +37,6 @@ public class OutletInfoFragment extends BaseFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
-    }
-
-    @Override
     protected int getFragmentLayout() {
         return R.layout.fragment_outlet_info;
     }

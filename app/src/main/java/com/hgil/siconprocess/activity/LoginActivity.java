@@ -33,6 +33,7 @@ import com.hgil.siconprocess.database.masterTables.DepotEmployeeView;
 import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
 import com.hgil.siconprocess.database.masterTables.FixedSampleTable;
 import com.hgil.siconprocess.database.masterTables.PriceGroupView;
+import com.hgil.siconprocess.database.masterTables.ProductView;
 import com.hgil.siconprocess.database.masterTables.RejectionTargetTable;
 import com.hgil.siconprocess.database.masterTables.RouteView;
 import com.hgil.siconprocess.retrofit.RetrofitService;
@@ -66,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
     private CustomerRouteMappingView dbRouteMapView;
     private CustomerItemPriceTable dbCustomerItemPrice;
     private PriceGroupView dbPriceGroup;
+    private ProductView dbProductView;
     private CreditOpeningTable dbCreditOpening;
     private CrateOpeningTable dbCrateOpening;
     private CrateCollectionView dbCrateCollection;
@@ -199,6 +201,7 @@ public class LoginActivity extends AppCompatActivity {
         dbRouteMapView = new CustomerRouteMappingView(this);
         dbCustomerItemPrice = new CustomerItemPriceTable(this);
         dbPriceGroup = new PriceGroupView(this);
+        dbProductView = new ProductView(this);
         dbCreditOpening = new CreditOpeningTable(this);
         dbCrateOpening = new CrateOpeningTable(this);
         dbCrateCollection = new CrateCollectionView(this);
@@ -247,6 +250,7 @@ public class LoginActivity extends AppCompatActivity {
         dbRouteMapView.eraseTable();
         dbCustomerItemPrice.eraseTable();
         dbPriceGroup.eraseTable();
+        dbProductView.eraseTable();
         dbCreditOpening.eraseTable();
         dbCrateOpening.eraseTable();
         dbCrateCollection.eraseTable();
