@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.CreditOpeningModel;
+import com.hgil.siconprocess.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -211,10 +212,10 @@ public class CreditOpeningTable extends SQLiteOpenHelper {
 
         double amount = 0;
         if (res.moveToFirst()) {
-            amount = res.getInt(res.getColumnIndex(OPENING));
+            amount = res.getDouble(res.getColumnIndex(OPENING));
         }
         res.close();
         db.close();
-        return amount;
+        return Utility.roundTwoDecimals(amount);
     }
 }

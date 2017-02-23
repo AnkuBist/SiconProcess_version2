@@ -41,6 +41,7 @@ import com.hgil.siconprocess.retrofit.loginResponse.ObjLoginResponse;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
 import com.hgil.siconprocess.retrofit.loginResponse.loginResponse;
 import com.hgil.siconprocess.utils.Utility;
+import com.hgil.siconprocess.utils.ui.SampleDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -298,6 +299,7 @@ public class LoginActivity extends AppCompatActivity {
                     dbRejectionTarget.insertRejectionTarget(routeData.getArrRejectionTarget());
                     dbEmployee.insertDepotEmployee(routeData.getArrEmployees());
 
+                    Utility.saveLoginStatus(LoginActivity.this, Utility.LOGIN_STATUS, true);
                     Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_ID, user_id);
                     Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_DATE, Utility.getCurDate());
 
@@ -306,7 +308,8 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                     overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
                 } else {
-                    RetrofitUtil.showToast(LoginActivity.this, loginResult.getStrMessage());
+                    //RetrofitUtil.showToast(LoginActivity.this, loginResult.getStrMessage());
+                    new SampleDialog("", loginResult.getStrMessage(), getApplicationContext());
                 }
             }
 
@@ -314,7 +317,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<loginResponse> call, Throwable t) {
                 RetrofitUtil.hideDialog();
                 // show some error toast or message to display the api call issue
-                RetrofitUtil.showToast(LoginActivity.this, "Unable to access API");
+                //RetrofitUtil.showToast(LoginActivity.this, "Unable to access API");
+
+                new SampleDialog("", "Unable to access API", getApplicationContext());
 
             }
         });

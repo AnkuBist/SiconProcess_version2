@@ -100,7 +100,7 @@ public class CustomerPaymentFragment extends BaseFragment {
 
         // calculate payable amount
         final double payable_amount = saleTotal + creditOs;
-        tvTotalOs.setText(strRupee + payable_amount);
+        tvTotalOs.setText(strRupee + Utility.roundOff(payable_amount));
 
         paymentTable = new PaymentTable(getContext());
         PaymentModel paymentModel = paymentTable.getCustomerPaymentInfo(customer_id);

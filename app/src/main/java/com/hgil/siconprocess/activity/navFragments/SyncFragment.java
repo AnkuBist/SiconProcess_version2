@@ -30,6 +30,7 @@ import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
 import com.hgil.siconprocess.retrofit.loginResponse.loginResponse;
 import com.hgil.siconprocess.retrofit.loginResponse.syncResponse;
 import com.hgil.siconprocess.utils.Utility;
+import com.hgil.siconprocess.utils.ui.SampleDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -173,7 +174,9 @@ public class SyncFragment extends BaseFragment {
                 // rest call to read data from api service
                 if (syncResponse.getReturnCode()) {
                     //check if call completed or not
-                    RetrofitUtil.showToast(getContext(), syncResponse.getStrMessage());
+                    //RetrofitUtil.showToast(getContext(), syncResponse.getStrMessage());
+
+                    new SampleDialog("", syncResponse.getStrMessage(), true, getContext());
 
                     //erase all masterTables data
                     //eraseAllSyncTableData();
@@ -183,7 +186,8 @@ public class SyncFragment extends BaseFragment {
                     // finish();
                     //overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
                 } else {
-                    RetrofitUtil.showToast(getContext(), syncResponse.getStrMessage());
+                    // RetrofitUtil.showToast(getContext(), syncResponse.getStrMessage());
+                    new SampleDialog("", syncResponse.getStrMessage(), getContext());
                 }
             }
 

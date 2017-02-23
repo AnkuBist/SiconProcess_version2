@@ -105,7 +105,7 @@ public class NavBaseActivity extends BaseActivity {
     }
 
     // set default home nav item selected and launch this on first view
-    private void firstLaunch() {
+    public void firstLaunch() {
         nvDrawer.getMenu().performIdentifierAction(R.id.nav_home, 0);
     }
 
@@ -152,6 +152,16 @@ public class NavBaseActivity extends BaseActivity {
                 break;
             case R.id.nav_logout:
                 // put the code to logout user from application
+                Utility.saveLoginStatus(NavBaseActivity.this, Utility.LOGIN_STATUS, false);
+
+                // now restart login activity after finish application top
+                //Intent intent = new Intent(NavBaseActivity.this, LoginActivity.class);
+                //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(new Intent(NavBaseActivity.this, LoginActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
+                overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+                // finish();
 
                 break;
             default:
@@ -186,6 +196,11 @@ public class NavBaseActivity extends BaseActivity {
         }
         // Close the navigation drawer
         mDrawer.closeDrawers();
+    }
+
+    // make call to home tab on some button click
+    public void clickHome() {
+        selectDrawerItem(nvDrawer.getMenu().getItem(R.id.nav_home));
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {

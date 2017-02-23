@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.hgil.siconprocess.activity.navFragments.invoiceSync.SyncInvoiceDetailModel;
 import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
 import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
+import com.hgil.siconprocess.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -403,11 +404,11 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
 
         double amount = 0;
         if (res.moveToFirst()) {
-            amount = res.getInt(res.getColumnIndex("total"));
+            amount = res.getDouble(res.getColumnIndex("total"));
         }
         res.close();
         db.close();
-        return amount;
+        return Utility.roundTwoDecimals(amount);
     }
 
     /*generate array list to sync data*/

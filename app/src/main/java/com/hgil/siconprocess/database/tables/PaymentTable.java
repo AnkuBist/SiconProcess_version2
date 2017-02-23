@@ -76,7 +76,7 @@ public class PaymentTable extends SQLiteOpenHelper {
         db.close();
     }
 
-    // insert multiple rejections to table for selected user at once
+    // insert customer payment information
     public void insertCustPayment(PaymentModel paymentModel) {
         SQLiteDatabase db = this.getWritableDatabase();
 

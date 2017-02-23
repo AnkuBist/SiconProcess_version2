@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.Format;
@@ -32,6 +33,7 @@ public class Utility {
 
     public static final String USER_ID = "user_id";
     public static final String LAST_LOGIN_ID = "last_login_id";
+    public static final String LOGIN_STATUS = "login_status";
     public static final String LAST_LOGIN_DATE = "last_login_date";
 
     /*save shared preferences*/
@@ -48,6 +50,22 @@ public class Utility {
         String restoredText = preferences.getString(key, "");
         return restoredText;
     }
+
+    /*save boolean shared preferences*/
+    public static void saveLoginStatus(Activity activity, String key, boolean value) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(key, value);
+        editor.apply();
+    }
+
+    /*read boolean shared preferences*/
+    public static boolean readLoginStatus(Activity activity, String key) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        boolean restoredStatus = preferences.getBoolean(key, false);
+        return restoredStatus;
+    }
+
 
     /*clear shared preference data*/
     public static void clearPreference(Activity activity) {
@@ -98,6 +116,12 @@ public class Utility {
     public static double roundTwoDecimals(double d) {
         DecimalFormat twoDForm = new DecimalFormat("#.##");
         return Double.valueOf(twoDForm.format(d));
+    }
+
+    public static double roundOff(double val) {
+        BigDecimal a = new BigDecimal(val);
+        BigDecimal roundOff = a.setScale(0, BigDecimal.ROUND_HALF_EVEN);
+        return roundOff.doubleValue();
     }
 
     public static void closeKeyboard(Context c, View view) {

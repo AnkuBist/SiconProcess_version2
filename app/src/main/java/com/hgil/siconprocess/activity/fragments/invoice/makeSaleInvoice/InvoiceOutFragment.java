@@ -64,6 +64,11 @@ public class InvoiceOutFragment extends BaseFragment {
             customer_name = getArguments().getString(CUSTOMER_NAME);
             arrInvoiceItems = (ArrayList<InvoiceModel>) getArguments().getSerializable(INVOICE_LIST);
         }
+
+        for (int i = 0; i < arrInvoiceItems.size(); i++) {
+            double itemOrderAmount = arrInvoiceItems.get(i).getOrderAmount();
+            grandTotal += itemOrderAmount;
+        }
     }
 
     @Override
@@ -113,12 +118,7 @@ public class InvoiceOutFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        for (int i = 0; i < arrInvoiceItems.size(); i++) {
-            double itemOrderAmount = arrInvoiceItems.get(i).getOrderAmount();
-            grandTotal += itemOrderAmount;
-        }
-
-        tvCustomerTotal.setText(strRupee + String.valueOf(Utility.roundTwoDecimals(grandTotal)));
+              tvCustomerTotal.setText(strRupee + String.valueOf(Utility.roundTwoDecimals(grandTotal)));
         if (arrInvoiceItems.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
             rvCustomerInvoice.setVisibility(View.GONE);

@@ -32,9 +32,10 @@ public class SplashActivity extends Activity {
                 // This method will be executed once the timer is over
                 // Start your app main activity
                 String lastLoginDate = Utility.readPreference(SplashActivity.this, Utility.LAST_LOGIN_DATE);
+                boolean loginStatus = Utility.readLoginStatus(SplashActivity.this, Utility.LOGIN_STATUS);
 
                 // direct pass user to home if user has already logged same day with any of the last saved id.
-                if ((Utility.getCurDate()).matches(lastLoginDate))
+                if ((Utility.getCurDate()).matches(lastLoginDate) && loginStatus)
                     startActivity(new Intent(SplashActivity.this, NavBaseActivity.class));
                 else
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
