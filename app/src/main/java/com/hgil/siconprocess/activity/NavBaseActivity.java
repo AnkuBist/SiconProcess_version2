@@ -177,6 +177,7 @@ public class NavBaseActivity extends BaseActivity {
                 boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
                 if (!fragmentPopped) {
                     ft.replace(R.id.flContent, fragment);
+                    ft.addToBackStack(fragClassName);
                 }
             } else {
                 ft.replace(R.id.flContent, fragment);
@@ -184,11 +185,10 @@ public class NavBaseActivity extends BaseActivity {
             //fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-            ft.addToBackStack(fragClassName);
             ft.commit();
 
             // Highlight the selected item has been done by NavigationView
-            menuItem.setChecked(true);
+            //menuItem.setChecked(true);
 
             // Set action bar title
             tvNavTitle.setText(menuItem.getTitle());

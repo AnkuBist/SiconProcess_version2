@@ -13,6 +13,9 @@ import com.hgil.siconprocess.adapter.routeMap.RouteMapRAdapter;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.masterTables.CustomerRouteMappingView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;

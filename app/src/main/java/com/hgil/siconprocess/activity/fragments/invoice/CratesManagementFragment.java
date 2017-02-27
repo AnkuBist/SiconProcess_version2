@@ -126,6 +126,7 @@ public class CratesManagementFragment extends BaseFragment {
 
         setTitle("Crates Management");
         showSaveButton();
+        updateSaveIcon();
         imgSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,6 +137,9 @@ public class CratesManagementFragment extends BaseFragment {
                 crateDetailModel.setReceivedCrates(Utility.getInteger(etReceivedCrates.getText().toString()));
 
                 paymentTable.insertCustomerCrates(crateDetailModel);
+
+                // show snackbar message
+                showSnackbar(getView(), "Crates details saved successfully.");
 
                 //move to next fragment
                 TomorrowOrderFragment fragment = TomorrowOrderFragment.newInstance(customer_id, customer_name);

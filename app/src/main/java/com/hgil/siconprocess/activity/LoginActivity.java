@@ -313,7 +313,7 @@ public class LoginActivity extends AppCompatActivity {
                     overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
                 } else {
                     //RetrofitUtil.showToast(LoginActivity.this, loginResult.getStrMessage());
-                    new SampleDialog("", loginResult.getStrMessage(), getApplicationContext());
+                    new SampleDialog("", loginResult.getStrMessage(), LoginActivity.this);
                 }
             }
 
@@ -323,7 +323,7 @@ public class LoginActivity extends AppCompatActivity {
                 // show some error toast or message to display the api call issue
                 //RetrofitUtil.showToast(LoginActivity.this, "Unable to access API");
 
-                new SampleDialog("", "Unable to access API", getApplicationContext());
+                new SampleDialog("", "Unable to access API", LoginActivity.this);
 
             }
         });

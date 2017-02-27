@@ -1,10 +1,13 @@
 package com.hgil.siconprocess.activity.fragments.invoice.makeSaleInvoice;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -101,6 +104,9 @@ public class InvoiceOutFragment extends BaseFragment {
             public void onClick(View v) {
                 // move to next fragment to review user order with the items ordered
                 invoiceOutTable.insertInvoiceOut(arrInvoiceItems, customer_id);
+                
+                // show snackbar message
+                showSnackbar(getView(), "Invoice order saved successfully.");
 
                 // start rejection fragment
                 CustomerRejectionFragment fragment = CustomerRejectionFragment.newInstance(customer_id, customer_name);
@@ -118,7 +124,8 @@ public class InvoiceOutFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-              tvCustomerTotal.setText(strRupee + String.valueOf(Utility.roundTwoDecimals(grandTotal)));
+        updateSaveIcon();
+        tvCustomerTotal.setText(strRupee + String.valueOf(Utility.roundTwoDecimals(grandTotal)));
         if (arrInvoiceItems.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
             rvCustomerInvoice.setVisibility(View.GONE);

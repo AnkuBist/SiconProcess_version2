@@ -89,6 +89,9 @@ public class DisplayTomorrowOrderFragment extends BaseFragment {
                 // save the crate details to the database
                 orderTable.insertNextOrder(arrOrder, customer_id);
 
+                // show snackbar message
+                showSnackbar(getView(), "Tomorrow's Invoice order saved successfully.");
+
                 //move to next fragment
                 FinalInvoiceFragment fragment = FinalInvoiceFragment.newInstance(customer_id, customer_name);
                 launchInvoiceFragment(fragment);
@@ -105,6 +108,7 @@ public class DisplayTomorrowOrderFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         refreshScreen();
+        updateSaveIcon();
     }
 
     // refresh screen

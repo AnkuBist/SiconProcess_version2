@@ -98,6 +98,9 @@ public class CustomerRejectionFragment extends BaseFragment {
                 // save rejections to table here only and move to the final payment fragment
                 rejectionTable.insertCustRejections(arrRejection, customer_id);
 
+                // show snackbar message
+                showSnackbar(getView(), "Rejected items details saved successfully to Invoice.");
+
                 // now move to next fragment to make payment and display the user payment
                 // start rejection fragment
                 CustomerPaymentFragment fragment = CustomerPaymentFragment.newInstance(customer_id, customer_name);
@@ -131,6 +134,7 @@ public class CustomerRejectionFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         refreshScreen();
+        updateSaveIcon();
     }
 
     // refresh screen

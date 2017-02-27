@@ -184,6 +184,7 @@ public class HomeInvoiceActivity extends BaseActivity {
                 boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
                 if (!fragmentPopped) {
                     ft.replace(R.id.flInvoiceContent, fragment);
+                    ft.addToBackStack(fragClassName);
                 }
             } else {
                 ft.replace(R.id.flInvoiceContent, fragment);
@@ -191,11 +192,10 @@ public class HomeInvoiceActivity extends BaseActivity {
             //fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-            ft.addToBackStack(fragClassName);
             ft.commit();
 
             // Highlight the selected item has been done by NavigationView
-            menuItem.setChecked(true);
+            //menuItem.setChecked(true);
 
             // Set action bar title
             tvNavTitle.setText(menuItem.getTitle());
@@ -243,12 +243,13 @@ public class HomeInvoiceActivity extends BaseActivity {
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             super.onBackPressed();
+            overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             //getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
         } else {
             super.onBackPressed();
+            overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             finish();
         }
-        overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
     }
 
     @Override

@@ -1,14 +1,15 @@
 package com.hgil.siconprocess.base;
 
-import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -66,6 +67,7 @@ public abstract class BaseFragment extends Fragment {
         tvNavTitle = (TextView) getActivity().findViewById(R.id.tvNavTitle);
         tvNavDate = (TextView) getActivity().findViewById(R.id.tvNavDate);
         imgSave = (ImageView) getActivity().findViewById(R.id.imgSave);
+        updateOkIcon();
     }
 
     protected abstract int getFragmentLayout();
@@ -111,6 +113,31 @@ public abstract class BaseFragment extends Fragment {
 
     public String getRouteName() {
         return routeName;
+    }
+
+    // sample snackbar
+    public static void showSnackbar(View view, String message) {
+        // make snackbar
+        Snackbar mSnackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
+        // get snackbar view
+        View mView = mSnackbar.getView();
+        // get textview inside snackbar view
+        TextView mTextView = (TextView) mView.findViewById(android.support.design.R.id.snackbar_text);
+        // set text to center
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+            mTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        else
+            mTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+        // show the snackbar
+        mSnackbar.show();
+    }
+
+    public void updateSaveIcon() {
+        imgSave.setImageResource(R.mipmap.ic_nav_save);
+    }
+
+    public void updateOkIcon() {
+        imgSave.setImageResource(R.mipmap.ic_ok);
     }
 
 }
