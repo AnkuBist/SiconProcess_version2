@@ -6,10 +6,8 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.ContactsContract;
-import android.provider.MediaStore;
 
-import com.hgil.siconprocess.activity.navFragments.invoiceSync.SyncInvoiceDetailModel;
+import com.hgil.siconprocess.activity.navFragments.invoiceSyncModel.SyncInvoiceDetailModel;
 import com.hgil.siconprocess.adapter.invoiceRejection.CRejectionModel;
 import com.hgil.siconprocess.adapter.invoiceRejection.FreshRejectionModel;
 import com.hgil.siconprocess.adapter.invoiceRejection.MarketRejectionModel;
@@ -45,6 +43,7 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
     private static final String MARKET_RAT_EATEN = "ratEaten";
 
     private static final String GRAND_TOTAL = "grand_total";
+    private static final String DATE = "date";
 
     public CustomerRejectionTable(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -55,7 +54,8 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
             + REJ_QTY + " INTEGER NULL, " + PRICE + " REAL NULL, " + FRESH_M_SHAPED + " INTEGER NULL, "
             + FRESH_TORN_POLLY + " INTEGER NULL, " + FRESH_FUNGUS + " INTEGER NULL, "
             + FRESH_WET_BREAD + " INTEGER NULL, " + FRESH_OTHERS + " INTEGER NULL, " + MARKET_DAMAGED + " INTEGER NULL, "
-            + MARKET_EXPIRED + " INTEGER NULL, " + MARKET_RAT_EATEN + " INTEGER NULL, " + GRAND_TOTAL + " REAL NULL)";
+            + MARKET_EXPIRED + " INTEGER NULL, " + MARKET_RAT_EATEN + " INTEGER NULL, " + GRAND_TOTAL + " REAL NULL, "
+            + DATE + " TEXT NULL)";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -117,12 +117,19 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
             double grand_total = (market_total_rej + fresh_total_rej) * rejectionModel.getPrice();
 
             contentValues.put(GRAND_TOTAL, grand_total);
+            contentValues.put(DATE, Utility.getCurDate());
             if (grand_total > 0)
                 db.insert(TABLE_NAME, null, contentValues);
             // }
         }
         db.close();
+    }
 
+    public int numberOfRows() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME, DATE + "<?", new String[]{Utility.getCurDate()});
+        db.close();
+        return numRows;
     }
 
     // erase customer rejections

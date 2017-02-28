@@ -1,4 +1,6 @@
-package com.hgil.siconprocess.activity.navFragments.invoiceSync;
+package com.hgil.siconprocess.activity.navFragments.invoiceSyncModel;
+
+import com.hgil.siconprocess.database.dbModels.NextDayOrderModel;
 
 import java.util.ArrayList;
 
@@ -16,6 +18,15 @@ public class SyncData {
     private CashCheck cashCheck;
     private CrateCheck crateCheck;
     private VanStockCheck vanStockCheck;
+    private ArrayList<NextDayOrderModel> arrNextDayOrder;
+
+    public ArrayList<NextDayOrderModel> getArrNextDayOrder() {
+        return arrNextDayOrder;
+    }
+
+    public void setArrNextDayOrder(ArrayList<NextDayOrderModel> arrNextDayOrder) {
+        this.arrNextDayOrder = arrNextDayOrder;
+    }
 
     public ArrayList<SyncInvoiceDetailModel> getSyncInvoice() {
         return syncInvoice;

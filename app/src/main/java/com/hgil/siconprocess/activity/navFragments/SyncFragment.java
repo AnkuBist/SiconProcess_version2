@@ -1,43 +1,39 @@
 package com.hgil.siconprocess.activity.navFragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.LoginActivity;
-import com.hgil.siconprocess.activity.NavBaseActivity;
-import com.hgil.siconprocess.activity.navFragments.invoiceSync.CashCheck;
-import com.hgil.siconprocess.activity.navFragments.invoiceSync.CollectionCashModel;
-import com.hgil.siconprocess.activity.navFragments.invoiceSync.CollectionCrateModel;
-import com.hgil.siconprocess.activity.navFragments.invoiceSync.CrateCheck;
-import com.hgil.siconprocess.activity.navFragments.invoiceSync.CrateStockCheck;
-import com.hgil.siconprocess.activity.navFragments.invoiceSync.SyncData;
-import com.hgil.siconprocess.activity.navFragments.invoiceSync.SyncInvoiceDetailModel;
-import com.hgil.siconprocess.activity.navFragments.invoiceSync.VanStockCheck;
+import com.hgil.siconprocess.activity.navFragments.invoiceSyncModel.CashCheck;
+import com.hgil.siconprocess.activity.navFragments.invoiceSyncModel.CollectionCashModel;
+import com.hgil.siconprocess.activity.navFragments.invoiceSyncModel.CollectionCrateModel;
+import com.hgil.siconprocess.activity.navFragments.invoiceSyncModel.CrateCheck;
+import com.hgil.siconprocess.activity.navFragments.invoiceSyncModel.CrateStockCheck;
+import com.hgil.siconprocess.activity.navFragments.invoiceSyncModel.SyncData;
+import com.hgil.siconprocess.activity.navFragments.invoiceSyncModel.SyncInvoiceDetailModel;
+import com.hgil.siconprocess.activity.navFragments.invoiceSyncModel.VanStockCheck;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.masterTables.CrateCollectionView;
 import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
+import com.hgil.siconprocess.database.tables.NextDayOrderTable;
 import com.hgil.siconprocess.database.tables.PaymentTable;
 import com.hgil.siconprocess.retrofit.RetrofitService;
 import com.hgil.siconprocess.retrofit.RetrofitUtil;
-import com.hgil.siconprocess.retrofit.loginResponse.ObjLoginResponse;
-import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
-import com.hgil.siconprocess.retrofit.loginResponse.loginResponse;
 import com.hgil.siconprocess.retrofit.loginResponse.syncResponse;
-import com.hgil.siconprocess.utils.Utility;
 import com.hgil.siconprocess.utils.ui.SampleDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,6 +41,18 @@ import retrofit2.Response;
 public class SyncFragment extends BaseFragment {
 
     private String TAG = this.getClass().getName();
+
+    @BindView(R.id.tvRouteName)
+    TextView tvRouteName;
+    @BindView(R.id.btnSyncData)
+    Button btnSyncData;
+
+    private CrateCollectionView crateCollectionView;
+    private DepotInvoiceView depot_invoice;
+    private InvoiceOutTable invoiceOutTable;
+    private CustomerRejectionTable rejectionTable;
+    private PaymentTable paymentTable;
+    private NextDayOrderTable nextDayOrderTable;
 
     public SyncFragment() {
         // Required empty public constructor
@@ -64,17 +72,33 @@ public class SyncFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         hideSaveButton();
+
+        if (getRouteName() != null)
+            tvRouteName.setText(getRouteName());
+
         initiateDataSync();
+
+        btnSyncData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initializeTableObjects();
+            }
+        });
+
+    }
+
+    public void initializeTableObjects() {
+        crateCollectionView = new CrateCollectionView(getContext());
+        depot_invoice = new DepotInvoiceView(getContext());
+        invoiceOutTable = new InvoiceOutTable(getContext());
+        rejectionTable = new CustomerRejectionTable(getContext());
+        paymentTable = new PaymentTable(getContext());
+        nextDayOrderTable = new NextDayOrderTable(getContext());
     }
 
     /*preparing data to sync whole day process*/
     private void initiateDataSync() {
         /*invoice data preparation*/
-        CrateCollectionView crateCollectionView = new CrateCollectionView(getContext());
-        DepotInvoiceView depot_invoice = new DepotInvoiceView(getContext());
-        InvoiceOutTable invoiceOutTable = new InvoiceOutTable(getContext());
-        CustomerRejectionTable rejectionTable = new CustomerRejectionTable(getContext());
-        PaymentTable paymentTable = new PaymentTable(getContext());
 
         // invoice sync
         //TODO
@@ -143,6 +167,7 @@ public class SyncFragment extends BaseFragment {
         syncData.setCashCheck(cashCheck);
         syncData.setCrateCheck(crateCheck);
         syncData.setVanStockCheck(vanStockCheck);
+        syncData.setArrNextDayOrder(nextDayOrderTable.getRouteOrder());
 
         String json = new Gson().toJson(syncData);
         JSONObject jObj = null;
@@ -199,7 +224,11 @@ public class SyncFragment extends BaseFragment {
     }
 
     //TODO
+    // erase all local tables made to sync data
     public void eraseAllSyncTables() {
+        rejectionTable.eraseTable();
+        invoiceOutTable.eraseTable();
+        paymentTable.eraseTable();
+        nextDayOrderTable.eraseTable();
     }
-
 }

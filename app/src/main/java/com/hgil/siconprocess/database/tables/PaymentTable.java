@@ -3,18 +3,20 @@ package com.hgil.siconprocess.database.tables;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.hgil.siconprocess.activity.navFragments.invoiceSync.CollectionCashModel;
-import com.hgil.siconprocess.activity.navFragments.invoiceSync.CollectionCrateModel;
-import com.hgil.siconprocess.activity.navFragments.invoiceSync.CrateStockCheck;
+import com.hgil.siconprocess.activity.navFragments.invoiceSyncModel.CollectionCashModel;
+import com.hgil.siconprocess.activity.navFragments.invoiceSyncModel.CollectionCrateModel;
+import com.hgil.siconprocess.activity.navFragments.invoiceSyncModel.CrateStockCheck;
 import com.hgil.siconprocess.database.dbModels.ChequeDetailsModel;
 import com.hgil.siconprocess.database.dbModels.CrateDetailModel;
 import com.hgil.siconprocess.database.dbModels.PaymentModel;
 import com.hgil.siconprocess.database.masterTables.CrateCollectionView;
 import com.hgil.siconprocess.database.masterTables.CrateOpeningTable;
 import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
+import com.hgil.siconprocess.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -43,6 +45,7 @@ public class PaymentTable extends SQLiteOpenHelper {
     // crate details
     private static final String ISSUED_CRATES = "issuedCrates";
     private static final String RECEIVED_CRATES = "receivedCrates";
+    private static final String DATE = "date";
 
     private Context mContext;
 
@@ -56,7 +59,8 @@ public class PaymentTable extends SQLiteOpenHelper {
             + CASH_PAID + " REAL NULL, " + TOTAL_PAID_AMOUNT + " REAL NULL, " + CHEQUE_NUMBER + " TEXT NULL, "
             + CHEQUE_DATE + " TEXT NULL, " + CHEQUE_AMOUNT + " REAL NULL, "
             + BANK_NAME + " TEXT NULL, " + BANK_BRANCH + " TEXT NULL, " + INVOICE_ID + " TEXT NULL, "
-            + ISSUED_CRATES + " INTEGER NULL, " + RECEIVED_CRATES + " INTEGER NULL)";
+            + ISSUED_CRATES + " INTEGER NULL, " + RECEIVED_CRATES + " INTEGER NULL, "
+            + DATE + " DATE NULL)";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -98,6 +102,8 @@ public class PaymentTable extends SQLiteOpenHelper {
             contentValues.put(INVOICE_ID, chequeDetailsModel.getInvoiceId());
         }
 
+        contentValues.put(DATE, Utility.getCurDate());
+
         // check if row exists for the same user or not
         // if yes then update the same or simply insert data
         if (Exists(db, paymentModel.getCustomerId()))
@@ -114,10 +120,18 @@ public class PaymentTable extends SQLiteOpenHelper {
         contentValues.put(CUSTOMER_ID, crateDetailModel.getCustomer_id());
         contentValues.put(ISSUED_CRATES, crateDetailModel.getIssuedCrates());
         contentValues.put(RECEIVED_CRATES, crateDetailModel.getReceivedCrates());
+        contentValues.put(DATE, Utility.getCurDate());
 
         //db.insert(TABLE_NAME, null, contentValues);
         db.update(TABLE_NAME, contentValues, CUSTOMER_ID + "=?", new String[]{crateDetailModel.getCustomer_id()});
         db.close();
+    }
+
+    public int numberOfRows() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME, DATE + "<?", new String[]{Utility.getCurDate()});
+        db.close();
+        return numRows;
     }
 
     // erase customer rejections

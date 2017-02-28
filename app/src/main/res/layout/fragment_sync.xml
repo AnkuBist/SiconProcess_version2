@@ -4,10 +4,31 @@
     android:layout_height="match_parent"
     tools:context="com.hgil.siconprocess.activity.navFragments.SyncFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/tvRouteName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="50dp"
+        android:background="@color/colorBackgroundBlack"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:text="Title"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_extra_large" />
+
+
+    <Button
+        android:id="@+id/btnSyncData"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="@color/colorTextBlue"
+        android:elevation="15dp"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Sync Invoice Data"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_large" />
 
 </FrameLayout>

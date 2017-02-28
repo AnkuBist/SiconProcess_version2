@@ -7,7 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.hgil.siconprocess.activity.navFragments.invoiceSync.SyncInvoiceDetailModel;
+import com.hgil.siconprocess.activity.navFragments.invoiceSyncModel.SyncInvoiceDetailModel;
 import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
 import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
 import com.hgil.siconprocess.utils.Utility;
@@ -48,6 +48,8 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
 /*    private static final String REJECTION_QTY = "rejectionQty";
     private static final String REJECTION_TOTAL_AMOUNT = "rejTotalAmount";*/
 
+    private static final String DATE = "date";
+
     private Context mContext;
 
     public InvoiceOutTable(Context context) {
@@ -63,7 +65,8 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
                 + CRATE_ID + " TEXT NULL, " + INVQTY_CR + " REAL NULL, " + INVQTY_PS + " REAL NULL, "
                 + ITEM_RATE + " REAL NULL, " + TOTAL_AMOUNT + " REAL NULL, "
                 + FIXED_SAMPLE + " INTEGER NULL, " + DEMAND_TARGET_QUANTITY + " REAL NULL, " + ORDER_AMOUNT + " REAL NULL, "
-                + STOCK_AVAIL + " INTEGER NULL, " + TEMP_STOCK + " INTEGER NULL, " + ITEM_NAME + " TEXT NULL)");
+                + STOCK_AVAIL + " INTEGER NULL, " + TEMP_STOCK + " INTEGER NULL, " + ITEM_NAME + " TEXT NULL, "
+                + DATE + " TEXT NULL)");
                /* + REJECTION_QTY + " INTEGER NULL, " + REJECTION_TOTAL_AMOUNT + " REAL NULL)");*/
     }
 
@@ -100,6 +103,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
         contentValues.put(STOCK_AVAIL, invoiceModel.getStockAvail());
         contentValues.put(TEMP_STOCK, invoiceModel.getTempStock());
         contentValues.put(ITEM_NAME, invoiceModel.getItemName());
+        contentValues.put(DATE, Utility.getCurDate());
 
         db.insert(TABLE_NAME, null, contentValues);
         db.close();
@@ -134,6 +138,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
                 contentValues.put(STOCK_AVAIL, invoiceModel.getStockAvail());
                 contentValues.put(TEMP_STOCK, invoiceModel.getTempStock());
                 contentValues.put(ITEM_NAME, invoiceModel.getItemName());
+                contentValues.put(DATE, Utility.getCurDate());
                 db.insert(TABLE_NAME, null, contentValues);
             }
         }
@@ -177,7 +182,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
 
     public int numberOfRows() {
         SQLiteDatabase db = this.getReadableDatabase();
-        int numRows = (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME, DATE + "<?", new String[]{Utility.getCurDate()});
         db.close();
         return numRows;
     }

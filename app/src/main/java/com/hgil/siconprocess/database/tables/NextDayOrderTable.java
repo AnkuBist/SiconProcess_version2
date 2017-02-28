@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.hgil.siconprocess.database.dbModels.NextDayOrderModel;
+import com.hgil.siconprocess.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
     private static final String ITEM_ID = "Item_id";
     private static final String ITEM_NAME = "Item_name";
     private static final String ITEM_QTY = "order_quantity";
+    private static final String DATE = "date";
 
     private Context mContext;
 
@@ -38,7 +40,7 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + CUSTOMER_ID + " TEXT NOT NULL, "
                 + CUSTOMER_NAME + " TEXT NOT NULL, " + ITEM_ID + " TEXT NOT NULL, " + ITEM_NAME + " TEXT NOT NULL, "
-                + ITEM_QTY + " INTEGER NOT NULL)");
+                + ITEM_QTY + " INTEGER NOT NULL, " + DATE + " TEXT NULL)");
     }
 
     @Override
@@ -62,6 +64,8 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
         contentValues.put(ITEM_ID, nextDayOrderModel.getItemId());
         contentValues.put(ITEM_NAME, nextDayOrderModel.getItemName());
         contentValues.put(ITEM_QTY, nextDayOrderModel.getQuantity());
+        contentValues.put(DATE, Utility.getCurDate());
+
         db.insert(TABLE_NAME, null, contentValues);
         db.close();
         return true;
@@ -83,6 +87,8 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
                 contentValues.put(ITEM_ID, nextDayOrderModel.getItemId());
                 contentValues.put(ITEM_NAME, nextDayOrderModel.getItemName());
                 contentValues.put(ITEM_QTY, nextDayOrderModel.getQuantity());
+                contentValues.put(DATE, Utility.getCurDate());
+
                 db.insert(TABLE_NAME, null, contentValues);
             }
         }
@@ -114,7 +120,7 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
 
     public int numberOfRows() {
         SQLiteDatabase db = this.getReadableDatabase();
-        int numRows = (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME, DATE + "<?", new String[]{Utility.getCurDate()});
         db.close();
         return numRows;
     }
@@ -124,11 +130,35 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
         return db.delete(TABLE_NAME, USER_ROLE_ID + "= ? ", new String[]{Integer.toString(id)});
     }*/
 
+    //get customer orders
     public ArrayList<NextDayOrderModel> getCustomerOrder(String customer_id) {
         ArrayList<NextDayOrderModel> array_list = new ArrayList<NextDayOrderModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CUSTOMER_ID + "=?", new String[]{customer_id});
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                NextDayOrderModel nextDayOrderModel = new NextDayOrderModel();
+                nextDayOrderModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+                nextDayOrderModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
+                nextDayOrderModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
+                nextDayOrderModel.setItemName(res.getString(res.getColumnIndex(ITEM_NAME)));
+                nextDayOrderModel.setQuantity(res.getInt(res.getColumnIndex(ITEM_QTY)));
+                array_list.add(nextDayOrderModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return array_list;
+    }
+
+    // get route orders
+    public ArrayList<NextDayOrderModel> getRouteOrder() {
+        ArrayList<NextDayOrderModel> array_list = new ArrayList<NextDayOrderModel>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 NextDayOrderModel nextDayOrderModel = new NextDayOrderModel();
