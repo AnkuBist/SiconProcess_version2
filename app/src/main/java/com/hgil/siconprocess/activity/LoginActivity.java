@@ -1,13 +1,8 @@
 package com.hgil.siconprocess.activity;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -15,7 +10,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -41,11 +35,14 @@ import com.hgil.siconprocess.retrofit.RetrofitUtil;
 import com.hgil.siconprocess.retrofit.loginResponse.ObjLoginResponse;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
 import com.hgil.siconprocess.retrofit.loginResponse.loginResponse;
+import com.hgil.siconprocess.utils.UtilNetworkLocation;
 import com.hgil.siconprocess.utils.Utility;
 import com.hgil.siconprocess.utils.ui.SampleDialog;
+import com.hgil.siconprocess.utils.ui.SnackbarUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -99,100 +96,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getUserLocation() {
-        // Acquire a reference to the system Location Manager
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-// Define a listener that responds to location updates
-        LocationListener locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                // Called when a new location is found by the network location provider.
-                //makeUseOfNewLocation(location);
-            }
-
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-            }
-
-            public void onProviderEnabled(String provider) {
-            }
-
-            public void onProviderDisabled(String provider) {
-            }
-        };
-
-
         int MyVersion = Build.VERSION.SDK_INT;
         if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
             if (!checkIfAlreadyHavePermission()) {
                 requestForSpecificPermission();
             } else {
-                Location location = getLastKnownLocation(locationManager);
-                printCoordinates(location);
-                //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, locationListener);
+                UtilNetworkLocation.fetchLocation(this);
             }
         }
         // for pre lolipop devices run this directly
         else {
-            Location location = getLastKnownLocation(locationManager);
-            printCoordinates(location);
-            //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-        }
-    }
-
-    private static final String TAG = LoginActivity.class.getName();
-
-    // get best last location
-    private Location getLastKnownLocation(LocationManager mLocationManager) {
-       /* List<String> providers = mLocationManager.getProviders(true);
-        Location bestLocation = null;
-        for (String provider : providers) {
-            Location l = mLocationManager.getLastKnownLocation(provider);
-            //Log.e(TAG, "last known location, provider: %s, location: %s", provider,
-            //        l);
-
-            if (l == null) {
-                continue;
-            }
-            if (bestLocation == null
-                    || l.getAccuracy() < bestLocation.getAccuracy()) {
-                //Log.e(TAG, "found best last known location: %s", l);
-                bestLocation = l;
-            }
-        }
-        if (bestLocation == null) {
-            return null;
-        }*/
-
-        Location bestLocation = mLocationManager.getLastKnownLocation(mLocationManager.NETWORK_PROVIDER);
-        if (bestLocation == null)
-            bestLocation = mLocationManager.getLastKnownLocation(mLocationManager.GPS_PROVIDER);
-
-        return bestLocation;
-    }
-
-    // get coordinates
-    private void getCoordinates(LocationManager locationManager) {
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        criteria.setCostAllowed(false);
-        String providerName = locationManager.getBestProvider(criteria, true);
-        Location location = locationManager.getLastKnownLocation(providerName);
-        if (location != null) {
-            double lat = location.getLatitude();
-            double lng = location.getLongitude();
-            Log.e(TAG, "getCoordinates: " + lat + "," + lng);
-        } else {
-            Log.e(TAG, "getCoordinates: location object is null");
-        }
-    }
-
-    // print coordinates
-    private void printCoordinates(Location location) {
-        if (location != null) {
-            double lat = location.getLatitude();
-            double lng = location.getLongitude();
-            Log.e(TAG, "getCoordinates: " + lat + "," + lng);
-        } else {
-            Log.e(TAG, "getCoordinates: location object is null");
+            UtilNetworkLocation.fetchLocation(this);
         }
     }
 
@@ -270,8 +184,6 @@ public class LoginActivity extends AppCompatActivity {
         apiCall.enqueue(new Callback<loginResponse>() {
             @Override
             public void onResponse(Call<loginResponse> call, Response<loginResponse> response) {
-                RetrofitUtil.hideDialog();
-
                 loginResponse loginResult = response.body();
 
                 // rest call to read data from api service
@@ -315,6 +227,7 @@ public class LoginActivity extends AppCompatActivity {
                     //RetrofitUtil.showToast(LoginActivity.this, loginResult.getStrMessage());
                     new SampleDialog("", loginResult.getStrMessage(), LoginActivity.this);
                 }
+                RetrofitUtil.hideDialog();
             }
 
             @Override
@@ -350,14 +263,11 @@ public class LoginActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case 1: {
-
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    getUserLocation();
+                    UtilNetworkLocation.fetchLocation(this);
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
@@ -367,9 +277,15 @@ public class LoginActivity extends AppCompatActivity {
             }
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
                 // other 'case' lines to check for other
                 // permissions this app might request
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (UtilNetworkLocation.canGetLocation(this) == true)
+            UtilNetworkLocation.printCoordinates(UtilNetworkLocation.getLocation(this));
     }
 }

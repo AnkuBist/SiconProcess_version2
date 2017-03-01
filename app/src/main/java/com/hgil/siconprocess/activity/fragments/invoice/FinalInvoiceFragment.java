@@ -14,6 +14,7 @@ import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.dbModels.PaymentModel;
 import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
 import com.hgil.siconprocess.database.tables.PaymentTable;
+import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -77,16 +78,16 @@ public class FinalInvoiceFragment extends BaseFragment {
         // get customer credit outstanding
         CreditOpeningTable creditOpeningTable = new CreditOpeningTable(getContext());
         double creditOs = creditOpeningTable.custCreditAmount(customer_id);
-        tvOpeningBalance.setText(strRupee + String.valueOf(creditOs));
+        tvOpeningBalance.setText(strRupee + Utility.roundTwoDecimals(creditOs));
 
         PaymentTable paymentTable = new PaymentTable(getContext());
         PaymentModel paymentModel = paymentTable.getCustomerPaymentInfo(customer_id);
         double todaySale = paymentModel.getSaleAmount();
         double amountCollected = paymentModel.getTotalPaidAmount();
         double osBalance = creditOs + todaySale - amountCollected;
-        tvTodaySale.setText(strRupee + String.valueOf(todaySale));
-        tvAmountCollected.setText(strRupee + String.valueOf(amountCollected));
-        tvOsBalance.setText(strRupee + String.valueOf(osBalance));
+        tvTodaySale.setText(strRupee + Utility.roundTwoDecimals(todaySale));
+        tvAmountCollected.setText(strRupee + Utility.roundTwoDecimals(amountCollected));
+        tvOsBalance.setText(strRupee + Utility.roundTwoDecimals(osBalance));
 
         setTitle("Invoice");
         hideSaveButton();

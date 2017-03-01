@@ -55,7 +55,7 @@
 
                     <TextView
                         style="@style/InvoiceTvLabelLeft"
-                        android:text="Todays's Sale" />
+                        android:text="Today's Sale" />
 
                     <TextView
                         android:id="@+id/tvTodaySale"

@@ -96,7 +96,7 @@ public class CustomerPaymentFragment extends BaseFragment {
         double invoiceTotal = invoiceOutTable.custInvoiceTotalAmount(customer_id);
         double rejectionTotal = rejectionTable.custRejTotalAmount(customer_id);
         final double saleTotal = invoiceTotal - rejectionTotal;
-        tvSaleAmount.setText(strRupee + saleTotal);
+        tvSaleAmount.setText(strRupee + Utility.roundTwoDecimals(saleTotal));
 
         // calculate payable amount
         final double payable_amount = saleTotal + creditOs;

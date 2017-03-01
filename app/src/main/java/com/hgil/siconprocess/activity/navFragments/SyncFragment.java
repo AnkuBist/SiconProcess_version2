@@ -76,15 +76,14 @@ public class SyncFragment extends BaseFragment {
         if (getRouteName() != null)
             tvRouteName.setText(getRouteName());
 
-        initiateDataSync();
+        initializeTableObjects();
 
         btnSyncData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initializeTableObjects();
+                initiateDataSync();
             }
         });
-
     }
 
     public void initializeTableObjects() {
