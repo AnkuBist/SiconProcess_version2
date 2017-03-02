@@ -28,7 +28,7 @@ public class RetrofitUtil {
     private static ProgressDialog loading = null;
 
     public static void showDialog(Context context) {
-        loading = ProgressDialog.show(context, "Fetching Data", "Please wait...", false, false);
+        loading = ProgressDialog.show(context, "Fetching Data", "Please ...", false, false);
 
     }
 

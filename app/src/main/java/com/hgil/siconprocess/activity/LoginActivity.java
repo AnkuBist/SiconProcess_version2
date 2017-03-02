@@ -1,8 +1,10 @@
 package com.hgil.siconprocess.activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -10,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -39,6 +42,12 @@ import com.hgil.siconprocess.utils.UtilNetworkLocation;
 import com.hgil.siconprocess.utils.Utility;
 import com.hgil.siconprocess.utils.ui.SampleDialog;
 import com.hgil.siconprocess.utils.ui.SnackbarUtil;
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.ObjectOutputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -175,7 +184,47 @@ public class LoginActivity extends AppCompatActivity {
         dbEmployee.eraseTable();
     }
 
+    // data processing and local db update
+    private void syncToLocal(loginResponse loginResult, String user_id) {
+        // rest call to read data from api service
+        if (loginResult.getReturnCode()) {
+            if (cbSignIn.isChecked()) {
+                // save the password for the next login too
+                Utility.savePreference(LoginActivity.this, Utility.USER_ID, user_id);
+            }
+
+            // erase all masterTables data
+            eraseAllTableData();
+
+            ObjLoginResponse objResponse = loginResult.getObjLoginResponse();
+
+            // sync data to local table and views
+            dbRouteView.insertRoute(objResponse.getRouteDetail());
+
+            RouteModel routeData = objResponse.getRouteDetail();
+
+            dbRouteMapView.insertCustomerRouteMap(routeData.getArrCustomerRouteMap());
+            dbCustomerItemPrice.insertCustomerItemPrice(routeData.getArrCustomerItemPrice());
+            dbPriceGroup.insertPrice(routeData.getArrGroupPrice());
+            dbCreditOpening.insertCreditOpening(routeData.getArrCreditOpening());
+            dbCrateOpening.insertCrateOpening(routeData.getArrCrateOpening());
+            dbCrateCollection.insertCrateCollection(routeData.getArrCrateCollection());
+            dbInvoice.insertDepotInvoice(routeData.getArrInvoiceDetails());
+            dbDemandTarget.insertDemandTarget(routeData.getArrDemandTarget());
+            dbFixedSample.insertFixedSample(routeData.getArrFixedSample());
+            dbRejectionTarget.insertRejectionTarget(routeData.getArrRejectionTarget());
+            dbEmployee.insertDepotEmployee(routeData.getArrEmployees());
+
+            Utility.saveLoginStatus(LoginActivity.this, Utility.LOGIN_STATUS, true);
+            Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_ID, user_id);
+            Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_DATE, Utility.getCurDate());
+        }
+    }
+
     /*retrofit call test example*/
+
+    private String USER_ID;
+
     public void getUserLogin(final String user_id, String password) {
 
         RetrofitUtil.showDialog(this);
@@ -184,11 +233,19 @@ public class LoginActivity extends AppCompatActivity {
         apiCall.enqueue(new Callback<loginResponse>() {
             @Override
             public void onResponse(Call<loginResponse> call, Response<loginResponse> response) {
+                RetrofitUtil.hideDialog();
+
                 loginResponse loginResult = response.body();
 
                 // rest call to read data from api service
                 if (loginResult.getReturnCode()) {
-                    if (cbSignIn.isChecked()) {
+
+                    USER_ID = user_id;
+                    // sync
+                    new loginSync().execute(loginResult);
+
+
+                  /*  if (cbSignIn.isChecked()) {
                         // save the password for the next login too
                         Utility.savePreference(LoginActivity.this, Utility.USER_ID, user_id);
                     }
@@ -222,12 +279,11 @@ public class LoginActivity extends AppCompatActivity {
                     // after saving all values to database start new activity
                     startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
                     finish();
-                    overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+                    overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);*/
                 } else {
                     //RetrofitUtil.showToast(LoginActivity.this, loginResult.getStrMessage());
                     new SampleDialog("", loginResult.getStrMessage(), LoginActivity.this);
                 }
-                RetrofitUtil.hideDialog();
             }
 
             @Override
@@ -285,7 +341,119 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (UtilNetworkLocation.canGetLocation(this) == true)
+
+        if (UtilNetworkLocation.canGetLocation(this) == true && checkIfAlreadyHavePermission())
             UtilNetworkLocation.printCoordinates(UtilNetworkLocation.getLocation(this));
     }
+
+    // customized async task with progress dialog
+    private class loginSync extends AsyncTask<loginResponse, Integer, String> {
+
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // showDialog(progress_bar_type);
+            progressDialog = new ProgressDialog(LoginActivity.this);
+            progressDialog.setCancelable(false);
+            //  dialog.setCanceledOnTouchOutside(false);
+            progressDialog.setIndeterminate(false);
+            //  progressDialog.setMax(100);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setProgress(0);
+            progressDialog.setMax(100);
+            progressDialog.setMessage("Loading ...");
+            progressDialog.show();
+            //  ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar2);
+        }
+
+
+        @Override
+        protected String doInBackground(loginResponse... params) {
+            try {
+                // you are doing this
+
+                // what is jsonParam ?
+                //byte[] payload = jsonParam.toString().getBytes("UTF-8");
+                // how you gonna get content lenght from it?
+
+                int count = 0;
+                //OutputStream wr = connection.getOutputStream();
+                //InputStream inputStream = null;
+                byte[] payload = params.toString().getBytes("UTF-8");
+                int totalSze = payload.length;
+                Log.e("Total size ", "" + totalSze);
+                int bytesTransferred = 0;
+                int chunkSize = (2 * totalSze) / 100;
+                boolean last_loop = false;
+                publishProgress(0);
+
+                // ...
+                // Do like this example
+                // getting file length
+                //int lenghtOfFile = params.getContentLength();
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(baos);
+
+
+                oos.writeObject(params);
+
+                oos.flush();
+                oos.close();
+
+                InputStream is = new ByteArrayInputStream(baos.toByteArray());
+
+
+                // input stream to read file - with 8k buffer
+                //InputStream input = new BufferedInputStream(, 8192);
+                // Output stream to write file
+                //OutputStream output = new FileOutputStream("/sdcard/downloadedfile.jpg");
+
+                byte data[] = new byte[1024];
+                long total = 0;
+                while ((count = is.read(data)) != -1) {
+                    total += count;
+                    // publishing the progress....
+                    // After this onProgressUpdate will be called
+                    publishProgress((int) ((total * 100) / totalSze));
+
+                    // writing data to file
+                    //output.write(data, 0, count);
+
+                    //TODO
+                    //do here the server task
+                    syncToLocal(params[0], USER_ID);
+
+
+                }
+
+
+            } catch (Exception e) {
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            //  Log.e("dfsf",""+values[0]);
+            progressDialog.setProgress(values[0]);
+            //   progressDialog.setProgress(values[0]);
+            // after saving all values to database start new activity
+            startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
+            finish();
+            overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            //if (HttpResultimage == 204) {
+            progressDialog.dismiss();
+            //}
+        }
+    }
+
 }
