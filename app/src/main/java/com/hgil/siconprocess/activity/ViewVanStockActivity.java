@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.activity.fragments;
+package com.hgil.siconprocess.activity;
 
 
 import android.os.Bundle;

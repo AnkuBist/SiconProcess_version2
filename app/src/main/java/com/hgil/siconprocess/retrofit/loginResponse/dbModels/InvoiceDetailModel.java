@@ -7,7 +7,9 @@ package com.hgil.siconprocess.retrofit.loginResponse.dbModels;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class InvoiceDetailModel {
+import java.io.Serializable;
+
+public class InvoiceDetailModel implements Serializable {
 
     @SerializedName("Mkey")
     @Expose

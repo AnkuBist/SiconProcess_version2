@@ -8,9 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.base.SiconApp;
-import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.adapter.TabPagerAdapter;
+import com.hgil.siconprocess.base.BaseFragment;
 
 import butterknife.BindView;
 

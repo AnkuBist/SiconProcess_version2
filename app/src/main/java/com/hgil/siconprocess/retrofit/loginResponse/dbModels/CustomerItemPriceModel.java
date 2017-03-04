@@ -3,11 +3,13 @@ package com.hgil.siconprocess.retrofit.loginResponse.dbModels;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by mohan.giri on 07-02-2017.
  */
 
-public class CustomerItemPriceModel {
+public class CustomerItemPriceModel implements Serializable {
 
     @SerializedName("item_id")
     @Expose

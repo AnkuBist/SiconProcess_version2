@@ -7,7 +7,9 @@ package com.hgil.siconprocess.retrofit.loginResponse.dbModels;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ProductModel {
+import java.io.Serializable;
+
+public class ProductModel implements Serializable {
 
     @SerializedName("ITEMSEQUENCE")
     @Expose

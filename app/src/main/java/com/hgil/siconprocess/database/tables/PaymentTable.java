@@ -339,4 +339,30 @@ public class PaymentTable extends SQLiteOpenHelper {
         return crateStock;
     }
 
+    // day summary requirements
+
+    // total row counts
+
+    public int dataCount() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME, null, null);
+        db.close();
+        return numRows;
+    }
+
+    // total sale amount sum
+    public double getRouteSale() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor res = db.rawQuery("SELECT sum(" + SALE_AMOUNT + ") as route_sale FROM " + TABLE_NAME, null);
+
+        double route_sale = 0;
+        if (res.moveToFirst()) {
+            route_sale = res.getDouble(res.getColumnIndex("route_sale"));
+        }
+        res.close();
+        db.close();
+        return route_sale;
+    }
+
 }

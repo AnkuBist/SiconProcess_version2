@@ -7,7 +7,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
 
-public class ObjLoginResponse {
+import java.io.Serializable;
+
+public class ObjLoginResponse implements Serializable{
     @SerializedName("routeDetail")
     @Expose
     private RouteModel routeDetail;

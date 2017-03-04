@@ -7,7 +7,9 @@ package com.hgil.siconprocess.retrofit.loginResponse.dbModels;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CrateCollectionModel {
+import java.io.Serializable;
+
+public class CrateCollectionModel implements Serializable {
 
   /*  @SerializedName("Rec_id")
     @Expose

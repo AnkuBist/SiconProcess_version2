@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.fragments.VanInventoryFragment;
+import com.hgil.siconprocess.activity.navFragments.VanInventoryFragment;
 import com.hgil.siconprocess.activity.navFragments.DashboardFragment;
 import com.hgil.siconprocess.activity.navFragments.FinalPaymentFragment;
 import com.hgil.siconprocess.activity.navFragments.HomeFragment;
@@ -90,7 +90,7 @@ public class NavBaseActivity extends BaseActivity {
         HomeFragment fragment = HomeFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).commit();
 
-        menuItem.setChecked(true);
+        //menuItem.setChecked(true);
 
         tvNavTitle.setText(menuItem.getTitle());
         tvNavDate.setText(Utility.getDateMonth());

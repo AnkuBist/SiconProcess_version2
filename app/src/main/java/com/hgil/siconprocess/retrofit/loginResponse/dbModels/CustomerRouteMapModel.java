@@ -7,7 +7,9 @@ package com.hgil.siconprocess.retrofit.loginResponse.dbModels;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CustomerRouteMapModel {
+import java.io.Serializable;
+
+public class CustomerRouteMapModel implements Serializable {
 
     @SerializedName("Rec_id")
     @Expose

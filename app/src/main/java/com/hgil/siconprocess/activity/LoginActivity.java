@@ -33,6 +33,10 @@ import com.hgil.siconprocess.database.masterTables.PriceGroupView;
 import com.hgil.siconprocess.database.masterTables.ProductView;
 import com.hgil.siconprocess.database.masterTables.RejectionTargetTable;
 import com.hgil.siconprocess.database.masterTables.RouteView;
+import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
+import com.hgil.siconprocess.database.tables.InvoiceOutTable;
+import com.hgil.siconprocess.database.tables.NextDayOrderTable;
+import com.hgil.siconprocess.database.tables.PaymentTable;
 import com.hgil.siconprocess.retrofit.RetrofitService;
 import com.hgil.siconprocess.retrofit.RetrofitUtil;
 import com.hgil.siconprocess.retrofit.loginResponse.ObjLoginResponse;
@@ -41,17 +45,15 @@ import com.hgil.siconprocess.retrofit.loginResponse.loginResponse;
 import com.hgil.siconprocess.utils.UtilNetworkLocation;
 import com.hgil.siconprocess.utils.Utility;
 import com.hgil.siconprocess.utils.ui.SampleDialog;
-import com.hgil.siconprocess.utils.ui.SnackbarUtil;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,6 +85,12 @@ public class LoginActivity extends AppCompatActivity {
     private RejectionTargetTable dbRejectionTarget;
     private DepotEmployeeView dbEmployee;
 
+    // sync table objects
+    private InvoiceOutTable invoiceOutTable;
+    private CustomerRejectionTable rejectionTable;
+    private PaymentTable paymentTable;
+    private NextDayOrderTable nextDayOrderTable;
+
     private String existing_id = "", saved_id = "";
 
     @Override
@@ -99,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
 
         /// initialise database objects
         initialiseDBObj();
+        initializeSyncDbObj();
 
         // get user current location
         getUserLocation();
@@ -184,6 +193,20 @@ public class LoginActivity extends AppCompatActivity {
         dbEmployee.eraseTable();
     }
 
+    public void initializeSyncDbObj() {
+        invoiceOutTable = new InvoiceOutTable(this);
+        rejectionTable = new CustomerRejectionTable(this);
+        paymentTable = new PaymentTable(this);
+        nextDayOrderTable = new NextDayOrderTable(this);
+    }
+
+    public void eraseAllSyncTables() {
+        rejectionTable.eraseTable();
+        invoiceOutTable.eraseTable();
+        paymentTable.eraseTable();
+        nextDayOrderTable.eraseTable();
+    }
+
     // data processing and local db update
     private void syncToLocal(loginResponse loginResult, String user_id) {
         // rest call to read data from api service
@@ -195,6 +218,10 @@ public class LoginActivity extends AppCompatActivity {
 
             // erase all masterTables data
             eraseAllTableData();
+
+            //TODO
+            // erase table to sync
+            //eraseAllSyncTables();
 
             ObjLoginResponse objResponse = loginResult.getObjLoginResponse();
 
@@ -347,8 +374,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // customized async task with progress dialog
-    private class loginSync extends AsyncTask<loginResponse, Integer, String> {
-
+    private class loginSync extends AsyncTask<loginResponse, Integer, loginResponse> implements Serializable {
         ProgressDialog progressDialog;
 
         @Override
@@ -368,19 +394,10 @@ public class LoginActivity extends AppCompatActivity {
             //  ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar2);
         }
 
-
         @Override
-        protected String doInBackground(loginResponse... params) {
+        protected loginResponse doInBackground(loginResponse... params) {
             try {
-                // you are doing this
-
-                // what is jsonParam ?
-                //byte[] payload = jsonParam.toString().getBytes("UTF-8");
-                // how you gonna get content lenght from it?
-
                 int count = 0;
-                //OutputStream wr = connection.getOutputStream();
-                //InputStream inputStream = null;
                 byte[] payload = params.toString().getBytes("UTF-8");
                 int totalSze = payload.length;
                 Log.e("Total size ", "" + totalSze);
@@ -389,27 +406,17 @@ public class LoginActivity extends AppCompatActivity {
                 boolean last_loop = false;
                 publishProgress(0);
 
-                // ...
-                // Do like this example
-                // getting file length
-                //int lenghtOfFile = params.getContentLength();
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ObjectOutputStream oos = new ObjectOutputStream(baos);
 
 
-                oos.writeObject(params);
+                oos.writeObject(params[0]);
 
                 oos.flush();
                 oos.close();
 
                 InputStream is = new ByteArrayInputStream(baos.toByteArray());
-
-
-                // input stream to read file - with 8k buffer
-                //InputStream input = new BufferedInputStream(, 8192);
-                // Output stream to write file
-                //OutputStream output = new FileOutputStream("/sdcard/downloadedfile.jpg");
 
                 byte data[] = new byte[1024];
                 long total = 0;
@@ -418,19 +425,11 @@ public class LoginActivity extends AppCompatActivity {
                     // publishing the progress....
                     // After this onProgressUpdate will be called
                     publishProgress((int) ((total * 100) / totalSze));
-
-                    // writing data to file
-                    //output.write(data, 0, count);
-
-                    //TODO
-                    //do here the server task
-                    syncToLocal(params[0], USER_ID);
-
-
                 }
 
-
+                return params[0];
             } catch (Exception e) {
+                Log.e(this.getClass().getName(), "doInBackground: " + e.getMessage());
             }
             return null;
         }
@@ -441,18 +440,24 @@ public class LoginActivity extends AppCompatActivity {
             //  Log.e("dfsf",""+values[0]);
             progressDialog.setProgress(values[0]);
             //   progressDialog.setProgress(values[0]);
-            // after saving all values to database start new activity
-            startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
-            finish();
-            overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(loginResponse result) {
             //if (HttpResultimage == 204) {
+            //TODO
+            //do here the server task
+            if (result.getReturnCode())
+                syncToLocal(result, USER_ID);
             progressDialog.dismiss();
             //}
+
+            if (result.getReturnCode()) {
+                // after saving all values to database start new activity
+                startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
+                finish();
+                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+            }
         }
     }
 

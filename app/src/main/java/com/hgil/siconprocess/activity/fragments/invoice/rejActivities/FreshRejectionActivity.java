@@ -2,17 +2,15 @@ package com.hgil.siconprocess.activity.fragments.invoice.rejActivities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.adapter.invoiceRejection.FreshRejectionModel;
-import com.hgil.siconprocess.adapter.invoiceRejection.MarketRejectionModel;
 import com.hgil.siconprocess.base.BaseToolbarActivity;
-import com.hgil.siconprocess.base.SiconApp;
 import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.BindView;
@@ -45,7 +43,8 @@ public class FreshRejectionActivity extends BaseToolbarActivity {
 
         ButterKnife.bind(this);
 
-        tvCustomerName.setText(SiconApp.getInstance().getRouteName());
+        if (getRouteName() != null)
+            tvCustomerName.setText(getRouteName());
         setNavTitle("Goods Return");
         showSaveBtn();
 

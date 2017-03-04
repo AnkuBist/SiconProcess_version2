@@ -1,10 +1,11 @@
-package com.hgil.siconprocess.activity;
+package com.hgil.siconprocess.activity.unused;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.NavBaseActivity;
 import com.hgil.siconprocess.activity.navFragments.HomeFragment;
 
 public class HomeActivity extends NavBaseActivity {

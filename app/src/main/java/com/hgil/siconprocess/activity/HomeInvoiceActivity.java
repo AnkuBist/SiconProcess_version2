@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -19,23 +18,15 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.fragments.VanInventoryFragment;
 import com.hgil.siconprocess.activity.fragments.invoice.CratesManagementFragment;
 import com.hgil.siconprocess.activity.fragments.invoice.CustomerPaymentFragment;
 import com.hgil.siconprocess.activity.fragments.invoice.CustomerRejectionFragment;
 import com.hgil.siconprocess.activity.fragments.invoice.FinalInvoiceFragment;
 import com.hgil.siconprocess.activity.fragments.invoice.makeOrderInvoice.TomorrowOrderFragment;
 import com.hgil.siconprocess.activity.fragments.invoice.makeSaleInvoice.CustomerInvoiceFragment;
-import com.hgil.siconprocess.activity.navFragments.DashboardFragment;
-import com.hgil.siconprocess.activity.navFragments.FinalPaymentFragment;
-import com.hgil.siconprocess.activity.navFragments.HomeFragment;
-import com.hgil.siconprocess.activity.navFragments.OutletInfoFragment;
-import com.hgil.siconprocess.activity.navFragments.SyncFragment;
 import com.hgil.siconprocess.base.BaseActivity;
-import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.BindView;
@@ -91,7 +82,7 @@ public class HomeInvoiceActivity extends BaseActivity {
         CustomerInvoiceFragment fragment = CustomerInvoiceFragment.newInstance(customer_id, customer_name);
         getSupportFragmentManager().beginTransaction().replace(R.id.flInvoiceContent, fragment).commit();
 
-        menuItem.setChecked(true);
+        //menuItem.setChecked(true);
 
         tvNavTitle.setText(menuItem.getTitle());
         tvNavDate.setText(Utility.getDateMonth());

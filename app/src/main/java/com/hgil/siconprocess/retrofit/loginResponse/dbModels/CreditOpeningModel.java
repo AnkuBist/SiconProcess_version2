@@ -7,7 +7,9 @@ package com.hgil.siconprocess.retrofit.loginResponse.dbModels;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CreditOpeningModel {
+import java.io.Serializable;
+
+public class CreditOpeningModel implements Serializable {
 
     @SerializedName("Rce_id")
     @Expose

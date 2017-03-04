@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.activity;
+package com.hgil.siconprocess.activity.unused;
 
 import android.app.Activity;
 import android.app.AlertDialog;

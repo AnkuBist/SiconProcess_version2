@@ -11,7 +11,7 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RouteModel {
+public class RouteModel implements Serializable {
 
     @SerializedName("Sub_Company_id")
     @Expose
