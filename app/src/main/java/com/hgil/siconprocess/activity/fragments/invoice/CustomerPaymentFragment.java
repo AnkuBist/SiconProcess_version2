@@ -135,12 +135,6 @@ public class CustomerPaymentFragment extends BaseFragment {
                 //move to next fragment
                 CratesManagementFragment fragment = CratesManagementFragment.newInstance(customer_id, customer_name);
                 launchInvoiceFragment(fragment);
-                /* String fragClassName = fragment.getClass().getName();
-                FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
-                fragmentManager.beginTransaction().replace(R.id.flContent, fragment)
-                        .addToBackStack(fragClassName)
-                        .commit();*/
-
             }
         });
 
@@ -158,11 +152,7 @@ public class CustomerPaymentFragment extends BaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 double chequeAmount = Utility.roundTwoDecimals(Utility.getDouble(etCheque.getText().toString()));
-                //  if (s.length() != 0) {
                 tvCustomerTotal.setText(strRupee + (chequeAmount + Utility.roundTwoDecimals(Utility.getDouble(etCash.getText().toString()))));
-                // } else if (s.length() == 0) {
-                //      tvCustomerTotal.setText(strRupee + chequeAmount);
-                //  }
             }
         });
 

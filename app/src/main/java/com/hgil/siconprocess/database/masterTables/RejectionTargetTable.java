@@ -47,7 +47,7 @@ public class RejectionTargetTable extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" (" + REC_ID + " NUMERIC NOT NULL, "
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + REC_ID + " NUMERIC NOT NULL, "
                 + TARGET_FROM_DATE + " TEXT NULL, " + TARGET_TO_DATE + " TEXT NULL, " + DEPOT_ID + " TEXT NULL, "
                 + ROUTE_ID + " TEXT NULL, " + CUSTOMER_ID + " TEXT NULL, " + PSM_ID + " TEXT NULL, "
                 + TARGET_TYPE + " TEXT NULL, " + DDATE + " TEXT NULL, " + ITEM_ID + " TEXT NULL, "

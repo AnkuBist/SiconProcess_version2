@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.hgil.siconprocess.activity.homeTabs.HomeAllFragment;
-import com.hgil.siconprocess.activity.homeTabs.HomeCompleteFragment;
-import com.hgil.siconprocess.activity.homeTabs.HomePendingFragment;
+import com.hgil.siconprocess.activity.fragments.homeTabs.HomeAllFragment;
+import com.hgil.siconprocess.activity.fragments.homeTabs.HomeCompleteFragment;
+import com.hgil.siconprocess.activity.fragments.homeTabs.HomePendingFragment;
 
 /**
  * Created by mohan.giri on 25-01-2017.

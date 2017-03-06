@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.activity.homeTabs;
+package com.hgil.siconprocess.activity.fragments.homeTabs;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.adapter.routeMap.RouteCustomerModel;
-import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.adapter.routeMap.RouteMapRAdapter;
+import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.masterTables.CustomerRouteMappingView;
 
 import java.util.ArrayList;

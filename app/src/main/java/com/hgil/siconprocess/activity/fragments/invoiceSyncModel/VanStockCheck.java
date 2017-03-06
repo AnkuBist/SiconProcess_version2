@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.activity.navFragments.invoiceSyncModel;
+package com.hgil.siconprocess.activity.fragments.invoiceSyncModel;
 
 /**
  * Created by mohan.giri on 20-02-2017.

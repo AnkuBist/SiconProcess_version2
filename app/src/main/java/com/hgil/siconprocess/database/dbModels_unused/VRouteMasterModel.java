@@ -8,7 +8,6 @@ package com.hgil.siconprocess.database.dbModels_unused;
 import java.util.ArrayList;
 
 /**
- *
  * @author mohan.giri
  */
 public class VRouteMasterModel {
@@ -47,7 +46,7 @@ public class VRouteMasterModel {
     public void setArrGroupPrice(ArrayList<VPriceGroupMasterModel> arrGroupPrice) {
         this.arrGroupPrice = arrGroupPrice;
     }
-    
+
     // get route credit opening
     private ArrayList<CreditOpeningMasterModel> arrCreditOpening;
 
@@ -58,7 +57,7 @@ public class VRouteMasterModel {
     public void setArrCreditOpening(ArrayList<CreditOpeningMasterModel> arrCreditOpening) {
         this.arrCreditOpening = arrCreditOpening;
     }
-    
+
     // get customer crate opening
     private ArrayList<CrateOpeningMasterModel> arrCrateOpening;
 
@@ -69,7 +68,7 @@ public class VRouteMasterModel {
     public void setArrCrateOpening(ArrayList<CrateOpeningMasterModel> arrCrateOpening) {
         this.arrCrateOpening = arrCrateOpening;
     }
-    
+
     // crate collectin details
     private ArrayList<VCrateCollectionMasterModel> arrCrateCollection;
 
@@ -91,7 +90,7 @@ public class VRouteMasterModel {
     public void setArrInvoiceDetails(ArrayList<VDepotInvoiceMasterModel> arrInvoiceDetails) {
         this.arrInvoiceDetails = arrInvoiceDetails;
     }
-    
+
     // master demand target
     private ArrayList<DemandTargetMasterModel> arrDemandTarget;
 
@@ -102,7 +101,7 @@ public class VRouteMasterModel {
     public void setArrDemandTarget(ArrayList<DemandTargetMasterModel> arrDemandTarget) {
         this.arrDemandTarget = arrDemandTarget;
     }
-    
+
     // master fixed sample 
     private ArrayList<FixedSampleMasterModel> arrFixedSample;
 
@@ -113,7 +112,7 @@ public class VRouteMasterModel {
     public void setArrFixedSample(ArrayList<FixedSampleMasterModel> arrFixedSample) {
         this.arrFixedSample = arrFixedSample;
     }
-    
+
     // master rejection target
     private ArrayList<RejectionTargetMasterModel> arrRejectionTarget;
 
@@ -124,7 +123,7 @@ public class VRouteMasterModel {
     public void setArrRejectionTarget(ArrayList<RejectionTargetMasterModel> arrRejectionTarget) {
         this.arrRejectionTarget = arrRejectionTarget;
     }
-    
+
     private ArrayList<DepotEmployeeMasterModel> arrEmployees;
 
     public ArrayList<DepotEmployeeMasterModel> getArrEmployees() {
@@ -134,7 +133,7 @@ public class VRouteMasterModel {
     public void setArrEmployees(ArrayList<DepotEmployeeMasterModel> arrEmployees) {
         this.arrEmployees = arrEmployees;
     }
-    
+
     /*   public long getRec_Id() {
         return Rec_Id;
     }

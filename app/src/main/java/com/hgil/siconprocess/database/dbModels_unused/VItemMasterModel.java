@@ -6,7 +6,6 @@
 package com.hgil.siconprocess.database.dbModels_unused;
 
 /**
- *
  * @author mohan.giri
  */
 public class VItemMasterModel {

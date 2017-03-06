@@ -7,6 +7,9 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
+import com.hgil.siconprocess.adapter.routeTarget.RouteTargetModel;
+import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.DemandTargetModel;
 
 import java.util.ArrayList;
@@ -35,8 +38,11 @@ public class DemandTargetTable extends SQLiteOpenHelper {
     private static final String UPDATEBY_DATE = "updateby_Date";
     private static final String UPDATED_IP = "updated_ip";
 
+    private final Context mContext;
+
     public DemandTargetTable(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        this.mContext = context;
     }
 
     @Override
@@ -184,6 +190,39 @@ public class DemandTargetTable extends SQLiteOpenHelper {
                 demandTargetModel.setUpdatedIp(res.getString(res.getColumnIndex(UPDATED_IP)));
 
                 array_list.add(demandTargetModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return array_list;
+    }
+
+
+    /* get demand target for dashboard target screen*/
+    public ArrayList<RouteTargetModel> getDashboardTargets() {
+        ArrayList<RouteTargetModel> array_list = new ArrayList<RouteTargetModel>();
+
+        ProductView productView = new ProductView(mContext);
+        InvoiceOutTable invoiceOutTable = new InvoiceOutTable(mContext);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                RouteTargetModel routeTargetModel = new RouteTargetModel();
+                String item_id = res.getString(res.getColumnIndex(ITEM_ID));
+                routeTargetModel.setItemId(item_id);
+                routeTargetModel.setTarget(res.getInt(res.getColumnIndex(TARGET_QTY)));
+
+                // get product name from the product list table
+                productView.productName(item_id);
+                routeTargetModel.setItem_name(productView.productName(item_id));
+
+                // get the product invoice count from the local table
+
+
+                array_list.add(routeTargetModel);
                 res.moveToNext();
             }
         }

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.NavBaseActivity;
 import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.BindString;
@@ -80,16 +81,6 @@ public abstract class BaseFragment extends Fragment {
         ButterKnife.bind(this, view);
     }
 
-    protected void launchInvoiceFragment(Fragment fragment) {
-        String fragClassName = fragment.getClass().getName();
-        FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-        transaction.replace(R.id.flInvoiceContent, fragment)
-                .addToBackStack(fragClassName)
-                .commit();
-    }
-
     /*handling views using common method for fragments*/
     public void setTitle(String title) {
         tvNavTitle.setText(title);
@@ -138,6 +129,26 @@ public abstract class BaseFragment extends Fragment {
 
     public void updateOkIcon() {
         imgSave.setImageResource(R.mipmap.ic_ok);
+    }
+
+    protected void launchInvoiceFragment(Fragment fragment) {
+        String fragClassName = fragment.getClass().getName();
+        FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right)
+                .replace(R.id.flInvoiceContent, fragment)
+                .addToBackStack(fragClassName)
+                .commit();
+    }
+
+    protected void launchNavFragment(Fragment fragment) {
+        String fragClassName = fragment.getClass().getName();
+        FragmentManager fragmentManager = ((NavBaseActivity) getActivity()).getSupportFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right)
+                .replace(R.id.flContent, fragment)
+                .addToBackStack(fragClassName)
+                .commit();
     }
 
 }

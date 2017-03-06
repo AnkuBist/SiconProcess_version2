@@ -7,9 +7,9 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.hgil.siconprocess.activity.navFragments.invoiceSyncModel.CollectionCashModel;
-import com.hgil.siconprocess.activity.navFragments.invoiceSyncModel.CollectionCrateModel;
-import com.hgil.siconprocess.activity.navFragments.invoiceSyncModel.CrateStockCheck;
+import com.hgil.siconprocess.activity.fragments.invoiceSyncModel.CollectionCashModel;
+import com.hgil.siconprocess.activity.fragments.invoiceSyncModel.CollectionCrateModel;
+import com.hgil.siconprocess.activity.fragments.invoiceSyncModel.CrateStockCheck;
 import com.hgil.siconprocess.database.dbModels.ChequeDetailsModel;
 import com.hgil.siconprocess.database.dbModels.CrateDetailModel;
 import com.hgil.siconprocess.database.dbModels.PaymentModel;

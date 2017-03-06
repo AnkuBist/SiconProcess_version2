@@ -6,11 +6,10 @@
 package com.hgil.siconprocess.database.dbModels_unused;
 
 /**
- *
  * @author mohan.giri
  */
 public class CreditOpeningMasterModel {
-    
+
     private long Rce_id;
     private String Subcompany_id;       //null
     private String Depot_Id;        //null
@@ -23,9 +22,9 @@ public class CreditOpeningMasterModel {
     private float Receive_Amt;  //null
     private float Discount_Amt;  //null
     private float Balance;  //null
-    private String updateby_paycode;  
-    private String updateby_Date;  
-    private String updated_ip;  
+    private String updateby_paycode;
+    private String updateby_Date;
+    private String updated_ip;
     private float ChequeAmt;  //null
 
     public long getRce_id() {
@@ -155,5 +154,5 @@ public class CreditOpeningMasterModel {
     public void setChequeAmt(float ChequeAmt) {
         this.ChequeAmt = ChequeAmt;
     }
-    
+
 }

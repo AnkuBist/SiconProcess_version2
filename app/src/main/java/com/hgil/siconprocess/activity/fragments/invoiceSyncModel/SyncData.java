@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.activity.navFragments.invoiceSyncModel;
+package com.hgil.siconprocess.activity.fragments.invoiceSyncModel;
 
 import com.hgil.siconprocess.database.dbModels.NextDayOrderModel;
 

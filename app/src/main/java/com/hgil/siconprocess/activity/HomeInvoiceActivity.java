@@ -180,8 +180,7 @@ public class HomeInvoiceActivity extends BaseActivity {
             } else {
                 ft.replace(R.id.flInvoiceContent, fragment);
             }
-            //fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+
             ft.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             ft.commit();
 
@@ -235,7 +234,6 @@ public class HomeInvoiceActivity extends BaseActivity {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             super.onBackPressed();
             overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-            //getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
         } else {
             super.onBackPressed();
             overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);

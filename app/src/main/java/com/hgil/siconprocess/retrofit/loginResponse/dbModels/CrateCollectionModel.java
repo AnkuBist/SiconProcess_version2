@@ -11,9 +11,9 @@ import java.io.Serializable;
 
 public class CrateCollectionModel implements Serializable {
 
-  /*  @SerializedName("Rec_id")
-    @Expose
-    private Long recId;*/
+    /*  @SerializedName("Rec_id")
+      @Expose
+      private Long recId;*/
     @SerializedName("DDate")
     @Expose
     private String dDate;

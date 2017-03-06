@@ -1,20 +1,17 @@
 package com.hgil.siconprocess.activity.fragments.invoice.makeSaleInvoice;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.activity.fragments.invoice.CustomerRejectionFragment;
-import com.hgil.siconprocess.adapter.invoice.invoiceOut.CustomerInvoiceOutAdapter;
 import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
+import com.hgil.siconprocess.adapter.invoice.invoiceOut.CustomerInvoiceOutAdapter;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.utils.Utility;
@@ -104,19 +101,13 @@ public class InvoiceOutFragment extends BaseFragment {
             public void onClick(View v) {
                 // move to next fragment to review user order with the items ordered
                 invoiceOutTable.insertInvoiceOut(arrInvoiceItems, customer_id);
-                
+
                 // show snackbar message
                 showSnackbar(getView(), "Invoice order saved successfully.");
 
                 // start rejection fragment
                 CustomerRejectionFragment fragment = CustomerRejectionFragment.newInstance(customer_id, customer_name);
                 launchInvoiceFragment(fragment);
-
-                /* String fragClassName = fragment.getClass().getName();
-                FragmentManager fragmentManager = ((NavBaseActivity) getActivity()).getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.flContent, fragment)
-                        .addToBackStack(fragClassName)
-                        .commit();*/
             }
         });
     }

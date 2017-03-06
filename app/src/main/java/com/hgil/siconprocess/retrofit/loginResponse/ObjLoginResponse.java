@@ -3,13 +3,14 @@ package com.hgil.siconprocess.retrofit.loginResponse;
 /**
  * Created by mohan.giri on 24-01-2017.
  */
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
 
 import java.io.Serializable;
 
-public class ObjLoginResponse implements Serializable{
+public class ObjLoginResponse implements Serializable {
     @SerializedName("routeDetail")
     @Expose
     private RouteModel routeDetail;

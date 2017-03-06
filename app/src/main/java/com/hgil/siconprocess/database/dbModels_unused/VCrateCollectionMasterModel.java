@@ -6,11 +6,10 @@
 package com.hgil.siconprocess.database.dbModels_unused;
 
 /**
- *
  * @author mohan.giri
  */
 public class VCrateCollectionMasterModel {
-    
+
     private Long Rec_id;
     private String DDate;       //null
     private String Sub_Company_id;       //null
@@ -200,6 +199,6 @@ public class VCrateCollectionMasterModel {
     public void setUpdated_ip(String updated_ip) {
         this.updated_ip = updated_ip;
     }
-    
-    
+
+
 }

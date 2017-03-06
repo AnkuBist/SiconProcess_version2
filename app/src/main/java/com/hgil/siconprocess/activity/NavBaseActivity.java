@@ -22,12 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.navFragments.VanInventoryFragment;
 import com.hgil.siconprocess.activity.navFragments.DashboardFragment;
 import com.hgil.siconprocess.activity.navFragments.FinalPaymentFragment;
 import com.hgil.siconprocess.activity.navFragments.HomeFragment;
 import com.hgil.siconprocess.activity.navFragments.OutletInfoFragment;
 import com.hgil.siconprocess.activity.navFragments.SyncFragment;
+import com.hgil.siconprocess.activity.navFragments.VanInventoryFragment;
 import com.hgil.siconprocess.base.BaseActivity;
 import com.hgil.siconprocess.utils.Utility;
 
@@ -53,8 +53,6 @@ public class NavBaseActivity extends BaseActivity {
 
     @BindView(R.id.flContent)
     FrameLayout containerFrame;
-
-    private final String HOME_FRAGMENT = "com.hgil.siconprocess.activity.navFragments.HomeFragment";
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -88,7 +86,10 @@ public class NavBaseActivity extends BaseActivity {
         MenuItem menuItem = nvDrawer.getMenu().findItem(R.id.nav_home);
 
         HomeFragment fragment = HomeFragment.newInstance();
-        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).commit();
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right)
+                .replace(R.id.flContent, fragment)
+                .commit();
 
         //menuItem.setChecked(true);
 
@@ -155,14 +156,10 @@ public class NavBaseActivity extends BaseActivity {
                 Utility.saveLoginStatus(NavBaseActivity.this, Utility.LOGIN_STATUS, false);
 
                 // now restart login activity after finish application top
-                //Intent intent = new Intent(NavBaseActivity.this, LoginActivity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(new Intent(NavBaseActivity.this, LoginActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                 finish();
                 overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-                // finish();
-
                 break;
             default:
                 fragment = HomeFragment.newInstance();
@@ -260,105 +257,10 @@ public class NavBaseActivity extends BaseActivity {
         }
     }
 
-
-/*    @Override
-    public void onBackPressed() {
-        super.onBackPressed();*/
-       /* if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-            mDrawer.closeDrawer(GravityCompat.START);
-        } else {
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.executePendingTransactions();
-            if (fragmentManager.getBackStackEntryCount() < 1) {
-                //super.onBackPressed();
-                finish();
-            } else {
-                fragmentManager.executePendingTransactions();
-                fragmentManager.popBackStack();
-                fragmentManager.executePendingTransactions();
-                if (fragmentManager.getBackStackEntryCount() < 1) {
-                    drawerToggle.setDrawerIndicatorEnabled(true);
-                }
-            }*/
-
-
-            /*if (getSupportFragmentManager().getBackStackEntryCount() == 1 && (getSupportFragmentManager().getBackStackEntryAt(0).getName()).matches(HOME_FRAGMENT)) {
-                if (doubleBackToExitPressedOnce) {
-                    super.onBackPressed();
-                    finish();
-                    //return;
-                }
-
-                this.doubleBackToExitPressedOnce = true;
-                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        doubleBackToExitPressedOnce = false;
-                    }
-                }, 2000);
-            } else {
-                // do nothing
-                super.onBackPressed();
-                //getFragmentManager().popBackStack();
-                //finish();
-            }*/
-    //}
-    //}
-
-
-    //boolean doubleBackToExitPressedOnce = false;
-
-  /*  @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 2000);
-    }*/
-
-    //TODO
-    /*correct method*/
-    /*   @Override
-    public void onBackPressed() {
-
-        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-            mDrawer.closeDrawer(GravityCompat.START);
-
-        } else {
-            int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
-
-            if (backStackCount >= 1) {
-                getSupportFragmentManager().popBackStack();
-                // Change to hamburger icon if at bottom of stack
-                if(backStackCount == 1){
-                    showUpButton(false);
-                }
-            } else {
-                super.onBackPressed();
-            }
-        }
-    }
-*/
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            fragment.onActivityResult(requestCode, resultCode, data);
-        }*/
+
         // get current fragment in container
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.flContent);
         fragment.onActivityResult(requestCode, resultCode, data);

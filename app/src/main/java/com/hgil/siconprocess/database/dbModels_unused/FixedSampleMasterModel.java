@@ -6,17 +6,17 @@
 package com.hgil.siconprocess.database.dbModels_unused;
 
 /**
- *
  * @author mohan.giri
  */
 public class FixedSampleMasterModel {
-    
+
     private int ID;
     private String StartDt;
     private String DDay;
-    private String DepotID;;
+    private String DepotID;
+    ;
     private String Route;
-    private String Customer_id;   
+    private String Customer_id;
     private String Item_id;
     private int SQty;
     private String EndDt;      //null
@@ -119,5 +119,5 @@ public class FixedSampleMasterModel {
     public void setUpdated_ip(String updated_ip) {
         this.updated_ip = updated_ip;
     }
-    
+
 }

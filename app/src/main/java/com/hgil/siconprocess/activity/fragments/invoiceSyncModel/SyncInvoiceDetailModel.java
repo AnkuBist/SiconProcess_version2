@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.activity.navFragments.invoiceSyncModel;
+package com.hgil.siconprocess.activity.fragments.invoiceSyncModel;
 
 /**
  * Created by mohan.giri on 20-02-2017.
@@ -51,14 +51,14 @@ public class SyncInvoiceDetailModel {
         this.route_id = route_id;
     }
 
-   /* public String getRoute_management_id() {
-        return route_management_id;
-    }
+    /* public String getRoute_management_id() {
+         return route_management_id;
+     }
 
-    public void setRoute_management_id(String route_management_id) {
-        this.route_management_id = route_management_id;
-    }
-*/
+     public void setRoute_management_id(String route_management_id) {
+         this.route_management_id = route_management_id;
+     }
+ */
     public String getCashier_code() {
         return cashier_code;
     }

@@ -6,11 +6,10 @@
 package com.hgil.siconprocess.database.dbModels_unused;
 
 /**
- *
  * @author mohan.giri
  */
 public class DepotEmployeeMasterModel {
-    
+
     private String Paycode;
     private String Name;
     private String Etype;       //null
@@ -83,5 +82,5 @@ public class DepotEmployeeMasterModel {
     public void setFlag(String Flag) {
         this.Flag = Flag;
     }
-        
+
 }

@@ -4,19 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.database.masterTables.CrateCollectionView;
-import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.database.tables.NextDayOrderTable;
 import com.hgil.siconprocess.database.tables.PaymentTable;
 import com.hgil.siconprocess.utils.Utility;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 public class SplashActivity extends Activity {
 

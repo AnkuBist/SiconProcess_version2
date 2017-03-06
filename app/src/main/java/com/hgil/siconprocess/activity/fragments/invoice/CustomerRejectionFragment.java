@@ -105,11 +105,6 @@ public class CustomerRejectionFragment extends BaseFragment {
                 // start rejection fragment
                 CustomerPaymentFragment fragment = CustomerPaymentFragment.newInstance(customer_id, customer_name);
                 launchInvoiceFragment(fragment);
-                /* String fragClassName = fragment.getClass().getName();
-                FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
-                fragmentManager.beginTransaction().replace(R.id.flContent, fragment)
-                        .addToBackStack(fragClassName)
-                        .commit();*/
             }
         });
 

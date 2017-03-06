@@ -1,18 +1,18 @@
 package com.hgil.siconprocess.utils.ui;
 
 import android.os.Build;
+import android.support.design.R;
 import android.support.design.widget.Snackbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
-import android.support.design.R;
 
 /**
  * Created by mohan.giri on 27-02-2017.
  */
 
 public class SnackbarUtil {
-    
+
     public static void showSnackbar(View view, String message) {
         // make snackbar
         Snackbar mSnackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);

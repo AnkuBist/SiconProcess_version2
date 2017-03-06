@@ -6,7 +6,6 @@
 package com.hgil.siconprocess.database.dbModels_unused;
 
 /**
- *
  * @author mohan.giri
  */
 public class VPriceGroupMasterModel {
@@ -26,7 +25,7 @@ public class VPriceGroupMasterModel {
     private float Surcharge;
     private int MODULE;
     private String Sub_Company_id;      //null
-    
+
     // get product details
     private VItemMasterModel itemObj;
 

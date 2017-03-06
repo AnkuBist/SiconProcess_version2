@@ -2,7 +2,6 @@ package com.hgil.siconprocess.activity.fragments.invoice.makeOrderInvoice;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -95,11 +94,6 @@ public class DisplayTomorrowOrderFragment extends BaseFragment {
                 //move to next fragment
                 FinalInvoiceFragment fragment = FinalInvoiceFragment.newInstance(customer_id, customer_name);
                 launchInvoiceFragment(fragment);
-                /*String fragClassName = fragment.getClass().getName();
-                FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
-                fragmentManager.beginTransaction().replace(R.id.flContent, fragment)
-                        .addToBackStack(fragClassName)
-                        .commit();*/
             }
         });
     }

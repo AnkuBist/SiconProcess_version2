@@ -1,14 +1,12 @@
 package com.hgil.siconprocess.activity.navFragments;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.NavBaseActivity;
 import com.hgil.siconprocess.activity.fragments.dashboard.DaySummaryFragment;
+import com.hgil.siconprocess.activity.fragments.dashboard.TargetsFragment;
 import com.hgil.siconprocess.base.BaseFragment;
 
 import butterknife.BindView;
@@ -59,23 +57,15 @@ public class DashboardFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 DaySummaryFragment fragment = DaySummaryFragment.newInstance();
-                String fragClassName = fragment.getClass().getName();
-                FragmentManager fragmentManager = ((NavBaseActivity) getActivity()).getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                //boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
-                // if (!fragmentPopped) {
-                ft.replace(R.id.flContent, fragment);
-                ft.addToBackStack(fragClassName);
-                //  }
-                ft.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-                ft.commit();
+                launchNavFragment(fragment);
             }
         });
 
         tvTargets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                TargetsFragment fragment = TargetsFragment.newInstance();
+                launchNavFragment(fragment);
             }
         });
     }

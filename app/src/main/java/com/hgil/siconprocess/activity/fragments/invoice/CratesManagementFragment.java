@@ -3,7 +3,6 @@ package com.hgil.siconprocess.activity.fragments.invoice;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -144,12 +143,6 @@ public class CratesManagementFragment extends BaseFragment {
                 //move to next fragment
                 TomorrowOrderFragment fragment = TomorrowOrderFragment.newInstance(customer_id, customer_name);
                 launchInvoiceFragment(fragment);
-
-                /* String fragClassName = fragment.getClass().getName();
-                FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
-                fragmentManager.beginTransaction().replace(R.id.flContent, fragment)
-                        .addToBackStack(fragClassName)
-                        .commit();*/
             }
         });
     }

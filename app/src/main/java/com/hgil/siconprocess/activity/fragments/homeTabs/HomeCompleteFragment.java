@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.activity.homeTabs;
+package com.hgil.siconprocess.activity.fragments.homeTabs;
 
 
 import android.os.Bundle;

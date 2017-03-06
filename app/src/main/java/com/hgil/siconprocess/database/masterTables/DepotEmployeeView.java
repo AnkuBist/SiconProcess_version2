@@ -35,7 +35,7 @@ public class DepotEmployeeView extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" (" + PAYCODE + " TEXT NOT NULL, "
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + PAYCODE + " TEXT NOT NULL, "
                 + NAME + " TEXT NULL NULL, " + ETYPE + " TEXT NULL, " + DESIGNATION + " TEXT NOT NULL, "
                 + SUB_COMPANY_ID + " TEXT NULL, " + DEPOT_ID + " TEXT NOT NULL, " + NEWPAYCODE + " TEXT NOT NULL, "
                 + FLAG + " TEXT NOT NULL)");

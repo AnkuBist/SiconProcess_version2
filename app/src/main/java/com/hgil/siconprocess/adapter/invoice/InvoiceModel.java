@@ -1,7 +1,5 @@
 package com.hgil.siconprocess.adapter.invoice;
 
-import android.os.Parcelable;
-
 import java.io.Serializable;
 
 /**

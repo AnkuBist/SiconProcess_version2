@@ -167,12 +167,6 @@ public class CustomerInvoiceFragment extends BaseFragment {
                 // here simply forward the collected array data to the next fragmen to let the user choose whether to save invoice or not
                 InvoiceOutFragment fragment = InvoiceOutFragment.newInstance(customer_id, customer_name, reviewOrderData);
                 launchInvoiceFragment(fragment);
-
-                /*String fragClassName = invoiceOutFragment.getClass().getName();
-                FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
-                fragmentManager.beginTransaction().replace(R.id.flContent, fragment)
-                        .addToBackStack(fragClassName)
-                        .commit();*/
             }
         });
     }

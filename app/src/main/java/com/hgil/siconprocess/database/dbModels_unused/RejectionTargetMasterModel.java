@@ -6,11 +6,10 @@
 package com.hgil.siconprocess.database.dbModels_unused;
 
 /**
- *
  * @author mohan.giri
  */
 public class RejectionTargetMasterModel {
-    
+
     private long Rec_id;
     private String Target_From_Date;        //null
     private String Target_To_Date;        //null
@@ -27,9 +26,9 @@ public class RejectionTargetMasterModel {
     private String Rej_Formula;        //null
     private String Leftover_Formula;        //null
     private String Active;        //null
-    private String updateby_paycode;      
-    private String updateby_Date;      
-    private String updated_ip;      
+    private String updateby_paycode;
+    private String updateby_Date;
+    private String updated_ip;
     private int Item_Active;      //null
 
     public long getRec_id() {
@@ -191,6 +190,6 @@ public class RejectionTargetMasterModel {
     public void setItem_Active(int Item_Active) {
         this.Item_Active = Item_Active;
     }
-    
-    
+
+
 }

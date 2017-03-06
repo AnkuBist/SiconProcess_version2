@@ -12,6 +12,7 @@ import com.hgil.siconprocess.adapter.vanStock.VanStockModel;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.ProductModel;
+import com.hgil.siconprocess.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -259,5 +260,22 @@ public class ProductView extends SQLiteOpenHelper {
         db.close();
         return array_list;
     }
+
+    /*get item name using item id*/
+    // get customer invoice total
+    public String productName(String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select " + ITEM_NAME + " from " + TABLE_NAME + " where " + ITEM_ID + "=?";
+        Cursor res = db.rawQuery(query, new String[]{item_id});
+
+        String item_name = null;
+        if (res.moveToFirst()) {
+            item_name = res.getString(res.getColumnIndex(ITEM_NAME));
+        }
+        res.close();
+        db.close();
+        return Utility.getString(item_name);
+    }
+
 
 }

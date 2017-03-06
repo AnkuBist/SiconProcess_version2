@@ -23,7 +23,6 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class ChequeDetailsActivity extends BaseToolbarActivity {
 

@@ -1,14 +1,6 @@
 package com.hgil.siconprocess.adapter.invoiceRejection;
 
-import android.os.Parcelable;
-import android.support.annotation.Nullable;
-import android.widget.EditText;
-
-import com.hgil.siconprocess.R;
-
 import java.io.Serializable;
-
-import butterknife.BindView;
 
 /**
  * Created by mohan.giri on 07-02-2017.

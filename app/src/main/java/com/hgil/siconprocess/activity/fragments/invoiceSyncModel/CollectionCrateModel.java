@@ -1,23 +1,23 @@
-package com.hgil.siconprocess.activity.navFragments.invoiceSyncModel;
+package com.hgil.siconprocess.activity.fragments.invoiceSyncModel;
 
 /**
  * Created by mohan.giri on 20-02-2017.
  */
 
-public class CrateStockCheck {
+public class CollectionCrateModel {
 
-    private String routeId;
+    private String customer_id;
     private int opening;
     private int issued;
-    private int received;
+    private int receive;
     private int balance;
 
-    public String getRouteId() {
-        return routeId;
+    public String getCustomer_id() {
+        return customer_id;
     }
 
-    public void setRouteId(String routeId) {
-        this.routeId = routeId;
+    public void setCustomer_id(String customer_id) {
+        this.customer_id = customer_id;
     }
 
     public int getOpening() {
@@ -36,12 +36,12 @@ public class CrateStockCheck {
         this.issued = issued;
     }
 
-    public int getReceived() {
-        return received;
+    public int getReceive() {
+        return receive;
     }
 
-    public void setReceived(int received) {
-        this.received = received;
+    public void setReceive(int receive) {
+        this.receive = receive;
     }
 
     public int getBalance() {

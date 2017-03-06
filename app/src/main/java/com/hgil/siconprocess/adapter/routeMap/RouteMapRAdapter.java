@@ -61,15 +61,6 @@ public class RouteMapRAdapter extends RecyclerView.Adapter<RouteMapRAdapter.View
                 intent.putExtra("customer_name", routeCustomerModel.getCustomerName());
                 mContext.startActivity(intent);
                 ((NavBaseActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-
-                /*CustomerInvoiceFragment fragment = CustomerInvoiceFragment.newInstance(routeCustomerModel.getCustomerId(), routeCustomerModel.getCustomerName());
-                String fragClassName = fragment.getClass().getName();
-                FragmentManager fragmentManager = ((NavBaseActivity) mContext).getSupportFragmentManager();
-               *//* boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
-                if (!fragmentPopped) {
-                    fragmentManager.beginTransaction().replace(R.id.homeFrame, fragment);
-                }*//*
-                fragmentManager.beginTransaction().replace(R.id., fragment).addToBackStack(fragClassName).commit();*/
             }
         });
 
@@ -99,19 +90,6 @@ public class RouteMapRAdapter extends RecyclerView.Adapter<RouteMapRAdapter.View
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, itemView);
-           /* txtHeader = (TextView) v.findViewById(R.id.firstLine);
-            txtFooter = (TextView) v.findViewById(R.id.secondLine);*/
         }
     }
-
-   /* public void add(int position, String item) {
-        mDataset.add(position, item);
-        notifyItemInserted(position);
-    }
-
-    public void remove(String item) {
-        int position = mDataset.indexOf(item);
-        mDataset.remove(position);
-        notifyItemRemoved(position);
-    }*/
 }
