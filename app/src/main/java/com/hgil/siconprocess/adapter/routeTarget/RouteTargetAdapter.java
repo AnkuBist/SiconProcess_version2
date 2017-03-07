@@ -36,7 +36,7 @@ public class RouteTargetAdapter extends RecyclerView.Adapter<RouteTargetAdapter.
 
     @Override
     public void onBindViewHolder(final RouteTargetAdapter.ViewHolder holder, int position) {
-        final RouteTargetModel routeTargetModel = mDataset.get(position);
+        RouteTargetModel routeTargetModel = mDataset.get(position);
         holder.tvItemName.setText(routeTargetModel.getItem_name());
         holder.tvTarget.setText(String.valueOf(routeTargetModel.getTarget()));
         holder.tvAchieved.setText(String.valueOf(routeTargetModel.getAchieved()));

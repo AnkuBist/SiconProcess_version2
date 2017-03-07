@@ -207,20 +207,21 @@ public class DemandTargetTable extends SQLiteOpenHelper {
         InvoiceOutTable invoiceOutTable = new InvoiceOutTable(mContext);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        Cursor res = db.rawQuery("SELECT DISTINCT " + ITEM_ID + ", sum(" + TARGET_QTY + ") as target_qty FROM " + TABLE_NAME + " GROUP BY " + ITEM_ID, null);
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 RouteTargetModel routeTargetModel = new RouteTargetModel();
                 String item_id = res.getString(res.getColumnIndex(ITEM_ID));
                 routeTargetModel.setItemId(item_id);
-                routeTargetModel.setTarget(res.getInt(res.getColumnIndex(TARGET_QTY)));
+                routeTargetModel.setTarget(res.getInt(res.getColumnIndex("target_qty")));
 
                 // get product name from the product list table
                 productView.productName(item_id);
                 routeTargetModel.setItem_name(productView.productName(item_id));
 
                 // get the product invoice count from the local table
-
+                routeTargetModel.setAchieved(invoiceOutTable.soldItemTargetCount(item_id));
+                routeTargetModel.setVariance(routeTargetModel.getTarget() - routeTargetModel.getAchieved());
 
                 array_list.add(routeTargetModel);
                 res.moveToNext();
