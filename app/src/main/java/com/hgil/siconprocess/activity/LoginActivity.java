@@ -156,8 +156,24 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             // first check user login with the same existing id or not
             if (checkUserId(username)) {
-                // check for login
-                getUserLogin(username, password);
+                // if the user is logged in today but somehow logged out then check for the last logged in date
+                // and local data in invoice if there exists any data then simply make user in
+                if ((Utility.getCurDate()).matches(Utility.readPreference(LoginActivity.this, Utility.LAST_LOGIN_DATE))) {
+                    //match here user saved username and password
+                    String last_login_id = Utility.readPreference(LoginActivity.this, Utility.LAST_LOGIN_ID);
+                    String last_login_password = Utility.readPreference(LoginActivity.this, Utility.LAST_LOGIN_PASSWORD);
+                    if (username.matches(last_login_id) &&
+                            password.matches(last_login_password)) {
+                        startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
+                        finish();
+                        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+                    } else {
+                        Snackbar.make(coordinateLayout, "Username and password combination wrong.", Snackbar.LENGTH_LONG).show();
+                    }
+                } else {
+                    // check for login
+                    getUserLogin(username, password);
+                }
             } else {
                 Snackbar.make(coordinateLayout, "Please erase app data before login with different user!", Snackbar.LENGTH_LONG).show();
             }
@@ -221,7 +237,9 @@ public class LoginActivity extends AppCompatActivity {
 
             //TODO
             // erase table to sync
-            //eraseAllSyncTables();
+            //do not erase these sync tables if the last login by the user in the same date incase it will erase all data
+            if (!Utility.getCurDate().matches(Utility.readPreference(LoginActivity.this, Utility.LAST_LOGIN_DATE)))
+                eraseAllSyncTables();
 
             ObjLoginResponse objResponse = loginResult.getObjLoginResponse();
 
@@ -252,7 +270,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private String USER_ID;
 
-    public void getUserLogin(final String user_id, String password) {
+    public void getUserLogin(final String user_id, final String password) {
 
         RetrofitUtil.showDialog(this);
         RetrofitService service = RetrofitUtil.retrofitClient();
@@ -268,9 +286,12 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginResult.getReturnCode()) {
 
                     USER_ID = user_id;
+
+                    // save user password for local login purpose
+                    Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_PASSWORD, password);
+
                     // sync
                     new loginSync().execute(loginResult);
-
 
                   /*  if (cbSignIn.isChecked()) {
                         // save the password for the next login too

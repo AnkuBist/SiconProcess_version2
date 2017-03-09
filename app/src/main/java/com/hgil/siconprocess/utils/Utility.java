@@ -31,6 +31,7 @@ public class Utility {
 
     public static final String USER_ID = "user_id";
     public static final String LAST_LOGIN_ID = "last_login_id";
+    public static final String LAST_LOGIN_PASSWORD = "last_login_password";
     public static final String LOGIN_STATUS = "login_status";
     public static final String LAST_LOGIN_DATE = "last_login_date";
 
