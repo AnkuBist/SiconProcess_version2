@@ -111,41 +111,44 @@ public class SyncFragment extends BaseFragment {
         ArrayList<CollectionCrateModel> crateCollection = paymentTable.syncCrateDetail();
         CrateStockCheck crateStock = paymentTable.syncCrateStock(getRouteId());
 
+
+        // below commented values are not mendatory to validate here
+        // these values are validated by the head cashier only.
         // cashier total verification
         double amount_collected = paymentTable.routeTotalAmountCollection();
-        double amount_delivered_by_cashier = 0; // ui task to be completed
+        //double amount_delivered_by_cashier = 0; // ui task to be completed
 
         CashCheck cashCheck = new CashCheck();
         cashCheck.setAmount_collected(amount_collected);
-        cashCheck.setAmount_delivered(amount_delivered_by_cashier);
+        // cashCheck.setAmount_delivered(amount_delivered_by_cashier);
         
         /*get items loaded and received stock*/
         int crates_loaded_in_van = crateCollectionView.vanTotalCrate();
-        int crates_delivered_by_cashier = 0; // ui task
+        // int crates_delivered_by_cashier = 0; // ui task
 
         CrateCheck crateCheck = new CrateCheck();
         crateCheck.setCrates_loaded(crates_loaded_in_van);
-        crateCheck.setCrate_delivered(crates_delivered_by_cashier);
+        //crateCheck.setCrate_delivered(crates_delivered_by_cashier);
 
         // cross check items left and rejections
         int items_loaded = depot_invoice.totalItemCount();
         int items_sold = invoiceOutTable.soldItemCount();
         int items_leftover = items_loaded - items_sold;
-        int items_delivered = 0; //ui
+        //int items_delivered = 0; //ui
         int items_fresh_rejection = rejectionTable.routeFreshRejection();
-        int items_fresh_rej_received = 0;   //ui
+       // int items_fresh_rej_received = 0;   //ui
         int items_market_rejection = rejectionTable.routeMarketRejection();
-        int items_market_rej_received = 0;  //ui
+       // int items_market_rej_received = 0;  //ui
 
         VanStockCheck vanStockCheck = new VanStockCheck();
         vanStockCheck.setItems_loaded(items_loaded);
         vanStockCheck.setItems_sold(items_sold);
         vanStockCheck.setItems_leftover(items_leftover);
-        vanStockCheck.setItem_delivered(items_delivered);
+       // vanStockCheck.setItem_delivered(items_delivered);
         vanStockCheck.setFresh_rejections(items_fresh_rejection);
-        vanStockCheck.setFresh_rejections_delivered(items_fresh_rej_received);
+      //  vanStockCheck.setFresh_rejections_delivered(items_fresh_rej_received);
         vanStockCheck.setMarket_rejection(items_market_rejection);
-        vanStockCheck.setMarket_rejection_delivered(items_market_rej_received);
+       // vanStockCheck.setMarket_rejection_delivered(items_market_rej_received);
 
         // get van actual stock
         /*
