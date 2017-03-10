@@ -223,6 +223,42 @@ public class LoginActivity extends AppCompatActivity {
         nextDayOrderTable.eraseTable();
     }
 
+    /*retrofit call test to fetch data from server*/
+    public void getUserLogin(final String user_id, final String password) {
+
+        RetrofitUtil.showDialog(this);
+        RetrofitService service = RetrofitUtil.retrofitClient();
+        Call<loginResponse> apiCall = service.postUserLogin(user_id, password);
+        apiCall.enqueue(new Callback<loginResponse>() {
+            @Override
+            public void onResponse(Call<loginResponse> call, Response<loginResponse> response) {
+                RetrofitUtil.hideDialog();
+
+                loginResponse loginResult = response.body();
+
+                // rest call to read data from api service
+                if (loginResult.getReturnCode()) {
+                    // save user password for local login purpose
+                    Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_PASSWORD, password);
+
+                    // sync data from server to local database using the downloaded data object
+                    syncToLocal(loginResult, user_id);
+                } else {
+                    //RetrofitUtil.showToast(LoginActivity.this, loginResult.getStrMessage());
+                    new SampleDialog("", loginResult.getStrMessage(), LoginActivity.this);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<loginResponse> call, Throwable t) {
+                RetrofitUtil.hideDialog();
+                // show some error toast or message to display the api call issue
+                //RetrofitUtil.showToast(LoginActivity.this, "Unable to access API");
+                new SampleDialog("", "Unable to access API", LoginActivity.this);
+            }
+        });
+    }
+
     // data processing and local db update
     private void syncToLocal(loginResponse loginResult, String user_id) {
         // rest call to read data from api service
@@ -235,9 +271,8 @@ public class LoginActivity extends AppCompatActivity {
             // erase all masterTables data
             eraseAllTableData();
 
-            //TODO
             // erase table to sync
-            //do not erase these sync tables if the last login by the user in the same date incase it will erase all data
+            //do not erase these sync tables if the last login by the user in the same date in case it will erase all data
             if (!Utility.getCurDate().matches(Utility.readPreference(LoginActivity.this, Utility.LAST_LOGIN_DATE)))
                 eraseAllSyncTables();
 
@@ -263,87 +298,13 @@ public class LoginActivity extends AppCompatActivity {
             Utility.saveLoginStatus(LoginActivity.this, Utility.LOGIN_STATUS, true);
             Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_ID, user_id);
             Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_DATE, Utility.getCurDate());
+
+            // start activity here only
+            // after saving all values to database start new activity
+            startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
+            finish();
+            overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
         }
-    }
-
-    /*retrofit call test example*/
-
-    private String USER_ID;
-
-    public void getUserLogin(final String user_id, final String password) {
-
-        RetrofitUtil.showDialog(this);
-        RetrofitService service = RetrofitUtil.retrofitClient();
-        Call<loginResponse> apiCall = service.postUserLogin(user_id, password);
-        apiCall.enqueue(new Callback<loginResponse>() {
-            @Override
-            public void onResponse(Call<loginResponse> call, Response<loginResponse> response) {
-                RetrofitUtil.hideDialog();
-
-                loginResponse loginResult = response.body();
-
-                // rest call to read data from api service
-                if (loginResult.getReturnCode()) {
-
-                    USER_ID = user_id;
-
-                    // save user password for local login purpose
-                    Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_PASSWORD, password);
-
-                    // sync
-                    new loginSync().execute(loginResult);
-
-                  /*  if (cbSignIn.isChecked()) {
-                        // save the password for the next login too
-                        Utility.savePreference(LoginActivity.this, Utility.USER_ID, user_id);
-                    }
-
-                    // erase all masterTables data
-                    eraseAllTableData();
-
-                    ObjLoginResponse objResponse = loginResult.getObjLoginResponse();
-
-                    // sync data to local table and views
-                    dbRouteView.insertRoute(objResponse.getRouteDetail());
-
-                    RouteModel routeData = objResponse.getRouteDetail();
-
-                    dbRouteMapView.insertCustomerRouteMap(routeData.getArrCustomerRouteMap());
-                    dbCustomerItemPrice.insertCustomerItemPrice(routeData.getArrCustomerItemPrice());
-                    dbPriceGroup.insertPrice(routeData.getArrGroupPrice());
-                    dbCreditOpening.insertCreditOpening(routeData.getArrCreditOpening());
-                    dbCrateOpening.insertCrateOpening(routeData.getArrCrateOpening());
-                    dbCrateCollection.insertCrateCollection(routeData.getArrCrateCollection());
-                    dbInvoice.insertDepotInvoice(routeData.getArrInvoiceDetails());
-                    dbDemandTarget.insertDemandTarget(routeData.getArrDemandTarget());
-                    dbFixedSample.insertFixedSample(routeData.getArrFixedSample());
-                    dbRejectionTarget.insertRejectionTarget(routeData.getArrRejectionTarget());
-                    dbEmployee.insertDepotEmployee(routeData.getArrEmployees());
-
-                    Utility.saveLoginStatus(LoginActivity.this, Utility.LOGIN_STATUS, true);
-                    Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_ID, user_id);
-                    Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_DATE, Utility.getCurDate());
-
-                    // after saving all values to database start new activity
-                    startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
-                    finish();
-                    overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);*/
-                } else {
-                    //RetrofitUtil.showToast(LoginActivity.this, loginResult.getStrMessage());
-                    new SampleDialog("", loginResult.getStrMessage(), LoginActivity.this);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<loginResponse> call, Throwable t) {
-                RetrofitUtil.hideDialog();
-                // show some error toast or message to display the api call issue
-                //RetrofitUtil.showToast(LoginActivity.this, "Unable to access API");
-
-                new SampleDialog("", "Unable to access API", LoginActivity.this);
-
-            }
-        });
     }
 
     // check permission
@@ -389,13 +350,12 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         if (UtilNetworkLocation.canGetLocation(this) == true && checkIfAlreadyHavePermission())
             UtilNetworkLocation.printCoordinates(UtilNetworkLocation.getLocation(this));
     }
 
     // customized async task with progress dialog
-    private class loginSync extends AsyncTask<loginResponse, Integer, loginResponse> implements Serializable {
+   /* private class loginSync extends AsyncTask<loginResponse, Integer, loginResponse> implements Serializable {
         ProgressDialog progressDialog;
 
         @Override
@@ -468,8 +428,9 @@ public class LoginActivity extends AppCompatActivity {
             //if (HttpResultimage == 204) {
             //TODO
             //do here the server task
-            if (result.getReturnCode())
+            if (result.getReturnCode()) {
                 syncToLocal(result, USER_ID);
+            }
             progressDialog.dismiss();
             //}
 
@@ -480,6 +441,6 @@ public class LoginActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
             }
         }
-    }
+    }*/
 
 }

@@ -80,7 +80,12 @@ public class DaySummaryFragment extends BaseFragment {
         tvTotalBillValue.setText(String.valueOf(Utility.roundOff(totalBillValue)));
 
         // calculate average bill value
-        double avgBill = totalBillValue / totalCalls;
+        double avgBill = 0;
+
+        avgBill = totalBillValue / totalCalls;
+
+        if (Double.isNaN(avgBill))
+            avgBill = 0;
         tvAvgBillValue.setText(String.valueOf(Utility.roundOff(avgBill)));
     }
 }

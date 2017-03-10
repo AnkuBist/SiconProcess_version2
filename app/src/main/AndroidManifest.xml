@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!--sample test-->
-    <uses-sdk tools:overrideLibrary="com.sample.toolkit.payment"/>
+    <uses-sdk tools:overrideLibrary="com.sample.toolkit.payment" />
 
     <application
         android:name=".base.SiconApp"
@@ -39,20 +39,40 @@
 
         <activity
             android:name=".activity.NavBaseActivity"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".activity.unused.HomeActivity" />
-        <activity android:name=".activity.fragments.invoice.rejActivities.ProductListSelectActivity" />
-        <activity android:name=".activity.fragments.invoice.rejActivities.FreshRejectionActivity" />
-        <activity android:name=".activity.fragments.invoice.rejActivities.MarketRejectionActivity" />
-        <activity android:name=".activity.fragments.invoice.ChequeDetailsActivity" />
-        <activity android:name=".activity.ViewVanStockActivity" />
-        <activity android:name=".activity.fragments.invoice.makeOrderInvoice.TomorrowOrderProductListActivity" />
-        <activity android:name=".activity.SelectedOutletInfoActivity" />
+        <activity
+            android:name=".activity.unused.HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.fragments.invoice.rejActivities.ProductListSelectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.fragments.invoice.rejActivities.FreshRejectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.fragments.invoice.rejActivities.MarketRejectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.fragments.invoice.ChequeDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ViewVanStockActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.fragments.invoice.makeOrderInvoice.TomorrowOrderProductListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SelectedOutletInfoActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.HomeInvoiceActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
     </application>
 

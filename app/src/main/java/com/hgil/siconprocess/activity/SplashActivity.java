@@ -34,13 +34,14 @@ public class SplashActivity extends Activity {
                 String lastLoginDate = Utility.readPreference(SplashActivity.this, Utility.LAST_LOGIN_DATE);
                 boolean loginStatus = Utility.readLoginStatus(SplashActivity.this, Utility.LOGIN_STATUS);
 
-                // check if there exists any relevant data to sync to server
+                // this is not needed to sync data
+         /* // check if there exists any relevant data to sync to server
                 if (checkSyncData())
                     // sync data here before login
-                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));*/
 
-                    // direct pass user to home if user has already logged same day with any of the last saved id.
-                else if ((Utility.getCurDate()).matches(lastLoginDate) && loginStatus)
+                // direct pass user to home if user has already logged same day with any of the last saved id.
+                if ((Utility.getCurDate()).matches(lastLoginDate) && loginStatus)
                     startActivity(new Intent(SplashActivity.this, NavBaseActivity.class));
                 else
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
@@ -53,19 +54,19 @@ public class SplashActivity extends Activity {
         }, SPLASH_TIME_OUT);
     }
 
-    private InvoiceOutTable invoiceOutTable;
+/*    private InvoiceOutTable invoiceOutTable;
     private CustomerRejectionTable rejectionTable;
     private PaymentTable paymentTable;
-    private NextDayOrderTable nextDayOrderTable;
+    private NextDayOrderTable nextDayOrderTable;*/
 
-    public void initializeTableObjects() {
+    /*public void initializeTableObjects() {
         invoiceOutTable = new InvoiceOutTable(this);
         rejectionTable = new CustomerRejectionTable(this);
         paymentTable = new PaymentTable(this);
         nextDayOrderTable = new NextDayOrderTable(this);
-    }
+    }*/
 
-    private boolean checkSyncData() {
+    /*private boolean checkSyncData() {
         initializeTableObjects();
         if (invoiceOutTable.numberOfRows() > 0
                 || rejectionTable.numberOfRows() > 0
@@ -73,5 +74,5 @@ public class SplashActivity extends Activity {
                 || nextDayOrderTable.numberOfRows() > 0)
             return true;
         else return false;
-    }
+    }*/
 }
