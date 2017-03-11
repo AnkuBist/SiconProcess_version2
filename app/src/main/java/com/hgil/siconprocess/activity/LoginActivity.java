@@ -3,6 +3,7 @@ package com.hgil.siconprocess.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -42,6 +43,8 @@ import com.hgil.siconprocess.retrofit.loginResponse.loginResponse;
 import com.hgil.siconprocess.utils.UtilNetworkLocation;
 import com.hgil.siconprocess.utils.Utility;
 import com.hgil.siconprocess.utils.ui.SampleDialog;
+
+import java.io.Serializable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -232,8 +235,10 @@ public class LoginActivity extends AppCompatActivity {
                     Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_PASSWORD, password);
 
                     // sync data from server to local database using the downloaded data object
-                    syncToLocal(loginResult, user_id);
-                    RetrofitUtil.hideDialog();
+                    // syncToLocal(loginResult, user_id);
+
+                    new loginSync(loginResult, user_id).execute();
+                    //RetrofitUtil.hideDialog();
                 } else {
                     RetrofitUtil.hideDialog();
 
@@ -294,9 +299,9 @@ public class LoginActivity extends AppCompatActivity {
 
             // start activity here only
             // after saving all values to database start new activity
-            startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
+            /*startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
             finish();
-            overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+            overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);*/
         }
     }
 
@@ -345,6 +350,36 @@ public class LoginActivity extends AppCompatActivity {
         super.onResume();
         if (UtilNetworkLocation.canGetLocation(this) == true && checkIfAlreadyHavePermission())
             UtilNetworkLocation.printCoordinates(UtilNetworkLocation.getLocation(this));
+    }
+
+    // AsyncTask copy one
+    private class loginSync extends AsyncTask<Void, Void, Boolean> implements Serializable {
+
+        loginResponse loginResponse;
+        String user_id;
+
+        public loginSync(loginResponse loginResponse, String user_id) {
+            this.loginResponse = loginResponse;
+            this.user_id = user_id;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            syncToLocal(loginResponse, user_id);
+            return loginResponse.getReturnCode();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean status) {
+            RetrofitUtil.hideDialog();
+            if (status) {
+                startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
+                finish();
+                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+            } else {
+                new SampleDialog("", "Some error occurred while synchronising data", LoginActivity.this);
+            }
+        }
     }
 
     // customized async task with progress dialog
