@@ -20,6 +20,7 @@ public class FixedSampleTable extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Sicon_fixed_sample";
     private static final String TABLE_NAME = "SD_FixedSample_Master";
+
     private static final String ID = "ID";
     private static final String STARTDT = "StartDt";
     private static final String DDAY = "DDay";

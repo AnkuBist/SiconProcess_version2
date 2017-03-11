@@ -39,7 +39,8 @@
 
                 <EditText
                     android:id="@+id/etDamaged"
-                    style="@style/RejectionEtStyle" />
+                    style="@style/RejectionEtStyle"
+                    android:text="0" />
             </RelativeLayout>
 
             <View
@@ -57,11 +58,7 @@
                 <EditText
                     android:id="@+id/etExpired"
                     style="@style/RejectionEtStyle"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="23dp"
-                    android:layout_marginRight="23dp" />
+                    android:text="0" />
             </RelativeLayout>
 
             <View
@@ -78,7 +75,8 @@
 
                 <EditText
                     android:id="@+id/etRatEaten"
-                    style="@style/RejectionEtStyle" />
+                    style="@style/RejectionEtStyle"
+                    android:text="0" />
             </RelativeLayout>
 
             <View

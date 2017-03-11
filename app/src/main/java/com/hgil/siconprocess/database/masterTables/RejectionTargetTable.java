@@ -20,6 +20,7 @@ public class RejectionTargetTable extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Sicon_rejection_target";
     private static final String TABLE_NAME = "SD_RejctionTarget_Master";
+
     private static final String REC_ID = "Rec_id";
     private static final String TARGET_FROM_DATE = "Target_From_Date";
     private static final String TARGET_TO_DATE = "Target_To_Date";

@@ -20,6 +20,7 @@ public class CrateCollectionView extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "sicon_crate_collection";
     private static final String TABLE_NAME = "V_SD_Crate_Collection_Master";
+
     // private static final String REC_ID = "Rec_id";
     private static final String DDATE = "DDate";
     private static final String SUB_COMPANY_ID = "Sub_Company_id";

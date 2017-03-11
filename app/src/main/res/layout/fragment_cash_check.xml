@@ -44,7 +44,36 @@
 
             <EditText
                 android:id="@+id/etCashReceived"
-                style="@style/RejectionEtStyle" />
+                style="@style/RejectionEtStyle"
+                android:inputType="numberDecimal" />
+        </RelativeLayout>
+
+        <RelativeLayout style="@style/finalPaymentItemHolder">
+
+            <TextView
+                style="@style/FinalTvLabel"
+                android:layout_toLeftOf="@+id/etChequeCollected"
+                android:text="Cheque Amount Collected by Cashier" />
+
+            <EditText
+                android:id="@+id/etChequeCollected"
+                style="@style/RejectionEtStyle"
+                android:background="@drawable/et_uneditable_round_shape"
+                android:editable="false"
+                android:enabled="false" />
+        </RelativeLayout>
+
+        <RelativeLayout style="@style/finalPaymentItemHolder">
+
+            <TextView
+                style="@style/FinalTvLabel"
+                android:layout_toLeftOf="@+id/etChequeReceived"
+                android:text="Cheque Amount received by Supervisor" />
+
+            <EditText
+                android:id="@+id/etChequeReceived"
+                style="@style/RejectionEtStyle"
+                android:inputType="numberDecimal" />
         </RelativeLayout>
 
         <View

@@ -20,6 +20,7 @@ public class DepotEmployeeView extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Sicon_depot_employee";
     private static final String TABLE_NAME = "V_Depot_Employee_Master";
+
     private static final String PAYCODE = "Paycode";
     private static final String NAME = "Name";
     private static final String ETYPE = "Etype";

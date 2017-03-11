@@ -24,6 +24,7 @@ public class ProductView extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Sicon_product";
     private static final String TABLE_NAME = "V_Item_Master";
+
     private static final String ITEMSEQUENCE = "ITEMSEQUENCE";
     private static final String PRODUCTRANKING = "PRODUCTRANKING";
     private static final String ITEM_ID = "Item_id";

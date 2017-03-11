@@ -32,6 +32,9 @@
             style="@style/RejectionEtStyle"
             android:layout_width="match_parent"
             android:layout_marginLeft="20dp"
+            android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
             android:inputType="text" />

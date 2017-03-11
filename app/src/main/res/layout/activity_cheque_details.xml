@@ -40,8 +40,8 @@
 
             <EditText
                 android:id="@+id/etChequeDate"
-                android:editable="false"
-                style="@style/chequeEtStyle" />
+                style="@style/chequeEtStyle"
+                android:editable="false" />
         </LinearLayout>
 
         <!--   <View
@@ -59,7 +59,7 @@
             <EditText
                 android:id="@+id/etChequeAmount"
                 style="@style/chequeEtStyle"
-                android:inputType="number" />
+                android:inputType="numberDecimal" />
         </LinearLayout>
 
         <!--  <View

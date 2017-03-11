@@ -24,6 +24,7 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Sicon_depot_invoice";
     private static final String TABLE_NAME = "V_SD_DepotInvoice_Master";
+
     private static final String MKEY = "Mkey";
     private static final String RKEY = "RKey";
     private static final String ROUTE_MANAGEMENT_DATE = "Route_managemnet_Date";

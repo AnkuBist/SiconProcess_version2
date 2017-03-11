@@ -19,6 +19,7 @@ public class RouteView extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Sicon_route";
     private static final String TABLE_NAME = "V_SD_Route_Master";
+
     private static final String SUB_COMPANY_ID = "Sub_Company_id";
     private static final String DEPOT_ID = "Depot_id";
     private static final String SUBDEPOT_ID = "SubDepot_id";

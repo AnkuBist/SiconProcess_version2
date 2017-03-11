@@ -20,6 +20,7 @@ public class PriceGroupView extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Sicon_price_group";
     private static final String TABLE_NAME = "V_PriceGroupMaster";
+
     private static final String ACCOUNTCODE = "ACCOUNTCODE";
     private static final String ITEMRELATION = "ITEMRELATION";
     private static final String ACCOUNTRELATION = "ACCOUNTRELATION";

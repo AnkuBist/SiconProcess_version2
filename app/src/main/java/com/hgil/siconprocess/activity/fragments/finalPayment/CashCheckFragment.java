@@ -23,6 +23,11 @@ public class CashCheckFragment extends BaseFragment {
     EditText etCashCollected;
     @BindView(R.id.etCashReceived)
     EditText etCashReceived;
+    @BindView(R.id.etChequeCollected)
+    EditText etChequeCollected;
+    @BindView(R.id.etChequeReceived)
+    EditText etChequeReceived;
+
 
     public CashCheckFragment() {
         // Required empty public constructor
@@ -38,8 +43,9 @@ public class CashCheckFragment extends BaseFragment {
         return R.layout.fragment_cash_check;
     }
 
-    private double amount_collected, amount_delivered_by_cashier;
+    private double cash_collected, cash_delivered_by_cashier, cheque_collected, cheque_amount_delivered;
     private CashierSyncModel cashierSyncModel;
+    private CashCheck cashCheck;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -52,19 +58,28 @@ public class CashCheckFragment extends BaseFragment {
         PaymentTable paymentTable = new PaymentTable(getContext());
 
         // cashier total verification
-        amount_collected = paymentTable.routeTotalAmountCollection();
-        etCashCollected.setText(String.valueOf(amount_collected));
-        etCashReceived.setText(String.valueOf(amount_delivered_by_cashier));
+        cashCheck = paymentTable.routeTotalAmountCollection();
+        cash_collected = cashCheck.getCash_collected();
+        cash_delivered_by_cashier = cashCheck.getCash_delivered();
+        cheque_collected = cashCheck.getCheque_amount();
+        cheque_amount_delivered = cashCheck.getCheque_amount_delivered();
+
+        etCashCollected.setText(String.valueOf(cash_collected));
+        etCashReceived.setText(String.valueOf(cash_delivered_by_cashier));
+        etChequeCollected.setText(String.valueOf(cheque_collected));
+        etChequeReceived.setText(String.valueOf(cheque_amount_delivered));
 
         imgSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                amount_delivered_by_cashier = Utility.getDouble(etCashReceived.getText().toString());
+                cash_delivered_by_cashier = Utility.getDouble(etCashReceived.getText().toString());
+                cheque_amount_delivered = Utility.getDouble(etChequeReceived.getText().toString());
 
                 CashCheck cashCheck = new CashCheck();
-                cashCheck.setAmount_collected(amount_collected);
-                cashCheck.setAmount_delivered(amount_delivered_by_cashier);
+                cashCheck.setCash_collected(cash_collected);
+                cashCheck.setCash_delivered(cash_delivered_by_cashier);
+                cashCheck.setCheque_amount(cheque_collected);
+                cashCheck.setCheque_amount_delivered(cheque_amount_delivered);
 
                 cashierSyncModel.setCashCheck(cashCheck);
 
@@ -72,7 +87,5 @@ public class CashCheckFragment extends BaseFragment {
                 launchNavFragment(fragment);
             }
         });
-
     }
-
 }

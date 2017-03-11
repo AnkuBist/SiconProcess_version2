@@ -19,6 +19,7 @@ public class CustomerItemPriceTable extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Sicon_item_price_db";
     private static final String TABLE_NAME = "customer_item_price_table";
+
     private static final String ITEM_ID = "item_id";
     private static final String CUSTOMER_ID = "customer_id";
     private static final String PRICE = "price";

@@ -1,10 +1,8 @@
 package com.hgil.siconprocess.activity;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -12,7 +10,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -45,12 +42,6 @@ import com.hgil.siconprocess.retrofit.loginResponse.loginResponse;
 import com.hgil.siconprocess.utils.UtilNetworkLocation;
 import com.hgil.siconprocess.utils.Utility;
 import com.hgil.siconprocess.utils.ui.SampleDialog;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -232,7 +223,6 @@ public class LoginActivity extends AppCompatActivity {
         apiCall.enqueue(new Callback<loginResponse>() {
             @Override
             public void onResponse(Call<loginResponse> call, Response<loginResponse> response) {
-                RetrofitUtil.hideDialog();
 
                 loginResponse loginResult = response.body();
 
@@ -243,7 +233,10 @@ public class LoginActivity extends AppCompatActivity {
 
                     // sync data from server to local database using the downloaded data object
                     syncToLocal(loginResult, user_id);
+                    RetrofitUtil.hideDialog();
                 } else {
+                    RetrofitUtil.hideDialog();
+
                     //RetrofitUtil.showToast(LoginActivity.this, loginResult.getStrMessage());
                     new SampleDialog("", loginResult.getStrMessage(), LoginActivity.this);
                 }

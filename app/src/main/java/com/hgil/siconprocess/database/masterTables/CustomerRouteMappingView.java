@@ -22,6 +22,7 @@ public class CustomerRouteMappingView extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Sicon_route_map";
     private static final String TABLE_NAME = "V_SD_Customer_Route_Mapping";
+
     private static final String REC_ID = "Rec_id";
     private static final String SUB_COMPANY_ID = "Sub_Company_id";
     private static final String DEPOT = "Depot";

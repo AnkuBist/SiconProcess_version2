@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.hgil.siconprocess.activity.fragments.invoiceSyncModel.CashCheck;
 import com.hgil.siconprocess.activity.fragments.invoiceSyncModel.CollectionCashModel;
 import com.hgil.siconprocess.activity.fragments.invoiceSyncModel.CollectionCrateModel;
 import com.hgil.siconprocess.activity.fragments.invoiceSyncModel.CrateStockCheck;
@@ -255,20 +256,22 @@ public class PaymentTable extends SQLiteOpenHelper {
         return total;
     }
 
-    // get total issued crates for the route
-    public double routeTotalAmountCollection() {
+    // get total of cash and cheque amount collected by the cashier on certain root
+    public CashCheck routeTotalAmountCollection() {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "select sum(" + TOTAL_PAID_AMOUNT + ") as total " +
-                "from " + TABLE_NAME;
+        String query = "select sum(" + CASH_PAID + ") as cash_total, sum(" + CHEQUE_AMOUNT + ") as cheque_total" +
+                " from " + TABLE_NAME;
         Cursor res = db.rawQuery(query, null);
 
-        double total = 0;
+        CashCheck cashCheck = new CashCheck();
+
         if (res.moveToFirst()) {
-            total = res.getInt(res.getColumnIndex("total"));
+            cashCheck.setCash_collected(res.getDouble(res.getColumnIndex("cash_total")));
+            cashCheck.setCheque_amount(res.getDouble(res.getColumnIndex("cheque_total")));
         }
         res.close();
         db.close();
-        return total;
+        return cashCheck;
     }
 
     // customer cash collection details

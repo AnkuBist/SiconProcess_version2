@@ -20,6 +20,7 @@ public class CrateOpeningTable extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Sicon_crate_opening";
     private static final String TABLE_NAME = "SD_CustomerCrate_Opening_Master";
+
     private static final String RCE_ID = "Rce_id";
     private static final String SUBCOMPANY_ID = "Subcompany_id";
     private static final String DEPOT_ID = "Depot_Id";

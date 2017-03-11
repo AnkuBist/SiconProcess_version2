@@ -23,6 +23,7 @@ public class DemandTargetTable extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Sicon_demand_target";
     private static final String TABLE_NAME = "SD_DemandTarget_Master";
+
     private static final String RCE_ID = "Rce_id";
     private static final String DDATE = "DDate";
     private static final String DDAY = "DDay";
