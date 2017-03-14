@@ -22,18 +22,18 @@ import java.util.Date;
 
 public class Utility {
 
+    public static final String USER_ID = "user_id";
+    public static final String LAST_LOGIN_ID = "last_login_id";
+    public static final String LAST_LOGIN_PASSWORD = "last_login_password";
+    public static final String LOGIN_STATUS = "login_status";
+    public static final String LAST_LOGIN_DATE = "last_login_date";
+
     /*check internet connection*/
     private static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
-    public static final String USER_ID = "user_id";
-    public static final String LAST_LOGIN_ID = "last_login_id";
-    public static final String LAST_LOGIN_PASSWORD = "last_login_password";
-    public static final String LOGIN_STATUS = "login_status";
-    public static final String LAST_LOGIN_DATE = "last_login_date";
 
     /*save shared preferences*/
     public static void savePreference(Activity activity, String key, String value) {
@@ -125,6 +125,12 @@ public class Utility {
 
     public static void closeKeyboard(Context c, View view) {
         InputMethodManager mgr = (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // check if no view has focus:
+        View v = ((Activity) c).getCurrentFocus();
+        if (v == null)
+            return;
+
         mgr.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 

@@ -35,24 +35,22 @@ import butterknife.BindView;
 
 public class NavBaseActivity extends BaseActivity {
 
-    @BindView(R.id.drawer_layout)
-    DrawerLayout mDrawer;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
     @BindView(R.id.tvNavTitle)
     public TextView tvNavTitle;
     @BindView(R.id.tvNavDate)
     public TextView tvNavDate;
     @BindView(R.id.imgSave)
     public ImageView imgSave;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawer;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.nvView)
     NavigationView nvDrawer;
-
-    private ActionBarDrawerToggle drawerToggle;
-
     @BindView(R.id.flContent)
     FrameLayout containerFrame;
+    boolean doubleBackToExitPressedOnce = false;
+    private ActionBarDrawerToggle drawerToggle;
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -230,8 +228,6 @@ public class NavBaseActivity extends BaseActivity {
         // Pass any configuration change to the drawer toggles
         drawerToggle.onConfigurationChanged(newConfig);
     }
-
-    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onBackPressed() {

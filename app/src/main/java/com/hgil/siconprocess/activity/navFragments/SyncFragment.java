@@ -40,13 +40,11 @@ import retrofit2.Response;
 
 public class SyncFragment extends BaseFragment {
 
-    private String TAG = this.getClass().getName();
-
     @BindView(R.id.tvRouteName)
     TextView tvRouteName;
     @BindView(R.id.btnSyncData)
     Button btnSyncData;
-
+    private String TAG = this.getClass().getName();
     private CrateCollectionView crateCollectionView;
     private DepotInvoiceView depot_invoice;
     private InvoiceOutTable invoiceOutTable;

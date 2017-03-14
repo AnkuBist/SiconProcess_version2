@@ -22,6 +22,21 @@ public class HomeActivity extends NavBaseActivity {
     TabLayout tabLayout;
     private TabPagerAdapter adapter;*/
 
+    boolean doubleBackToExitPressedOnce = false;
+
+  /*  @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        viewPager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+    }*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,21 +68,6 @@ public class HomeActivity extends NavBaseActivity {
                 .replace(R.id.homeFrame, fragment).commit();
 
     }
-
-  /*  @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        viewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-    }*/
-
-    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onBackPressed() {

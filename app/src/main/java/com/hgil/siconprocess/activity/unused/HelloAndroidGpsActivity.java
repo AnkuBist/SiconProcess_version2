@@ -81,6 +81,16 @@ public class HelloAndroidGpsActivity extends Activity implements android.content
         }
     }
 
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        if (which == DialogInterface.BUTTON_NEUTRAL) {
+            Toast.makeText(this, "Sorry, location is not detemined. To fix this please enable location providers.", Toast.LENGTH_SHORT).show();
+            //editTextShowLocation.setText("Sorry, location is not determined. To fix this please enable location providers");
+        } else if (which == DialogInterface.BUTTON_POSITIVE) {
+            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+        }
+    }
+
     class MyLocationListener implements LocationListener {
         @Override
         public void onLocationChanged(Location location) {
@@ -116,16 +126,6 @@ public class HelloAndroidGpsActivity extends Activity implements android.content
         public void onStatusChanged(String provider, int status, Bundle extras) {
             // TODO Auto-generated method stub
 
-        }
-    }
-
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        if (which == DialogInterface.BUTTON_NEUTRAL) {
-            Toast.makeText(this, "Sorry, location is not detemined. To fix this please enable location providers.", Toast.LENGTH_SHORT).show();
-            //editTextShowLocation.setText("Sorry, location is not determined. To fix this please enable location providers");
-        } else if (which == DialogInterface.BUTTON_POSITIVE) {
-            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
         }
     }
 

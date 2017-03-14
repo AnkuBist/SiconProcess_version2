@@ -20,12 +20,13 @@ import butterknife.BindView;
  */
 public class CrateCheckFragment extends BaseFragment {
 
+    private static final String SYNC_OBJECT = "sync_object";
     @BindView(R.id.etCrateLoaded)
     EditText etCrateLoaded;
     @BindView(R.id.etCrateReceived)
     EditText etCrateReceived;
-
-    private static final String SYNC_OBJECT = "sync_object";
+    private int crates_loaded_in_van, crates_delivered_by_cashier;
+    private CashierSyncModel cashierSyncModel;
 
     public CrateCheckFragment() {
         // Required empty public constructor
@@ -43,9 +44,6 @@ public class CrateCheckFragment extends BaseFragment {
     protected int getFragmentLayout() {
         return R.layout.fragment_crate_check;
     }
-
-    private int crates_loaded_in_van, crates_delivered_by_cashier;
-    private CashierSyncModel cashierSyncModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

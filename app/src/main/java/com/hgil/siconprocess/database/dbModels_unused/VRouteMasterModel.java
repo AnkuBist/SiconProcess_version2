@@ -27,6 +27,23 @@ public class VRouteMasterModel {
 
     // add customers to route
     private ArrayList<VCustomerRouteMapping> arrCustomerRouteMap;
+    // get all price groups
+    private ArrayList<VPriceGroupMasterModel> arrGroupPrice;
+    // get route credit opening
+    private ArrayList<CreditOpeningMasterModel> arrCreditOpening;
+    // get customer crate opening
+    private ArrayList<CrateOpeningMasterModel> arrCrateOpening;
+    // crate collectin details
+    private ArrayList<VCrateCollectionMasterModel> arrCrateCollection;
+    // get route invoice details
+    private ArrayList<VDepotInvoiceMasterModel> arrInvoiceDetails;
+    // master demand target
+    private ArrayList<DemandTargetMasterModel> arrDemandTarget;
+    // master fixed sample
+    private ArrayList<FixedSampleMasterModel> arrFixedSample;
+    // master rejection target
+    private ArrayList<RejectionTargetMasterModel> arrRejectionTarget;
+    private ArrayList<DepotEmployeeMasterModel> arrEmployees;
 
     public ArrayList<VCustomerRouteMapping> getArrCustomerRouteMap() {
         return arrCustomerRouteMap;
@@ -36,9 +53,6 @@ public class VRouteMasterModel {
         this.arrCustomerRouteMap = arrCustomerRouteMap;
     }
 
-    // get all price groups
-    private ArrayList<VPriceGroupMasterModel> arrGroupPrice;
-
     public ArrayList<VPriceGroupMasterModel> getArrGroupPrice() {
         return arrGroupPrice;
     }
@@ -46,9 +60,6 @@ public class VRouteMasterModel {
     public void setArrGroupPrice(ArrayList<VPriceGroupMasterModel> arrGroupPrice) {
         this.arrGroupPrice = arrGroupPrice;
     }
-
-    // get route credit opening
-    private ArrayList<CreditOpeningMasterModel> arrCreditOpening;
 
     public ArrayList<CreditOpeningMasterModel> getArrCreditOpening() {
         return arrCreditOpening;
@@ -58,9 +69,6 @@ public class VRouteMasterModel {
         this.arrCreditOpening = arrCreditOpening;
     }
 
-    // get customer crate opening
-    private ArrayList<CrateOpeningMasterModel> arrCrateOpening;
-
     public ArrayList<CrateOpeningMasterModel> getArrCrateOpening() {
         return arrCrateOpening;
     }
@@ -68,9 +76,6 @@ public class VRouteMasterModel {
     public void setArrCrateOpening(ArrayList<CrateOpeningMasterModel> arrCrateOpening) {
         this.arrCrateOpening = arrCrateOpening;
     }
-
-    // crate collectin details
-    private ArrayList<VCrateCollectionMasterModel> arrCrateCollection;
 
     public ArrayList<VCrateCollectionMasterModel> getArrCrateCollection() {
         return arrCrateCollection;
@@ -80,9 +85,6 @@ public class VRouteMasterModel {
         this.arrCrateCollection = arrCrateCollection;
     }
 
-    // get route invoice details
-    private ArrayList<VDepotInvoiceMasterModel> arrInvoiceDetails;
-
     public ArrayList<VDepotInvoiceMasterModel> getArrInvoiceDetails() {
         return arrInvoiceDetails;
     }
@@ -90,9 +92,6 @@ public class VRouteMasterModel {
     public void setArrInvoiceDetails(ArrayList<VDepotInvoiceMasterModel> arrInvoiceDetails) {
         this.arrInvoiceDetails = arrInvoiceDetails;
     }
-
-    // master demand target
-    private ArrayList<DemandTargetMasterModel> arrDemandTarget;
 
     public ArrayList<DemandTargetMasterModel> getArrDemandTarget() {
         return arrDemandTarget;
@@ -102,9 +101,6 @@ public class VRouteMasterModel {
         this.arrDemandTarget = arrDemandTarget;
     }
 
-    // master fixed sample 
-    private ArrayList<FixedSampleMasterModel> arrFixedSample;
-
     public ArrayList<FixedSampleMasterModel> getArrFixedSample() {
         return arrFixedSample;
     }
@@ -113,9 +109,6 @@ public class VRouteMasterModel {
         this.arrFixedSample = arrFixedSample;
     }
 
-    // master rejection target
-    private ArrayList<RejectionTargetMasterModel> arrRejectionTarget;
-
     public ArrayList<RejectionTargetMasterModel> getArrRejectionTarget() {
         return arrRejectionTarget;
     }
@@ -123,8 +116,6 @@ public class VRouteMasterModel {
     public void setArrRejectionTarget(ArrayList<RejectionTargetMasterModel> arrRejectionTarget) {
         this.arrRejectionTarget = arrRejectionTarget;
     }
-
-    private ArrayList<DepotEmployeeMasterModel> arrEmployees;
 
     public ArrayList<DepotEmployeeMasterModel> getArrEmployees() {
         return arrEmployees;

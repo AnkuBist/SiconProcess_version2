@@ -32,6 +32,7 @@ import retrofit2.Response;
  */
 public class ItemCheckFragment extends BaseFragment {
 
+    private static final String SYNC_OBJECT = "sync_object";
     @BindView(R.id.etItemsLoaded)
     EditText etItemsLoaded;
     @BindView(R.id.etItemsSold)
@@ -48,9 +49,9 @@ public class ItemCheckFragment extends BaseFragment {
     EditText etItemsMarketRej;
     @BindView(R.id.etItemsReceivedMarketRej)
     EditText etItemsReceivedMarketRej;
-
-    private static final String SYNC_OBJECT = "sync_object";
     private CashierSyncModel cashierSyncModel;
+    private int items_loaded, items_sold, items_leftover, items_received, items_fresh_rejection,
+            items_fresh_rej_received, items_market_rejection, items_market_rej_received;
 
     public ItemCheckFragment() {
         // Required empty public constructor
@@ -76,9 +77,6 @@ public class ItemCheckFragment extends BaseFragment {
     protected int getFragmentLayout() {
         return R.layout.fragment_item_check;
     }
-
-    private int items_loaded, items_sold, items_leftover, items_received, items_fresh_rejection,
-            items_fresh_rej_received, items_market_rejection, items_market_rej_received;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

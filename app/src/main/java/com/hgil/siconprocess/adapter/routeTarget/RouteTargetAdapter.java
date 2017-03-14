@@ -19,8 +19,8 @@ import butterknife.ButterKnife;
  */
 
 public class RouteTargetAdapter extends RecyclerView.Adapter<RouteTargetAdapter.ViewHolder> {
-    private Context mContext;
     public ArrayList<RouteTargetModel> mDataset;
+    private Context mContext;
 
     public RouteTargetAdapter(Context mContext, ArrayList<RouteTargetModel> myDataset) {
         this.mContext = mContext;

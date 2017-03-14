@@ -26,6 +26,7 @@ import butterknife.BindView;
  */
 public class TomorrowOrderFragment extends BaseFragment {
 
+    private static int PRODUCT_LIST = 121;
     @BindView(R.id.tvCustomerName)
     TextView tvCustomerName;
     @BindView(R.id.rvCustomerOrder)
@@ -34,7 +35,6 @@ public class TomorrowOrderFragment extends BaseFragment {
     TextView tvEmpty;
     @BindView(R.id.btnAddItems)
     Button btnAddItems;
-
     private NextDayOrderAdapter orderAdapter;
     private NextDayOrderTable orderTable;
     private ArrayList<NextDayOrderModel> arrOrder = new ArrayList<>();
@@ -136,8 +136,6 @@ public class TomorrowOrderFragment extends BaseFragment {
             rvCustomerOrder.setVisibility(View.VISIBLE);
         }
     }
-
-    private static int PRODUCT_LIST = 121;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

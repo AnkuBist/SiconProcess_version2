@@ -22,7 +22,6 @@ import butterknife.ButterKnife;
  */
 
 public class CustomerInvoiceOutItem {
-    private Context mContext;
     @BindView(R.id.tvItemName)
     TextView tvItemName;
     @BindView(R.id.tvStock)
@@ -39,14 +38,14 @@ public class CustomerInvoiceOutItem {
     EditText etAmount;
     @BindString(R.string.strRupee)
     String strRupee;
+    private Context mContext;
+    private int stockAvail, tempStock;
 
     public CustomerInvoiceOutItem(Context mContext, View v) {
         this.mContext = mContext;
         ButterKnife.bind(this, v);
         etQty.setEnabled(false);
     }
-
-    private int stockAvail, tempStock;
 
     public void updateInvoiceItem(final CustomerInvoiceOutAdapter.ViewHolder holder, final InvoiceModel itemInvoice, final int position) {
         final String itemName = itemInvoice.getItemName();

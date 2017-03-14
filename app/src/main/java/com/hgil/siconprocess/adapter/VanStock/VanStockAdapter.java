@@ -56,8 +56,6 @@ public class VanStockAdapter extends RecyclerView.Adapter<VanStockAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tvItemName)
-        TextView tvItemName;
         @BindView(R.id.tvLoadQty)
         public TextView tvLoadQty;
         @BindView(R.id.tvGrossSale)
@@ -70,6 +68,8 @@ public class VanStockAdapter extends RecyclerView.Adapter<VanStockAdapter.ViewHo
         public TextView tvFreshRejection;
         @BindView(R.id.tvLeftover)
         public TextView tvLeftover;
+        @BindView(R.id.tvItemName)
+        TextView tvItemName;
 
 
         public ViewHolder(View v) {

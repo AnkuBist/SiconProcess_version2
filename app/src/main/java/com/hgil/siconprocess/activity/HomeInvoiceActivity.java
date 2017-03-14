@@ -33,24 +33,24 @@ import butterknife.BindView;
 
 public class HomeInvoiceActivity extends BaseActivity {
 
-    @BindView(R.id.drawer_layout)
-    DrawerLayout mDrawer;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
     @BindView(R.id.tvNavTitle)
     public TextView tvNavTitle;
     @BindView(R.id.tvNavDate)
     public TextView tvNavDate;
     @BindView(R.id.imgSave)
     public ImageView imgSave;
+    protected String customer_id;
+    protected String customer_name;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawer;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.nvView)
     NavigationView nvDrawer;
-
-    private ActionBarDrawerToggle drawerToggle;
-
     @BindView(R.id.flInvoiceContent)
     FrameLayout containerFrame;
+    boolean doubleBackToExitPressedOnce = false;
+    private ActionBarDrawerToggle drawerToggle;
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -88,9 +88,6 @@ public class HomeInvoiceActivity extends BaseActivity {
         tvNavDate.setText(Utility.getDateMonth());
         // firstLaunch();
     }
-
-    protected String customer_id;
-    protected String customer_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,8 +223,6 @@ public class HomeInvoiceActivity extends BaseActivity {
         // Pass any configuration change to the drawer toggles
         drawerToggle.onConfigurationChanged(newConfig);
     }
-
-    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onBackPressed() {

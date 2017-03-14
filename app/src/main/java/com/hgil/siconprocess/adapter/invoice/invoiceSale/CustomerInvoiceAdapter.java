@@ -19,8 +19,8 @@ import butterknife.ButterKnife;
  */
 
 public class CustomerInvoiceAdapter extends RecyclerView.Adapter<CustomerInvoiceAdapter.ViewHolder> {
-    private Context mContext;
     public ArrayList<InvoiceModel> mDataset;
+    private Context mContext;
 
     public CustomerInvoiceAdapter(Context mContext, ArrayList<InvoiceModel> myDataset) {
         this.mContext = mContext;

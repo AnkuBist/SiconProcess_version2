@@ -25,18 +25,15 @@ import butterknife.BindView;
  */
 public class InvoiceOutFragment extends BaseFragment {
     private static final String INVOICE_LIST = "invoice_list";
-
+    //@BindView(R.id.tvCustomerTotal)
+    public static TextView tvCustomerTotal;
+    public static double grandTotal = 0;
     @BindView(R.id.tvCustomerName)
     TextView tvCustomerName;
     @BindView(R.id.rvCustomerInvoice)
     RecyclerView rvCustomerInvoice;
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
-    //@BindView(R.id.tvCustomerTotal)
-    public static TextView tvCustomerTotal;
-
-    public static double grandTotal = 0;
-
     private CustomerInvoiceOutAdapter invoiceAdapter;
     private InvoiceOutTable invoiceOutTable;
     private ArrayList<InvoiceModel> arrInvoiceItems;

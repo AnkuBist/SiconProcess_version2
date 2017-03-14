@@ -44,11 +44,6 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
 
     private static final String GRAND_TOTAL = "grand_total";
     private static final String DATE = "date";
-
-    public CustomerRejectionTable(Context context) {
-        super(context, DATABASE_NAME, null, 1);
-    }
-
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + ITEM_ID + " TEXT NOT NULL, " + ITEM_NAME + " TEXT NOT NULL, "
             + CUSTOMER_ID + " TEXT NOT NULL, " + CUSTOMER_NAME + " TEXT NOT NULL, " + VAN_STOCK + " INTEGER NULL, " //+ VAN_QTY + " INTEGER NOT NULL, "
             + REJ_QTY + " INTEGER NULL, " + PRICE + " REAL NULL, " + FRESH_M_SHAPED + " INTEGER NULL, "
@@ -56,6 +51,10 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
             + FRESH_WET_BREAD + " INTEGER NULL, " + FRESH_OTHERS + " INTEGER NULL, " + MARKET_DAMAGED + " INTEGER NULL, "
             + MARKET_EXPIRED + " INTEGER NULL, " + MARKET_RAT_EATEN + " INTEGER NULL, " + GRAND_TOTAL + " REAL NULL, "
             + DATE + " TEXT NULL)";
+
+    public CustomerRejectionTable(Context context) {
+        super(context, DATABASE_NAME, null, 1);
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {

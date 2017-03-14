@@ -15,6 +15,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitUtil {
 
+    private static ProgressDialog loading = null;
+
     public static RetrofitService retrofitClient() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(API.BASE_URL)
@@ -24,8 +26,6 @@ public class RetrofitUtil {
         RetrofitService service = retrofit.create(RetrofitService.class);
         return service;
     }
-
-    private static ProgressDialog loading = null;
 
     public static void showDialog(Context context) {
         loading = ProgressDialog.show(context, "Fetching Data", "Please ...", false, false);

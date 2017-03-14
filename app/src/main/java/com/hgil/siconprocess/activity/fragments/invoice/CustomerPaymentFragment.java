@@ -29,24 +29,21 @@ import butterknife.BindView;
  */
 public class CustomerPaymentFragment extends BaseFragment {
 
+    public static final int CHEQUE_DETAILS = 100;
     @BindView(R.id.tvCustomerName)
     TextView tvCustomerName;
     @BindView(R.id.tvCreditOs)
     TextView tvCreditOs;
-
     @BindView(R.id.etCash)
     EditText etCash;
     @BindView(R.id.etCheque)
     EditText etCheque;
-
     @BindView(R.id.tvSaleAmount)
     TextView tvSaleAmount;
     @BindView(R.id.tvTotalOs)
     TextView tvTotalOs;
-
     @BindView(R.id.tvCustomerTotal)
     TextView tvCustomerTotal;
-
     private PaymentTable paymentTable;
     private ChequeDetailsModel chequeDetailsModel;
 
@@ -172,8 +169,6 @@ public class CustomerPaymentFragment extends BaseFragment {
             }
         });
     }
-
-    public static final int CHEQUE_DETAILS = 100;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

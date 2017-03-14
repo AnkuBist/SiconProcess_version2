@@ -40,15 +40,15 @@ public class RouteTargetModel {
         return variance;
     }
 
+    public void setVariance(int variance) {
+        this.variance = variance;
+    }
+
     public String getItemId() {
         return itemId;
     }
 
     public void setItemId(String itemId) {
         this.itemId = itemId;
-    }
-
-    public void setVariance(int variance) {
-        this.variance = variance;
     }
 }

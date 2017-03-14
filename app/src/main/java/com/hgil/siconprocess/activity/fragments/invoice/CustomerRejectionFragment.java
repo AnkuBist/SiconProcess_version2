@@ -30,6 +30,10 @@ import butterknife.BindView;
  */
 public class CustomerRejectionFragment extends BaseFragment {
 
+    public static int FRESH_REJECTION_ID = 0;
+    public static int MARKET_REJECTION_ID = 0;
+    private static int REJECTION_LIST = 121;
+    private static String customerName;
     @BindView(R.id.tvCustomerName)
     TextView tvCustomerName;
     @BindView(R.id.rvCustomerRejection)
@@ -38,9 +42,6 @@ public class CustomerRejectionFragment extends BaseFragment {
     TextView tvEmpty;
     @BindView(R.id.btnAddItems)
     Button btnAddItems;
-
-    private static int REJECTION_LIST = 121;
-
     private InvoiceRejectionAdapter rejectionAdapter;
     private CustomerRejectionTable rejectionTable;
     private ArrayList<CRejectionModel> arrRejection;
@@ -56,6 +57,30 @@ public class CustomerRejectionFragment extends BaseFragment {
         bundle.putString(CUSTOMER_NAME, customer_name);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    public static String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public static int getFreshRejectionId() {
+        return FRESH_REJECTION_ID;
+    }
+
+    public static void setFreshRejectionId(int id) {
+        FRESH_REJECTION_ID = id;
+    }
+
+    public static int getMarketRejectionId() {
+        return MARKET_REJECTION_ID;
+    }
+
+    public static void setMarketRejectionId(int id) {
+        MARKET_REJECTION_ID = id;
     }
 
     @Override
@@ -143,9 +168,6 @@ public class CustomerRejectionFragment extends BaseFragment {
         }
     }
 
-    public static int FRESH_REJECTION_ID = 0;
-    public static int MARKET_REJECTION_ID = 0;
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -177,31 +199,5 @@ public class CustomerRejectionFragment extends BaseFragment {
             rejectionAdapter.notifyDataSetChanged();
             refreshScreen();
         }
-    }
-
-    private static String customerName;
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public static String getCustomerName() {
-        return customerName;
-    }
-
-    public static void setFreshRejectionId(int id) {
-        FRESH_REJECTION_ID = id;
-    }
-
-    public static void setMarketRejectionId(int id) {
-        MARKET_REJECTION_ID = id;
-    }
-
-    public static int getFreshRejectionId() {
-        return FRESH_REJECTION_ID;
-    }
-
-    public static int getMarketRejectionId() {
-        return MARKET_REJECTION_ID;
     }
 }

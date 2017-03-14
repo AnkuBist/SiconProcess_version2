@@ -47,14 +47,6 @@ public class PaymentTable extends SQLiteOpenHelper {
     private static final String ISSUED_CRATES = "issuedCrates";
     private static final String RECEIVED_CRATES = "receivedCrates";
     private static final String DATE = "date";
-
-    private Context mContext;
-
-    public PaymentTable(Context context) {
-        super(context, DATABASE_NAME, null, 1);
-        this.mContext = context;
-    }
-
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + CUSTOMER_ID + " TEXT NOT NULL, "
             + CUSTOMER_NAME + " TEXT NOT NULL, " + SALE_AMOUNT + " REAL NULL, "
             + CASH_PAID + " REAL NULL, " + TOTAL_PAID_AMOUNT + " REAL NULL, " + CHEQUE_NUMBER + " TEXT NULL, "
@@ -62,6 +54,12 @@ public class PaymentTable extends SQLiteOpenHelper {
             + BANK_NAME + " TEXT NULL, " + BANK_BRANCH + " TEXT NULL, " + INVOICE_ID + " TEXT NULL, "
             + ISSUED_CRATES + " INTEGER NULL, " + RECEIVED_CRATES + " INTEGER NULL, "
             + DATE + " DATE NULL)";
+    private Context mContext;
+
+    public PaymentTable(Context context) {
+        super(context, DATABASE_NAME, null, 1);
+        this.mContext = context;
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {

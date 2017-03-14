@@ -37,12 +37,21 @@ public abstract class BaseFragment extends Fragment {
     @BindString(R.string.strRupee)
     protected String strRupee;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // setRetainInstance(true);
-        routeId = SiconApp.getInstance().getRouteId();
-        routeName = SiconApp.getInstance().getRouteName();
+    // sample snackbar
+    public static void showSnackbar(View view, String message) {
+        // make snackbar
+        Snackbar mSnackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
+        // get snackbar view
+        View mView = mSnackbar.getView();
+        // get textview inside snackbar view
+        TextView mTextView = (TextView) mView.findViewById(android.support.design.R.id.snackbar_text);
+        // set text to center
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+            mTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        else
+            mTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+        // show the snackbar
+        mSnackbar.show();
     }
 
    /* @Override public void onAttach(Activity activity) {
@@ -51,19 +60,29 @@ public abstract class BaseFragment extends Fragment {
     }*/
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // setRetainInstance(true);
+        routeId = SiconApp.getInstance().getRouteId();
+        routeName = SiconApp.getInstance().getRouteName();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(getFragmentLayout(), container, false);
+        View view = inflater.inflate(getFragmentLayout(), container, false);
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // setRetainInstance(true);
-        //Utility.closeKeyboard(getActivity(), getView());
+        Utility.closeKeyboard(getActivity(), getView());
         bindViews(view);
         getToolbarView();
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     private void getToolbarView() {
@@ -92,13 +111,13 @@ public abstract class BaseFragment extends Fragment {
         imgSave.setVisibility(View.VISIBLE);
     }
 
-    public void hideSaveButton() {
-        imgSave.setVisibility(View.GONE);
-    }
-
     /*public void onDestroyView(){
         // do nothing
     }*/
+
+    public void hideSaveButton() {
+        imgSave.setVisibility(View.GONE);
+    }
 
     public String getRouteId() {
         return routeId;
@@ -106,23 +125,6 @@ public abstract class BaseFragment extends Fragment {
 
     public String getRouteName() {
         return routeName;
-    }
-
-    // sample snackbar
-    public static void showSnackbar(View view, String message) {
-        // make snackbar
-        Snackbar mSnackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
-        // get snackbar view
-        View mView = mSnackbar.getView();
-        // get textview inside snackbar view
-        TextView mTextView = (TextView) mView.findViewById(android.support.design.R.id.snackbar_text);
-        // set text to center
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
-            mTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        else
-            mTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-        // show the snackbar
-        mSnackbar.show();
     }
 
     public void updateSaveIcon() {

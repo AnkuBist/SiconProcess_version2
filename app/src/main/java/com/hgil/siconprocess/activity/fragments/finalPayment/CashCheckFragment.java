@@ -27,7 +27,9 @@ public class CashCheckFragment extends BaseFragment {
     EditText etChequeCollected;
     @BindView(R.id.etChequeReceived)
     EditText etChequeReceived;
-
+    private double cash_collected, cash_delivered_by_cashier, cheque_collected, cheque_amount_delivered;
+    private CashierSyncModel cashierSyncModel;
+    private CashCheck cashCheck;
 
     public CashCheckFragment() {
         // Required empty public constructor
@@ -42,10 +44,6 @@ public class CashCheckFragment extends BaseFragment {
     protected int getFragmentLayout() {
         return R.layout.fragment_cash_check;
     }
-
-    private double cash_collected, cash_delivered_by_cashier, cheque_collected, cheque_amount_delivered;
-    private CashierSyncModel cashierSyncModel;
-    private CashCheck cashCheck;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

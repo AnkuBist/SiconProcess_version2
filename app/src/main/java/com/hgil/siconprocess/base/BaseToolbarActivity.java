@@ -22,17 +22,15 @@ import butterknife.BindView;
 public abstract class BaseToolbarActivity extends BaseActivity {
     protected static final String CUSTOMER_ID = "customer_id";
     protected static final String CUSTOMER_NAME = "customer_name";
-    protected String customer_id, customer_name;
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
     @BindView(R.id.tvNavTitle)
     public TextView tvNavTitle;
     @BindView(R.id.tvNavDate)
     public TextView tvNavDate;
     @BindView(R.id.imgSave)
     public ImageView imgSave;
+    protected String customer_id, customer_name;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.baseContent)
     FrameLayout containerFrame;
 

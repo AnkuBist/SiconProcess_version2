@@ -23,8 +23,8 @@ import butterknife.ButterKnife;
  */
 
 public class OutletListAdapter extends RecyclerView.Adapter<OutletListAdapter.ViewHolder> {
-    private Context mContext;
     public ArrayList<RouteCustomerModel> mDataset;
+    private Context mContext;
 
     public OutletListAdapter(Context mContext, ArrayList<RouteCustomerModel> myDataset) {
         this.mContext = mContext;

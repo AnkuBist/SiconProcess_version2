@@ -20,6 +20,10 @@ public class ChequeDetailsModel implements Serializable {
         return customer_name;
     }
 
+    public void setCustomer_name(String customer_name) {
+        this.customer_name = customer_name;
+    }
+
     public String getCustomer_id() {
         return customer_id;
     }
@@ -74,10 +78,6 @@ public class ChequeDetailsModel implements Serializable {
 
     public void setInvoiceId(String invoiceId) {
         this.invoiceId = invoiceId;
-    }
-
-    public void setCustomer_name(String customer_name) {
-        this.customer_name = customer_name;
     }
 
 }

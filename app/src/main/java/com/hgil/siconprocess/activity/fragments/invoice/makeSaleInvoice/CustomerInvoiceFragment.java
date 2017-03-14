@@ -26,18 +26,17 @@ import butterknife.BindView;
  * A simple {@link Fragment} subclass.
  */
 public class CustomerInvoiceFragment extends BaseFragment {
+    //@BindView(R.id.tvCustomerTotal)
+    public static TextView tvInvoiceTotal;
+    public static double grandTotal = 0;
     @BindView(R.id.tvCustomerName)
     TextView tvCustomerName;
     @BindView(R.id.rvCustomerInvoice)
     RecyclerView rvCustomerInvoice;
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
-    //@BindView(R.id.tvCustomerTotal)
-    public static TextView tvInvoiceTotal;
-
-    public static double grandTotal = 0;
-
-
+    boolean mAlreadyLoaded;
+    String TAG = getClass().getName();
     private CustomerInvoiceAdapter invoiceAdapter;
     private DepotInvoiceView customerInvoice;
     private ArrayList<InvoiceModel> arrInvoiceItems = new ArrayList<>();
@@ -97,8 +96,6 @@ public class CustomerInvoiceFragment extends BaseFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    boolean mAlreadyLoaded;
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Log.e(TAG, "onViewCreated");
@@ -114,8 +111,6 @@ public class CustomerInvoiceFragment extends BaseFragment {
         super.onPause();
         Log.e(TAG, "onPause");
     }
-
-    String TAG = getClass().getName();
 
     @Override
     public void onStop() {
