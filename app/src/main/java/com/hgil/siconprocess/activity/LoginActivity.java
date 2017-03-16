@@ -282,7 +282,7 @@ public class LoginActivity extends AppCompatActivity {
             RouteModel routeData = objResponse.getRouteDetail();
 
             dbRouteMapView.insertCustomerRouteMap(routeData.getArrCustomerRouteMap());
-            dbCustomerItemPrice.insertCustomerItemPrice(routeData.getArrCustomerItemPrice());
+            dbCustomerItemPrice.insertCustomerItemPrice(routeData.getArrItemDiscountPrice());
             dbPriceGroup.insertPrice(routeData.getArrGroupPrice());
             dbCreditOpening.insertCreditOpening(routeData.getArrCreditOpening());
             dbCrateOpening.insertCrateOpening(routeData.getArrCrateOpening());

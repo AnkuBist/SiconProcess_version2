@@ -11,6 +11,7 @@ public class CollectionCrateModel {
     private int issued;
     private int receive;
     private int balance;
+    private String ddate;
 
     public String getCustomer_id() {
         return customer_id;
@@ -50,5 +51,13 @@ public class CollectionCrateModel {
 
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    public String getDdate() {
+        return ddate;
+    }
+
+    public void setDdate(String ddate) {
+        this.ddate = ddate;
     }
 }

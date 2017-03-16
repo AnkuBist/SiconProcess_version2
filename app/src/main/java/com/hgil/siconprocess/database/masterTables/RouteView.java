@@ -27,7 +27,7 @@ public class RouteView extends SQLiteOpenHelper {
     private static final String ROUTE_NAME = "Route_Name";
     private static final String ROUTE_DESCRIPTION = "Route_Description";
     private static final String SALE_DATE_PARAMETER = "Sale_Date_Parameter";
-    private static final String LOADING_TYPE = "Loaing_Type";
+    private static final String LOADING_TYPE = "Loading_Type";
     private static final String TCC = "TCC";
     private static final String MAINDEPOT = "MainDepot";
     private static final String FLAG = "Flag";
@@ -39,7 +39,7 @@ public class RouteView extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + SUB_COMPANY_ID + " TEXT NULL, "
-                + DEPOT_ID + " TEXT NULL, " + SUBDEPOT_ID + " TEXT NOT NULL, "
+                + DEPOT_ID + " TEXT NULL, " + SUBDEPOT_ID + " TEXT NULL, "
                 + ROUTE_ID + " TEXT NULL, " + ROUTE_NAME + " TEXT NULL, " + ROUTE_DESCRIPTION + " TEXT NULL, "
                 + SALE_DATE_PARAMETER + " TEXT NULL, " + LOADING_TYPE + " TEXT NULL, " + TCC + " INTEGER NULL, "
                 + MAINDEPOT + " TEXT NULL, " + FLAG + " INTEGER NULL)");

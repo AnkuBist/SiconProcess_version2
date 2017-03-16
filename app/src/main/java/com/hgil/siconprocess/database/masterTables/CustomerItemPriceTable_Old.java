@@ -7,31 +7,26 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.hgil.siconprocess.retrofit.loginResponse.dbModels.CustomerItemPriceModel;
+import com.hgil.siconprocess.retrofit.loginResponse.dbModels.CustomerItemPriceModel_Old;
 
 import java.util.List;
 
 /**
- * Created by mohan.giri on 07-02-2017.
+ * Created by mohan.giri on 16-03-2017.
  */
 
-public class CustomerItemPriceTable extends SQLiteOpenHelper {
+public class CustomerItemPriceTable_Old extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Sicon_item_price_db";
     private static final String TABLE_NAME = "customer_item_price_table";
 
-    private static final String ITEM_ID = "Item_Id";
-    private static final String CUSTOMER_ID = "Customer_id";
-    private static final String ITEM_PRICE = "item_price";
-    private static final String DISCOUNT_PRICE = "discount_price";
-    private static final String DISCOUNT_PERCENTAGE = "discount_percentage";
-    private static final String DISCOUNT_TYPE = "discountType";
-    private static final String DISCOUNTED_PRICE = "discounted_prc";
-
+    private static final String ITEM_ID = "item_id";
+    private static final String CUSTOMER_ID = "customer_id";
+    private static final String PRICE = "price";
 
     private Context mContext;
 
-    public CustomerItemPriceTable(Context context) {
+    public CustomerItemPriceTable_Old(Context context) {
         super(context, DATABASE_NAME, null, 1);
         this.mContext = context;
     }
@@ -39,10 +34,7 @@ public class CustomerItemPriceTable extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + ITEM_ID + " TEXT NOT NULL, "
-                + CUSTOMER_ID + " TEXT NOT NULL, " + ITEM_PRICE + " REAL NOT NULL, "
-                + DISCOUNT_PRICE + " REAL NOT NULL, " + DISCOUNT_PERCENTAGE + " REAL NOT NULL, "
-                + DISCOUNT_TYPE + " TEXT NOT NULL, "
-                + DISCOUNTED_PRICE + " REAL NOT NULL)");
+                + CUSTOMER_ID + " TEXT NOT NULL, " + PRICE + " REAL NOT NULL)");
     }
 
     @Override
@@ -58,36 +50,27 @@ public class CustomerItemPriceTable extends SQLiteOpenHelper {
     }
 
     //insert single
-    public boolean insertCustomerItemPrice(CustomerItemPriceModel customerItemPriceModel) {
+    public boolean insertCustomerItemPrice(CustomerItemPriceModel_Old customerItemPriceModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(ITEM_ID, customerItemPriceModel.getItemId());
         contentValues.put(CUSTOMER_ID, customerItemPriceModel.getCustomerId());
-        contentValues.put(ITEM_PRICE, customerItemPriceModel.getItemPrice());
-        contentValues.put(DISCOUNT_PRICE, customerItemPriceModel.getDiscountPrice());
-        contentValues.put(DISCOUNT_PERCENTAGE, customerItemPriceModel.getDiscountPercentage());
-        contentValues.put(DISCOUNT_TYPE, customerItemPriceModel.getDiscountType());
-        contentValues.put(DISCOUNTED_PRICE, customerItemPriceModel.getDiscountedPrice());
-
+        contentValues.put(PRICE, customerItemPriceModel.getPrice());
         db.insert(TABLE_NAME, null, contentValues);
         db.close();
         return true;
     }
 
     // insert multiple items price
-    public boolean insertCustomerItemPrice(List<CustomerItemPriceModel> arrCustomerItemPrice) {
+    public boolean insertCustomerItemPrice(List<CustomerItemPriceModel_Old> arrCustomerItemPrice) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         for (int i = 0; i < arrCustomerItemPrice.size(); i++) {
-            CustomerItemPriceModel customerItemPriceModel = arrCustomerItemPrice.get(i);
+            CustomerItemPriceModel_Old customerItemPriceModel = arrCustomerItemPrice.get(i);
             ContentValues contentValues = new ContentValues();
             contentValues.put(ITEM_ID, customerItemPriceModel.getItemId());
             contentValues.put(CUSTOMER_ID, customerItemPriceModel.getCustomerId());
-            contentValues.put(ITEM_PRICE, customerItemPriceModel.getItemPrice());
-            contentValues.put(DISCOUNT_PRICE, customerItemPriceModel.getDiscountPrice());
-            contentValues.put(DISCOUNT_PERCENTAGE, customerItemPriceModel.getDiscountPercentage());
-            contentValues.put(DISCOUNT_TYPE, customerItemPriceModel.getDiscountType());
-            contentValues.put(DISCOUNTED_PRICE, customerItemPriceModel.getDiscountedPrice());
+            contentValues.put(PRICE, customerItemPriceModel.getPrice());
             db.insert(TABLE_NAME, null, contentValues);
         }
         db.close();
@@ -96,11 +79,11 @@ public class CustomerItemPriceTable extends SQLiteOpenHelper {
 
     public double getItemPriceById(String item_id, String customer_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT " + DISCOUNTED_PRICE + " FROM " + TABLE_NAME + " WHERE " + ITEM_ID + "=? and " + CUSTOMER_ID + "=?", new String[]{item_id, customer_id});
+        Cursor res = db.rawQuery("SELECT " + PRICE + " FROM " + TABLE_NAME + " WHERE " + ITEM_ID + "=? and " + CUSTOMER_ID + "=?", new String[]{item_id, customer_id});
 
         double price = 0;
         if (res.moveToFirst()) {
-            price = res.getDouble(res.getColumnIndex(DISCOUNTED_PRICE));
+            price = res.getDouble(res.getColumnIndex(PRICE));
         }
         res.close();
         db.close();
@@ -152,14 +135,14 @@ public class CustomerItemPriceTable extends SQLiteOpenHelper {
     }*/
 
     // get all products loaded in van
-   /* public ArrayList<CustomerItemPriceModel> getAllProducts() {
-        ArrayList<CustomerItemPriceModel> array_list = new ArrayList<CustomerItemPriceModel>();
+   /* public ArrayList<CustomerItemPriceModel_Old> getAllProducts() {
+        ArrayList<CustomerItemPriceModel_Old> array_list = new ArrayList<CustomerItemPriceModel_Old>();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
-                CustomerItemPriceModel customerItemPriceModel = new CustomerItemPriceModel();
+                CustomerItemPriceModel_Old customerItemPriceModel = new CustomerItemPriceModel_Old();
                 customerItemPriceModel.setITEMSEQUENCE(res.getInt(res.getColumnIndex(ITEMSEQUENCE)));
                 customerItemPriceModel.setPRODUCTRANKING(res.getInt(res.getColumnIndex(PRODUCTRANKING)));
                 customerItemPriceModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));

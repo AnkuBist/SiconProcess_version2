@@ -45,45 +45,57 @@ public class RouteModel implements Serializable {
     private int flag;
     @SerializedName("arrCustomerRouteMap")
     @Expose
-    private List<CustomerRouteMapModel> arrCustomerRouteMap = null;
+    private List<CustomerRouteMapModel> arrCustomerRouteMap;
     @SerializedName("arrGroupPrice")
     @Expose
-    private List<GroupPriceModel> arrGroupPrice = null;
+    private List<GroupPriceModel> arrGroupPrice;
     @SerializedName("arrCreditOpening")
     @Expose
-    private List<CreditOpeningModel> arrCreditOpening = null;
+    private List<CreditOpeningModel> arrCreditOpening;
     @SerializedName("arrCrateOpening")
     @Expose
-    private List<CrateOpeningModel> arrCrateOpening = null;
+    private List<CrateOpeningModel> arrCrateOpening;
     @SerializedName("arrCrateCollection")
     @Expose
-    private List<CrateCollectionModel> arrCrateCollection = null;
+    private List<CrateCollectionModel> arrCrateCollection;
     @SerializedName("arrInvoiceDetails")
     @Expose
-    private List<InvoiceDetailModel> arrInvoiceDetails = null;
+    private List<InvoiceDetailModel> arrInvoiceDetails;
     @SerializedName("arrDemandTarget")
     @Expose
-    private List<DemandTargetModel> arrDemandTarget = null;
+    private List<DemandTargetModel> arrDemandTarget;
     @SerializedName("arrFixedSample")
     @Expose
-    private List<FixedSampleModel> arrFixedSample = null;
+    private List<FixedSampleModel> arrFixedSample;
     @SerializedName("arrRejectionTarget")
     @Expose
-    private List<RejectionTargetModel> arrRejectionTarget = null;
+    private List<RejectionTargetModel> arrRejectionTarget;
     @SerializedName("arrEmployees")
     @Expose
-    private List<EmployeeModel> arrEmployees = null;
-    @SerializedName("arrCustomerItemPrice")
+    private List<EmployeeModel> arrEmployees;
+   /* @SerializedName("arrCustomerItemPrice")
     @Expose
-    private List<CustomerItemPriceModel> arrCustomerItemPrice = null;
+    private List<CustomerItemPriceModel> arrCustomerItemPrice = null;*/
 
-    public List<CustomerItemPriceModel> getArrCustomerItemPrice() {
+    @SerializedName("arrItemDiscountPrice")
+    @Expose
+    private List<CustomerItemPriceModel> arrItemDiscountPrice;
+
+    public List<CustomerItemPriceModel> getArrItemDiscountPrice() {
+        return arrItemDiscountPrice;
+    }
+
+    public void setArrItemDiscountPrice(List<CustomerItemPriceModel> arrItemDiscountPrice) {
+        this.arrItemDiscountPrice = arrItemDiscountPrice;
+    }
+
+    /*public List<CustomerItemPriceModel> getArrCustomerItemPrice() {
         return arrCustomerItemPrice;
     }
 
     public void setArrCustomerItemPrice(List<CustomerItemPriceModel> arrCustomerItemPrice) {
         this.arrCustomerItemPrice = arrCustomerItemPrice;
-    }
+    }*/
 
     public String getSubCompanyId() {
         return subCompanyId;

@@ -47,6 +47,7 @@ public class PaymentTable extends SQLiteOpenHelper {
     private static final String ISSUED_CRATES = "issuedCrates";
     private static final String RECEIVED_CRATES = "receivedCrates";
     private static final String DATE = "date";
+
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + CUSTOMER_ID + " TEXT NOT NULL, "
             + CUSTOMER_NAME + " TEXT NOT NULL, " + SALE_AMOUNT + " REAL NULL, "
             + CASH_PAID + " REAL NULL, " + TOTAL_PAID_AMOUNT + " REAL NULL, " + CHEQUE_NUMBER + " TEXT NULL, "
@@ -310,6 +311,7 @@ public class PaymentTable extends SQLiteOpenHelper {
                 crateModel.setIssued(res.getInt(res.getColumnIndex(ISSUED_CRATES)));
                 crateModel.setReceive(res.getInt(res.getColumnIndex(RECEIVED_CRATES)));
                 crateModel.setBalance(-crateModel.getOpening() - crateModel.getIssued() + crateModel.getReceive());
+                crateModel.setDdate(res.getString(res.getColumnIndex(DATE)));
 
                 array_list.add(crateModel);
                 res.moveToNext();

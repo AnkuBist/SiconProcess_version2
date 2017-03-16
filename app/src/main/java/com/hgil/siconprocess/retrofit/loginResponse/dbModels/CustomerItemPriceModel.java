@@ -11,23 +11,27 @@ import java.io.Serializable;
 
 public class CustomerItemPriceModel implements Serializable {
 
-    @SerializedName("item_id")
-    @Expose
-    private String itemId;
     @SerializedName("customer_id")
     @Expose
     private String customerId;
-    @SerializedName("price")
+    @SerializedName("item_id")
     @Expose
-    private Double price;
-
-    public String getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
-    }
+    private String itemId;
+    @SerializedName("item_price")
+    @Expose
+    private Double itemPrice;
+    @SerializedName("discount_price")
+    @Expose
+    private Double discountPrice;
+    @SerializedName("discount_percentage")
+    @Expose
+    private Double discountPercentage;
+    @SerializedName("discount_type")
+    @Expose
+    private String discountType;
+    @SerializedName("discounted_price")
+    @Expose
+    private Double discountedPrice;
 
     public String getCustomerId() {
         return customerId;
@@ -37,12 +41,52 @@ public class CustomerItemPriceModel implements Serializable {
         this.customerId = customerId;
     }
 
-    public Double getPrice() {
-        return price;
+    public String getItemId() {
+        return itemId;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    public Double getItemPrice() {
+        return itemPrice;
+    }
+
+    public void setItemPrice(Double itemPrice) {
+        this.itemPrice = itemPrice;
+    }
+
+    public Double getDiscountPrice() {
+        return discountPrice;
+    }
+
+    public void setDiscountPrice(Double discountPrice) {
+        this.discountPrice = discountPrice;
+    }
+
+    public Double getDiscountPercentage() {
+        return discountPercentage;
+    }
+
+    public void setDiscountPercentage(Double discountPercentage) {
+        this.discountPercentage = discountPercentage;
+    }
+
+    public String getDiscountType() {
+        return discountType;
+    }
+
+    public void setDiscountType(String discountType) {
+        this.discountType = discountType;
+    }
+
+    public Double getDiscountedPrice() {
+        return discountedPrice;
+    }
+
+    public void setDiscountedPrice(Double discountedPrice) {
+        this.discountedPrice = discountedPrice;
     }
 
 }

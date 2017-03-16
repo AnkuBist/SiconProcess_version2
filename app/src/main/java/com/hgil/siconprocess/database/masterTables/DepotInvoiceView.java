@@ -27,7 +27,7 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
 
     private static final String MKEY = "Mkey";
     private static final String RKEY = "RKey";
-    private static final String ROUTE_MANAGEMENT_DATE = "Route_managemnet_Date";
+    private static final String ROUTE_MANAGEMENT_DATE = "Route_management_Date";
     private static final String INVOICE_NO = "Invoice_No";
     private static final String INVOICE_DATE = "Invoice_Date";
     private static final String CUSTOMER_ID = "Customer_id";
