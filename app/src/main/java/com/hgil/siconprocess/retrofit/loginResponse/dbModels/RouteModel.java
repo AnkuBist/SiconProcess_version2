@@ -46,6 +46,9 @@ public class RouteModel implements Serializable {
     @SerializedName("arrCustomerRouteMap")
     @Expose
     private List<CustomerRouteMapModel> arrCustomerRouteMap;
+    @SerializedName("arrRouteCustomerInfo")
+    @Expose
+    private List<CustomerInfoModel> arrRouteCustomerInfo;
     @SerializedName("arrGroupPrice")
     @Expose
     private List<GroupPriceModel> arrGroupPrice;
@@ -257,4 +260,11 @@ public class RouteModel implements Serializable {
         this.arrEmployees = arrEmployees;
     }
 
+    public List<CustomerInfoModel> getArrRouteCustomerInfo() {
+        return arrRouteCustomerInfo;
+    }
+
+    public void setArrRouteCustomerInfo(List<CustomerInfoModel> arrRouteCustomerInfo) {
+        this.arrRouteCustomerInfo = arrRouteCustomerInfo;
+    }
 }

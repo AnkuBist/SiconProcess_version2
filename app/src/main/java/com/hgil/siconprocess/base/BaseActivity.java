@@ -31,6 +31,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         RouteModel routeModel = routeView.getRoute();
         routeId = routeModel.getRouteId();
         routeName = routeModel.getRouteName();
+        if (routeName != null)
+            routeName = routeName.substring(0, 1).toUpperCase() + routeName.substring(1).toLowerCase();
+        else
+            routeName = "";
+
         SiconApp.getInstance().setRouteModel(routeModel);
         SiconApp.getInstance().setRouteId(routeId);
         SiconApp.getInstance().setRouteName(routeName);

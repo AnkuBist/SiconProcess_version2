@@ -19,6 +19,7 @@ import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.database.masterTables.CrateCollectionView;
 import com.hgil.siconprocess.database.masterTables.CrateOpeningTable;
 import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
+import com.hgil.siconprocess.database.masterTables.CustomerInfoView;
 import com.hgil.siconprocess.database.masterTables.CustomerItemPriceTable;
 import com.hgil.siconprocess.database.masterTables.CustomerRouteMappingView;
 import com.hgil.siconprocess.database.masterTables.DemandTargetTable;
@@ -68,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private RouteView dbRouteView;
     private CustomerRouteMappingView dbRouteMapView;
+    private CustomerInfoView dbCustomerInfoView;
     private CustomerItemPriceTable dbCustomerItemPrice;
     private PriceGroupView dbPriceGroup;
     private ProductView dbProductView;
@@ -126,6 +128,7 @@ public class LoginActivity extends AppCompatActivity {
     private void initialiseDBObj() {
         dbRouteView = new RouteView(this);
         dbRouteMapView = new CustomerRouteMappingView(this);
+        dbCustomerInfoView = new CustomerInfoView(this);
         dbCustomerItemPrice = new CustomerItemPriceTable(this);
         dbPriceGroup = new PriceGroupView(this);
         dbProductView = new ProductView(this);
@@ -191,6 +194,7 @@ public class LoginActivity extends AppCompatActivity {
     private void eraseAllTableData() {
         dbRouteView.eraseTable();
         dbRouteMapView.eraseTable();
+        dbCustomerInfoView.eraseTable();
         dbCustomerItemPrice.eraseTable();
         dbPriceGroup.eraseTable();
         dbProductView.eraseTable();
@@ -283,6 +287,7 @@ public class LoginActivity extends AppCompatActivity {
             RouteModel routeData = objResponse.getRouteDetail();
 
             dbRouteMapView.insertCustomerRouteMap(routeData.getArrCustomerRouteMap());
+            dbCustomerInfoView.insertCustomer(routeData.getArrRouteCustomerInfo());
             dbCustomerItemPrice.insertCustomerItemPrice(routeData.getArrItemDiscountPrice());
             dbPriceGroup.insertPrice(routeData.getArrGroupPrice());
             dbCreditOpening.insertCreditOpening(routeData.getArrCreditOpening());

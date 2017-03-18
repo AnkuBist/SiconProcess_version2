@@ -8,17 +8,19 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:id="@+id/imgNavIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:src="@android:drawable/btn_radio" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/tvNavHeader"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Header"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@android:color/white" />
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_large" />
 
 </LinearLayout>

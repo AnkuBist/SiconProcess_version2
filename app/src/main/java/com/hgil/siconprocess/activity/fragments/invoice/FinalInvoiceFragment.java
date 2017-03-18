@@ -12,6 +12,7 @@ import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.dbModels.PaymentModel;
 import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
+import com.hgil.siconprocess.database.masterTables.CustomerInfoView;
 import com.hgil.siconprocess.database.tables.PaymentTable;
 import com.hgil.siconprocess.utils.Utility;
 import com.hgil.siconprocess.utils.utilPermission.UtilsSms;
@@ -41,6 +42,11 @@ public class FinalInvoiceFragment extends BaseFragment {
     Button btnInvoiceCancel;
     @BindView(R.id.btnSendSms)
     Button btnSendSms;
+
+    //TODO
+    // for now values are static
+    private String mobile = "9023503384";
+    private String message = "Hello, \nthis is a test message.";
 
     public FinalInvoiceFragment() {
         // Required empty public constructor
@@ -77,6 +83,10 @@ public class FinalInvoiceFragment extends BaseFragment {
             tvCustomerName.setText(customer_name);
         }
 
+        //TODO
+        // get customer contact details
+        mobile = new CustomerInfoView(getContext()).getCustomerContact(customer_id);
+
         // get customer credit outstanding
         CreditOpeningTable creditOpeningTable = new CreditOpeningTable(getContext());
         double creditOs = creditOpeningTable.custCreditAmount(customer_id);
@@ -101,11 +111,11 @@ public class FinalInvoiceFragment extends BaseFragment {
 
     @OnClick(R.id.btnSendSms)
     public void onSendSms(View view) {
-        UtilsSms.checkAndroidVersion(getContext(), mobile, message);
+        if (mobile != null && mobile.matches(""))
+            UtilsSms.checkAndroidVersion(getContext(), mobile, message);
+        else
+            showSnackbar(getView(), "No contact found with this customer");
     }
-
-    String mobile = "9023503384";
-    String message = "Hello, \nthis is a test message.";
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

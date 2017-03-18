@@ -89,6 +89,8 @@ public class UtilNetworkLocation {
         LocationManager lm = (LocationManager) mContext
                 .getSystemService(Context.LOCATION_SERVICE);
 
+        //getCoordinates(lm);
+
         gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
         network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
@@ -126,13 +128,13 @@ public class UtilNetworkLocation {
             double lng = location.getLongitude();
             Log.e(TAG, "getCoordinates: " + lat + "," + lng);
         } else {
-            Log.e(TAG, "getCoordinates: location object is null");
+            Log.e(TAG, "getCoordinates: location object is nullHEHE");
         }
     }
 
     // test methods
     // get coordinates
-    private void getCoordinates(LocationManager locationManager) {
+    private static void getCoordinates(LocationManager locationManager) {
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
         criteria.setCostAllowed(false);
@@ -143,7 +145,7 @@ public class UtilNetworkLocation {
             double lng = location.getLongitude();
             Log.e(TAG, "getCoordinates: " + lat + "," + lng);
         } else {
-            Log.e(TAG, "getCoordinates: location object is null");
+            Log.e(TAG, "getCoordinates: location object is null123");
         }
     }
 }

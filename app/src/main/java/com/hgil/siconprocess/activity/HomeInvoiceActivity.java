@@ -39,8 +39,10 @@ public class HomeInvoiceActivity extends BaseActivity {
     public TextView tvNavDate;
     @BindView(R.id.imgSave)
     public ImageView imgSave;
+
     protected String customer_id;
     protected String customer_name;
+
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawer;
     @BindView(R.id.toolbar)
@@ -49,6 +51,7 @@ public class HomeInvoiceActivity extends BaseActivity {
     NavigationView nvDrawer;
     @BindView(R.id.flInvoiceContent)
     FrameLayout containerFrame;
+
     boolean doubleBackToExitPressedOnce = false;
     private ActionBarDrawerToggle drawerToggle;
 
@@ -76,6 +79,17 @@ public class HomeInvoiceActivity extends BaseActivity {
 
         // Setup drawer view
         setupDrawerContent(nvDrawer);
+
+        //header setting
+        View navHeaderView = nvDrawer.getHeaderView(0);
+        ImageView imgNavIcon = (ImageView) navHeaderView.findViewById(R.id.imgNavIcon);
+        TextView tvNavHeader = (TextView) navHeaderView.findViewById(R.id.tvNavHeader);
+
+        imgNavIcon.setImageResource(R.mipmap.harvest_logo);
+        if (getRouteName() != null) {
+            String output = getRouteName().substring(0, 1).toUpperCase() + getRouteName().substring(1).toLowerCase();
+            tvNavHeader.setText(output);
+        }
 
         MenuItem menuItem = nvDrawer.getMenu().findItem(R.id.nav_today_sale);
 
