@@ -1,11 +1,12 @@
 package com.hgil.siconprocess.activity.fragments.invoice;
 
-
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.base.BaseFragment;
@@ -13,9 +14,12 @@ import com.hgil.siconprocess.database.dbModels.PaymentModel;
 import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
 import com.hgil.siconprocess.database.tables.PaymentTable;
 import com.hgil.siconprocess.utils.Utility;
+import com.hgil.siconprocess.utils.utilPermission.UtilsSms;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.hgil.siconprocess.utils.utilPermission.UtilsSms.SEND_SMS;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -97,5 +101,27 @@ public class FinalInvoiceFragment extends BaseFragment {
 
     @OnClick(R.id.btnSendSms)
     public void onSendSms(View view) {
+        UtilsSms.checkAndroidVersion(getContext(), mobile, message);
+    }
+
+    String mobile = "9023503384";
+    String message = "Hello, \nthis is a test message.";
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case SEND_SMS:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    UtilsSms.sendSMS(getContext(), mobile, message);
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(getContext(), "SEND_SMS Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 }

@@ -43,4 +43,25 @@ public abstract class BaseActivity extends AppCompatActivity {
     public String getRouteName() {
         return routeName;
     }
+
+    /*runtime permission result handling*/
+   /* @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case SEND_SMS:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    UtilsSms.sendSms(mobile);
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(RegistrationActivity.this, "SEND_SMS Denied", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }*/
+
 }

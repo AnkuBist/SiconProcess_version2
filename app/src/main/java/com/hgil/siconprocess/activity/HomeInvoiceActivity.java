@@ -244,4 +244,14 @@ public class HomeInvoiceActivity extends BaseActivity {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.flInvoiceContent);
         fragment.onActivityResult(requestCode, resultCode, data);
     }
+
+    /*permission check redirect*/
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // get current fragment in container
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.flInvoiceContent);
+        fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 }

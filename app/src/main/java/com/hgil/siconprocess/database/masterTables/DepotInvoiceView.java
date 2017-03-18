@@ -404,7 +404,7 @@ public class DepotInvoiceView extends SQLiteOpenHelper {
         FixedSampleTable dbSample = new FixedSampleTable(mContext);
 
         /*select sum(InvQty_ps) as loading_qty, Item_id
-from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route_id='R/mom/0041' group by Item_id*/
+from V_SD_DepotInvoice_Master where Route_management_Date='2017-01-30' and Route_id='R/mom/0041' group by Item_id*/
 
         Cursor res = db.rawQuery("SELECT sum(" + INVQTY_PS + ") as loading_qty, " + ITEM_ID + " FROM " + TABLE_NAME + " GROUP BY " + ITEM_ID, null);
         if (res.moveToFirst()) {
