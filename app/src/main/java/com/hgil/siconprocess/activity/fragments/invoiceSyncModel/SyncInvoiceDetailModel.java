@@ -13,11 +13,19 @@ public class SyncInvoiceDetailModel {
     //private String route_management_id;
     private String cashier_code;
     private String item_id;
-    private int loading;
-    private int sale;
+    private int loading_count;
+    private int sale_count;
     private int fresh_rej;
     private int market_rej;
     private int sample;
+
+    private double item_price;
+    private double disc_price;
+    private double disc_percentage;
+    private String disc_type;
+    private double discounted_price;
+    private double total_sale_amount;
+    private double total_disc_amount;
 
     public String getInvoice_no() {
         return invoice_no;
@@ -51,14 +59,6 @@ public class SyncInvoiceDetailModel {
         this.route_id = route_id;
     }
 
-    /* public String getRoute_management_id() {
-         return route_management_id;
-     }
-
-     public void setRoute_management_id(String route_management_id) {
-         this.route_management_id = route_management_id;
-     }
- */
     public String getCashier_code() {
         return cashier_code;
     }
@@ -75,20 +75,20 @@ public class SyncInvoiceDetailModel {
         this.item_id = item_id;
     }
 
-    public int getLoading() {
-        return loading;
+    public int getLoading_count() {
+        return loading_count;
     }
 
-    public void setLoading(int loading) {
-        this.loading = loading;
+    public void setLoading_count(int loading_count) {
+        this.loading_count = loading_count;
     }
 
-    public int getSale() {
-        return sale;
+    public int getSale_count() {
+        return sale_count;
     }
 
-    public void setSale(int sale) {
-        this.sale = sale;
+    public void setSale_count(int sale_count) {
+        this.sale_count = sale_count;
     }
 
     public int getFresh_rej() {
@@ -113,5 +113,61 @@ public class SyncInvoiceDetailModel {
 
     public void setSample(int sample) {
         this.sample = sample;
+    }
+
+    public double getItem_price() {
+        return item_price;
+    }
+
+    public void setItem_price(double item_price) {
+        this.item_price = item_price;
+    }
+
+    public double getDisc_price() {
+        return disc_price;
+    }
+
+    public void setDisc_price(double disc_price) {
+        this.disc_price = disc_price;
+    }
+
+    public double getDisc_percentage() {
+        return disc_percentage;
+    }
+
+    public void setDisc_percentage(double disc_percentage) {
+        this.disc_percentage = disc_percentage;
+    }
+
+    public String getDisc_type() {
+        return disc_type;
+    }
+
+    public void setDisc_type(String disc_type) {
+        this.disc_type = disc_type;
+    }
+
+    public double getDiscounted_price() {
+        return discounted_price;
+    }
+
+    public void setDiscounted_price(double discounted_price) {
+        this.discounted_price = discounted_price;
+    }
+
+    public double getTotal_sale_amount() {
+        return total_sale_amount;
+    }
+
+    public void setTotal_sale_amount(double total_sale_amount) {
+        this.total_sale_amount = total_sale_amount;
+    }
+
+    public double getTotal_disc_amount() {
+        return total_disc_amount;
+    }
+
+    public void setTotal_disc_amount(double total_disc_amount) {
+        this.total_disc_amount = total_disc_amount;
     }
 }

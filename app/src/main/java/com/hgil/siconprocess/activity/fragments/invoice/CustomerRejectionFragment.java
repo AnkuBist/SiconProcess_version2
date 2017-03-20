@@ -19,6 +19,7 @@ import com.hgil.siconprocess.adapter.invoiceRejection.InvoiceRejectionAdapter;
 import com.hgil.siconprocess.adapter.invoiceRejection.MarketRejectionModel;
 import com.hgil.siconprocess.adapter.productSelection.ProductSelectModel;
 import com.hgil.siconprocess.base.BaseFragment;
+import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class CustomerRejectionFragment extends BaseFragment {
     Button btnAddItems;
     private InvoiceRejectionAdapter rejectionAdapter;
     private CustomerRejectionTable rejectionTable;
+    private DepotInvoiceView depotInvoiceView;
     private ArrayList<CRejectionModel> arrRejection;
 
     public CustomerRejectionFragment() {
@@ -109,6 +111,7 @@ public class CustomerRejectionFragment extends BaseFragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvCustomerRejection.setLayoutManager(linearLayoutManager);
 
+        depotInvoiceView = new DepotInvoiceView(getContext());
         rejectionTable = new CustomerRejectionTable(getContext());
         arrRejection = rejectionTable.getCustomerRejections(customer_id);
 
@@ -179,6 +182,11 @@ public class CustomerRejectionFragment extends BaseFragment {
                 for (int i = 0; i < arrProduct.size(); i++) {
                     ProductSelectModel pModel = arrProduct.get(i);
                     CRejectionModel rejectionModel = new CRejectionModel();
+
+                    //TODO --GET product customer invoice no.
+
+                    rejectionModel.setCashier_code(depotInvoiceView.getRouteCashierCode());
+
                     rejectionModel.setItem_id(pModel.getItem_id());
                     rejectionModel.setItem_name(pModel.getItem_name());
                     rejectionModel.setCustomer_id(customer_id);

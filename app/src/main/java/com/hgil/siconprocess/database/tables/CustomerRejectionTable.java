@@ -11,6 +11,9 @@ import com.hgil.siconprocess.activity.fragments.invoiceSyncModel.SyncInvoiceDeta
 import com.hgil.siconprocess.adapter.invoiceRejection.CRejectionModel;
 import com.hgil.siconprocess.adapter.invoiceRejection.FreshRejectionModel;
 import com.hgil.siconprocess.adapter.invoiceRejection.MarketRejectionModel;
+import com.hgil.siconprocess.database.masterTables.CustomerItemPriceTable;
+import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
+import com.hgil.siconprocess.retrofit.loginResponse.dbModels.CustomerItemPriceModel;
 import com.hgil.siconprocess.utils.Utility;
 
 import java.util.ArrayList;
@@ -24,6 +27,9 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "rej_db";
     private static final String TABLE_NAME = "rej_table";
+
+    private static final String INVOICE_NO = "invoice_no";
+    private static final String CASHIER_CODE = "cashier_code";
     private static final String ITEM_ID = "item_id";
     private static final String ITEM_NAME = "item_name";
     private static final String CUSTOMER_ID = "customer_id";
@@ -44,7 +50,9 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
 
     private static final String GRAND_TOTAL = "grand_total";
     private static final String DATE = "date";
-    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + ITEM_ID + " TEXT NOT NULL, " + ITEM_NAME + " TEXT NOT NULL, "
+
+    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + INVOICE_NO + " TEXT NULL, "
+            + CASHIER_CODE + " TEXT NULL, " + ITEM_ID + " TEXT NOT NULL, " + ITEM_NAME + " TEXT NOT NULL, "
             + CUSTOMER_ID + " TEXT NOT NULL, " + CUSTOMER_NAME + " TEXT NOT NULL, " + VAN_STOCK + " INTEGER NULL, " //+ VAN_QTY + " INTEGER NOT NULL, "
             + REJ_QTY + " INTEGER NULL, " + PRICE + " REAL NULL, " + FRESH_M_SHAPED + " INTEGER NULL, "
             + FRESH_TORN_POLLY + " INTEGER NULL, " + FRESH_FUNGUS + " INTEGER NULL, "
@@ -52,8 +60,11 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
             + MARKET_EXPIRED + " INTEGER NULL, " + MARKET_RAT_EATEN + " INTEGER NULL, " + GRAND_TOTAL + " REAL NULL, "
             + DATE + " TEXT NULL)";
 
+    private Context mContext;
+
     public CustomerRejectionTable(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        this.mContext = context;
     }
 
     @Override
@@ -85,6 +96,8 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
             CRejectionModel rejectionModel = arrList.get(i);
             // if (rejectionModel.getTotal() > 0 && rejectionModel.getRej_qty() > 0) {
             ContentValues contentValues = new ContentValues();
+            contentValues.put(INVOICE_NO, rejectionModel.getInvoice_no());
+            contentValues.put(CASHIER_CODE, rejectionModel.getCashier_code());
             contentValues.put(ITEM_ID, rejectionModel.getItem_id());
             contentValues.put(ITEM_NAME, rejectionModel.getItem_name());
             contentValues.put(CUSTOMER_ID, rejectionModel.getCustomer_id());
@@ -146,6 +159,8 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 CRejectionModel rejectionModel = new CRejectionModel();
+                rejectionModel.setInvoice_no(res.getString(res.getColumnIndex(INVOICE_NO)));
+                rejectionModel.setCashier_code(res.getString(res.getColumnIndex(CASHIER_CODE)));
                 rejectionModel.setItem_id(res.getString(res.getColumnIndex(ITEM_ID)));
                 rejectionModel.setItem_name(res.getString(res.getColumnIndex(ITEM_NAME)));
                 rejectionModel.setCustomer_id(res.getString(res.getColumnIndex(CUSTOMER_ID)));
@@ -275,6 +290,9 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
 
     // get product rejections over route
     public ArrayList<SyncInvoiceDetailModel> syncRejection(String route_id) {
+        CustomerItemPriceTable itemPriceTable = new CustomerItemPriceTable(mContext);
+        DepotInvoiceView depotInvoiceTable = new DepotInvoiceView(mContext);
+
         ArrayList<SyncInvoiceDetailModel> arrayList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -283,9 +301,25 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 SyncInvoiceDetailModel rejectionModel = new SyncInvoiceDetailModel();
+                rejectionModel.setInvoice_no(res.getString(res.getColumnIndex(INVOICE_NO)));
+                rejectionModel.setInvoice_date(res.getString(res.getColumnIndex(DATE)));
                 rejectionModel.setRoute_id(route_id);
                 rejectionModel.setCustomer_id(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 rejectionModel.setItem_id(res.getString(res.getColumnIndex(ITEM_ID)));
+                rejectionModel.setCashier_code(res.getString(res.getColumnIndex(CASHIER_CODE)));
+
+                //get van item total count
+                int item_total_count = depotInvoiceTable.getLoadingCount(rejectionModel.getItem_id());
+                rejectionModel.setLoading_count(item_total_count);
+
+                /*item price details*/
+                // get item_price, disc type and discount for the customer on route
+                CustomerItemPriceModel itemPriceModel = itemPriceTable.getItemPriceDiscById(rejectionModel.getCustomer_id(), rejectionModel.getItem_id());
+                rejectionModel.setItem_price(itemPriceModel.getItemPrice());
+                rejectionModel.setDisc_price(itemPriceModel.getDiscountPrice());
+                rejectionModel.setDisc_percentage(itemPriceModel.getDiscountPercentage());
+                rejectionModel.setDisc_type(itemPriceModel.getDiscountType());
+                rejectionModel.setDiscounted_price(itemPriceModel.getDiscountedPrice());
 
                 int m_shaped = (res.getInt(res.getColumnIndex(FRESH_M_SHAPED)));
                 int torn_polly = (res.getInt(res.getColumnIndex(FRESH_TORN_POLLY)));

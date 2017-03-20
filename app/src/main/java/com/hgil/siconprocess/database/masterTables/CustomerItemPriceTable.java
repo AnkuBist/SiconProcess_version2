@@ -107,6 +107,24 @@ public class CustomerItemPriceTable extends SQLiteOpenHelper {
         return price;
     }
 
+    // get required details for the product for a customer on route
+    public CustomerItemPriceModel getItemPriceDiscById(String customer_id, String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CUSTOMER_ID + "=? AND " + ITEM_ID + "=?", new String[]{customer_id, item_id});
+
+        CustomerItemPriceModel itemPriceModel = new CustomerItemPriceModel();
+        if (res.moveToFirst()) {
+            itemPriceModel.setItemPrice(res.getDouble(res.getColumnIndex(ITEM_PRICE)));
+            itemPriceModel.setDiscountPrice(res.getDouble(res.getColumnIndex(DISCOUNT_PRICE)));
+            itemPriceModel.setDiscountPercentage(res.getDouble(res.getColumnIndex(DISCOUNT_PERCENTAGE)));
+            itemPriceModel.setDiscountType(res.getString(res.getColumnIndex(DISCOUNT_TYPE)));
+            itemPriceModel.setDiscountedPrice(res.getDouble(res.getColumnIndex(DISCOUNTED_PRICE)));
+        }
+        res.close();
+        db.close();
+        return itemPriceModel;
+    }
+
     public int numberOfRows() {
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);

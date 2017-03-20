@@ -7,7 +7,6 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.hgil.siconprocess.activity.fragments.invoiceSyncModel.SyncInvoiceDetailModel;
 import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.InvoiceDetailModel;
@@ -507,37 +506,18 @@ from V_SD_DepotInvoice_Master where Route_management_Date='2017-01-30' and Route
         return invoiceModel;
     }
 
-
-    // get sync invoice details
-    // TODO
-    // code not required
-    public ArrayList<SyncInvoiceDetailModel> getSyncInvoice() {
+    // route cashier code
+    public String getRouteCashierCode() {
         SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select distinct " + CASHIER_CODE + " from " + TABLE_NAME;
+        Cursor res = db.rawQuery(query, null);
 
-        ArrayList<SyncInvoiceDetailModel> arrayList = new ArrayList<>();
-
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        String cashier_code = "";
         if (res.moveToFirst()) {
-            while (res.isAfterLast() == false) {
-                SyncInvoiceDetailModel invoiceModel = new SyncInvoiceDetailModel();
-                //invoiceModel.setRoute_management_id(res.getString(res.getColumnIndex(MANAGER)));
-                invoiceModel.setInvoice_no(res.getString(res.getColumnIndex(INVOICE_NO)));
-                invoiceModel.setInvoice_date(res.getString(res.getColumnIndex(INVOICE_DATE)));
-                invoiceModel.setCustomer_id(res.getString(res.getColumnIndex(CUSTOMER_ID)));
-                invoiceModel.setRoute_id(res.getString(res.getColumnIndex(ROUTE_ID)));
-                invoiceModel.setItem_id(res.getString(res.getColumnIndex(ITEM_ID)));
-                invoiceModel.setCashier_code(res.getString(res.getColumnIndex(CASHIER_CODE)));
-                invoiceModel.setLoading(res.getInt(res.getColumnIndex(INVQTY_PS)));
-
-                // get invoice product sample for user.
-
-                arrayList.add(invoiceModel);
-                res.moveToNext();
-            }
+            cashier_code = res.getString(res.getColumnIndex(CASHIER_CODE));
         }
-
         res.close();
         db.close();
-        return arrayList;
+        return cashier_code;
     }
 }

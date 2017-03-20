@@ -173,7 +173,12 @@ public class LoginActivity extends AppCompatActivity {
                     getUserLogin(username, password);
                 }
             } else {
-                Snackbar.make(coordinateLayout, "Please erase app data before login with different user!", Snackbar.LENGTH_LONG).show();
+
+                //TODO--- this is a test code remove these lines and uncomment the below code after this
+                // check for login
+                getUserLogin(username, password);
+
+                //Snackbar.make(coordinateLayout, "Please erase app data before login with different user!", Snackbar.LENGTH_LONG).show();
             }
         }
     }
@@ -333,7 +338,6 @@ public class LoginActivity extends AppCompatActivity {
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-
     }
 
     @Override

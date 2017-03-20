@@ -9,7 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.hgil.siconprocess.activity.fragments.invoiceSyncModel.SyncInvoiceDetailModel;
 import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
+import com.hgil.siconprocess.database.masterTables.CustomerItemPriceTable;
 import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
+import com.hgil.siconprocess.retrofit.loginResponse.dbModels.CustomerItemPriceModel;
 import com.hgil.siconprocess.utils.Utility;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
     private static final String ROUTE_ID = "Route_Id";
     private static final String VEHICLE_NO = "Vehicle_No";
     private static final String ITEM_ID = "Item_id";
+    private static final String CASHIER_CODE = "Cashier_code";
     private static final String CRATE_ID = "Crate_id";
     private static final String INVQTY_CR = "InvQty_Cr";
     private static final String INVQTY_PS = "InvQty_ps";
@@ -61,7 +64,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + INVOICE_NO + " TEXT NULL, "
                 + INVOICE_DATE + " TEXT NULL, " + CUSTOMER_ID + " TEXT NULL, " + ROUTE_ID + " TEXT NULL, "
-                + VEHICLE_NO + " TEXT NULL, " + ITEM_ID + " TEXT NULL, "
+                + VEHICLE_NO + " TEXT NULL, " + ITEM_ID + " TEXT NULL, " + CASHIER_CODE + " TEXT NULL, "
                 + CRATE_ID + " TEXT NULL, " + INVQTY_CR + " REAL NULL, " + INVQTY_PS + " REAL NULL, "
                 + ITEM_RATE + " REAL NULL, " + TOTAL_AMOUNT + " REAL NULL, "
                 + FIXED_SAMPLE + " INTEGER NULL, " + DEMAND_TARGET_QUANTITY + " REAL NULL, " + ORDER_AMOUNT + " REAL NULL, "
@@ -92,6 +95,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
         contentValues.put(ROUTE_ID, invoiceModel.getRouteId());
         contentValues.put(VEHICLE_NO, invoiceModel.getVehicleNo());
         contentValues.put(ITEM_ID, invoiceModel.getItemId());
+        contentValues.put(CASHIER_CODE, invoiceModel.getCashierCode());
         contentValues.put(CRATE_ID, invoiceModel.getCrateId());
         contentValues.put(INVQTY_CR, invoiceModel.getInvQtyCr());
         contentValues.put(INVQTY_PS, invoiceModel.getInvQtyPs());
@@ -127,6 +131,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
                 contentValues.put(ROUTE_ID, invoiceModel.getRouteId());
                 contentValues.put(VEHICLE_NO, invoiceModel.getVehicleNo());
                 contentValues.put(ITEM_ID, invoiceModel.getItemId());
+                contentValues.put(CASHIER_CODE, invoiceModel.getCashierCode());
                 contentValues.put(CRATE_ID, invoiceModel.getCrateId());
                 contentValues.put(INVQTY_CR, invoiceModel.getInvQtyCr());
                 contentValues.put(INVQTY_PS, invoiceModel.getInvQtyPs());
@@ -151,7 +156,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
         db.delete(TABLE_NAME, CUSTOMER_ID + " = ?", new String[]{customer_id});
     }
 
-    public InvoiceModel getDepotInvoiceByRoute(String route_id) {
+    /*public InvoiceModel getDepotInvoiceByRoute(String route_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + INVOICE_DATE + "='" + route_id + "'", null);
 
@@ -163,6 +168,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
             invoiceModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
             invoiceModel.setVehicleNo(res.getString(res.getColumnIndex(VEHICLE_NO)));
             invoiceModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
+            invoiceModel.setCashierCode(res.getString(res.getColumnIndex(CASHIER_CODE)));
             invoiceModel.setCrateId(res.getString(res.getColumnIndex(CRATE_ID)));
             invoiceModel.setInvQtyCr(res.getFloat(res.getColumnIndex(INVQTY_CR)));
             invoiceModel.setInvQtyPs(res.getFloat(res.getColumnIndex(INVQTY_PS)));
@@ -178,7 +184,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
         res.close();
         db.close();
         return invoiceModel;
-    }
+    }*/
 
     public int numberOfRows() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -204,7 +210,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
         return db.delete(TABLE_NAME, USER_ROLE_ID + "= ? ", new String[]{Integer.toString(id)});
     }*/
 
-    public ArrayList<InvoiceModel> getCustomerAllInvoiceOut(String customer_id) {
+    /*public ArrayList<InvoiceModel> getCustomerAllInvoiceOut(String customer_id) {
         ArrayList<InvoiceModel> array_list = new ArrayList<InvoiceModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -218,6 +224,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
                 invoiceModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
                 invoiceModel.setVehicleNo(res.getString(res.getColumnIndex(VEHICLE_NO)));
                 invoiceModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
+                invoiceModel.setCashierCode(res.getString(res.getColumnIndex(CASHIER_CODE)));
                 invoiceModel.setCrateId(res.getString(res.getColumnIndex(CRATE_ID)));
                 invoiceModel.setInvQtyCr(res.getFloat(res.getColumnIndex(INVQTY_CR)));
                 invoiceModel.setInvQtyPs(res.getFloat(res.getColumnIndex(INVQTY_PS)));
@@ -236,11 +243,11 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
         res.close();
         db.close();
         return array_list;
-    }
+    }*/
 
 
     /*required details by the application side in single pojo*/
-    public ArrayList<InvoiceModel> getCustomerInvoice(String customer_id) {
+    /*public ArrayList<InvoiceModel> getCustomerInvoice(String customer_id) {
         ArrayList<InvoiceModel> array_list = new ArrayList<InvoiceModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -254,6 +261,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
                 invoiceModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
                 invoiceModel.setVehicleNo(res.getString(res.getColumnIndex(VEHICLE_NO)));
                 invoiceModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
+                invoiceModel.setCashierCode(res.getString(res.getColumnIndex(CASHIER_CODE)));
                 invoiceModel.setCrateId(res.getString(res.getColumnIndex(CRATE_ID)));
                 invoiceModel.setInvQtyCr(res.getFloat(res.getColumnIndex(INVQTY_CR)));
                 invoiceModel.setInvQtyPs(res.getFloat(res.getColumnIndex(INVQTY_PS)));
@@ -272,7 +280,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
         res.close();
         db.close();
         return array_list;
-    }
+    }*/
 
     // check for user exists in invoice or not
     public boolean checkUser(String customer_id) {
@@ -339,14 +347,14 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
         return amount;
     }
 
-    // this function is to display the invoice is there is not invoice exists for the customer.
+ /*   // this function is to display the invoice is there is not invoice exists for the customer.
     // this will calculate the available items in stock and display to the user.
     public ArrayList<InvoiceModel> getCustomerInvoiceOff(String customer_id) {
         ArrayList<InvoiceModel> array_list = new ArrayList<InvoiceModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        /*select sum(InvQty_ps) as loading_qty, Item_id
-from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route_id='R/mom/0041' group by Item_id*/
+        *//*select sum(InvQty_ps) as loading_qty, Item_id
+from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route_id='R/mom/0041' group by Item_id*//*
 
         Cursor res = db.rawQuery("SELECT sum(" + INVQTY_PS + ") as loading_qty, " + ITEM_ID + " FROM " + TABLE_NAME + " GROUP BY " + ITEM_ID, null);
         if (res.moveToFirst()) {
@@ -383,6 +391,7 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
             invoiceModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
             invoiceModel.setVehicleNo(res.getString(res.getColumnIndex(VEHICLE_NO)));
             invoiceModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
+            invoiceModel.setCashierCode(res.getString(res.getColumnIndex(CASHIER_CODE)));
             invoiceModel.setCrateId(res.getString(res.getColumnIndex(CRATE_ID)));
             invoiceModel.setInvQtyCr(res.getFloat(res.getColumnIndex(INVQTY_CR)));
             invoiceModel.setInvQtyPs(res.getFloat(res.getColumnIndex(INVQTY_PS)));
@@ -398,7 +407,7 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
         res.close();
         db.close();
         return invoiceModel;
-    }
+    }*/
 
     // get customer invoice total
     public double custInvoiceTotalAmount(String customer_id) {
@@ -419,31 +428,40 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
     /*generate array list to sync data*/
     public ArrayList<SyncInvoiceDetailModel> syncInvoice() {
         SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<SyncInvoiceDetailModel> arrayList = new ArrayList<>();
+        CustomerItemPriceTable itemPriceTable = new CustomerItemPriceTable(mContext);
         DepotInvoiceView depotInvoiceTable = new DepotInvoiceView(mContext);
+
+        ArrayList<SyncInvoiceDetailModel> arrayList = new ArrayList<>();
 
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 SyncInvoiceDetailModel syncModel = new SyncInvoiceDetailModel();
-                syncModel.setRoute_id(res.getString(res.getColumnIndex(ROUTE_ID)));
-                syncModel.setCustomer_id(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 syncModel.setInvoice_no(res.getString(res.getColumnIndex(INVOICE_NO)));
                 syncModel.setInvoice_date(res.getString(res.getColumnIndex(INVOICE_DATE)));
-                //syncModel.setCashier_code(res.getString(res.getColumnIndex()));
+                syncModel.setCustomer_id(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+                syncModel.setRoute_id(res.getString(res.getColumnIndex(ROUTE_ID)));
+                syncModel.setCashier_code(res.getString(res.getColumnIndex(CASHIER_CODE)));          // CASHIER_CODE
                 syncModel.setItem_id(res.getString(res.getColumnIndex(ITEM_ID)));
 
                 //get van item total count
                 int item_total_count = depotInvoiceTable.getLoadingCount(syncModel.getItem_id());
-                syncModel.setLoading(item_total_count);
-                syncModel.setSale(res.getInt(res.getColumnIndex(DEMAND_TARGET_QUANTITY)));
+                syncModel.setLoading_count(item_total_count);
+                syncModel.setSale_count(res.getInt(res.getColumnIndex(DEMAND_TARGET_QUANTITY)));
+
+                // get item_price, disc type and discount for the customer on route
+                CustomerItemPriceModel itemPriceModel = itemPriceTable.getItemPriceDiscById(syncModel.getCustomer_id(), syncModel.getItem_id());
+                syncModel.setItem_price(itemPriceModel.getItemPrice());
+                syncModel.setDisc_price(itemPriceModel.getDiscountPrice());
+                syncModel.setDisc_percentage(itemPriceModel.getDiscountPercentage());
+                syncModel.setDisc_type(itemPriceModel.getDiscountType());
+                syncModel.setDiscounted_price(itemPriceModel.getDiscountedPrice());
                 syncModel.setSample(res.getInt(res.getColumnIndex(FIXED_SAMPLE)));
 
-
-                // get rejection details for the same customer and item id
-                // will be displayed in another object
-                // TODO
-
+                syncModel.setTotal_sale_amount(syncModel.getSale_count() * syncModel.getDiscounted_price());
+                syncModel.setTotal_disc_amount(
+                        (syncModel.getItem_price() - syncModel.getDiscounted_price()) *
+                                syncModel.getSale_count());
 
                 arrayList.add(syncModel);
                 res.moveToNext();

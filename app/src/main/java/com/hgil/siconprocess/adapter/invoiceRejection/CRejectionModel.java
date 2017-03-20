@@ -6,6 +6,8 @@ package com.hgil.siconprocess.adapter.invoiceRejection;
 
 public class CRejectionModel {
 
+    private String invoice_no;
+    private String cashier_code;
     private String item_id;
     private String item_name;
     private String customer_id;
@@ -96,5 +98,21 @@ public class CRejectionModel {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public String getCashier_code() {
+        return cashier_code;
+    }
+
+    public void setCashier_code(String cashier_code) {
+        this.cashier_code = cashier_code;
+    }
+
+    public String getInvoice_no() {
+        return invoice_no;
+    }
+
+    public void setInvoice_no(String invoice_no) {
+        this.invoice_no = invoice_no;
     }
 }
