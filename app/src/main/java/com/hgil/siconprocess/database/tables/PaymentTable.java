@@ -281,13 +281,15 @@ public class PaymentTable extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
+                // TODO --cheque details not sent
                 CollectionCashModel cashModel = new CollectionCashModel();
+                cashModel.setInvoice_no(res.getString(res.getColumnIndex(INVOICE_ID)));
                 cashModel.setCustomer_id(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 cashModel.setOpening(creditOpeningTable.custCreditAmount(cashModel.getCustomer_id()));
                 cashModel.setSale(res.getDouble(res.getColumnIndex(SALE_AMOUNT)));
                 cashModel.setReceive(res.getDouble(res.getColumnIndex(TOTAL_PAID_AMOUNT)));
                 cashModel.setBalance(cashModel.getOpening() + cashModel.getSale() - cashModel.getReceive());
-
+                cashModel.setDate(res.getString(res.getColumnIndex(DATE)));
                 array_list.add(cashModel);
                 res.moveToNext();
             }
@@ -310,7 +312,7 @@ public class PaymentTable extends SQLiteOpenHelper {
                 crateModel.setOpening(crateOpeningTable.custCreditCrates(crateModel.getCustomer_id()));
                 crateModel.setIssued(res.getInt(res.getColumnIndex(ISSUED_CRATES)));
                 crateModel.setReceive(res.getInt(res.getColumnIndex(RECEIVED_CRATES)));
-                crateModel.setBalance(-crateModel.getOpening() - crateModel.getIssued() + crateModel.getReceive());
+                crateModel.setBalance(crateModel.getOpening() - crateModel.getIssued() + crateModel.getReceive());
                 crateModel.setDdate(res.getString(res.getColumnIndex(DATE)));
 
                 array_list.add(crateModel);
@@ -335,7 +337,7 @@ public class PaymentTable extends SQLiteOpenHelper {
             crateStock.setOpening(crateCollectionView.vanTotalCrate());
             crateStock.setIssued(res.getInt(res.getColumnIndex("issued")));
             crateStock.setReceived(res.getInt(res.getColumnIndex("received")));
-            crateStock.setBalance(-crateStock.getOpening() - crateStock.getIssued() + crateStock.getReceived());
+            crateStock.setBalance(crateStock.getOpening() - crateStock.getIssued() + crateStock.getReceived());
         }
         res.close();
         db.close();

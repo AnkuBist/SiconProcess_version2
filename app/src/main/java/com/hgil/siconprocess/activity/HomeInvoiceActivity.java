@@ -86,10 +86,10 @@ public class HomeInvoiceActivity extends BaseActivity {
         TextView tvNavHeader = (TextView) navHeaderView.findViewById(R.id.tvNavHeader);
 
         imgNavIcon.setImageResource(R.mipmap.harvest_logo);
-        if (getRouteName() != null) {
-            String output = getRouteName().substring(0, 1).toUpperCase() + getRouteName().substring(1).toLowerCase();
-            tvNavHeader.setText(output);
-        }
+        //if (getRouteName() != null) {
+            //String output = getRouteName().substring(0, 1).toUpperCase() + getRouteName().substring(1).toLowerCase();
+            tvNavHeader.setText(customer_name);
+        //}
 
         MenuItem menuItem = nvDrawer.getMenu().findItem(R.id.nav_today_sale);
 

@@ -13,6 +13,7 @@ public class NextDayOrderModel implements Serializable {
     private String itemId;
     private String itemName;
     private int quantity;
+    private String orderDate;
 
     public String getCustomerId() {
         return customerId;
@@ -52,5 +53,13 @@ public class NextDayOrderModel implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
     }
 }

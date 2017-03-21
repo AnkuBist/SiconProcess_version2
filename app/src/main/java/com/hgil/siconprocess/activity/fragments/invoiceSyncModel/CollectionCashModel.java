@@ -5,11 +5,13 @@ package com.hgil.siconprocess.activity.fragments.invoiceSyncModel;
  */
 
 public class CollectionCashModel {
+    private String invoice_no;
     private String customer_id;
     private double opening;
     private double sale;
     private double receive;
     private double balance;
+    private String date;
 
     public String getCustomer_id() {
         return customer_id;
@@ -49,5 +51,21 @@ public class CollectionCashModel {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getInvoice_no() {
+        return invoice_no;
+    }
+
+    public void setInvoice_no(String invoice_no) {
+        this.invoice_no = invoice_no;
     }
 }

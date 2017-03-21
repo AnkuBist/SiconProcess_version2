@@ -112,6 +112,7 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
             nextDayOrderModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
             nextDayOrderModel.setItemName(res.getString(res.getColumnIndex(ITEM_NAME)));
             nextDayOrderModel.setQuantity(res.getInt(res.getColumnIndex(ITEM_QTY)));
+            nextDayOrderModel.setOrderDate(res.getString(res.getColumnIndex(DATE)));
         }
         res.close();
         db.close();
@@ -144,6 +145,7 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
                 nextDayOrderModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
                 nextDayOrderModel.setItemName(res.getString(res.getColumnIndex(ITEM_NAME)));
                 nextDayOrderModel.setQuantity(res.getInt(res.getColumnIndex(ITEM_QTY)));
+                nextDayOrderModel.setOrderDate(res.getString(res.getColumnIndex(DATE)));
                 array_list.add(nextDayOrderModel);
                 res.moveToNext();
             }
@@ -167,6 +169,7 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
                 nextDayOrderModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
                 nextDayOrderModel.setItemName(res.getString(res.getColumnIndex(ITEM_NAME)));
                 nextDayOrderModel.setQuantity(res.getInt(res.getColumnIndex(ITEM_QTY)));
+                nextDayOrderModel.setOrderDate(res.getString(res.getColumnIndex(DATE)));
                 array_list.add(nextDayOrderModel);
                 res.moveToNext();
             }
