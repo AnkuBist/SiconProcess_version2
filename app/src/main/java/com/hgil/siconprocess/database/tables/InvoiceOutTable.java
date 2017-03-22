@@ -504,4 +504,11 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
         return total;
     }
 
+    // cancel customer prepared invoice
+    public void cancelInvoice(String customer_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, CUSTOMER_ID + "=?", new String[]{customer_id});
+        db.close();
+    }
+
 }

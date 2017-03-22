@@ -369,5 +369,11 @@ public class PaymentTable extends SQLiteOpenHelper {
         db.close();
         return route_sale;
     }
-
+    
+    // cancel customer prepared invoice
+    public void cancelInvoice(String customer_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, CUSTOMER_ID + "=?", new String[]{customer_id});
+        db.close();
+    }
 }

@@ -1,5 +1,6 @@
 package com.hgil.siconprocess.activity.fragments.invoice;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,10 +10,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.HomeInvoiceActivity;
+import com.hgil.siconprocess.activity.NavBaseActivity;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.dbModels.PaymentModel;
 import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
 import com.hgil.siconprocess.database.masterTables.CustomerInfoView;
+import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
+import com.hgil.siconprocess.database.tables.InvoiceOutTable;
+import com.hgil.siconprocess.database.tables.NextDayOrderTable;
 import com.hgil.siconprocess.database.tables.PaymentTable;
 import com.hgil.siconprocess.utils.Utility;
 import com.hgil.siconprocess.utils.utilPermission.UtilsSms;
@@ -107,6 +113,23 @@ public class FinalInvoiceFragment extends BaseFragment {
 
     @OnClick(R.id.btnInvoiceCancel)
     public void onInvoiceCancel(View view) {
+        // on press cancel button please erase all recent invoice update for the user stored at local and move to the main page
+        CustomerRejectionTable customerRejectionTable = new CustomerRejectionTable(getContext());
+        InvoiceOutTable invoiceOutTable = new InvoiceOutTable(getContext());
+        NextDayOrderTable nextDayOrderTable = new NextDayOrderTable(getContext());
+        PaymentTable paymentTable = new PaymentTable(getContext());
+
+        customerRejectionTable.cancelInvoice(customer_id);
+        invoiceOutTable.cancelInvoice(customer_id);
+        nextDayOrderTable.cancelInvoice(customer_id);
+        paymentTable.cancelInvoice(customer_id);
+
+        // restart app or move back to the route map list
+        getContext().startActivity(new Intent(getContext(), NavBaseActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+        ((HomeInvoiceActivity) getContext()).finish();
+        ((HomeInvoiceActivity) getContext()).overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+
+
     }
 
     @OnClick(R.id.btnSendSms)
