@@ -20,6 +20,7 @@ public class RouteView extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Sicon_route";
     private static final String TABLE_NAME = "V_SD_Route_Master";
 
+    private static final String REC_ID = "Rec_Id";
     private static final String SUB_COMPANY_ID = "Sub_Company_id";
     private static final String DEPOT_ID = "Depot_id";
     private static final String SUBDEPOT_ID = "SubDepot_id";
@@ -31,6 +32,8 @@ public class RouteView extends SQLiteOpenHelper {
     private static final String TCC = "TCC";
     private static final String MAINDEPOT = "MainDepot";
     private static final String FLAG = "Flag";
+    // private static final String LAST_INVOICE_NO = "last_invoice_no";
+    private static final String LAST_BILL_NO = "last_bill_no";
 
     public RouteView(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -38,11 +41,13 @@ public class RouteView extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + SUB_COMPANY_ID + " TEXT NULL, "
-                + DEPOT_ID + " TEXT NULL, " + SUBDEPOT_ID + " TEXT NULL, "
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + REC_ID + " INTEGER NULL, "
+                + SUB_COMPANY_ID + " TEXT NULL, " + DEPOT_ID + " TEXT NULL, " + SUBDEPOT_ID + " TEXT NULL, "
                 + ROUTE_ID + " TEXT NULL, " + ROUTE_NAME + " TEXT NULL, " + ROUTE_DESCRIPTION + " TEXT NULL, "
                 + SALE_DATE_PARAMETER + " TEXT NULL, " + LOADING_TYPE + " TEXT NULL, " + TCC + " INTEGER NULL, "
-                + MAINDEPOT + " TEXT NULL, " + FLAG + " INTEGER NULL)");
+                + MAINDEPOT + " TEXT NULL, " + FLAG + " INTEGER NULL, "
+                //+ LAST_INVOICE_NO + " TEXT NULL, "
+                + LAST_BILL_NO + " TEXT NULL)");
     }
 
     @Override
@@ -61,6 +66,7 @@ public class RouteView extends SQLiteOpenHelper {
     public boolean insertRoute(RouteModel routeModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put(REC_ID, routeModel.getRecId());
         contentValues.put(SUB_COMPANY_ID, routeModel.getSubCompanyId());
         contentValues.put(DEPOT_ID, routeModel.getDepotId());
         contentValues.put(SUBDEPOT_ID, routeModel.getSubDepotId());
@@ -72,6 +78,8 @@ public class RouteView extends SQLiteOpenHelper {
         contentValues.put(TCC, routeModel.getTCC());
         //contentValues.put(MAINDEPOT, routeModel.getMainDepot());
         contentValues.put(FLAG, routeModel.getFlag());
+        //contentValues.put(LAST_INVOICE_NO, routeModel.getExpectedLastInvoiceNo());
+        contentValues.put(LAST_BILL_NO, routeModel.getExpectedLastBillNo());
         db.insert(TABLE_NAME, null, contentValues);
         db.close();
         return true;
@@ -83,6 +91,7 @@ public class RouteView extends SQLiteOpenHelper {
 
         RouteModel routeModel = new RouteModel();
         if (res.moveToFirst()) {
+            routeModel.setRecId(res.getInt(res.getColumnIndex(REC_ID)));
             routeModel.setSubCompanyId(res.getString(res.getColumnIndex(SUB_COMPANY_ID)));
             routeModel.setDepotId(res.getString(res.getColumnIndex(DEPOT_ID)));
             routeModel.setSubDepotId(res.getString(res.getColumnIndex(SUBDEPOT_ID)));
@@ -94,6 +103,8 @@ public class RouteView extends SQLiteOpenHelper {
             routeModel.setTCC(res.getInt(res.getColumnIndex(TCC)));
             //routeModel.setMainDepot(res.getString(res.getColumnIndex(MAINDEPOT)));
             routeModel.setFlag(res.getInt(res.getColumnIndex(FLAG)));
+            //routeModel.setExpectedLastInvoiceNo(res.getString(res.getColumnIndex(LAST_INVOICE_NO)));
+            routeModel.setExpectedLastBillNo(res.getString(res.getColumnIndex(LAST_BILL_NO)));
         }
         res.close();
         db.close();
@@ -127,6 +138,7 @@ public class RouteView extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         if (res.moveToFirst()) {
             //while (res.isAfterLast() == false) {
+            routeModel.setRecId(res.getInt(res.getColumnIndex(REC_ID)));
             routeModel.setSubCompanyId(res.getString(res.getColumnIndex(SUB_COMPANY_ID)));
             routeModel.setDepotId(res.getString(res.getColumnIndex(DEPOT_ID)));
             routeModel.setSubDepotId(res.getString(res.getColumnIndex(SUBDEPOT_ID)));
@@ -138,6 +150,7 @@ public class RouteView extends SQLiteOpenHelper {
             routeModel.setTCC(res.getInt(res.getColumnIndex(TCC)));
             //routeModel.setMainDepot(res.getString(res.getColumnIndex(MAINDEPOT)));
             routeModel.setFlag(res.getInt(res.getColumnIndex(FLAG)));
+            routeModel.setExpectedLastBillNo(res.getString(res.getColumnIndex(LAST_BILL_NO)));
             //}
         }
         res.close();
@@ -153,6 +166,7 @@ public class RouteView extends SQLiteOpenHelper {
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 RouteModel routeModel = new RouteModel();
+                routeModel.setRecId(res.getInt(res.getColumnIndex(REC_ID)));
                 routeModel.setSubCompanyId(res.getString(res.getColumnIndex(SUB_COMPANY_ID)));
                 routeModel.setDepotId(res.getString(res.getColumnIndex(DEPOT_ID)));
                 routeModel.setSubDepotId(res.getString(res.getColumnIndex(SUBDEPOT_ID)));
@@ -164,6 +178,7 @@ public class RouteView extends SQLiteOpenHelper {
                 routeModel.setTCC(res.getInt(res.getColumnIndex(TCC)));
                 //routeModel.setMainDepot(res.getString(res.getColumnIndex(MAINDEPOT)));
                 routeModel.setFlag(res.getInt(res.getColumnIndex(FLAG)));
+                routeModel.setExpectedLastBillNo(res.getString(res.getColumnIndex(LAST_BILL_NO)));
 
                 array_list.add(routeModel);
                 res.moveToNext();

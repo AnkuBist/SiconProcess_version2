@@ -13,6 +13,9 @@ import java.util.List;
 
 public class RouteModel implements Serializable {
 
+    @SerializedName("Rec_Id")
+    @Expose
+    private int recId;
     @SerializedName("Sub_Company_id")
     @Expose
     private String subCompanyId;
@@ -92,6 +95,29 @@ public class RouteModel implements Serializable {
         this.arrItemDiscountPrice = arrItemDiscountPrice;
     }
 
+    /*@SerializedName("expectedLastInvoiceNo")
+    @Expose
+    private String expectedLastInvoiceNo;*/
+    @SerializedName("expectedLastBillNo")
+    @Expose
+    private String expectedLastBillNo;
+
+    /*public String getExpectedLastInvoiceNo() {
+        return expectedLastInvoiceNo;
+    }
+
+    public void setExpectedLastInvoiceNo(String expectedLastInvoiceNo) {
+        this.expectedLastInvoiceNo = expectedLastInvoiceNo;
+    }*/
+
+    public String getExpectedLastBillNo() {
+        return expectedLastBillNo;
+    }
+
+    public void setExpectedLastBillNo(String expectedLastBillNo) {
+        this.expectedLastBillNo = expectedLastBillNo;
+    }
+
     /*public List<CustomerItemPriceModel> getArrCustomerItemPrice() {
         return arrCustomerItemPrice;
     }
@@ -99,6 +125,14 @@ public class RouteModel implements Serializable {
     public void setArrCustomerItemPrice(List<CustomerItemPriceModel> arrCustomerItemPrice) {
         this.arrCustomerItemPrice = arrCustomerItemPrice;
     }*/
+
+    public int getRecId() {
+        return recId;
+    }
+
+    public void setRecId(int recId) {
+        this.recId = recId;
+    }
 
     public String getSubCompanyId() {
         return subCompanyId;
