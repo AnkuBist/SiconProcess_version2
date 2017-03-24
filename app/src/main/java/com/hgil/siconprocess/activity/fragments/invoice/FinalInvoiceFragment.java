@@ -135,7 +135,7 @@ public class FinalInvoiceFragment extends BaseFragment {
     @OnClick(R.id.btnSendSms)
     public void onSendSms(View view) {
         if (mobile != null && mobile.matches(""))
-            UtilsSms.checkAndroidVersion(getContext(), mobile, message);
+            UtilsSms.checkAndroidVersionForSms(getContext(), mobile, message);
         else
             showSnackbar(getView(), "No contact found with this customer");
     }

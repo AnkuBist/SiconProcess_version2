@@ -29,6 +29,7 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "rej_table";
 
     private static final String INVOICE_NO = "invoice_no";
+    private static final String BILL_NO = "bill_no";
     private static final String CASHIER_CODE = "cashier_code";
     private static final String ITEM_ID = "item_id";
     private static final String ITEM_NAME = "item_name";
@@ -49,15 +50,22 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
     private static final String MARKET_RAT_EATEN = "ratEaten";
 
     private static final String GRAND_TOTAL = "grand_total";
+
+    private static final String IMEI_NO = "imei_no";
+    private static final String LAT_LNG = "lat_lng";
+    private static final String CURTIME = "cur_time";
+    private static final String LOGIN_ID = "login_id";
     private static final String DATE = "date";
 
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + INVOICE_NO + " TEXT NULL, "
+            + BILL_NO + " TEXT NULL, "
             + CASHIER_CODE + " TEXT NULL, " + ITEM_ID + " TEXT NOT NULL, " + ITEM_NAME + " TEXT NOT NULL, "
             + CUSTOMER_ID + " TEXT NOT NULL, " + CUSTOMER_NAME + " TEXT NOT NULL, " + VAN_STOCK + " INTEGER NULL, " //+ VAN_QTY + " INTEGER NOT NULL, "
             + REJ_QTY + " INTEGER NULL, " + PRICE + " REAL NULL, " + FRESH_M_SHAPED + " INTEGER NULL, "
             + FRESH_TORN_POLLY + " INTEGER NULL, " + FRESH_FUNGUS + " INTEGER NULL, "
             + FRESH_WET_BREAD + " INTEGER NULL, " + FRESH_OTHERS + " INTEGER NULL, " + MARKET_DAMAGED + " INTEGER NULL, "
             + MARKET_EXPIRED + " INTEGER NULL, " + MARKET_RAT_EATEN + " INTEGER NULL, " + GRAND_TOTAL + " REAL NULL, "
+            + IMEI_NO + " TEXT NULL, " + LAT_LNG + " TEXT NULL, " + CURTIME + " TEXT NULL, " + LOGIN_ID + " TEXT NULL, "
             + DATE + " TEXT NULL)";
 
     private Context mContext;
@@ -96,6 +104,7 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
             CRejectionModel rejectionModel = arrList.get(i);
             // if (rejectionModel.getTotal() > 0 && rejectionModel.getRej_qty() > 0) {
             ContentValues contentValues = new ContentValues();
+            contentValues.put(BILL_NO, rejectionModel.getBill_no());
             contentValues.put(INVOICE_NO, rejectionModel.getInvoice_no());
             contentValues.put(CASHIER_CODE, rejectionModel.getCashier_code());
             contentValues.put(ITEM_ID, rejectionModel.getItem_id());
@@ -129,6 +138,10 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
             double grand_total = (market_total_rej + fresh_total_rej) * rejectionModel.getPrice();
 
             contentValues.put(GRAND_TOTAL, grand_total);
+            contentValues.put(IMEI_NO, rejectionModel.getImei_no());
+            contentValues.put(LAT_LNG, rejectionModel.getLat_lng());
+            contentValues.put(CURTIME, Utility.timeStamp());
+            contentValues.put(LOGIN_ID, rejectionModel.getLogin_id());
             contentValues.put(DATE, Utility.getCurDate());
             if (grand_total > 0)
                 db.insert(TABLE_NAME, null, contentValues);
@@ -159,6 +172,7 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 CRejectionModel rejectionModel = new CRejectionModel();
+                rejectionModel.setBill_no(res.getString(res.getColumnIndex(BILL_NO)));
                 rejectionModel.setInvoice_no(res.getString(res.getColumnIndex(INVOICE_NO)));
                 rejectionModel.setCashier_code(res.getString(res.getColumnIndex(CASHIER_CODE)));
                 rejectionModel.setItem_id(res.getString(res.getColumnIndex(ITEM_ID)));
@@ -188,6 +202,10 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
                 rejectionModel.setMarketRejection(marketRejection);
 
                 rejectionModel.setTotal(res.getDouble(res.getColumnIndex(GRAND_TOTAL)));
+
+                rejectionModel.setImei_no(res.getString(res.getColumnIndex(IMEI_NO)));
+                rejectionModel.setLat_lng(res.getString(res.getColumnIndex(LAT_LNG)));
+                rejectionModel.setLogin_id(res.getString(res.getColumnIndex(LOGIN_ID)));
                 array_list.add(rejectionModel);
                 res.moveToNext();
             }
@@ -301,12 +319,18 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 SyncInvoiceDetailModel rejectionModel = new SyncInvoiceDetailModel();
+                rejectionModel.setBill_no(res.getString(res.getColumnIndex(BILL_NO)));
                 rejectionModel.setInvoice_no(res.getString(res.getColumnIndex(INVOICE_NO)));
                 rejectionModel.setInvoice_date(res.getString(res.getColumnIndex(DATE)));
                 rejectionModel.setRoute_id(route_id);
                 rejectionModel.setCustomer_id(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 rejectionModel.setItem_id(res.getString(res.getColumnIndex(ITEM_ID)));
                 rejectionModel.setCashier_code(res.getString(res.getColumnIndex(CASHIER_CODE)));
+
+                rejectionModel.setImei_no(res.getString(res.getColumnIndex(IMEI_NO)));
+                rejectionModel.setLat_lng(res.getString(res.getColumnIndex(LAT_LNG)));
+                rejectionModel.setTime_stamp(res.getString(res.getColumnIndex(CURTIME)));
+                rejectionModel.setLogin_id(res.getString(res.getColumnIndex(LOGIN_ID)));
 
                 //get van item total count
                 int item_total_count = depotInvoiceTable.getLoadingCount(rejectionModel.getItem_id());

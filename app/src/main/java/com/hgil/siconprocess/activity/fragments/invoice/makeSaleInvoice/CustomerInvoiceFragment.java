@@ -16,7 +16,10 @@ import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
 import com.hgil.siconprocess.adapter.invoice.invoiceSale.CustomerInvoiceAdapter;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
+import com.hgil.siconprocess.utils.UtilBillNo;
+import com.hgil.siconprocess.utils.UtilNetworkLocation;
 import com.hgil.siconprocess.utils.Utility;
+import com.hgil.siconprocess.utils.utilPermission.UtilIMEI;
 
 import java.util.ArrayList;
 
@@ -155,6 +158,13 @@ public class CustomerInvoiceFragment extends BaseFragment {
                 for (int i = 0; i < arrInvoiceItems.size(); i++) {
                     InvoiceModel invoiceModel = arrInvoiceItems.get(i);
                     if (invoiceModel.getOrderAmount() > 0 && invoiceModel.getDemandTargetQty() > 0) {
+                        // update bill_no, device imei_no, location and login_id
+                        // time_stamp will be updated automatically;
+                        invoiceModel.setBill_no(UtilBillNo.generateBillNo());
+                        invoiceModel.setImei_no(UtilIMEI.getIMEINumber(getContext()));
+                        invoiceModel.setLat_lng(UtilNetworkLocation.getLatLng(UtilNetworkLocation.getLocation(getContext())));
+                        invoiceModel.setLogin_id(getLoginId());
+
                         reviewOrderData.add(invoiceModel);
                     }
                 }

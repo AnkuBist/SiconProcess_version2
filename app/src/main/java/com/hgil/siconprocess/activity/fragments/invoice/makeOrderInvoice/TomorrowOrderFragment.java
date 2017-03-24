@@ -16,6 +16,8 @@ import com.hgil.siconprocess.adapter.productSelection.ProductSelectModel;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.dbModels.NextDayOrderModel;
 import com.hgil.siconprocess.database.tables.NextDayOrderTable;
+import com.hgil.siconprocess.utils.UtilNetworkLocation;
+import com.hgil.siconprocess.utils.utilPermission.UtilIMEI;
 
 import java.util.ArrayList;
 
@@ -93,6 +95,12 @@ public class TomorrowOrderFragment extends BaseFragment {
                 for (int i = 0; i < arrOrder.size(); i++) {
                     NextDayOrderModel nextDayOrderModel = arrOrder.get(i);
                     if (nextDayOrderModel.getQuantity() > 0) {
+                        // update device imei_no, location and login_id
+                        // time_stamp will be updated automatically;
+                        nextDayOrderModel.setImei_no(UtilIMEI.getIMEINumber(getContext()));
+                        nextDayOrderModel.setLat_lng(UtilNetworkLocation.getLatLng(UtilNetworkLocation.getLocation(getContext())));
+                        nextDayOrderModel.setLogin_id(getLoginId());
+
                         reviewOrderData.add(nextDayOrderModel);
                     }
                 }

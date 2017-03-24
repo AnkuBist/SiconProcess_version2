@@ -27,6 +27,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "depot_invoice_out";
 
     private static final String INVOICE_NO = "Invoice_No";
+    private static final String BILL_NO = "bill_no";
     private static final String INVOICE_DATE = "Invoice_Date";
     private static final String CUSTOMER_ID = "Customer_id";
     private static final String ROUTE_ID = "Route_Id";
@@ -51,6 +52,10 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
 /*    private static final String REJECTION_QTY = "rejectionQty";
     private static final String REJECTION_TOTAL_AMOUNT = "rejTotalAmount";*/
 
+    private static final String IMEI_NO = "imei_no";
+    private static final String LAT_LNG = "lat_lng";
+    private static final String CURTIME = "cur_time";
+    private static final String LOGIN_ID = "login_id";
     private static final String DATE = "date";
 
     private Context mContext;
@@ -63,12 +68,14 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + INVOICE_NO + " TEXT NULL, "
+                + BILL_NO + " TEXT NULL, "
                 + INVOICE_DATE + " TEXT NULL, " + CUSTOMER_ID + " TEXT NULL, " + ROUTE_ID + " TEXT NULL, "
                 + VEHICLE_NO + " TEXT NULL, " + ITEM_ID + " TEXT NULL, " + CASHIER_CODE + " TEXT NULL, "
                 + CRATE_ID + " TEXT NULL, " + INVQTY_CR + " REAL NULL, " + INVQTY_PS + " REAL NULL, "
                 + ITEM_RATE + " REAL NULL, " + TOTAL_AMOUNT + " REAL NULL, "
                 + FIXED_SAMPLE + " INTEGER NULL, " + DEMAND_TARGET_QUANTITY + " REAL NULL, " + ORDER_AMOUNT + " REAL NULL, "
                 + STOCK_AVAIL + " INTEGER NULL, " + TEMP_STOCK + " INTEGER NULL, " + ITEM_NAME + " TEXT NULL, "
+                + IMEI_NO + " TEXT NULL, " + LAT_LNG + " TEXT NULL, " + CURTIME + " TEXT NULL, " + LOGIN_ID + " TEXT NULL, "
                 + DATE + " TEXT NULL)");
                /* + REJECTION_QTY + " INTEGER NULL, " + REJECTION_TOTAL_AMOUNT + " REAL NULL)");*/
     }
@@ -89,6 +96,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
     public boolean insertInvoice(InvoiceModel invoiceModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put(BILL_NO, invoiceModel.getBill_no());
         contentValues.put(INVOICE_NO, invoiceModel.getInvoiceNo());
         contentValues.put(INVOICE_DATE, invoiceModel.getInvoiceDate());
         contentValues.put(CUSTOMER_ID, invoiceModel.getCustomerId());
@@ -107,6 +115,10 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
         contentValues.put(STOCK_AVAIL, invoiceModel.getStockAvail());
         contentValues.put(TEMP_STOCK, invoiceModel.getTempStock());
         contentValues.put(ITEM_NAME, invoiceModel.getItemName());
+        contentValues.put(IMEI_NO, invoiceModel.getImei_no());
+        contentValues.put(LAT_LNG, invoiceModel.getLat_lng());
+        contentValues.put(CURTIME, Utility.timeStamp());
+        contentValues.put(LOGIN_ID, invoiceModel.getLogin_id());
         contentValues.put(DATE, Utility.getCurDate());
 
         db.insert(TABLE_NAME, null, contentValues);
@@ -125,6 +137,7 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
             InvoiceModel invoiceModel = arrList.get(i);
             if (invoiceModel.getOrderAmount() > 0 && invoiceModel.getDemandTargetQty() > 0) {
                 ContentValues contentValues = new ContentValues();
+                contentValues.put(BILL_NO, invoiceModel.getBill_no());
                 contentValues.put(INVOICE_NO, invoiceModel.getInvoiceNo());
                 contentValues.put(INVOICE_DATE, invoiceModel.getInvoiceDate());
                 contentValues.put(CUSTOMER_ID, invoiceModel.getCustomerId());
@@ -143,6 +156,10 @@ public class InvoiceOutTable extends SQLiteOpenHelper {
                 contentValues.put(STOCK_AVAIL, invoiceModel.getStockAvail());
                 contentValues.put(TEMP_STOCK, invoiceModel.getTempStock());
                 contentValues.put(ITEM_NAME, invoiceModel.getItemName());
+                contentValues.put(IMEI_NO, invoiceModel.getImei_no());
+                contentValues.put(LAT_LNG, invoiceModel.getLat_lng());
+                contentValues.put(CURTIME, Utility.timeStamp());
+                contentValues.put(LOGIN_ID, invoiceModel.getLogin_id());
                 contentValues.put(DATE, Utility.getCurDate());
                 db.insert(TABLE_NAME, null, contentValues);
             }
@@ -437,12 +454,17 @@ from V_SD_DepotInvoice_Master where Route_managemnet_Date='2017-01-30' and Route
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 SyncInvoiceDetailModel syncModel = new SyncInvoiceDetailModel();
+                syncModel.setBill_no(res.getString(res.getColumnIndex(BILL_NO)));
                 syncModel.setInvoice_no(res.getString(res.getColumnIndex(INVOICE_NO)));
                 syncModel.setInvoice_date(res.getString(res.getColumnIndex(INVOICE_DATE)));
                 syncModel.setCustomer_id(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 syncModel.setRoute_id(res.getString(res.getColumnIndex(ROUTE_ID)));
                 syncModel.setCashier_code(res.getString(res.getColumnIndex(CASHIER_CODE)));          // CASHIER_CODE
                 syncModel.setItem_id(res.getString(res.getColumnIndex(ITEM_ID)));
+                syncModel.setImei_no(res.getString(res.getColumnIndex(IMEI_NO)));
+                syncModel.setLat_lng(res.getString(res.getColumnIndex(LAT_LNG)));
+                syncModel.setTime_stamp(res.getString(res.getColumnIndex(CURTIME)));
+                syncModel.setLogin_id(res.getString(res.getColumnIndex(LOGIN_ID)));
 
                 //get van item total count
                 int item_total_count = depotInvoiceTable.getLoadingCount(syncModel.getItem_id());

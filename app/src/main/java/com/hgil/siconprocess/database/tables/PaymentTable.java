@@ -46,6 +46,11 @@ public class PaymentTable extends SQLiteOpenHelper {
     // crate details
     private static final String ISSUED_CRATES = "issuedCrates";
     private static final String RECEIVED_CRATES = "receivedCrates";
+
+    private static final String IMEI_NO = "imei_no";
+    private static final String LAT_LNG = "lat_lng";
+    private static final String CURTIME = "cur_time";
+    private static final String LOGIN_ID = "login_id";
     private static final String DATE = "date";
 
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + CUSTOMER_ID + " TEXT NOT NULL, "
@@ -54,6 +59,7 @@ public class PaymentTable extends SQLiteOpenHelper {
             + CHEQUE_DATE + " TEXT NULL, " + CHEQUE_AMOUNT + " REAL NULL, "
             + BANK_NAME + " TEXT NULL, " + BANK_BRANCH + " TEXT NULL, " + INVOICE_ID + " TEXT NULL, "
             + ISSUED_CRATES + " INTEGER NULL, " + RECEIVED_CRATES + " INTEGER NULL, "
+            + IMEI_NO + " TEXT NULL, " + LAT_LNG + " TEXT NULL, " + CURTIME + " TEXT NULL, " + LOGIN_ID + " TEXT NULL, "
             + DATE + " DATE NULL)";
     private Context mContext;
 
@@ -102,6 +108,11 @@ public class PaymentTable extends SQLiteOpenHelper {
             contentValues.put(INVOICE_ID, chequeDetailsModel.getInvoiceId());
         }
 
+        contentValues.put(IMEI_NO, paymentModel.getImei_no());
+        contentValues.put(LAT_LNG, paymentModel.getLat_lng());
+        contentValues.put(CURTIME, Utility.timeStamp());
+        contentValues.put(LOGIN_ID, paymentModel.getLogin_id());
+
         contentValues.put(DATE, Utility.getCurDate());
 
         // check if row exists for the same user or not
@@ -120,6 +131,10 @@ public class PaymentTable extends SQLiteOpenHelper {
         contentValues.put(CUSTOMER_ID, crateDetailModel.getCustomer_id());
         contentValues.put(ISSUED_CRATES, crateDetailModel.getIssuedCrates());
         contentValues.put(RECEIVED_CRATES, crateDetailModel.getReceivedCrates());
+        contentValues.put(IMEI_NO, crateDetailModel.getImei_no());
+        contentValues.put(LAT_LNG, crateDetailModel.getLat_lng());
+        contentValues.put(CURTIME, Utility.timeStamp());
+        contentValues.put(LOGIN_ID, crateDetailModel.getLogin_id());
         contentValues.put(DATE, Utility.getCurDate());
 
         //db.insert(TABLE_NAME, null, contentValues);
@@ -166,6 +181,10 @@ public class PaymentTable extends SQLiteOpenHelper {
             paymentModel.setSaleAmount(res.getDouble(res.getColumnIndex(SALE_AMOUNT)));
             paymentModel.setCashPaid(res.getDouble(res.getColumnIndex(CASH_PAID)));
             paymentModel.setTotalPaidAmount(res.getDouble(res.getColumnIndex(TOTAL_PAID_AMOUNT)));
+            paymentModel.setImei_no(res.getString(res.getColumnIndex(IMEI_NO)));
+            paymentModel.setLat_lng(res.getString(res.getColumnIndex(LAT_LNG)));
+            paymentModel.setTime_stamp(res.getString(res.getColumnIndex(CURTIME)));
+            paymentModel.setLogin_id(res.getString(res.getColumnIndex(LOGIN_ID)));
 
             // cheque details
             ChequeDetailsModel chequeDetailsModel = new ChequeDetailsModel();
@@ -193,6 +212,10 @@ public class PaymentTable extends SQLiteOpenHelper {
             crateDetailModel.setCustomer_id(res.getString(res.getColumnIndex(CUSTOMER_ID)));
             crateDetailModel.setIssuedCrates(res.getInt(res.getColumnIndex(ISSUED_CRATES)));
             crateDetailModel.setReceivedCrates(res.getInt(res.getColumnIndex(RECEIVED_CRATES)));
+            crateDetailModel.setImei_no(res.getString(res.getColumnIndex(IMEI_NO)));
+            crateDetailModel.setLat_lng(res.getString(res.getColumnIndex(LAT_LNG)));
+            crateDetailModel.setTime_stamp(res.getString(res.getColumnIndex(CURTIME)));
+            crateDetailModel.setLogin_id(res.getString(res.getColumnIndex(LOGIN_ID)));
         }
         res.close();
         db.close();
@@ -289,6 +312,10 @@ public class PaymentTable extends SQLiteOpenHelper {
                 cashModel.setSale(res.getDouble(res.getColumnIndex(SALE_AMOUNT)));
                 cashModel.setReceive(res.getDouble(res.getColumnIndex(TOTAL_PAID_AMOUNT)));
                 cashModel.setBalance(cashModel.getOpening() + cashModel.getSale() - cashModel.getReceive());
+                cashModel.setImei_no(res.getString(res.getColumnIndex(IMEI_NO)));
+                cashModel.setLat_lng(res.getString(res.getColumnIndex(LAT_LNG)));
+                cashModel.setTime_stamp(res.getString(res.getColumnIndex(CURTIME)));
+                cashModel.setLogin_id(res.getString(res.getColumnIndex(LOGIN_ID)));
                 cashModel.setDate(res.getString(res.getColumnIndex(DATE)));
                 array_list.add(cashModel);
                 res.moveToNext();
@@ -313,6 +340,10 @@ public class PaymentTable extends SQLiteOpenHelper {
                 crateModel.setIssued(res.getInt(res.getColumnIndex(ISSUED_CRATES)));
                 crateModel.setReceive(res.getInt(res.getColumnIndex(RECEIVED_CRATES)));
                 crateModel.setBalance(crateModel.getOpening() - crateModel.getIssued() + crateModel.getReceive());
+                crateModel.setImei_no(res.getString(res.getColumnIndex(IMEI_NO)));
+                crateModel.setLat_lng(res.getString(res.getColumnIndex(LAT_LNG)));
+                crateModel.setTime_stamp(res.getString(res.getColumnIndex(CURTIME)));
+                crateModel.setLogin_id(res.getString(res.getColumnIndex(LOGIN_ID)));
                 crateModel.setDdate(res.getString(res.getColumnIndex(DATE)));
 
                 array_list.add(crateModel);
@@ -369,7 +400,7 @@ public class PaymentTable extends SQLiteOpenHelper {
         db.close();
         return route_sale;
     }
-    
+
     // cancel customer prepared invoice
     public void cancelInvoice(String customer_id) {
         SQLiteDatabase db = this.getWritableDatabase();

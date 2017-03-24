@@ -15,7 +15,9 @@ import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.dbModels.CrateDetailModel;
 import com.hgil.siconprocess.database.masterTables.CrateOpeningTable;
 import com.hgil.siconprocess.database.tables.PaymentTable;
+import com.hgil.siconprocess.utils.UtilNetworkLocation;
 import com.hgil.siconprocess.utils.Utility;
+import com.hgil.siconprocess.utils.utilPermission.UtilIMEI;
 
 import butterknife.BindView;
 
@@ -134,6 +136,12 @@ public class CratesManagementFragment extends BaseFragment {
                 crateDetailModel.setCustomer_id(customer_id);
                 crateDetailModel.setIssuedCrates(Utility.getInteger(etIssuedCrates.getText().toString()));
                 crateDetailModel.setReceivedCrates(Utility.getInteger(etReceivedCrates.getText().toString()));
+
+                // update device imei_no, location and login_id
+                // time_stamp will be updated automatically;
+                crateDetailModel.setImei_no(UtilIMEI.getIMEINumber(getContext()));
+                crateDetailModel.setLat_lng(UtilNetworkLocation.getLatLng(UtilNetworkLocation.getLocation(getContext())));
+                crateDetailModel.setLogin_id(getLoginId());
 
                 paymentTable.insertCustomerCrates(crateDetailModel);
 

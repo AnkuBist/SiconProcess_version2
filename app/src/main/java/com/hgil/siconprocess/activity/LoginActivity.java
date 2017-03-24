@@ -4,9 +4,11 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -39,7 +41,6 @@ import com.hgil.siconprocess.retrofit.RetrofitUtil;
 import com.hgil.siconprocess.retrofit.loginResponse.ObjLoginResponse;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
 import com.hgil.siconprocess.retrofit.loginResponse.loginResponse;
-import com.hgil.siconprocess.utils.UtilNetworkLocation;
 import com.hgil.siconprocess.utils.Utility;
 import com.hgil.siconprocess.utils.ui.SampleDialog;
 
@@ -50,9 +51,6 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.hgil.siconprocess.utils.utilPermission.UtilAccessLocation.ACCESS_LOCATION;
-import static com.hgil.siconprocess.utils.utilPermission.UtilAccessLocation.checkAndroidVersion;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -106,24 +104,18 @@ public class LoginActivity extends AppCompatActivity {
         initialiseDBObj();
         initializeSyncDbObj();
 
-        // get user current location
-        checkAndroidVersion(this);
-    }
+        /*// get user current location
+        checkAndroidVersionForLocationAccess(this);
 
-   /* private void getUserLocation() {
-        int MyVersion = Build.VERSION.SDK_INT;
-        if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            if (!checkIfAlreadyHavePermission()) {
-                requestForSpecificPermission();
-            } else {
-                UtilNetworkLocation.fetchLocation(this);
-            }
-        }
-        // for pre lollipop devices run this directly
-        else {
-            UtilNetworkLocation.fetchLocation(this);
-        }
-    }*/
+        // get device imei number
+        checkAndroidVersionForPhoneState(this);
+
+        // get permission to send sms
+        askSmsPermission(this);*/
+
+        // ask all required permission at once only
+        askAppPermission();
+    }
 
     private void initialiseDBObj() {
         dbRouteView = new RouteView(this);
@@ -320,32 +312,82 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         }
     }
-   /* // request permission
-    private void requestForSpecificPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-    }*/
+
+    private static final int APP_PERMISSION = 105;
+
+    private void askAppPermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            int check_COARSE_LOCATION = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+            int check_FINE_LOCATION = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+            int check_READ_PHONE_STATE = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
+            int check_SEND_SMS = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
+
+            if (check_COARSE_LOCATION != PackageManager.PERMISSION_GRANTED ||
+                    check_FINE_LOCATION != PackageManager.PERMISSION_GRANTED ||
+                    check_READ_PHONE_STATE != PackageManager.PERMISSION_GRANTED ||
+                    check_SEND_SMS != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.SEND_SMS}, APP_PERMISSION);
+                return;
+            }
+        }
+    }
 
     // request permissions result
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case ACCESS_LOCATION:
+            case APP_PERMISSION:
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < grantResults.length; i++) {
+                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED)
+                            Toast.makeText(this, permissions[i] + " Permission denied", Toast.LENGTH_SHORT).show();
+                    }
+
+                    /*if (grantResults[0] != PackageManager.PERMISSION_GRANTED)
+                        Toast.makeText(this, "ACCESS_COARSE_LOCATION & ACCESS_FINE_LOCATION Permission denied", Toast.LENGTH_SHORT).show();
+                    *//*if (grantResults[1] != PackageManager.PERMISSION_GRANTED)
+                        Toast.makeText(this, "ACCESS_FINE_LOCATION Permission denied", Toast.LENGTH_SHORT).show();*//*
+                    if (grantResults[1] != PackageManager.PERMISSION_GRANTED)
+                        Toast.makeText(this, "READ_PHONE_STATE Permission denied", Toast.LENGTH_SHORT).show();
+                    if (grantResults[2] != PackageManager.PERMISSION_GRANTED)
+                        Toast.makeText(this, "SEND_SMS Permission denied", Toast.LENGTH_SHORT).show();*/
+                }
+                return;
+
+            /*case ACCESS_LOCATION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     UtilNetworkLocation.fetchLocation(this);
                 else
                     Toast.makeText(this, "Permission denied to get your location", Toast.LENGTH_SHORT).show();
                 return;
+            case READ_PHONE_STATE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    UtilNetworkLocation.fetchLocation(this);
+                else
+                    Toast.makeText(this, "Permission denied to read phone state", Toast.LENGTH_SHORT).show();
+                return;
+            case SEND_SMS:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //UtilNetworkLocation.fetchLocation(this);
+                } else
+                    Toast.makeText(this, "Permission denied to send SMS", Toast.LENGTH_SHORT).show();
+                return;*/
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
-    @Override
+   /* @Override
     protected void onResume() {
         super.onResume();
         if (UtilNetworkLocation.canGetLocation(this) == true && checkIfAlreadyHavePermission())
+
             UtilNetworkLocation.printCoordinates(UtilNetworkLocation.getLocation(this));
-    }
+    }*/
 
     // AsyncTask copy one
     private class loginSync extends AsyncTask<Void, Void, Boolean> implements Serializable {

@@ -17,6 +17,11 @@ public class PaymentModel {
     // crate data
     private CrateDetailModel crateDetail;
 
+    private String imei_no;
+    private String lat_lng;
+    private String time_stamp;
+    private String login_id;
+
     public String getCustomerId() {
         return customerId;
     }
@@ -71,5 +76,37 @@ public class PaymentModel {
 
     public void setCrateDetail(CrateDetailModel crateDetail) {
         this.crateDetail = crateDetail;
+    }
+
+    public String getImei_no() {
+        return imei_no;
+    }
+
+    public void setImei_no(String imei_no) {
+        this.imei_no = imei_no;
+    }
+
+    public String getLat_lng() {
+        return lat_lng;
+    }
+
+    public void setLat_lng(String lat_lng) {
+        this.lat_lng = lat_lng;
+    }
+
+    public String getTime_stamp() {
+        return time_stamp;
+    }
+
+    public void setTime_stamp(String time_stamp) {
+        this.time_stamp = time_stamp;
+    }
+
+    public String getLogin_id() {
+        return login_id;
+    }
+
+    public void setLogin_id(String login_id) {
+        this.login_id = login_id;
     }
 }

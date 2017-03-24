@@ -28,6 +28,10 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
     private static final String ITEM_NAME = "Item_name";
     private static final String ITEM_QTY = "order_quantity";
     private static final String DATE = "date";
+    private static final String IMEI_NO = "imei_no";
+    private static final String LAT_LNG = "lat_lng";
+    private static final String CURTIME = "cur_time";
+    private static final String LOGIN_ID = "login_id";
 
     private Context mContext;
 
@@ -40,7 +44,9 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + CUSTOMER_ID + " TEXT NOT NULL, "
                 + CUSTOMER_NAME + " TEXT NOT NULL, " + ITEM_ID + " TEXT NOT NULL, " + ITEM_NAME + " TEXT NOT NULL, "
-                + ITEM_QTY + " INTEGER NOT NULL, " + DATE + " TEXT NULL)");
+                + ITEM_QTY + " INTEGER NOT NULL, "
+                + IMEI_NO + " TEXT NULL, " + LAT_LNG + " TEXT NULL, " + CURTIME + " TEXT NULL, " + LOGIN_ID + " TEXT NULL, "
+                + DATE + " TEXT NULL)");
     }
 
     @Override
@@ -64,6 +70,10 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
         contentValues.put(ITEM_ID, nextDayOrderModel.getItemId());
         contentValues.put(ITEM_NAME, nextDayOrderModel.getItemName());
         contentValues.put(ITEM_QTY, nextDayOrderModel.getQuantity());
+        contentValues.put(IMEI_NO, nextDayOrderModel.getImei_no());
+        contentValues.put(LAT_LNG, nextDayOrderModel.getLat_lng());
+        contentValues.put(CURTIME, Utility.timeStamp());
+        contentValues.put(LOGIN_ID, nextDayOrderModel.getLogin_id());
         contentValues.put(DATE, Utility.getCurDate());
 
         db.insert(TABLE_NAME, null, contentValues);
@@ -87,6 +97,10 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
                 contentValues.put(ITEM_ID, nextDayOrderModel.getItemId());
                 contentValues.put(ITEM_NAME, nextDayOrderModel.getItemName());
                 contentValues.put(ITEM_QTY, nextDayOrderModel.getQuantity());
+                contentValues.put(IMEI_NO, nextDayOrderModel.getImei_no());
+                contentValues.put(LAT_LNG, nextDayOrderModel.getLat_lng());
+                contentValues.put(CURTIME, Utility.timeStamp());
+                contentValues.put(LOGIN_ID, nextDayOrderModel.getLogin_id());
                 contentValues.put(DATE, Utility.getCurDate());
 
                 db.insert(TABLE_NAME, null, contentValues);
@@ -112,6 +126,10 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
             nextDayOrderModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
             nextDayOrderModel.setItemName(res.getString(res.getColumnIndex(ITEM_NAME)));
             nextDayOrderModel.setQuantity(res.getInt(res.getColumnIndex(ITEM_QTY)));
+            nextDayOrderModel.setImei_no(res.getString(res.getColumnIndex(IMEI_NO)));
+            nextDayOrderModel.setLat_lng(res.getString(res.getColumnIndex(LAT_LNG)));
+            nextDayOrderModel.setTime_stamp(res.getString(res.getColumnIndex(CURTIME)));
+            nextDayOrderModel.setLogin_id(res.getString(res.getColumnIndex(LOGIN_ID)));
             nextDayOrderModel.setOrderDate(res.getString(res.getColumnIndex(DATE)));
         }
         res.close();
@@ -145,6 +163,10 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
                 nextDayOrderModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
                 nextDayOrderModel.setItemName(res.getString(res.getColumnIndex(ITEM_NAME)));
                 nextDayOrderModel.setQuantity(res.getInt(res.getColumnIndex(ITEM_QTY)));
+                nextDayOrderModel.setImei_no(res.getString(res.getColumnIndex(IMEI_NO)));
+                nextDayOrderModel.setLat_lng(res.getString(res.getColumnIndex(LAT_LNG)));
+                nextDayOrderModel.setTime_stamp(res.getString(res.getColumnIndex(CURTIME)));
+                nextDayOrderModel.setLogin_id(res.getString(res.getColumnIndex(LOGIN_ID)));
                 nextDayOrderModel.setOrderDate(res.getString(res.getColumnIndex(DATE)));
                 array_list.add(nextDayOrderModel);
                 res.moveToNext();
@@ -169,6 +191,10 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
                 nextDayOrderModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
                 nextDayOrderModel.setItemName(res.getString(res.getColumnIndex(ITEM_NAME)));
                 nextDayOrderModel.setQuantity(res.getInt(res.getColumnIndex(ITEM_QTY)));
+                nextDayOrderModel.setImei_no(res.getString(res.getColumnIndex(IMEI_NO)));
+                nextDayOrderModel.setLat_lng(res.getString(res.getColumnIndex(LAT_LNG)));
+                nextDayOrderModel.setTime_stamp(res.getString(res.getColumnIndex(CURTIME)));
+                nextDayOrderModel.setLogin_id(res.getString(res.getColumnIndex(LOGIN_ID)));
                 nextDayOrderModel.setOrderDate(res.getString(res.getColumnIndex(DATE)));
                 array_list.add(nextDayOrderModel);
                 res.moveToNext();

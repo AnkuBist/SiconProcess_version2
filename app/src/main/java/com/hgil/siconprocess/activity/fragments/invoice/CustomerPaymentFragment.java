@@ -20,7 +20,9 @@ import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.database.tables.PaymentTable;
+import com.hgil.siconprocess.utils.UtilNetworkLocation;
 import com.hgil.siconprocess.utils.Utility;
+import com.hgil.siconprocess.utils.utilPermission.UtilIMEI;
 
 import butterknife.BindView;
 
@@ -126,6 +128,12 @@ public class CustomerPaymentFragment extends BaseFragment {
                 paymentModel.setChequeDetail(chequeDetailsModel);
                 paymentModel.setCashPaid(Utility.getDouble(etCash.getText().toString().trim()));
                 paymentModel.setTotalPaidAmount(Utility.getDouble(String.valueOf(paymentModel.getCashPaid() + paymentModel.getChequeDetail().getChequeAmount())));
+
+                // update device imei_no, location and login_id
+                // time_stamp will be updated automatically;
+                paymentModel.setImei_no(UtilIMEI.getIMEINumber(getContext()));
+                paymentModel.setLat_lng(UtilNetworkLocation.getLatLng(UtilNetworkLocation.getLocation(getContext())));
+                paymentModel.setLogin_id(getLoginId());
 
                 paymentTable.insertCustPayment(paymentModel);
 

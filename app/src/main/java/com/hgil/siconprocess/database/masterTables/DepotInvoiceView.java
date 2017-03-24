@@ -450,7 +450,8 @@ from V_SD_DepotInvoice_Master where Route_management_Date='2017-01-30' and Route
             invoiceModel.setMkey(res.getString(res.getColumnIndex(MKEY)));
             invoiceModel.setRKey(res.getString(res.getColumnIndex(RKEY)));
             invoiceModel.setRouteManagemnetDate(res.getString(res.getColumnIndex(ROUTE_MANAGEMENT_DATE)));
-            invoiceModel.setInvoiceNo(res.getString(res.getColumnIndex(INVOICE_NO)));
+            //invoiceModel.setInvoiceNo(res.getString(res.getColumnIndex(INVOICE_NO)));
+            invoiceModel.setInvoiceNo(null);
             invoiceModel.setInvoiceDate(res.getString(res.getColumnIndex(INVOICE_DATE)));
             invoiceModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
             invoiceModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));

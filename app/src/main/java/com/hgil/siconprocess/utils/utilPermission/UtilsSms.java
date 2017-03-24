@@ -20,7 +20,7 @@ import com.hgil.siconprocess.utils.ui.SampleDialog;
 
 public class UtilsSms {
 
-    public static final int SEND_SMS = 101;
+    public static final int SEND_SMS = 102;
 
     public static void sendSMS(Context context, String phoneNumber, String message) {
         // Intent sendIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + phoneNumber));
@@ -41,7 +41,7 @@ public class UtilsSms {
 
     /*check sms permission before sending sms*/
     // simple trick to check and ask permission
-    public static void checkAndroidVersion(Context context, String mobile, String message) {
+    public static void checkAndroidVersionForSms(Context context, String mobile, String message) {
         if (Build.VERSION.SDK_INT >= 23) {
             int checkSMSPermission = ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS);
             if (checkSMSPermission != PackageManager.PERMISSION_GRANTED) {
@@ -52,6 +52,20 @@ public class UtilsSms {
             }
         } else {
             sendSMS(context, mobile, message);
+        }
+    }
+
+    public static void askSmsPermission(Context context) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            int checkSMSPermission = ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS);
+            if (checkSMSPermission != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.SEND_SMS}, SEND_SMS);
+                return;
+            } else {
+                //sendSMS(context, mobile, message);
+            }
+        } else {
+            //sendSMS(context, mobile, message);
         }
     }
 }

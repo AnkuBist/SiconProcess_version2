@@ -1,12 +1,15 @@
 package com.hgil.siconprocess.utils;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
@@ -95,12 +98,12 @@ public class UtilNetworkLocation {
         network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         Location net_loc = null, gps_loc = null, finalLoc = null;
-
-        if (gps_enabled)
-            gps_loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (network_enabled)
-            net_loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
+        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (gps_enabled)
+                gps_loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (network_enabled)
+                net_loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
         if (gps_loc != null && net_loc != null) {
 
             //smaller the number more accurate result will
@@ -130,6 +133,15 @@ public class UtilNetworkLocation {
         } else {
             Log.e(TAG, "getCoordinates: location object is nullHEHE");
         }
+    }
+
+    public static String getLatLng(Location location) {
+        if (location != null) {
+            double lat = location.getLatitude();
+            double lng = location.getLongitude();
+            return (lat + "," + lng);
+        }
+        return null;
     }
 
     // test methods

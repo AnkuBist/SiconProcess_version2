@@ -32,7 +32,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected TextView tvNavTitle, tvNavDate;
     protected ImageView imgSave;
-    protected String routeId, routeName;
+    protected String routeId, routeName, loginId;
 
     @BindString(R.string.strRupee)
     protected String strRupee;
@@ -65,6 +65,7 @@ public abstract class BaseFragment extends Fragment {
         // setRetainInstance(true);
         routeId = SiconApp.getInstance().getRouteId();
         routeName = SiconApp.getInstance().getRouteName();
+        loginId = SiconApp.getInstance().getLoginId();
     }
 
     @Override
@@ -125,6 +126,10 @@ public abstract class BaseFragment extends Fragment {
 
     public String getRouteName() {
         return routeName;
+    }
+
+    public String getLoginId() {
+        return loginId;
     }
 
     public void updateSaveIcon() {

@@ -6,6 +6,7 @@ package com.hgil.siconprocess.adapter.invoiceRejection;
 
 public class CRejectionModel {
 
+    private String bill_no;
     private String invoice_no;
     private String cashier_code;
     private String item_id;
@@ -19,6 +20,42 @@ public class CRejectionModel {
 
     private MarketRejectionModel marketRejection;
     private FreshRejectionModel freshRejection;
+
+    private String imei_no;
+    private String lat_lng;
+    private String login_id;
+
+    public String getBill_no() {
+        return bill_no;
+    }
+
+    public void setBill_no(String bill_no) {
+        this.bill_no = bill_no;
+    }
+
+    public String getImei_no() {
+        return imei_no;
+    }
+
+    public void setImei_no(String imei_no) {
+        this.imei_no = imei_no;
+    }
+
+    public String getLat_lng() {
+        return lat_lng;
+    }
+
+    public void setLat_lng(String lat_lng) {
+        this.lat_lng = lat_lng;
+    }
+
+    public String getLogin_id() {
+        return login_id;
+    }
+
+    public void setLogin_id(String login_id) {
+        this.login_id = login_id;
+    }
 
     public FreshRejectionModel getFreshRejection() {
         return freshRejection;

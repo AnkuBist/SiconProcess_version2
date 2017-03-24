@@ -17,6 +17,7 @@ public class SiconApp extends Application {
     private RouteModel routeModel;
     private String routeName;
     private String routeId;
+    private String loginId;
 
     public static SiconApp getInstance() {
         if (null == appInstance) {
@@ -96,4 +97,11 @@ public class SiconApp extends Application {
         this.routeName = routeName;
     }
 
+    public String getLoginId() {
+        return loginId;
+    }
+
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
+    }
 }

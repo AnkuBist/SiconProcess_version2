@@ -11,6 +11,8 @@ public class InvoiceModel implements Serializable {
     private String mkey;
     private String rKey;
     private String routeManagemnetDate;
+    private String bill_no;
+
     private String invoiceNo;
     private String invoiceDate;
     private String customerId;
@@ -42,6 +44,41 @@ public class InvoiceModel implements Serializable {
     private int stockAvail;
     private int tempStock;
     private String itemName;
+    private String imei_no;
+    private String lat_lng;
+    private String login_id;
+
+    public String getBill_no() {
+        return bill_no;
+    }
+
+    public void setBill_no(String bill_no) {
+        this.bill_no = bill_no;
+    }
+
+    public String getImei_no() {
+        return imei_no;
+    }
+
+    public void setImei_no(String imei_no) {
+        this.imei_no = imei_no;
+    }
+
+    public String getLat_lng() {
+        return lat_lng;
+    }
+
+    public void setLat_lng(String lat_lng) {
+        this.lat_lng = lat_lng;
+    }
+
+    public String getLogin_id() {
+        return login_id;
+    }
+
+    public void setLogin_id(String login_id) {
+        this.login_id = login_id;
+    }
 
     public int getTempStock() {
         return tempStock;

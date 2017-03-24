@@ -21,6 +21,9 @@ import com.hgil.siconprocess.adapter.productSelection.ProductSelectModel;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
+import com.hgil.siconprocess.utils.UtilBillNo;
+import com.hgil.siconprocess.utils.UtilNetworkLocation;
+import com.hgil.siconprocess.utils.utilPermission.UtilIMEI;
 
 import java.util.ArrayList;
 
@@ -192,6 +195,14 @@ public class CustomerRejectionFragment extends BaseFragment {
                     rejectionModel.setCustomer_id(customer_id);
                     rejectionModel.setCustomer_name(customer_name);
                     rejectionModel.setPrice(pModel.getItem_price());
+
+                    // update bill_no, device imei_no, location and login_id
+                    // time_stamp will be updated automatically;
+                    rejectionModel.setBill_no(UtilBillNo.generateBillNo());
+                    rejectionModel.setImei_no(UtilIMEI.getIMEINumber(getContext()));
+                    rejectionModel.setLat_lng(UtilNetworkLocation.getLatLng(UtilNetworkLocation.getLocation(getContext())));
+                    rejectionModel.setLogin_id(getLoginId());
+
                     if (pModel.isSelected())
                         arrRejection.add(rejectionModel);
                 }

@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.hgil.siconprocess.database.masterTables.RouteView;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
+import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.ButterKnife;
 
@@ -13,7 +14,7 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    protected String routeId, routeName;
+    protected String routeId, routeName, loginId;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -39,6 +40,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         SiconApp.getInstance().setRouteModel(routeModel);
         SiconApp.getInstance().setRouteId(routeId);
         SiconApp.getInstance().setRouteName(routeName);
+        SiconApp.getInstance().setLoginId(Utility.readPreference(this, Utility.LAST_LOGIN_ID));
     }
 
     public String getRouteId() {
@@ -47,6 +49,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public String getRouteName() {
         return routeName;
+    }
+
+    public String getLoginId() {
+        return loginId;
     }
 
     /*runtime permission result handling*/

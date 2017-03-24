@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.Format;
@@ -69,6 +70,12 @@ public class Utility {
     /*clear shared preference data*/
     public static void clearPreference(Activity activity) {
         PreferenceManager.getDefaultSharedPreferences(activity).edit().clear().apply();
+    }
+
+    // get timestamp
+    public static String timeStamp() {
+        String timeStamp = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Timestamp(System.currentTimeMillis()));
+        return timeStamp;
     }
 
     // get current date util
