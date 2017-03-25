@@ -16,6 +16,8 @@ import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
 import com.hgil.siconprocess.adapter.invoice.invoiceSale.CustomerInvoiceAdapter;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
+import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
+import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.utils.UtilBillNo;
 import com.hgil.siconprocess.utils.UtilNetworkLocation;
 import com.hgil.siconprocess.utils.Utility;
@@ -32,16 +34,21 @@ public class CustomerInvoiceFragment extends BaseFragment {
     //@BindView(R.id.tvCustomerTotal)
     public static TextView tvInvoiceTotal;
     public static double grandTotal = 0;
+
     @BindView(R.id.tvCustomerName)
     TextView tvCustomerName;
     @BindView(R.id.rvCustomerInvoice)
     RecyclerView rvCustomerInvoice;
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
+
     boolean mAlreadyLoaded;
     String TAG = getClass().getName();
+    private String bill_no;
     private CustomerInvoiceAdapter invoiceAdapter;
     private DepotInvoiceView customerInvoice;
+    private CustomerRejectionTable rejectionTable;
+    private InvoiceOutTable invoiceOutTable;
     private ArrayList<InvoiceModel> arrInvoiceItems = new ArrayList<>();
 
     public CustomerInvoiceFragment() {
@@ -70,6 +77,8 @@ public class CustomerInvoiceFragment extends BaseFragment {
 
         // initialise the values at first time
         customerInvoice = new DepotInvoiceView(getContext());
+        invoiceOutTable = new InvoiceOutTable(getContext());
+        rejectionTable = new CustomerRejectionTable(getContext());
 
         invoiceAdapter = new CustomerInvoiceAdapter(getActivity(), arrInvoiceItems);
 
@@ -86,6 +95,10 @@ public class CustomerInvoiceFragment extends BaseFragment {
             double itemOrderAmount = arrInvoiceItems.get(i).getOrderAmount();
             grandTotal += itemOrderAmount;
         }
+
+        // generate bill no
+        bill_no = getBill_no();
+
     }
 
     @Override
@@ -160,7 +173,7 @@ public class CustomerInvoiceFragment extends BaseFragment {
                     if (invoiceModel.getOrderAmount() > 0 && invoiceModel.getDemandTargetQty() > 0) {
                         // update bill_no, device imei_no, location and login_id
                         // time_stamp will be updated automatically;
-                        invoiceModel.setBill_no(UtilBillNo.generateBillNo());
+                        invoiceModel.setBill_no(bill_no);
                         invoiceModel.setImei_no(UtilIMEI.getIMEINumber(getContext()));
                         invoiceModel.setLat_lng(UtilNetworkLocation.getLatLng(UtilNetworkLocation.getLocation(getContext())));
                         invoiceModel.setLogin_id(getLoginId());
@@ -191,5 +204,38 @@ public class CustomerInvoiceFragment extends BaseFragment {
 
     public void setInvoiceTotal(String invoiceAmount) {
         tvInvoiceTotal.setText(invoiceAmount);
+    }
+
+    private String getBill_no() {
+        String tempBill = null;
+        String expectedLastBillNo = null;
+        double max_bill_1 = 0, max_bill_2 = 0;
+        String tempBill1 = invoiceOutTable.returnCustomerBillNo(customer_id);
+        String tempBill2 = rejectionTable.returnCustomerBillNo(customer_id);
+
+        String last_max_bill_1 = invoiceOutTable.returnMaxBillNo();
+        String last_max_bill_2 = rejectionTable.returnMaxBillNo();
+
+        if (tempBill1 != null && !tempBill1.isEmpty() && tempBill1.length() == 14)
+            return tempBill1;
+        else if (tempBill2 != null && !tempBill2.isEmpty() && tempBill2.length() == 14)
+            return tempBill2;
+
+        // case to find the last max bill no
+        if (last_max_bill_1 != null && !last_max_bill_1.isEmpty() && last_max_bill_1.length() == 14)
+            max_bill_1 = Double.valueOf(last_max_bill_1);
+        if (last_max_bill_2 != null && !last_max_bill_2.isEmpty() && last_max_bill_2.length() == 14)
+            max_bill_2 = Double.valueOf(last_max_bill_2);
+
+        if (max_bill_1 > max_bill_2)
+            expectedLastBillNo = last_max_bill_1;
+        else if (max_bill_2 > max_bill_1)
+            expectedLastBillNo = last_max_bill_2;
+        else
+            expectedLastBillNo = getRouteModel().getExpectedLastBillNo();
+
+        tempBill = UtilBillNo.generateBillNo(getRouteModel().getRecId(), expectedLastBillNo);
+
+        return tempBill;
     }
 }

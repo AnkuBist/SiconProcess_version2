@@ -375,5 +375,38 @@ public class CustomerRejectionTable extends SQLiteOpenHelper {
         db.delete(TABLE_NAME, CUSTOMER_ID + "=?", new String[]{customer_id});
         db.close();
     }
+
+    /*get only the bill no of customer if any*/
+    public String returnCustomerBillNo(String customer_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select " + BILL_NO + " from " + TABLE_NAME + " where " + CUSTOMER_ID + "=?";
+
+        Cursor res = db.rawQuery(query, new String[]{customer_id});
+
+        String bill_no = "";
+        if (res.moveToFirst()) {
+            bill_no = res.getString(res.getColumnIndex(BILL_NO));
+        }
+        res.close();
+        db.close();
+        return bill_no;
+    }
+
+    /*GET MAX BILL IF ANY*/
+    public String returnMaxBillNo() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select max (" + BILL_NO + ") as expected_bill_no from " + TABLE_NAME;
+
+        Cursor res = db.rawQuery(query, null);
+
+        String bill_no = "";
+        if (res.moveToFirst()) {
+            bill_no = res.getString(res.getColumnIndex("expected_bill_no"));
+        }
+        res.close();
+        db.close();
+        return bill_no;
+    }
+
 }
 

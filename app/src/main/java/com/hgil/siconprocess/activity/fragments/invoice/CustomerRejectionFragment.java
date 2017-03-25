@@ -21,6 +21,7 @@ import com.hgil.siconprocess.adapter.productSelection.ProductSelectModel;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
+import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.utils.UtilBillNo;
 import com.hgil.siconprocess.utils.UtilNetworkLocation;
 import com.hgil.siconprocess.utils.utilPermission.UtilIMEI;
@@ -37,7 +38,8 @@ public class CustomerRejectionFragment extends BaseFragment {
     public static int FRESH_REJECTION_ID = 0;
     public static int MARKET_REJECTION_ID = 0;
     private static int REJECTION_LIST = 121;
-    private static String customerName;
+    private static String customerName, bill_no;
+
     @BindView(R.id.tvCustomerName)
     TextView tvCustomerName;
     @BindView(R.id.rvCustomerRejection)
@@ -46,9 +48,11 @@ public class CustomerRejectionFragment extends BaseFragment {
     TextView tvEmpty;
     @BindView(R.id.btnAddItems)
     Button btnAddItems;
+
     private InvoiceRejectionAdapter rejectionAdapter;
     private CustomerRejectionTable rejectionTable;
     private DepotInvoiceView depotInvoiceView;
+    private InvoiceOutTable invoiceOutTable;
     private ArrayList<CRejectionModel> arrRejection;
 
     public CustomerRejectionFragment() {
@@ -116,6 +120,11 @@ public class CustomerRejectionFragment extends BaseFragment {
 
         depotInvoiceView = new DepotInvoiceView(getContext());
         rejectionTable = new CustomerRejectionTable(getContext());
+        invoiceOutTable = new InvoiceOutTable(getContext());
+
+        // generate bill no. here only
+        bill_no = getBill_no();
+
         arrRejection = rejectionTable.getCustomerRejections(customer_id);
 
         rejectionAdapter = new InvoiceRejectionAdapter(getActivity(), arrRejection);
@@ -198,7 +207,7 @@ public class CustomerRejectionFragment extends BaseFragment {
 
                     // update bill_no, device imei_no, location and login_id
                     // time_stamp will be updated automatically;
-                    rejectionModel.setBill_no(UtilBillNo.generateBillNo());
+                    rejectionModel.setBill_no(bill_no);
                     rejectionModel.setImei_no(UtilIMEI.getIMEINumber(getContext()));
                     rejectionModel.setLat_lng(UtilNetworkLocation.getLatLng(UtilNetworkLocation.getLocation(getContext())));
                     rejectionModel.setLogin_id(getLoginId());
@@ -218,5 +227,38 @@ public class CustomerRejectionFragment extends BaseFragment {
             rejectionAdapter.notifyDataSetChanged();
             refreshScreen();
         }
+    }
+
+    private String getBill_no() {
+        String tempBill = null;
+        String expectedLastBillNo = null;
+        double max_bill_1 = 0, max_bill_2 = 0;
+        String tempBill1 = invoiceOutTable.returnCustomerBillNo(customer_id);
+        String tempBill2 = rejectionTable.returnCustomerBillNo(customer_id);
+
+        String last_max_bill_1 = invoiceOutTable.returnMaxBillNo();
+        String last_max_bill_2 = rejectionTable.returnMaxBillNo();
+
+        if (tempBill1 != null && !tempBill1.isEmpty() && tempBill1.length() == 14)
+            return tempBill1;
+        else if (tempBill2 != null && !tempBill2.isEmpty() && tempBill2.length() == 14)
+            return tempBill2;
+
+        // case to find the last max bill no
+        if (last_max_bill_1 != null && !last_max_bill_1.isEmpty() && last_max_bill_1.length() == 14)
+            max_bill_1 = Double.valueOf(last_max_bill_1);
+        if (last_max_bill_2 != null && !last_max_bill_2.isEmpty() && last_max_bill_2.length() == 14)
+            max_bill_2 = Double.valueOf(last_max_bill_2);
+
+        if (max_bill_1 > max_bill_2)
+            expectedLastBillNo = last_max_bill_1;
+        else if (max_bill_2 > max_bill_1)
+            expectedLastBillNo = last_max_bill_2;
+        else
+            expectedLastBillNo = getRouteModel().getExpectedLastBillNo();
+
+        tempBill = UtilBillNo.generateBillNo(getRouteModel().getRecId(), expectedLastBillNo);
+
+        return tempBill;
     }
 }

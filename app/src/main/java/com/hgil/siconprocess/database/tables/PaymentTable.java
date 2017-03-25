@@ -29,6 +29,7 @@ public class PaymentTable extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "payment_db";
     private static final String TABLE_NAME = "payment_table";
+
     private static final String CUSTOMER_ID = "customer_id";
     private static final String CUSTOMER_NAME = "customer_name";
     private static final String SALE_AMOUNT = "sale_amount";

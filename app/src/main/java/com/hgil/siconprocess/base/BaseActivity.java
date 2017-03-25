@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
+    protected RouteModel routeModel;
     protected String routeId, routeName, loginId;
 
     @Override
@@ -29,7 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void initiateAppInstance() {
         RouteView routeView = new RouteView(this);
-        RouteModel routeModel = routeView.getRoute();
+        routeModel = routeView.getRoute();
         routeId = routeModel.getRouteId();
         routeName = routeModel.getRouteName();
         if (routeName != null)
@@ -41,6 +42,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         SiconApp.getInstance().setRouteId(routeId);
         SiconApp.getInstance().setRouteName(routeName);
         SiconApp.getInstance().setLoginId(Utility.readPreference(this, Utility.LAST_LOGIN_ID));
+    }
+
+    public RouteModel getRouteModel() {
+        return routeModel;
     }
 
     public String getRouteId() {

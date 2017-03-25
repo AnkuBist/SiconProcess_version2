@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.activity.NavBaseActivity;
+import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
 import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.BindString;
@@ -32,6 +33,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected TextView tvNavTitle, tvNavDate;
     protected ImageView imgSave;
+    protected RouteModel routeModel;
     protected String routeId, routeName, loginId;
 
     @BindString(R.string.strRupee)
@@ -63,6 +65,7 @@ public abstract class BaseFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // setRetainInstance(true);
+        routeModel = SiconApp.getInstance().getRouteModel();
         routeId = SiconApp.getInstance().getRouteId();
         routeName = SiconApp.getInstance().getRouteName();
         loginId = SiconApp.getInstance().getLoginId();
@@ -118,6 +121,10 @@ public abstract class BaseFragment extends Fragment {
 
     public void hideSaveButton() {
         imgSave.setVisibility(View.GONE);
+    }
+
+    public RouteModel getRouteModel() {
+        return routeModel;
     }
 
     public String getRouteId() {
