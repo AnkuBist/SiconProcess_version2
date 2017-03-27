@@ -102,7 +102,12 @@ public class FinalInvoiceFragment extends BaseFragment {
         PaymentModel paymentModel = paymentTable.getCustomerPaymentInfo(customer_id);
         double todaySale = paymentModel.getSaleAmount();
         double amountCollected = paymentModel.getTotalPaidAmount();
-        double osBalance = creditOs + todaySale - amountCollected;
+        double osBalance = 0;
+        //if (todaySale > 0)
+        osBalance = creditOs + todaySale - amountCollected;
+        //  else if (todaySale < 0)
+        //      osBalance = creditOs + todaySale + amountCollected;
+
         tvTodaySale.setText(strRupee + Utility.roundTwoDecimals(todaySale));
         tvAmountCollected.setText(strRupee + Utility.roundTwoDecimals(amountCollected));
         tvOsBalance.setText(strRupee + Utility.roundTwoDecimals(osBalance));

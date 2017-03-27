@@ -311,8 +311,13 @@ public class PaymentTable extends SQLiteOpenHelper {
                 cashModel.setCustomer_id(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 cashModel.setOpening(creditOpeningTable.custCreditAmount(cashModel.getCustomer_id()));
                 cashModel.setSale(res.getDouble(res.getColumnIndex(SALE_AMOUNT)));
-                cashModel.setReceive(res.getDouble(res.getColumnIndex(TOTAL_PAID_AMOUNT)));
-                cashModel.setBalance(cashModel.getOpening() + cashModel.getSale() - cashModel.getReceive());
+                cashModel.setReceive(res.getDouble(res.getColumnIndex(CASH_PAID)));
+
+               // if (cashModel.getSale() > 0)
+                    cashModel.setBalance(cashModel.getOpening() + cashModel.getSale() - cashModel.getReceive());
+              /*  if (cashModel.getSale() < 0)
+                    cashModel.setBalance(cashModel.getOpening() + cashModel.getSale() + cashModel.getReceive());
+*/
                 cashModel.setImei_no(res.getString(res.getColumnIndex(IMEI_NO)));
                 cashModel.setLat_lng(res.getString(res.getColumnIndex(LAT_LNG)));
                 cashModel.setTime_stamp(res.getString(res.getColumnIndex(CURTIME)));
