@@ -14,6 +14,7 @@ import com.hgil.siconprocess.activity.fragments.invoiceSyncModel.CrateStockCheck
 import com.hgil.siconprocess.database.dbModels.ChequeDetailsModel;
 import com.hgil.siconprocess.database.dbModels.CrateDetailModel;
 import com.hgil.siconprocess.database.dbModels.PaymentModel;
+import com.hgil.siconprocess.database.dbModels.UpiPaymentModel;
 import com.hgil.siconprocess.database.masterTables.CrateCollectionView;
 import com.hgil.siconprocess.database.masterTables.CrateOpeningTable;
 import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
@@ -36,6 +37,10 @@ public class PaymentTable extends SQLiteOpenHelper {
     private static final String CASH_PAID = "cash_paid";
     private static final String TOTAL_PAID_AMOUNT = "total_paid_amount";
 
+    // upi payment details
+    private static final String UPI_REFERENCE_ID = "upi_payment_id";
+    private static final String UPI_AMOUNT = "upi_amount";
+
     // cheque details
     private static final String CHEQUE_NUMBER = "chequeNumber";
     private static final String CHEQUE_DATE = "chequeDate";
@@ -56,8 +61,9 @@ public class PaymentTable extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + CUSTOMER_ID + " TEXT NOT NULL, "
             + CUSTOMER_NAME + " TEXT NOT NULL, " + SALE_AMOUNT + " REAL NULL, "
-            + CASH_PAID + " REAL NULL, " + TOTAL_PAID_AMOUNT + " REAL NULL, " + CHEQUE_NUMBER + " TEXT NULL, "
-            + CHEQUE_DATE + " TEXT NULL, " + CHEQUE_AMOUNT + " REAL NULL, "
+            + CASH_PAID + " REAL NULL, " + TOTAL_PAID_AMOUNT + " REAL NULL, "
+            + UPI_REFERENCE_ID + " TEXT NULL, " + UPI_AMOUNT + " REAL NULL, "
+            + CHEQUE_NUMBER + " TEXT NULL, " + CHEQUE_DATE + " TEXT NULL, " + CHEQUE_AMOUNT + " REAL NULL, "
             + BANK_NAME + " TEXT NULL, " + BANK_BRANCH + " TEXT NULL, " + INVOICE_ID + " TEXT NULL, "
             + ISSUED_CRATES + " INTEGER NULL, " + RECEIVED_CRATES + " INTEGER NULL, "
             + IMEI_NO + " TEXT NULL, " + LAT_LNG + " TEXT NULL, " + CURTIME + " TEXT NULL, " + LOGIN_ID + " TEXT NULL, "
@@ -97,6 +103,12 @@ public class PaymentTable extends SQLiteOpenHelper {
         contentValues.put(SALE_AMOUNT, paymentModel.getSaleAmount());
         contentValues.put(CASH_PAID, paymentModel.getCashPaid());
         contentValues.put(TOTAL_PAID_AMOUNT, paymentModel.getTotalPaidAmount());
+
+        UpiPaymentModel upiModel = paymentModel.getUpiDetail();
+        if (upiModel != null) {
+            contentValues.put(UPI_REFERENCE_ID, upiModel.getPaymentReferenceId());
+            contentValues.put(UPI_AMOUNT, upiModel.getPaidAmount());
+        }
 
         ChequeDetailsModel chequeDetailsModel = paymentModel.getChequeDetail();
 
@@ -186,6 +198,12 @@ public class PaymentTable extends SQLiteOpenHelper {
             paymentModel.setLat_lng(res.getString(res.getColumnIndex(LAT_LNG)));
             paymentModel.setTime_stamp(res.getString(res.getColumnIndex(CURTIME)));
             paymentModel.setLogin_id(res.getString(res.getColumnIndex(LOGIN_ID)));
+
+            // upi payment details
+            UpiPaymentModel upiModel = new UpiPaymentModel();
+            upiModel.setPaymentReferenceId(res.getString(res.getColumnIndex(UPI_REFERENCE_ID)));
+            upiModel.setPaidAmount(res.getDouble(res.getColumnIndex(UPI_AMOUNT)));
+            paymentModel.setUpiDetail(upiModel);
 
             // cheque details
             ChequeDetailsModel chequeDetailsModel = new ChequeDetailsModel();
@@ -313,11 +331,13 @@ public class PaymentTable extends SQLiteOpenHelper {
                 cashModel.setSale(res.getDouble(res.getColumnIndex(SALE_AMOUNT)));
                 cashModel.setReceive(res.getDouble(res.getColumnIndex(CASH_PAID)));
 
-               // if (cashModel.getSale() > 0)
-                    cashModel.setBalance(cashModel.getOpening() + cashModel.getSale() - cashModel.getReceive());
+                // if (cashModel.getSale() > 0)
+                cashModel.setBalance(cashModel.getOpening() + cashModel.getSale() - cashModel.getReceive());
               /*  if (cashModel.getSale() < 0)
                     cashModel.setBalance(cashModel.getOpening() + cashModel.getSale() + cashModel.getReceive());
 */
+                cashModel.setUpi_reference_id(res.getString(res.getColumnIndex(UPI_REFERENCE_ID)));
+                cashModel.setUpi_amount(res.getDouble(res.getColumnIndex(UPI_AMOUNT)));
                 cashModel.setImei_no(res.getString(res.getColumnIndex(IMEI_NO)));
                 cashModel.setLat_lng(res.getString(res.getColumnIndex(LAT_LNG)));
                 cashModel.setTime_stamp(res.getString(res.getColumnIndex(CURTIME)));

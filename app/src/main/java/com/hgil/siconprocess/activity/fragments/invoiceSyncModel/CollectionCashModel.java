@@ -11,11 +11,29 @@ public class CollectionCashModel {
     private double sale;
     private double receive;
     private double balance;
+    private String upi_reference_id;
+    private double upi_amount;
     private String imei_no;
     private String lat_lng;
     private String time_stamp;
     private String login_id;
     private String date;
+
+    public String getUpi_reference_id() {
+        return upi_reference_id;
+    }
+
+    public void setUpi_reference_id(String upi_reference_id) {
+        this.upi_reference_id = upi_reference_id;
+    }
+
+    public double getUpi_amount() {
+        return upi_amount;
+    }
+
+    public void setUpi_amount(double upi_amount) {
+        this.upi_amount = upi_amount;
+    }
 
     public String getCustomer_id() {
         return customer_id;

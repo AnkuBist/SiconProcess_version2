@@ -18,7 +18,6 @@ import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
 import com.hgil.siconprocess.database.masterTables.CustomerInfoView;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
-import com.hgil.siconprocess.database.tables.NextDayOrderTable;
 import com.hgil.siconprocess.database.tables.PaymentTable;
 import com.hgil.siconprocess.utils.Utility;
 import com.hgil.siconprocess.utils.utilPermission.UtilsSms;
@@ -121,12 +120,12 @@ public class FinalInvoiceFragment extends BaseFragment {
         // on press cancel button please erase all recent invoice update for the user stored at local and move to the main page
         CustomerRejectionTable customerRejectionTable = new CustomerRejectionTable(getContext());
         InvoiceOutTable invoiceOutTable = new InvoiceOutTable(getContext());
-        NextDayOrderTable nextDayOrderTable = new NextDayOrderTable(getContext());
+        //NextDayOrderTable nextDayOrderTable = new NextDayOrderTable(getContext());
         PaymentTable paymentTable = new PaymentTable(getContext());
 
         customerRejectionTable.cancelInvoice(customer_id);
         invoiceOutTable.cancelInvoice(customer_id);
-        nextDayOrderTable.cancelInvoice(customer_id);
+        //nextDayOrderTable.cancelInvoice(customer_id);
         paymentTable.cancelInvoice(customer_id);
 
         // restart app or move back to the route map list

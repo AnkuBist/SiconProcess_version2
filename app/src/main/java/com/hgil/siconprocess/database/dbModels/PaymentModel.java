@@ -11,7 +11,9 @@ public class PaymentModel {
     private double saleAmount;
     // paid amount
     private double cashPaid;
+    private UpiPaymentModel upiDetail;
     private ChequeDetailsModel chequeDetail;
+
     private double totalPaidAmount;
 
     // crate data
@@ -21,6 +23,14 @@ public class PaymentModel {
     private String lat_lng;
     private String time_stamp;
     private String login_id;
+
+    public UpiPaymentModel getUpiDetail() {
+        return upiDetail;
+    }
+
+    public void setUpiDetail(UpiPaymentModel upiDetail) {
+        this.upiDetail = upiDetail;
+    }
 
     public String getCustomerId() {
         return customerId;

@@ -1,6 +1,8 @@
 package com.hgil.siconprocess.activity.fragments.invoice;
 
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +10,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,6 +20,7 @@ import com.hgil.siconprocess.activity.HomeInvoiceActivity;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.dbModels.ChequeDetailsModel;
 import com.hgil.siconprocess.database.dbModels.PaymentModel;
+import com.hgil.siconprocess.database.dbModels.UpiPaymentModel;
 import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
@@ -38,6 +43,8 @@ public class CustomerPaymentFragment extends BaseFragment {
     TextView tvCreditOs;
     @BindView(R.id.etCash)
     EditText etCash;
+    @BindView(R.id.etUpi)
+    EditText etUpi;
     @BindView(R.id.etCheque)
     EditText etCheque;
     @BindView(R.id.tvSaleAmount)
@@ -46,7 +53,9 @@ public class CustomerPaymentFragment extends BaseFragment {
     TextView tvTotalOs;
     @BindView(R.id.tvCustomerTotal)
     TextView tvCustomerTotal;
+
     private PaymentTable paymentTable;
+    private UpiPaymentModel upiDetails;
     private ChequeDetailsModel chequeDetailsModel;
 
     public CustomerPaymentFragment() {
@@ -104,13 +113,19 @@ public class CustomerPaymentFragment extends BaseFragment {
         paymentTable = new PaymentTable(getContext());
         PaymentModel paymentModel = paymentTable.getCustomerPaymentInfo(customer_id);
         chequeDetailsModel = paymentModel.getChequeDetail();
+        upiDetails = paymentModel.getUpiDetail();
+
+        if (upiDetails == null)
+            upiDetails = new UpiPaymentModel();
 
         if (chequeDetailsModel == null)
             chequeDetailsModel = new ChequeDetailsModel();
 
+
         // payment details exists then display the existing values to et and respective data
         if (paymentModel != null) {
             etCash.setText(String.valueOf(paymentModel.getCashPaid()));
+            etUpi.setText(String.valueOf(upiDetails.getPaidAmount()));
             etCheque.setText(String.valueOf(chequeDetailsModel.getChequeAmount()));
             tvCustomerTotal.setText(strRupee + paymentModel.getTotalPaidAmount());
         }
@@ -125,9 +140,10 @@ public class CustomerPaymentFragment extends BaseFragment {
                 paymentModel.setCustomerId(customer_id);
                 paymentModel.setCustomerName(customer_name);
                 paymentModel.setSaleAmount(saleTotal);
+                paymentModel.setUpiDetail(upiDetails);
                 paymentModel.setChequeDetail(chequeDetailsModel);
                 paymentModel.setCashPaid(Utility.getDouble(etCash.getText().toString().trim()));
-                paymentModel.setTotalPaidAmount(Utility.getDouble(String.valueOf(paymentModel.getCashPaid() + paymentModel.getChequeDetail().getChequeAmount())));
+                paymentModel.setTotalPaidAmount(Utility.getDouble(String.valueOf(paymentModel.getCashPaid() + paymentModel.getUpiDetail().getPaidAmount() + paymentModel.getChequeDetail().getChequeAmount())));
 
                 // update device imei_no, location and login_id
                 // time_stamp will be updated automatically;
@@ -161,6 +177,18 @@ public class CustomerPaymentFragment extends BaseFragment {
             }
         });
 
+        etUpi.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (MotionEvent.ACTION_UP == event.getAction()) {
+                    // start dialog here
+                    UpiPaymentDialog cdd = new UpiPaymentDialog(getActivity(), upiDetails);
+                    cdd.show();
+                }
+                return false;
+            }
+        });
+
         // etCheque.setEnabled(false);
         etCheque.setOnTouchListener(new View.OnTouchListener()
 
@@ -178,6 +206,10 @@ public class CustomerPaymentFragment extends BaseFragment {
         });
     }
 
+    public void setUpiDetails(UpiPaymentModel upiPaymentModel) {
+        this.upiDetails = upiPaymentModel;
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -191,6 +223,75 @@ public class CustomerPaymentFragment extends BaseFragment {
 
                 tvCustomerTotal.setText(strRupee + Utility.roundTwoDecimals(chequeDetailsModel.getChequeAmount() + Utility.roundTwoDecimals(Utility.getDouble(etCash.getText().toString()))));
                 etCheque.setText(String.valueOf(Utility.roundTwoDecimals(chequeDetailsModel.getChequeAmount())));
+            }
+        }
+    }
+
+
+    /*customize dialog for UPI payment*/
+    /*private void upiPaymentDialog() {
+
+    }*/
+
+    public class UpiPaymentDialog extends Dialog implements
+            android.view.View.OnClickListener {
+
+        public Activity c;
+        public Dialog d;
+        public UpiPaymentModel upiDetails;
+        public Button yes, no;
+        public EditText etUpiReferenceId, etUpiAmount;
+
+        public UpiPaymentDialog(Activity a, UpiPaymentModel upiDetails) {
+            super(a);
+            this.c = a;
+            this.upiDetails = upiDetails;
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setContentView(R.layout.dialog_upi_payment_details);
+            yes = (Button) findViewById(R.id.btnCancel);
+            no = (Button) findViewById(R.id.btnSubmit);
+            etUpiReferenceId = (EditText) findViewById(R.id.etUpiReferenceId);
+            etUpiAmount = (EditText) findViewById(R.id.etUpiAmount);
+
+            if (upiDetails != null) {
+                etUpiReferenceId.setText(upiDetails.getPaymentReferenceId());
+                etUpiAmount.setText(String.valueOf(upiDetails.getPaidAmount()));
+            }
+
+            yes.setOnClickListener(this);
+            no.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btnCancel:
+                    dismiss();
+                    break;
+                case R.id.btnSubmit:
+                    String reference_id = etUpiReferenceId.getText().toString();
+                    String amount = etUpiAmount.getText().toString();
+                    if (reference_id.isEmpty()) {
+                        etUpiReferenceId.requestFocus();
+                        etUpiReferenceId.setError("Enter reference id");
+                    } else if (amount.isEmpty() || Utility.getDouble(amount) <= 0) {
+                        etUpiAmount.requestFocus();
+                        etUpiAmount.setError("Enter some payment amount");
+                    } else {
+                        // now submit and update upi payment detail
+                        upiDetails.setPaymentReferenceId(reference_id);
+                        upiDetails.setPaidAmount(Utility.getDouble(amount));
+                        setUpiDetails(upiDetails);
+                        dismiss();
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }
