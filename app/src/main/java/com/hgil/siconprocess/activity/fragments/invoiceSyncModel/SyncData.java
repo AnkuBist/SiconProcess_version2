@@ -18,7 +18,16 @@ public class SyncData {
     private CashCheck cashCheck;
     private CrateCheck crateCheck;
     private VanStockCheck vanStockCheck;
+    private ArrayList<CollectionChequeModel> chequeCollection;
     private ArrayList<NextDayOrderModel> arrNextDayOrder;
+
+    public ArrayList<CollectionChequeModel> getChequeCollection() {
+        return chequeCollection;
+    }
+
+    public void setChequeCollection(ArrayList<CollectionChequeModel> chequeCollection) {
+        this.chequeCollection = chequeCollection;
+    }
 
     public ArrayList<NextDayOrderModel> getArrNextDayOrder() {
         return arrNextDayOrder;

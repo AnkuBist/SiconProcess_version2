@@ -31,6 +31,16 @@ public class DaySummaryFragment extends BaseFragment {
     @BindView(R.id.tvAvgBillValue)
     TextView tvAvgBillValue;
 
+    /*total colleted amount on route*/
+    @BindView(R.id.tvTotalCollection)
+    TextView tvTotalCollection;
+    @BindView(R.id.tvCash)
+    TextView tvCash;
+    @BindView(R.id.tvUPI)
+    TextView tvUPI;
+    @BindView(R.id.tvCheque)
+    TextView tvCheque;
+
     public DaySummaryFragment() {
         // Required empty public constructor
     }
@@ -77,7 +87,7 @@ public class DaySummaryFragment extends BaseFragment {
 
         // get total bill value
         double totalBillValue = paymentTable.getRouteSale();
-        tvTotalBillValue.setText(String.valueOf(Utility.roundOff(totalBillValue)));
+        tvTotalBillValue.setText(strRupee + String.valueOf(Utility.roundOff(totalBillValue)));
 
         // calculate average bill value
         double avgBill = 0;
@@ -86,6 +96,13 @@ public class DaySummaryFragment extends BaseFragment {
 
         if (Double.isNaN(avgBill))
             avgBill = 0;
-        tvAvgBillValue.setText(String.valueOf(Utility.roundOff(avgBill)));
+        tvAvgBillValue.setText(strRupee + String.valueOf(Utility.roundOff(avgBill)));
+
+        /*route collection details*/
+        DaySummaryAmountCollectionModel cModel = paymentTable.routeCollectionDetail();
+        tvTotalCollection.setText(strRupee + cModel.getTotalCollection());
+        tvCash.setText(strRupee + cModel.getCashCollected());
+        tvUPI.setText(strRupee + cModel.getUPIAmount());
+        tvCheque.setText(strRupee + cModel.getChequeAmount());
     }
 }

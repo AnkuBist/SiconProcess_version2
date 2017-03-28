@@ -136,7 +136,19 @@ public class CustomerRejectionFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 // save rejections to table here only and move to the final payment fragment
+                //TODO --only if the rejections amount is less than the sale amount
+                double customer_sale_amount = invoiceOutTable.custInvoiceTotalAmount(customer_id);
+
+                //TODO parse arrRejection to calculate rejection amount then compare sale and rejection amount and then proceed to make rejection against invoice
+
+                double customer_rejection_amount = 0;
+                for (CRejectionModel rejModel : arrRejection) {
+
+                }
+
+
                 rejectionTable.insertCustRejections(arrRejection, customer_id);
+
 
                 // show snackbar message
                 showSnackbar(getView(), "Rejected items details saved successfully to Invoice.");

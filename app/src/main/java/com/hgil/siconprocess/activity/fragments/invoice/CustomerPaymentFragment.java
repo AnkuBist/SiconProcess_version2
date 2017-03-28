@@ -4,6 +4,8 @@ package com.hgil.siconprocess.activity.fragments.invoice;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -11,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -143,7 +146,7 @@ public class CustomerPaymentFragment extends BaseFragment {
                 paymentModel.setUpiDetail(upiDetails);
                 paymentModel.setChequeDetail(chequeDetailsModel);
                 paymentModel.setCashPaid(Utility.getDouble(etCash.getText().toString().trim()));
-                paymentModel.setTotalPaidAmount(Utility.getDouble(String.valueOf(paymentModel.getCashPaid() + paymentModel.getUpiDetail().getPaidAmount() + paymentModel.getChequeDetail().getChequeAmount())));
+                paymentModel.setTotalPaidAmount(Utility.getDouble(String.valueOf(paymentModel.getCashPaid() + paymentModel.getUpiDetail().getPaidAmount()))); //+ paymentModel.getChequeDetail().getChequeAmount())));
 
                 // update device imei_no, location and login_id
                 // time_stamp will be updated automatically;
@@ -172,8 +175,9 @@ public class CustomerPaymentFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                double chequeAmount = Utility.roundTwoDecimals(Utility.getDouble(etCheque.getText().toString()));
-                tvCustomerTotal.setText(strRupee + (chequeAmount + Utility.roundTwoDecimals(Utility.getDouble(etCash.getText().toString()))));
+                updateTotalAmount();
+                //double chequeAmount = Utility.roundTwoDecimals(Utility.getDouble(etCheque.getText().toString()));
+                //tvCustomerTotal.setText(strRupee + (chequeAmount + Utility.roundTwoDecimals(Utility.getDouble(etCash.getText().toString()))));
             }
         });
 
@@ -181,9 +185,23 @@ public class CustomerPaymentFragment extends BaseFragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (MotionEvent.ACTION_UP == event.getAction()) {
+
+                    etCash.requestFocus();
+
                     // start dialog here
                     UpiPaymentDialog cdd = new UpiPaymentDialog(getActivity(), upiDetails);
+                    cdd.setCancelable(false);
                     cdd.show();
+
+                    //Grab the window of the dialog, and change the width
+                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                    Window window = cdd.getWindow();
+                    lp.copyFrom(window.getAttributes());
+                    //This makes the dialog take up the full width
+                    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                    window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    window.setAttributes(lp);
                 }
                 return false;
             }
@@ -221,7 +239,8 @@ public class CustomerPaymentFragment extends BaseFragment {
                 chequeDetailsModel.setCustomer_name(customer_name);
                 chequeDetailsModel.setCustomer_id(customer_id);
 
-                tvCustomerTotal.setText(strRupee + Utility.roundTwoDecimals(chequeDetailsModel.getChequeAmount() + Utility.roundTwoDecimals(Utility.getDouble(etCash.getText().toString()))));
+                updateTotalAmount();
+                //tvCustomerTotal.setText(strRupee + Utility.roundTwoDecimals(chequeDetailsModel.getChequeAmount() + Utility.roundTwoDecimals(Utility.getDouble(etCash.getText().toString()))));
                 etCheque.setText(String.valueOf(Utility.roundTwoDecimals(chequeDetailsModel.getChequeAmount())));
             }
         }
@@ -287,6 +306,8 @@ public class CustomerPaymentFragment extends BaseFragment {
                         upiDetails.setPaymentReferenceId(reference_id);
                         upiDetails.setPaidAmount(Utility.getDouble(amount));
                         setUpiDetails(upiDetails);
+                        etUpi.setText(amount);
+                        updateTotalAmount();
                         dismiss();
                     }
                     break;
@@ -294,5 +315,10 @@ public class CustomerPaymentFragment extends BaseFragment {
                     break;
             }
         }
+    }
+
+    private void updateTotalAmount() {
+        //(double cash_amount, double cheque_amount, double upi_amount) {
+        tvCustomerTotal.setText(strRupee + Utility.roundTwoDecimals(Utility.getDouble(etCash.getText().toString()) + upiDetails.getPaidAmount())); //+ chequeDetailsModel.getChequeAmount()));
     }
 }

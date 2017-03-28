@@ -7,8 +7,10 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.hgil.siconprocess.activity.fragments.dashboard.DaySummaryAmountCollectionModel;
 import com.hgil.siconprocess.activity.fragments.invoiceSyncModel.CashCheck;
 import com.hgil.siconprocess.activity.fragments.invoiceSyncModel.CollectionCashModel;
+import com.hgil.siconprocess.activity.fragments.invoiceSyncModel.CollectionChequeModel;
 import com.hgil.siconprocess.activity.fragments.invoiceSyncModel.CollectionCrateModel;
 import com.hgil.siconprocess.activity.fragments.invoiceSyncModel.CrateStockCheck;
 import com.hgil.siconprocess.database.dbModels.ChequeDetailsModel;
@@ -332,12 +334,14 @@ public class PaymentTable extends SQLiteOpenHelper {
                 cashModel.setReceive(res.getDouble(res.getColumnIndex(CASH_PAID)));
 
                 // if (cashModel.getSale() > 0)
-                cashModel.setBalance(cashModel.getOpening() + cashModel.getSale() - cashModel.getReceive());
               /*  if (cashModel.getSale() < 0)
                     cashModel.setBalance(cashModel.getOpening() + cashModel.getSale() + cashModel.getReceive());
 */
                 cashModel.setUpi_reference_id(res.getString(res.getColumnIndex(UPI_REFERENCE_ID)));
                 cashModel.setUpi_amount(res.getDouble(res.getColumnIndex(UPI_AMOUNT)));
+
+                cashModel.setBalance(cashModel.getOpening() + cashModel.getSale() - cashModel.getReceive() - cashModel.getUpi_amount());
+
                 cashModel.setImei_no(res.getString(res.getColumnIndex(IMEI_NO)));
                 cashModel.setLat_lng(res.getString(res.getColumnIndex(LAT_LNG)));
                 cashModel.setTime_stamp(res.getString(res.getColumnIndex(CURTIME)));
@@ -352,7 +356,38 @@ public class PaymentTable extends SQLiteOpenHelper {
         return array_list;
     }
 
-    // customer cash collection details
+    /*route cheque collection details*/
+    public ArrayList<CollectionChequeModel> syncChequeDetail(String route_id) {
+        ArrayList<CollectionChequeModel> array_list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + CHEQUE_AMOUNT + ">0 ", null);
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                CollectionChequeModel chequeModel = new CollectionChequeModel();
+
+                chequeModel.setRoute_id(route_id);
+                chequeModel.setCustomer_id(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+                chequeModel.setCheque_no(res.getString(res.getColumnIndex(CHEQUE_NUMBER)));
+                chequeModel.setCheque_date(res.getString(res.getColumnIndex(CHEQUE_DATE)));
+                chequeModel.setCheque_amount(res.getDouble(res.getColumnIndex(CHEQUE_AMOUNT)));
+                chequeModel.setBank_name(res.getString(res.getColumnIndex(BANK_NAME)));
+                chequeModel.setBranch_name(res.getString(res.getColumnIndex(BANK_BRANCH)));
+                chequeModel.setImei_no(res.getString(res.getColumnIndex(IMEI_NO)));
+                chequeModel.setLat_lng(res.getString(res.getColumnIndex(LAT_LNG)));
+                chequeModel.setTime_stamp(res.getString(res.getColumnIndex(CURTIME)));
+                chequeModel.setLogin_id(res.getString(res.getColumnIndex(LOGIN_ID)));
+                chequeModel.setDate(res.getString(res.getColumnIndex(DATE)));
+
+                array_list.add(chequeModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return array_list;
+    }
+
+    // customer crate collection details
     public ArrayList<CollectionCrateModel> syncCrateDetail() {
         ArrayList<CollectionCrateModel> array_list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -432,5 +467,24 @@ public class PaymentTable extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, CUSTOMER_ID + "=?", new String[]{customer_id});
         db.close();
+    }
+
+    /*amounts for day summary*/
+    public DaySummaryAmountCollectionModel routeCollectionDetail() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor res = db.rawQuery("SELECT sum(" + CASH_PAID + ") as cash_paid, sum(" + UPI_AMOUNT + ") as upi_amount, "
+                + "sum(" + CHEQUE_AMOUNT + ") as cheque_amount FROM " + TABLE_NAME, null);
+
+        DaySummaryAmountCollectionModel cModel = new DaySummaryAmountCollectionModel();
+        if (res.moveToFirst()) {
+            cModel.setCashCollected(res.getDouble(res.getColumnIndex("cash_paid")));
+            cModel.setUPIAmount(res.getDouble(res.getColumnIndex("upi_amount")));
+            cModel.setChequeAmount(res.getDouble(res.getColumnIndex("cheque_amount")));
+            cModel.setTotalCollection(cModel.getCashCollected() + cModel.getUPIAmount());
+        }
+        res.close();
+        db.close();
+        return cModel;
     }
 }

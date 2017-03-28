@@ -26,5 +26,12 @@
 
 
     <string name="strRupee">\u20B9</string>
+    <string name="strBullet">\u2022</string>
+    <string name="strHollowBullet">\u25CB</string>
+    <string name="strFilledArrow">\u25BA</string>
+    <string name="strBulletCash">\u25CF Cash</string>
+    <string name="strBulletUPI">\u25CF UPI Payment</string>
+    <string name="strBulletCheque">\u25CF Cheque Payment</string>
+
     <string name="title_activity_product_list_select">ProductListSelectActivity</string>
 </resources>

@@ -162,6 +162,7 @@ public class SyncFragment extends BaseFragment {
         syncData.setCashCheck(cashCheck);
         syncData.setCrateCheck(crateCheck);
         syncData.setVanStockCheck(vanStockCheck);
+        syncData.setChequeCollection(paymentTable.syncChequeDetail(routeId));
         syncData.setArrNextDayOrder(nextDayOrderTable.getRouteOrder());
 
         String json = new Gson().toJson(syncData);

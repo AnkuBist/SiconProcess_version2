@@ -38,6 +38,8 @@ public abstract class BaseFragment extends Fragment {
 
     @BindString(R.string.strRupee)
     protected String strRupee;
+    @BindString(R.string.strBullet)
+    protected String strBullet;
 
     // sample snackbar
     public static void showSnackbar(View view, String message) {
