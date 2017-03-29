@@ -8,6 +8,7 @@ public class Constant {
 
     public static final String HEAD_CASHIER_CODE = "1234";
     public static final String CUSTCLASSIFICATIONID = "Institutional";
+    public static final String PSM_CODE = "121";
 
     public static final String DB_CRATE_OPENING = "Sicon_crate_opening";
     public static final String CRATE_OPENING_MASTER_TABLE = "SD_CustomerCrate_Opening_Master";

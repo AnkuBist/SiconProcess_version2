@@ -6,6 +6,10 @@
             android:icon="@mipmap/ic_launcher"
             android:title="@string/str_nav_home" />
         <item
+            android:id="@+id/nav_customer_order"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/str_nav_customer_order" />
+        <item
             android:id="@+id/nav_dashboard"
             android:icon="@mipmap/ic_launcher"
             android:title="@string/str_nav_dashboard" />

@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:name=".base.SiconApp"
@@ -16,7 +16,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -51,6 +50,7 @@
         <activity
             android:name=".activity.HomeInvoiceActivity"
             android:theme="@style/AppTheme" />
+        <activity android:name=".activity.fragments.customerOrder.OrderProductListActivity" />
     </application>
 
 </manifest>

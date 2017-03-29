@@ -9,6 +9,7 @@
 
     <!--drawer items names-->
     <string name="str_nav_home">Home</string>
+    <string name="str_nav_customer_order">Tomorrow\'s Order</string>
     <string name="str_nav_dashboard">Dashboard</string>
     <string name="str_nav_inventory">Van Inventory</string>
     <string name="str_nav_final_payment">Final Payment</string>

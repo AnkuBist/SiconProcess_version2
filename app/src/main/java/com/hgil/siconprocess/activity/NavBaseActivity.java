@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.navFragments.CustomerOrderFragment;
 import com.hgil.siconprocess.activity.navFragments.DashboardFragment;
 import com.hgil.siconprocess.activity.navFragments.FinalPaymentFragment;
 import com.hgil.siconprocess.activity.navFragments.HomeFragment;
@@ -146,6 +147,9 @@ public class NavBaseActivity extends BaseActivity {
         switch (menuItem.getItemId()) {
             case R.id.nav_home:
                 fragment = HomeFragment.newInstance();
+                break;
+            case R.id.nav_customer_order:
+                fragment = CustomerOrderFragment.newInstance();
                 break;
             case R.id.nav_dashboard:
                 fragment = DashboardFragment.newInstance();

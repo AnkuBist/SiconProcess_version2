@@ -1,0 +1,56 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hgil.siconprocess.activity.navFragments.CustomerOrderFragment">
+
+    <TextView
+        android:id="@+id/tvRouteName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorBackgroundBlack"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_extra_large" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/FinalTvLabel"
+            android:layout_marginTop="30dp"
+            android:text="Enter PSM password to make customer orders" />
+
+        <EditText
+            android:id="@+id/etPSMpass"
+            style="@style/RejectionEtStyle"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:gravity="left"
+            android:inputType="text"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:paddingBottom="15dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="15dp"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_size_large" />
+
+    </LinearLayout>
+
+</FrameLayout>
