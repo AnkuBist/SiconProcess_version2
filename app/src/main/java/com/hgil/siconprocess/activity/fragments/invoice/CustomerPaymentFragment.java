@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
@@ -25,9 +26,11 @@ import com.hgil.siconprocess.database.dbModels.ChequeDetailsModel;
 import com.hgil.siconprocess.database.dbModels.PaymentModel;
 import com.hgil.siconprocess.database.dbModels.UpiPaymentModel;
 import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
+import com.hgil.siconprocess.database.masterTables.CustomerRouteMappingView;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.database.tables.PaymentTable;
+import com.hgil.siconprocess.utils.Constant;
 import com.hgil.siconprocess.utils.UtilNetworkLocation;
 import com.hgil.siconprocess.utils.Utility;
 import com.hgil.siconprocess.utils.utilPermission.UtilIMEI;
@@ -56,6 +59,12 @@ public class CustomerPaymentFragment extends BaseFragment {
     TextView tvTotalOs;
     @BindView(R.id.tvCustomerTotal)
     TextView tvCustomerTotal;
+
+    /*base layouts*/
+    @BindView(R.id.layoutPayment)
+    LinearLayout layoutPayment;
+    @BindView(R.id.layoutTotal)
+    LinearLayout layoutTotal;
 
     private PaymentTable paymentTable;
     private UpiPaymentModel upiDetails;
@@ -94,6 +103,18 @@ public class CustomerPaymentFragment extends BaseFragment {
 
         if (customer_name != null) {
             tvCustomerName.setText(customer_name);
+        }
+
+        // check customer CUSTCLASSIFICATIONID
+        CustomerRouteMappingView customerRouteMappingView = new CustomerRouteMappingView(getContext());
+        String custClassificationId = customerRouteMappingView.getCustomerClassification(customer_id);
+        //if customer is institutional customer than hide the payment steps
+        if (custClassificationId.matches(Constant.CUSTCLASSIFICATIONID)) {
+            layoutPayment.setVisibility(View.GONE);
+            layoutTotal.setVisibility(View.GONE);
+        } else {
+            layoutPayment.setVisibility(View.VISIBLE);
+            layoutTotal.setVisibility(View.VISIBLE);
         }
 
         // get customer credit outstanding

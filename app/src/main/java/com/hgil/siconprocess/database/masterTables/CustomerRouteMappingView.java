@@ -255,4 +255,19 @@ public class CustomerRouteMappingView extends SQLiteOpenHelper {
         db.close();
         return array_list;
     }
+
+    /*get customer classification id*/
+    public String getCustomerClassification(String customer_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT " + CUSTCLASSIFICATIONID + " FROM " + TABLE_NAME + " WHERE " + CUSTOMER_ID + "=?", new String[]{customer_id});
+
+        String classification_id = "";
+        if (res.moveToFirst()) {
+            classification_id = res.getString(res.getColumnIndex(CUSTCLASSIFICATIONID));
+        }
+        res.close();
+        db.close();
+        return classification_id;
+    }
+
 }

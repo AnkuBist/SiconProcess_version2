@@ -24,6 +24,7 @@ import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.utils.UtilBillNo;
 import com.hgil.siconprocess.utils.UtilNetworkLocation;
+import com.hgil.siconprocess.utils.ui.SampleDialog;
 import com.hgil.siconprocess.utils.utilPermission.UtilIMEI;
 
 import java.util.ArrayList;
@@ -140,23 +141,34 @@ public class CustomerRejectionFragment extends BaseFragment {
                 double customer_sale_amount = invoiceOutTable.custInvoiceTotalAmount(customer_id);
 
                 //TODO parse arrRejection to calculate rejection amount then compare sale and rejection amount and then proceed to make rejection against invoice
-
                 double customer_rejection_amount = 0;
                 for (CRejectionModel rejModel : arrRejection) {
+                    FreshRejectionModel freshRejection = rejModel.getFreshRejection();
+                    MarketRejectionModel marketRejection = rejModel.getMarketRejection();
 
+                    int fresh_total_rej = 0, market_total_rej = 0;
+                    if (freshRejection != null)
+                        fresh_total_rej = freshRejection.getTotal();
+
+                    if (marketRejection != null)
+                        market_total_rej = marketRejection.getTotal();
+
+                    customer_rejection_amount += ((market_total_rej + fresh_total_rej) * rejModel.getPrice());
                 }
 
+                if (customer_rejection_amount < customer_sale_amount) {
+                    rejectionTable.insertCustRejections(arrRejection, customer_id);
 
-                rejectionTable.insertCustRejections(arrRejection, customer_id);
+                    // show snackbar message
+                    showSnackbar(getView(), "Rejected items details saved successfully to Invoice.");
 
-
-                // show snackbar message
-                showSnackbar(getView(), "Rejected items details saved successfully to Invoice.");
-
-                // now move to next fragment to make payment and display the user payment
-                // start rejection fragment
-                CustomerPaymentFragment fragment = CustomerPaymentFragment.newInstance(customer_id, customer_name);
-                launchInvoiceFragment(fragment);
+                    // now move to next fragment to make payment and display the user payment
+                    // start rejection fragment
+                    CustomerPaymentFragment fragment = CustomerPaymentFragment.newInstance(customer_id, customer_name);
+                    launchInvoiceFragment(fragment);
+                } else {
+                    new SampleDialog("Rejection total amount cannot be greater than Total Sale Amount.", getContext());
+                }
             }
         });
 
