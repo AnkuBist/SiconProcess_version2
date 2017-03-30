@@ -98,7 +98,7 @@ public class UtilNetworkLocation {
         network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         Location net_loc = null, gps_loc = null, finalLoc = null;
-        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             if (gps_enabled)
                 gps_loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (network_enabled)
