@@ -22,9 +22,9 @@
     <string name="str_nav_goods_return">Goods Return</string>
     <string name="str_nav_payment">Payment</string>
     <string name="str_nav_crate_management">Crates Management</string>
-    <string name="str_nav_tomorrow_order">Tomorrow\'s Order</string>
+    <!--<string name="str_nav_tomorrow_order">Tomorrow\'s Order</string>-->
+    <string name="str_nav_market_product">Market Product</string>
     <string name="str_nav_final_invoice">Invoice</string>
-
 
     <string name="strRupee">\u20B9</string>
     <string name="strBullet">\u2022</string>

@@ -21,6 +21,7 @@ import com.hgil.siconprocess.database.masterTables.CrateCollectionView;
 import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
+import com.hgil.siconprocess.database.tables.MarketProductTable;
 import com.hgil.siconprocess.database.tables.NextDayOrderTable;
 import com.hgil.siconprocess.database.tables.PaymentTable;
 import com.hgil.siconprocess.retrofit.RetrofitService;
@@ -51,6 +52,7 @@ public class SyncFragment extends BaseFragment {
     private CustomerRejectionTable rejectionTable;
     private PaymentTable paymentTable;
     private NextDayOrderTable nextDayOrderTable;
+    private MarketProductTable marketProductTable;
 
     public SyncFragment() {
         // Required empty public constructor
@@ -92,6 +94,7 @@ public class SyncFragment extends BaseFragment {
         rejectionTable = new CustomerRejectionTable(getContext());
         paymentTable = new PaymentTable(getContext());
         nextDayOrderTable = new NextDayOrderTable(getContext());
+        marketProductTable = new MarketProductTable(getContext());
     }
 
     /*preparing data to sync whole day process*/
@@ -151,7 +154,7 @@ public class SyncFragment extends BaseFragment {
         * 5. total item in van(loaded-sold+rejection)
         * */
 
-        // finally convert all object and array data into jsonobject and send as object data to server side api;
+        // finally convert all object and array data into jsonObject and send as object data to server side api;
         SyncData syncData = new SyncData();
 
         syncData.setSyncInvoice(syncInvoice);
@@ -164,6 +167,7 @@ public class SyncFragment extends BaseFragment {
         syncData.setVanStockCheck(vanStockCheck);
         syncData.setChequeCollection(paymentTable.syncChequeDetail(routeId));
         syncData.setArrNextDayOrder(nextDayOrderTable.getRouteOrder());
+        syncData.setArrMaketProductsSummary(marketProductTable.getRouteOrder());
 
         String json = new Gson().toJson(syncData);
         JSONObject jObj = null;
@@ -225,6 +229,7 @@ public class SyncFragment extends BaseFragment {
         rejectionTable.eraseTable();
         invoiceOutTable.eraseTable();
         paymentTable.eraseTable();
-        nextDayOrderTable.eraseTable();
+        // nextDayOrderTable.eraseTable();
+        marketProductTable.eraseTable();
     }
 }

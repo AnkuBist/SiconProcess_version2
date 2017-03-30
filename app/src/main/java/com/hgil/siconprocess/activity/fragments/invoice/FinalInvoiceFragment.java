@@ -18,6 +18,7 @@ import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
 import com.hgil.siconprocess.database.masterTables.CustomerInfoView;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
+import com.hgil.siconprocess.database.tables.MarketProductTable;
 import com.hgil.siconprocess.database.tables.PaymentTable;
 import com.hgil.siconprocess.utils.Utility;
 import com.hgil.siconprocess.utils.utilPermission.UtilsSms;
@@ -122,18 +123,18 @@ public class FinalInvoiceFragment extends BaseFragment {
         InvoiceOutTable invoiceOutTable = new InvoiceOutTable(getContext());
         //NextDayOrderTable nextDayOrderTable = new NextDayOrderTable(getContext());
         PaymentTable paymentTable = new PaymentTable(getContext());
+        MarketProductTable marketProductTable = new MarketProductTable(getContext());
 
         customerRejectionTable.cancelInvoice(customer_id);
         invoiceOutTable.cancelInvoice(customer_id);
         //nextDayOrderTable.cancelInvoice(customer_id);
         paymentTable.cancelInvoice(customer_id);
+        marketProductTable.cancelInvoice(customer_id);
 
         // restart app or move back to the route map list
         getContext().startActivity(new Intent(getContext(), NavBaseActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         ((HomeInvoiceActivity) getContext()).finish();
         ((HomeInvoiceActivity) getContext()).overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-
-
     }
 
     @OnClick(R.id.btnSendSms)

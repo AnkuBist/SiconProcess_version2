@@ -1,6 +1,8 @@
 package com.hgil.siconprocess.activity.fragments.invoiceSyncModel;
 
+import com.hgil.siconprocess.database.dbModels.MarketProductModel;
 import com.hgil.siconprocess.database.dbModels.NextDayOrderModel;
+import com.hgil.siconprocess.database.tables.MarketProductTable;
 
 import java.util.ArrayList;
 
@@ -20,6 +22,15 @@ public class SyncData {
     private VanStockCheck vanStockCheck;
     private ArrayList<CollectionChequeModel> chequeCollection;
     private ArrayList<NextDayOrderModel> arrNextDayOrder;
+    private ArrayList<MarketProductModel> arrMaketProductsSummary;
+
+    public ArrayList<MarketProductModel> getArrMaketProductsSummary() {
+        return arrMaketProductsSummary;
+    }
+
+    public void setArrMaketProductsSummary(ArrayList<MarketProductModel> arrMaketProductsSummary) {
+        this.arrMaketProductsSummary = arrMaketProductsSummary;
+    }
 
     public ArrayList<CollectionChequeModel> getChequeCollection() {
         return chequeCollection;

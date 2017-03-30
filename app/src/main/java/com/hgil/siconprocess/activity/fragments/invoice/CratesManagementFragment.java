@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.fragments.invoice.makeOrderInvoice.TomorrowOrderFragment;
+import com.hgil.siconprocess.activity.fragments.clientMarket.CustOtherMarketProductDetailsFragment;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.dbModels.CrateDetailModel;
 import com.hgil.siconprocess.database.masterTables.CrateOpeningTable;
@@ -149,7 +149,7 @@ public class CratesManagementFragment extends BaseFragment {
                 showSnackbar(getView(), "Crates details saved successfully.");
 
                 //move to next fragment
-                TomorrowOrderFragment fragment = TomorrowOrderFragment.newInstance(customer_id, customer_name);
+                CustOtherMarketProductDetailsFragment fragment = CustOtherMarketProductDetailsFragment.newInstance(customer_id, customer_name);
                 launchInvoiceFragment(fragment);
             }
         });

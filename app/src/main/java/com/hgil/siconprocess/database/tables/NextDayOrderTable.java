@@ -206,11 +206,11 @@ public class NextDayOrderTable extends SQLiteOpenHelper {
     }
 
     // cancel customer prepared invoice
-    public void cancelInvoice(String customer_id) {
+    /*public void cancelInvoice(String customer_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, CUSTOMER_ID + "=?", new String[]{customer_id});
         db.close();
-    }
+    }*/
 
     /*// get item demand for customer
     public int getDemandQuantity(String customer_id, String item_id) {

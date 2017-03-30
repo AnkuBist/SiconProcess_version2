@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.fragments.clientMarket.CustOtherMarketProductDetailsFragment;
 import com.hgil.siconprocess.activity.fragments.invoice.CratesManagementFragment;
 import com.hgil.siconprocess.activity.fragments.invoice.CustomerPaymentFragment;
 import com.hgil.siconprocess.activity.fragments.invoice.CustomerRejectionFragment;
@@ -167,8 +168,8 @@ public class HomeInvoiceActivity extends BaseActivity {
             case R.id.nav_crate_management:
                 fragment = CratesManagementFragment.newInstance(customer_id, customer_name);
                 break;
-            case R.id.nav_tomorrow_order:
-                fragment = TomorrowOrderFragment.newInstance(customer_id, customer_name);
+            case R.id.nav_market_product:
+                fragment = CustOtherMarketProductDetailsFragment.newInstance(customer_id, customer_name);
                 break;
             case R.id.nav_final_invoice:
                 fragment = FinalInvoiceFragment.newInstance(customer_id, customer_name);
