@@ -28,12 +28,12 @@ import com.hgil.siconprocess.database.masterTables.DemandTargetTable;
 import com.hgil.siconprocess.database.masterTables.DepotEmployeeView;
 import com.hgil.siconprocess.database.masterTables.DepotInvoiceView;
 import com.hgil.siconprocess.database.masterTables.FixedSampleTable;
-import com.hgil.siconprocess.database.masterTables.PriceGroupView;
 import com.hgil.siconprocess.database.masterTables.ProductView;
 import com.hgil.siconprocess.database.masterTables.RejectionTargetTable;
 import com.hgil.siconprocess.database.masterTables.RouteView;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
+import com.hgil.siconprocess.database.tables.MarketProductTable;
 import com.hgil.siconprocess.database.tables.NextDayOrderTable;
 import com.hgil.siconprocess.database.tables.PaymentTable;
 import com.hgil.siconprocess.retrofit.RetrofitService;
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
     private CustomerRouteMappingView dbRouteMapView;
     private CustomerInfoView dbCustomerInfoView;
     private CustomerItemPriceTable dbCustomerItemPrice;
-    private PriceGroupView dbPriceGroup;
+    //private PriceGroupView dbPriceGroup;
     private ProductView dbProductView;
     private CreditOpeningTable dbCreditOpening;
     private CrateOpeningTable dbCrateOpening;
@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
     private CustomerRejectionTable rejectionTable;
     private PaymentTable paymentTable;
     private NextDayOrderTable nextDayOrderTable;
+    private MarketProductTable marketProductTable;
 
     private String existing_id = "", saved_id = "";
 
@@ -122,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
         dbRouteMapView = new CustomerRouteMappingView(this);
         dbCustomerInfoView = new CustomerInfoView(this);
         dbCustomerItemPrice = new CustomerItemPriceTable(this);
-        dbPriceGroup = new PriceGroupView(this);
+        //dbPriceGroup = new PriceGroupView(this);
         dbProductView = new ProductView(this);
         dbCreditOpening = new CreditOpeningTable(this);
         dbCrateOpening = new CrateOpeningTable(this);
@@ -193,7 +194,7 @@ public class LoginActivity extends AppCompatActivity {
         dbRouteMapView.eraseTable();
         dbCustomerInfoView.eraseTable();
         dbCustomerItemPrice.eraseTable();
-        dbPriceGroup.eraseTable();
+        //dbPriceGroup.eraseTable();
         dbProductView.eraseTable();
         dbCreditOpening.eraseTable();
         dbCrateOpening.eraseTable();
@@ -210,6 +211,7 @@ public class LoginActivity extends AppCompatActivity {
         rejectionTable = new CustomerRejectionTable(this);
         paymentTable = new PaymentTable(this);
         nextDayOrderTable = new NextDayOrderTable(this);
+        marketProductTable = new MarketProductTable(this);
     }
 
     public void eraseAllSyncTables() {
@@ -217,6 +219,7 @@ public class LoginActivity extends AppCompatActivity {
         invoiceOutTable.eraseTable();
         paymentTable.eraseTable();
         nextDayOrderTable.eraseTable();
+        marketProductTable.eraseTable();
     }
 
     /*retrofit call test to fetch data from server*/
@@ -286,7 +289,8 @@ public class LoginActivity extends AppCompatActivity {
             dbRouteMapView.insertCustomerRouteMap(routeData.getArrCustomerRouteMap());
             dbCustomerInfoView.insertCustomer(routeData.getArrRouteCustomerInfo());
             dbCustomerItemPrice.insertCustomerItemPrice(routeData.getArrItemDiscountPrice());
-            dbPriceGroup.insertPrice(routeData.getArrGroupPrice());
+            /*dbPriceGroup.insertPrice(routeData.getArrGroupPrice());*/
+            dbProductView.insertProducts(routeData.getArrItemsMaster());
             dbCreditOpening.insertCreditOpening(routeData.getArrCreditOpening());
             dbCrateOpening.insertCrateOpening(routeData.getArrCrateOpening());
             dbCrateCollection.insertCrateCollection(routeData.getArrCrateCollection());

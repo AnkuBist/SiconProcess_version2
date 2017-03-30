@@ -15,6 +15,7 @@ import com.hgil.siconprocess.retrofit.loginResponse.dbModels.ProductModel;
 import com.hgil.siconprocess.utils.Utility;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mohan.giri on 24-01-2017.
@@ -61,6 +62,27 @@ public class ProductView extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME); //delete all rows in a table
         db.close();
+    }
+
+    //insert multiple rows
+    public boolean insertProducts(List<ProductModel> arrayList) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        for (ProductModel productModel : arrayList) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(ITEMSEQUENCE, productModel.getITEMSEQUENCE());
+            contentValues.put(PRODUCTRANKING, productModel.getPRODUCTRANKING());
+            contentValues.put(ITEM_ID, productModel.getItemId());
+            contentValues.put(ITEM_SHORT_NAME, productModel.getItemShrtName());
+            contentValues.put(ITEM_NAME, productModel.getItemName());
+            contentValues.put(ITEM_DESCRIPTION, productModel.getItemDescription());
+            contentValues.put(DATAAREAID, productModel.getDATAAREAID());
+            contentValues.put(NETWEIGHT, productModel.getNETWEIGHT());
+            contentValues.put(ITEMGROUPID, productModel.getITEMGROUPID());
+            contentValues.put(FLAG, productModel.getFLAG());
+            db.insert(TABLE_NAME, null, contentValues);
+        }
+        db.close();
+        return true;
     }
 
     //insert single

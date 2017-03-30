@@ -52,9 +52,12 @@ public class RouteModel implements Serializable {
     @SerializedName("arrRouteCustomerInfo")
     @Expose
     private List<CustomerInfoModel> arrRouteCustomerInfo;
-    @SerializedName("arrGroupPrice")
+    /* @SerializedName("arrGroupPrice")
+     @Expose
+     private List<GroupPriceModel> arrGroupPrice;*/
+    @SerializedName("arrItemsMaster")
     @Expose
-    private List<GroupPriceModel> arrGroupPrice;
+    private List<ProductModel> arrItemsMaster;
     @SerializedName("arrCreditOpening")
     @Expose
     private List<CreditOpeningModel> arrCreditOpening;
@@ -222,12 +225,20 @@ public class RouteModel implements Serializable {
         this.arrCustomerRouteMap = arrCustomerRouteMap;
     }
 
-    public List<GroupPriceModel> getArrGroupPrice() {
+   /* public List<GroupPriceModel> getArrGroupPrice() {
         return arrGroupPrice;
     }
 
     public void setArrGroupPrice(List<GroupPriceModel> arrGroupPrice) {
         this.arrGroupPrice = arrGroupPrice;
+    }*/
+
+    public List<ProductModel> getArrItemsMaster() {
+        return arrItemsMaster;
+    }
+
+    public void setArrItemsMaster(List<ProductModel> arrItemsMaster) {
+        this.arrItemsMaster = arrItemsMaster;
     }
 
     public List<CreditOpeningModel> getArrCreditOpening() {
