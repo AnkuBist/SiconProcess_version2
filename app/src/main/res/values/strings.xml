@@ -35,4 +35,8 @@
     <string name="strBulletCheque">\u25CF Cheque Payment</string>
 
     <string name="title_activity_product_list_select">ProductListSelectActivity</string>
+
+    <string name="status_stop"><font color='#FF8E8E93'>Stopped</font></string> <!--gray-->
+    <string name="status_completed"><font color='#FF4CD964'>COMPLETED</font></string> <!--red-->
+    <string name="status_pending"><font color='#FFFF3B30'>PENDING</font></string> <!--green-->
 </resources>

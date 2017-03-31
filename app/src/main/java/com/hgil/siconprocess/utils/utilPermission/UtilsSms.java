@@ -31,11 +31,10 @@ public class UtilsSms {
             PendingIntent pi = PendingIntent.getActivity(context, 0, new Intent(), 0);
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(phoneNumber, null, message, pi, null);
-
-            new SampleDialog("Message sent to " + phoneNumber, context);
+            new SampleDialog().SampleMessageDialog("Message sent to " + phoneNumber, context);
         } catch (Exception e) {
             //Toast.makeText(context, "Message not sent", Toast.LENGTH_LONG).show();
-            new SampleDialog("Message not sent", context);
+            new SampleDialog().SampleMessageDialog("Message not sent", context);
         }
     }
 

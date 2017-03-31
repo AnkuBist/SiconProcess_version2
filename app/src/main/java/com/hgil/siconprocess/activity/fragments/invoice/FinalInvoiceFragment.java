@@ -16,11 +16,13 @@ import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.dbModels.PaymentModel;
 import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
 import com.hgil.siconprocess.database.masterTables.CustomerInfoView;
+import com.hgil.siconprocess.database.masterTables.CustomerRouteMappingView;
 import com.hgil.siconprocess.database.tables.CustomerRejectionTable;
 import com.hgil.siconprocess.database.tables.InvoiceOutTable;
 import com.hgil.siconprocess.database.tables.MarketProductTable;
 import com.hgil.siconprocess.database.tables.PaymentTable;
 import com.hgil.siconprocess.utils.Utility;
+import com.hgil.siconprocess.utils.ui.SampleDialog;
 import com.hgil.siconprocess.utils.utilPermission.UtilsSms;
 
 import butterknife.BindView;
@@ -139,10 +141,16 @@ public class FinalInvoiceFragment extends BaseFragment {
 
     @OnClick(R.id.btnSendSms)
     public void onSendSms(View view) {
+         /*after message send button press set the customer route to set to completed*/
+        //activity is finished at
+        CustomerRouteMappingView custRouteMap = new CustomerRouteMappingView(getContext());
+        custRouteMap.updateCustomerStatus(customer_id, "COMPLETED");
+
         if (mobile != null && mobile.matches(""))
             UtilsSms.checkAndroidVersionForSms(getContext(), mobile, message);
         else
-            showSnackbar(getView(), "No contact found with this customer");
+            new SampleDialog().SampleMessageDialog("No Contact found with this customer", getContext());
+        //showSnackbar(getView(), "No contact found with this customer");
     }
 
     @Override

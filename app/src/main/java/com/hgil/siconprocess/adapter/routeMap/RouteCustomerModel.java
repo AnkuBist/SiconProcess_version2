@@ -10,7 +10,7 @@ public class RouteCustomerModel {
     private String routeName;
     private String customerId;
     private String customerName;
-    private String status;
+    private String custStatus;
     private double saleAmount;
 
     public double getSaleAmount() {
@@ -53,13 +53,11 @@ public class RouteCustomerModel {
         this.customerName = customerName;
     }
 
-    public String getStatus() {
-        return status;
+    public String getCustStatus() {
+        return custStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setCustStatus(String custStatus) {
+        this.custStatus = custStatus;
     }
-
-
 }

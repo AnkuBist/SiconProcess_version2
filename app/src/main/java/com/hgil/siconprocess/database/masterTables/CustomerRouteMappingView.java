@@ -44,6 +44,9 @@ public class CustomerRouteMappingView extends SQLiteOpenHelper {
     private static final String ACCOUNTNUM = "ACCOUNTNUM";
     private static final String MANDT = "Mandt";
 
+    // customer status
+    private static final String CUST_STATUS = "Customer_status";
+
     private Context mContext;
 
     public CustomerRouteMappingView(Context context) {
@@ -60,7 +63,7 @@ public class CustomerRouteMappingView extends SQLiteOpenHelper {
                 + LINEDISC + " TEXT NOT NULL, " + C_TYPE + " TEXT NOT NULL, " + COMMISSIONGROUP + " TEXT NOT NULL, "
                 + SALESGROUP + " TEXT NOT NULL, " + SUBDEPOT_ID + " TEXT NULL, " + CUSTCLASSIFICATIONID + " TEXT NULL, "
                 + FLAG + " INTEGER NULL, " + RFLAG + " INTEGER NULL, " + ACCOUNTNUM + " TEXT NOT NULL, "
-                + MANDT + " INTEGER NOT NULL)");
+                + MANDT + " INTEGER NOT NULL, " + CUST_STATUS + " TEXT NULL)");
     }
 
     @Override
@@ -72,6 +75,15 @@ public class CustomerRouteMappingView extends SQLiteOpenHelper {
     public void eraseTable() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME); //delete all rows in a table
+        db.close();
+    }
+
+    //update route customer status
+    public void updateCustomerStatus(String customer_id, String status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CUST_STATUS, status);
+        db.update(TABLE_NAME, contentValues, CUSTOMER_ID + "=?", new String[]{customer_id});
         db.close();
     }
 
@@ -102,6 +114,7 @@ public class CustomerRouteMappingView extends SQLiteOpenHelper {
             contentValues.put(RFLAG, customerRouteMapModel.getRFlag());
             contentValues.put(ACCOUNTNUM, customerRouteMapModel.getACCOUNTNUM());
             contentValues.put(MANDT, customerRouteMapModel.getMandt());
+            contentValues.put(CUST_STATUS, customerRouteMapModel.getCustStatus());
             db.insert(TABLE_NAME, null, contentValues);
         }
         db.close();
@@ -132,6 +145,7 @@ public class CustomerRouteMappingView extends SQLiteOpenHelper {
         contentValues.put(RFLAG, customerRouteMapModel.getRFlag());
         contentValues.put(ACCOUNTNUM, customerRouteMapModel.getACCOUNTNUM());
         contentValues.put(MANDT, customerRouteMapModel.getMandt());
+        contentValues.put(CUST_STATUS, customerRouteMapModel.getCustStatus());
         db.insert(TABLE_NAME, null, contentValues);
         db.close();
         return true;
@@ -163,6 +177,7 @@ public class CustomerRouteMappingView extends SQLiteOpenHelper {
             customerRouteMapModel.setRFlag(res.getInt(res.getColumnIndex(RFLAG)));
             customerRouteMapModel.setACCOUNTNUM(res.getString(res.getColumnIndex(ACCOUNTNUM)));
             customerRouteMapModel.setMandt(res.getInt(res.getColumnIndex(MANDT)));
+            customerRouteMapModel.setCustStatus(res.getString(res.getColumnIndex(CUST_STATUS)));
         }
         res.close();
         db.close();
@@ -221,6 +236,7 @@ public class CustomerRouteMappingView extends SQLiteOpenHelper {
                 customerRouteMapModel.setRFlag(res.getInt(res.getColumnIndex(RFLAG)));
                 customerRouteMapModel.setACCOUNTNUM(res.getString(res.getColumnIndex(ACCOUNTNUM)));
                 customerRouteMapModel.setMandt(res.getInt(res.getColumnIndex(MANDT)));
+                customerRouteMapModel.setCustStatus(res.getString(res.getColumnIndex(CUST_STATUS)));
 
                 array_list.add(customerRouteMapModel);
                 res.moveToNext();
@@ -244,7 +260,59 @@ public class CustomerRouteMappingView extends SQLiteOpenHelper {
                 routeCustomerModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
                 routeCustomerModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
-                routeCustomerModel.setStatus("PENDING");
+                routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(CUST_STATUS)));
+                routeCustomerModel.setSaleAmount(invoiceOutTable.custInvoiceTotalAmount(routeCustomerModel.getCustomerId()));
+
+                array_list.add(routeCustomerModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return array_list;
+    }
+
+    /*route pending customers list*/
+    public ArrayList<RouteCustomerModel> getRoutePendingCustomers() {
+        ArrayList<RouteCustomerModel> array_list = new ArrayList<RouteCustomerModel>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        InvoiceOutTable invoiceOutTable = new InvoiceOutTable(mContext);
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CUST_STATUS + "=?", new String[]{"PENDING"});
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                RouteCustomerModel routeCustomerModel = new RouteCustomerModel();
+                routeCustomerModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
+                routeCustomerModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
+                routeCustomerModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+                routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
+                routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(CUST_STATUS)));
+                routeCustomerModel.setSaleAmount(invoiceOutTable.custInvoiceTotalAmount(routeCustomerModel.getCustomerId()));
+
+                array_list.add(routeCustomerModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return array_list;
+    }
+
+    /*route completed customers list*/
+    public ArrayList<RouteCustomerModel> getRouteCompletedCustomers() {
+        ArrayList<RouteCustomerModel> array_list = new ArrayList<RouteCustomerModel>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        InvoiceOutTable invoiceOutTable = new InvoiceOutTable(mContext);
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CUST_STATUS + "=?", new String[]{"COMPLETED"});
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                RouteCustomerModel routeCustomerModel = new RouteCustomerModel();
+                routeCustomerModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
+                routeCustomerModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
+                routeCustomerModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+                routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
+                routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(CUST_STATUS)));
                 routeCustomerModel.setSaleAmount(invoiceOutTable.custInvoiceTotalAmount(routeCustomerModel.getCustomerId()));
 
                 array_list.add(routeCustomerModel);

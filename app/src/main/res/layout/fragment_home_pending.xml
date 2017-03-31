@@ -4,10 +4,22 @@
     android:layout_height="match_parent"
     tools:context=".activity.fragments.homeTabs.HomePendingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvPendingRouteMap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:scrollbars="none" />
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:text="No Customer found"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="@dimen/text_size_large"
+        android:visibility="gone" />
 
 </FrameLayout>

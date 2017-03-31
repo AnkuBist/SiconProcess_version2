@@ -71,6 +71,17 @@ public class CustomerRouteMapModel implements Serializable {
     @SerializedName("Mandt")
     @Expose
     private int mandt;
+    @SerializedName("cust_status")
+    @Expose
+    private String custStatus;
+
+    public String getCustStatus() {
+        return custStatus;
+    }
+
+    public void setCustStatus(String custStatus) {
+        this.custStatus = custStatus;
+    }
 
     public Long getRecId() {
         return recId;
