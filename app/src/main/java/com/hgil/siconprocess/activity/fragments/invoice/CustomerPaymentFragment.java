@@ -273,6 +273,11 @@ public class CustomerPaymentFragment extends BaseFragment {
 
     }*/
 
+    private void updateTotalAmount() {
+        //(double cash_amount, double cheque_amount, double upi_amount) {
+        tvCustomerTotal.setText(strRupee + Utility.roundTwoDecimals(Utility.getDouble(etCash.getText().toString()) + upiDetails.getPaidAmount())); //+ chequeDetailsModel.getChequeAmount()));
+    }
+
     public class UpiPaymentDialog extends Dialog implements
             android.view.View.OnClickListener {
 
@@ -336,10 +341,5 @@ public class CustomerPaymentFragment extends BaseFragment {
                     break;
             }
         }
-    }
-
-    private void updateTotalAmount() {
-        //(double cash_amount, double cheque_amount, double upi_amount) {
-        tvCustomerTotal.setText(strRupee + Utility.roundTwoDecimals(Utility.getDouble(etCash.getText().toString()) + upiDetails.getPaidAmount())); //+ chequeDetailsModel.getChequeAmount()));
     }
 }

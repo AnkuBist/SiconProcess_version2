@@ -89,6 +89,12 @@ public class RouteModel implements Serializable {
     @SerializedName("arrItemDiscountPrice")
     @Expose
     private List<CustomerItemPriceModel> arrItemDiscountPrice;
+    /*@SerializedName("expectedLastInvoiceNo")
+    @Expose
+    private String expectedLastInvoiceNo;*/
+    @SerializedName("expectedLastBillNo")
+    @Expose
+    private String expectedLastBillNo;
 
     public List<CustomerItemPriceModel> getArrItemDiscountPrice() {
         return arrItemDiscountPrice;
@@ -97,13 +103,6 @@ public class RouteModel implements Serializable {
     public void setArrItemDiscountPrice(List<CustomerItemPriceModel> arrItemDiscountPrice) {
         this.arrItemDiscountPrice = arrItemDiscountPrice;
     }
-
-    /*@SerializedName("expectedLastInvoiceNo")
-    @Expose
-    private String expectedLastInvoiceNo;*/
-    @SerializedName("expectedLastBillNo")
-    @Expose
-    private String expectedLastBillNo;
 
     /*public String getExpectedLastInvoiceNo() {
         return expectedLastInvoiceNo;

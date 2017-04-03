@@ -54,6 +54,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final int APP_PERMISSION = 105;
     @BindView(R.id.etUserId)
     EditText etUserId;
     @BindView(R.id.etPassword)
@@ -64,7 +65,6 @@ public class LoginActivity extends AppCompatActivity {
     Button btnSubmit;
     @BindView(R.id.coordinateLayout)
     CoordinatorLayout coordinateLayout;
-
     private RouteView dbRouteView;
     private CustomerRouteMappingView dbRouteMapView;
     private CustomerInfoView dbCustomerInfoView;
@@ -79,14 +79,12 @@ public class LoginActivity extends AppCompatActivity {
     private FixedSampleTable dbFixedSample;
     private RejectionTargetTable dbRejectionTarget;
     private DepotEmployeeView dbEmployee;
-
     // sync table objects
     private InvoiceOutTable invoiceOutTable;
     private CustomerRejectionTable rejectionTable;
     private PaymentTable paymentTable;
     private NextDayOrderTable nextDayOrderTable;
     private MarketProductTable marketProductTable;
-
     private String existing_id = "", saved_id = "";
 
     @Override
@@ -316,8 +314,6 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         }
     }
-
-    private static final int APP_PERMISSION = 105;
 
     private void askAppPermission() {
         if (Build.VERSION.SDK_INT >= 23) {

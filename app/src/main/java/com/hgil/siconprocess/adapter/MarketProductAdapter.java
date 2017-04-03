@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.adapter.MarketProductAdapter;
 import com.hgil.siconprocess.database.dbModels.MarketProductModel;
 import com.hgil.siconprocess.utils.Utility;
 

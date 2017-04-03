@@ -25,7 +25,6 @@ import com.hgil.siconprocess.activity.fragments.invoice.CratesManagementFragment
 import com.hgil.siconprocess.activity.fragments.invoice.CustomerPaymentFragment;
 import com.hgil.siconprocess.activity.fragments.invoice.CustomerRejectionFragment;
 import com.hgil.siconprocess.activity.fragments.invoice.FinalInvoiceFragment;
-import com.hgil.siconprocess.activity.fragments.invoice.makeOrderInvoice.TomorrowOrderFragment;
 import com.hgil.siconprocess.activity.fragments.invoice.makeSaleInvoice.CustomerInvoiceFragment;
 import com.hgil.siconprocess.base.BaseActivity;
 import com.hgil.siconprocess.utils.Utility;

@@ -2,7 +2,6 @@ package com.hgil.siconprocess.activity.fragments.invoiceSyncModel;
 
 import com.hgil.siconprocess.database.dbModels.MarketProductModel;
 import com.hgil.siconprocess.database.dbModels.NextDayOrderModel;
-import com.hgil.siconprocess.database.tables.MarketProductTable;
 
 import java.util.ArrayList;
 
