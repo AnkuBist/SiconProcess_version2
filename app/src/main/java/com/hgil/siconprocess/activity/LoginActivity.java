@@ -55,6 +55,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     private static final int APP_PERMISSION = 105;
+
     @BindView(R.id.etUserId)
     EditText etUserId;
     @BindView(R.id.etPassword)
@@ -65,11 +66,11 @@ public class LoginActivity extends AppCompatActivity {
     Button btnSubmit;
     @BindView(R.id.coordinateLayout)
     CoordinatorLayout coordinateLayout;
+
     private RouteView dbRouteView;
     private CustomerRouteMappingView dbRouteMapView;
     private CustomerInfoView dbCustomerInfoView;
     private CustomerItemPriceTable dbCustomerItemPrice;
-    //private PriceGroupView dbPriceGroup;
     private ProductView dbProductView;
     private CreditOpeningTable dbCreditOpening;
     private CrateOpeningTable dbCrateOpening;
@@ -79,12 +80,14 @@ public class LoginActivity extends AppCompatActivity {
     private FixedSampleTable dbFixedSample;
     private RejectionTargetTable dbRejectionTarget;
     private DepotEmployeeView dbEmployee;
+
     // sync table objects
     private InvoiceOutTable invoiceOutTable;
     private CustomerRejectionTable rejectionTable;
     private PaymentTable paymentTable;
     private NextDayOrderTable nextDayOrderTable;
     private MarketProductTable marketProductTable;
+
     private String existing_id = "", saved_id = "";
 
     @Override
@@ -103,16 +106,6 @@ public class LoginActivity extends AppCompatActivity {
         initialiseDBObj();
         initializeSyncDbObj();
 
-        /*// get user current location
-        checkAndroidVersionForLocationAccess(this);
-
-        // get device imei number
-        checkAndroidVersionForPhoneState(this);
-
-        // get permission to send sms
-        askSmsPermission(this);*/
-
-        // ask all required permission at once only
         askAppPermission();
     }
 
@@ -121,7 +114,6 @@ public class LoginActivity extends AppCompatActivity {
         dbRouteMapView = new CustomerRouteMappingView(this);
         dbCustomerInfoView = new CustomerInfoView(this);
         dbCustomerItemPrice = new CustomerItemPriceTable(this);
-        //dbPriceGroup = new PriceGroupView(this);
         dbProductView = new ProductView(this);
         dbCreditOpening = new CreditOpeningTable(this);
         dbCrateOpening = new CrateOpeningTable(this);
@@ -236,16 +228,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginResult.getReturnCode()) {
                     // save user password for local login purpose
                     Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_PASSWORD, password);
-
-                    // sync data from server to local database using the downloaded data object
-                    // syncToLocal(loginResult, user_id);
-
                     new loginSync(loginResult, user_id).execute();
-                    //RetrofitUtil.hideDialog();
                 } else {
                     RetrofitUtil.hideDialog();
-
-                    //RetrofitUtil.showToast(LoginActivity.this, loginResult.getStrMessage());
                     new SampleDialog("", loginResult.getStrMessage(), LoginActivity.this);
                 }
             }
@@ -254,7 +239,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<loginResponse> call, Throwable t) {
                 RetrofitUtil.hideDialog();
                 // show some error toast or message to display the api call issue
-                //RetrofitUtil.showToast(LoginActivity.this, "Unable to access API");
                 new SampleDialog("", "Unable to access API", LoginActivity.this);
             }
         });
@@ -287,7 +271,6 @@ public class LoginActivity extends AppCompatActivity {
             dbRouteMapView.insertCustomerRouteMap(routeData.getArrCustomerRouteMap());
             dbCustomerInfoView.insertCustomer(routeData.getArrRouteCustomerInfo());
             dbCustomerItemPrice.insertCustomerItemPrice(routeData.getArrItemDiscountPrice());
-            /*dbPriceGroup.insertPrice(routeData.getArrGroupPrice());*/
             dbProductView.insertProducts(routeData.getArrItemsMaster());
             dbCreditOpening.insertCreditOpening(routeData.getArrCreditOpening());
             dbCrateOpening.insertCrateOpening(routeData.getArrCrateOpening());
@@ -301,17 +284,6 @@ public class LoginActivity extends AppCompatActivity {
             Utility.saveLoginStatus(LoginActivity.this, Utility.LOGIN_STATUS, true);
             Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_ID, user_id);
             Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_DATE, Utility.getCurDate());
-        }
-    }
-
-    // check permission
-    private boolean checkIfAlreadyHavePermission() {
-        int result_COARSE_LOCATION = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
-        int result_FINE_LOCATION = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if ((result_COARSE_LOCATION == PackageManager.PERMISSION_GRANTED) && (result_FINE_LOCATION == PackageManager.PERMISSION_GRANTED)) {
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -346,48 +318,12 @@ public class LoginActivity extends AppCompatActivity {
                         if (grantResults[i] != PackageManager.PERMISSION_GRANTED)
                             Toast.makeText(this, permissions[i] + " Permission denied", Toast.LENGTH_SHORT).show();
                     }
-
-                    /*if (grantResults[0] != PackageManager.PERMISSION_GRANTED)
-                        Toast.makeText(this, "ACCESS_COARSE_LOCATION & ACCESS_FINE_LOCATION Permission denied", Toast.LENGTH_SHORT).show();
-                    *//*if (grantResults[1] != PackageManager.PERMISSION_GRANTED)
-                        Toast.makeText(this, "ACCESS_FINE_LOCATION Permission denied", Toast.LENGTH_SHORT).show();*//*
-                    if (grantResults[1] != PackageManager.PERMISSION_GRANTED)
-                        Toast.makeText(this, "READ_PHONE_STATE Permission denied", Toast.LENGTH_SHORT).show();
-                    if (grantResults[2] != PackageManager.PERMISSION_GRANTED)
-                        Toast.makeText(this, "SEND_SMS Permission denied", Toast.LENGTH_SHORT).show();*/
                 }
                 return;
-
-            /*case ACCESS_LOCATION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    UtilNetworkLocation.fetchLocation(this);
-                else
-                    Toast.makeText(this, "Permission denied to get your location", Toast.LENGTH_SHORT).show();
-                return;
-            case READ_PHONE_STATE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    UtilNetworkLocation.fetchLocation(this);
-                else
-                    Toast.makeText(this, "Permission denied to read phone state", Toast.LENGTH_SHORT).show();
-                return;
-            case SEND_SMS:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //UtilNetworkLocation.fetchLocation(this);
-                } else
-                    Toast.makeText(this, "Permission denied to send SMS", Toast.LENGTH_SHORT).show();
-                return;*/
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
-
-   /* @Override
-    protected void onResume() {
-        super.onResume();
-        if (UtilNetworkLocation.canGetLocation(this) == true && checkIfAlreadyHavePermission())
-
-            UtilNetworkLocation.printCoordinates(UtilNetworkLocation.getLocation(this));
-    }*/
 
     // AsyncTask copy one
     private class loginSync extends AsyncTask<Void, Void, Boolean> implements Serializable {
@@ -418,95 +354,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
-
-
-    // customized async task with progress dialog
-   /* private class loginSync extends AsyncTask<loginResponse, Integer, loginResponse> implements Serializable {
-        ProgressDialog progressDialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // showDialog(progress_bar_type);
-            progressDialog = new ProgressDialog(LoginActivity.this);
-            progressDialog.setCancelable(false);
-            //  dialog.setCanceledOnTouchOutside(false);
-            progressDialog.setIndeterminate(false);
-            //  progressDialog.setMax(100);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progressDialog.setProgress(0);
-            progressDialog.setMax(100);
-            progressDialog.setMessage("Loading ...");
-            progressDialog.show();
-            //  ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar2);
-        }
-
-        @Override
-        protected loginResponse doInBackground(loginResponse... params) {
-            try {
-                int count = 0;
-                byte[] payload = params.toString().getBytes("UTF-8");
-                int totalSze = payload.length;
-                Log.e("Total size ", "" + totalSze);
-                int bytesTransferred = 0;
-                int chunkSize = (2 * totalSze) / 100;
-                boolean last_loop = false;
-                publishProgress(0);
-
-
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ObjectOutputStream oos = new ObjectOutputStream(baos);
-
-
-                oos.writeObject(params[0]);
-
-                oos.flush();
-                oos.close();
-
-                InputStream is = new ByteArrayInputStream(baos.toByteArray());
-
-                byte data[] = new byte[1024];
-                long total = 0;
-                while ((count = is.read(data)) != -1) {
-                    total += count;
-                    // publishing the progress....
-                    // After this onProgressUpdate will be called
-                    publishProgress((int) ((total * 100) / totalSze));
-                }
-
-                return params[0];
-            } catch (Exception e) {
-                Log.e(this.getClass().getName(), "doInBackground: " + e.getMessage());
-            }
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            //  Log.e("dfsf",""+values[0]);
-            progressDialog.setProgress(values[0]);
-            //   progressDialog.setProgress(values[0]);
-        }
-
-        @Override
-        protected void onPostExecute(loginResponse result) {
-            //if (HttpResultimage == 204) {
-            //TODO
-            //do here the server task
-            if (result.getReturnCode()) {
-                syncToLocal(result, USER_ID);
-            }
-            progressDialog.dismiss();
-            //}
-
-            if (result.getReturnCode()) {
-                // after saving all values to database start new activity
-                startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
-                finish();
-                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-            }
-        }
-    }*/
-
+    
 }

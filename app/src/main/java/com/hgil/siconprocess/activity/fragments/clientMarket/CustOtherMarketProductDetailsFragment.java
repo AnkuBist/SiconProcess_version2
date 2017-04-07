@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.activity.HomeInvoiceActivity;
 import com.hgil.siconprocess.activity.fragments.invoice.FinalInvoiceFragment;
-import com.hgil.siconprocess.adapter.MarketProductAdapter;
+import com.hgil.siconprocess.adapter.marketProduct.MarketProductAdapter;
 import com.hgil.siconprocess.adapter.productSelection.ProductSelectModel;
 import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.dbModels.MarketProductModel;

@@ -26,22 +26,10 @@ public class RetrofitUtil {
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .build();
 
-        /*OkHttpClient client = new OkHttpClient();
-        client.connectTimeoutMillis(100000);
-        client.setConnectTimeout(10, TimeUnit.SECONDS);
-        client.setReadTimeout(30, TimeUnit.SECONDS);*/
-        /*client.interceptors().add(new Interceptor() {
-            @Override
-            public Response intercept(Interceptor.Chain chain) throws IOException {
-                return onOnIntercept(chain);
-            }
-        });*/
-
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(API.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                // .client(retrofitClient)
+                .client(okHttpClient)
                 .build();
 
         RetrofitService service = retrofit.create(RetrofitService.class);

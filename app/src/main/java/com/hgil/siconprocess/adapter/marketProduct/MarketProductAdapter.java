@@ -1,4 +1,4 @@
-package com.hgil.siconprocess.adapter;
+package com.hgil.siconprocess.adapter.marketProduct;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
