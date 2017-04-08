@@ -11,6 +11,7 @@ import com.hgil.siconprocess.R;
 
 import java.util.ArrayList;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -38,7 +39,7 @@ public class SaleRejAdapter extends RecyclerView.Adapter<SaleRejAdapter.ViewHold
     public void onBindViewHolder(final SaleRejAdapter.ViewHolder holder, int position) {
         final SaleRejModel saleRejModel = mDataset.get(position);
         holder.tvDate.setText(saleRejModel.getStr_date());
-        holder.tvSalePrct.setText(String.valueOf(saleRejModel.getSale_prct()));
+        holder.tvSaleAmt.setText(holder.strRupee + String.valueOf(saleRejModel.getSale_amt()));
         holder.tvRejPrct.setText(String.valueOf(saleRejModel.getRej_prct()));
 
 
@@ -49,7 +50,6 @@ public class SaleRejAdapter extends RecyclerView.Adapter<SaleRejAdapter.ViewHold
                 intent.putExtra("customer_id", routeCustomerModel.getCustomerId());
                 mContext.startActivity(intent);
                 ((NavBaseActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-
             }
         });*/
 
@@ -64,11 +64,12 @@ public class SaleRejAdapter extends RecyclerView.Adapter<SaleRejAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvDate)
         public TextView tvDate;
-        @BindView(R.id.tvSalePrct)
-        public TextView tvSalePrct;
+        @BindView(R.id.tvSaleAmt)
+        public TextView tvSaleAmt;
         @BindView(R.id.tvRejPrct)
         public TextView tvRejPrct;
-
+        @BindString(R.string.strRupee)
+        protected String strRupee;
 
         public ViewHolder(View v) {
             super(v);

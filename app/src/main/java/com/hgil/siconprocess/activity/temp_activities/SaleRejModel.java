@@ -9,7 +9,7 @@ public class SaleRejModel {
     private String route_id;
     private String route_name;
     private String str_date;
-    private double sale_prct;
+    private double sale_amt;
     private double rej_prct;
 
     public double getRej_prct() {
@@ -36,12 +36,12 @@ public class SaleRejModel {
         this.str_date = str_date;
     }
 
-    public double getSale_prct() {
-        return sale_prct;
+    public double getSale_amt() {
+        return sale_amt;
     }
 
-    public void setSale_prct(double sale_prct) {
-        this.sale_prct = sale_prct;
+    public void setSale_amt(double sale_amt) {
+        this.sale_amt = sale_amt;
     }
 
     public String getRoute_id() {

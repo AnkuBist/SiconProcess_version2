@@ -136,7 +136,7 @@ public class SaleRejHistoryFragment extends BaseFragment {
                 for (int i = 0; i < 10; i++) {
                     SaleRejModel saleRejModel = new SaleRejModel();
                     saleRejModel.setStr_date("" + (i + 01) + "/03/2017");
-                    saleRejModel.setSale_prct((10 + i) + (i / 10));
+                    saleRejModel.setSale_amt((1000 + (1000 * i) + i) + (i * 10));
                     saleRejModel.setRej_prct((10 + i) + (i / 100));
                     arrSaleRej.add(saleRejModel);
                 }
