@@ -11,15 +11,21 @@
     <string name="str_nav_home">Home</string>
     <string name="str_nav_customer_order">Tomorrow\'s Order</string>
     <string name="str_nav_dashboard">Dashboard</string>
-    <string name="str_nav_inventory">Van Inventory</string>
-    <string name="str_nav_final_payment">Final Payment</string>
-    <string name="str_nav_outlet">Outlet Info</string>
+    <string name="str_view_van_stock">View Van Stock</string>
+    <!--<string name="str_nav_today_sale">Today\'s Sale</string>-->
+    <string name="str_nav_planner">Planner</string>
+    <string name="str_nav_my_remarks">My Remarks</string>
+    <string name="str_nav_sale_rej_history">Sale &amp; Rejection History</string>
     <string name="str_nav_sync">Sync</string>
     <string name="str_nav_logout">Logout</string>
 
     <!--home invoice drawer item names-->
     <string name="str_nav_today_sale">Today\'s Sale</string>
     <string name="str_nav_goods_return">Goods Return</string>
+    <string name="str_nav_remark">Remark</string>
+    <string name="str_nav_outlet_info">Outlet Info</string>
+
+
     <string name="str_nav_payment">Payment</string>
     <string name="str_nav_crate_management">Crates Management</string>
     <!--<string name="str_nav_tomorrow_order">Tomorrow\'s Order</string>-->

@@ -10,24 +10,36 @@
             android:icon="@mipmap/ic_launcher"
             android:title="@string/str_nav_today_sale" />
         <item
-            android:id="@+id/nav_goods_return"
+            android:id="@+id/nav_sale_rej_history"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/str_nav_goods_return" />
+            android:title="@string/str_nav_sale_rej_history" />
         <item
-            android:id="@+id/nav_payment"
+            android:id="@+id/nav_remark"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/str_nav_payment" />
+            android:title="@string/str_nav_remark" />
         <item
-            android:id="@+id/nav_crate_management"
+            android:id="@+id/nav_outlet_info"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/str_nav_crate_management" />
-        <item
-            android:id="@+id/nav_market_product"
-            android:icon="@mipmap/ic_launcher"
-            android:title="@string/str_nav_market_product" />
-        <item
-            android:id="@+id/nav_final_invoice"
-            android:icon="@mipmap/ic_launcher"
-            android:title="@string/str_nav_final_invoice" />
+            android:title="@string/str_nav_outlet_info" />
+        <!--  <item
+              android:id="@+id/nav_goods_return"
+              android:icon="@mipmap/ic_launcher"
+              android:title="@string/str_nav_goods_return" />
+          <item
+              android:id="@+id/nav_payment"
+              android:icon="@mipmap/ic_launcher"
+              android:title="@string/str_nav_payment" />
+          <item
+              android:id="@+id/nav_crate_management"
+              android:icon="@mipmap/ic_launcher"
+              android:title="@string/str_nav_crate_management" />
+          <item
+              android:id="@+id/nav_market_product"
+              android:icon="@mipmap/ic_launcher"
+              android:title="@string/str_nav_market_product" />
+          <item
+              android:id="@+id/nav_final_invoice"
+              android:icon="@mipmap/ic_launcher"
+              android:title="@string/str_nav_final_invoice" />-->
     </group>
 </menu>

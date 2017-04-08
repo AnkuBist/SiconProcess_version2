@@ -20,11 +20,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.fragments.clientMarket.CustOtherMarketProductDetailsFragment;
-import com.hgil.siconprocess.activity.fragments.invoice.CratesManagementFragment;
-import com.hgil.siconprocess.activity.fragments.invoice.CustomerPaymentFragment;
-import com.hgil.siconprocess.activity.fragments.invoice.CustomerRejectionFragment;
-import com.hgil.siconprocess.activity.fragments.invoice.FinalInvoiceFragment;
 import com.hgil.siconprocess.activity.fragments.invoice.makeSaleInvoice.CustomerInvoiceFragment;
 import com.hgil.siconprocess.base.BaseActivity;
 import com.hgil.siconprocess.utils.Utility;
@@ -158,7 +153,13 @@ public class HomeInvoiceActivity extends BaseActivity {
             case R.id.nav_today_sale:
                 fragment = CustomerInvoiceFragment.newInstance(customer_id, customer_name);
                 break;
-            case R.id.nav_goods_return:
+            case R.id.nav_sale_rej_history:
+                break;
+            case R.id.nav_remark:
+                break;
+            case R.id.nav_outlet_info:
+                break;
+            /*case R.id.nav_goods_return:
                 fragment = CustomerRejectionFragment.newInstance(customer_id, customer_name);
                 break;
             case R.id.nav_payment:
@@ -172,7 +173,7 @@ public class HomeInvoiceActivity extends BaseActivity {
                 break;
             case R.id.nav_final_invoice:
                 fragment = FinalInvoiceFragment.newInstance(customer_id, customer_name);
-                break;
+                break;*/
             default:
                 //fragment = HomeFragment.newInstance();
         }

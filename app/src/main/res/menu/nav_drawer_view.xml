@@ -5,26 +5,34 @@
             android:id="@+id/nav_home"
             android:icon="@mipmap/ic_launcher"
             android:title="@string/str_nav_home" />
-        <item
-            android:id="@+id/nav_customer_order"
-            android:icon="@mipmap/ic_launcher"
-            android:title="@string/str_nav_customer_order" />
+        <!--  <item
+              android:id="@+id/nav_customer_order"
+              android:icon="@mipmap/ic_launcher"
+              android:title="@string/str_nav_customer_order" />-->
         <item
             android:id="@+id/nav_dashboard"
             android:icon="@mipmap/ic_launcher"
             android:title="@string/str_nav_dashboard" />
         <item
-            android:id="@+id/nav_van_inventory"
+            android:id="@+id/nav_view_van_stock"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/str_nav_inventory" />
+            android:title="@string/str_view_van_stock" />
         <item
-            android:id="@+id/nav_final_payment"
+            android:id="@+id/nav_today_sale"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/str_nav_final_payment" />
+            android:title="@string/str_nav_today_sale" />
         <item
-            android:id="@+id/nav_outlet_info"
+            android:id="@+id/nav_planner"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/str_nav_outlet" />
+            android:title="@string/str_nav_planner" />
+        <item
+            android:id="@+id/nav_my_remarks"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/str_nav_my_remarks" />
+        <item
+            android:id="@+id/nav_sale_rej_history"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/str_nav_sale_rej_history" />
         <item
             android:id="@+id/nav_sync"
             android:icon="@mipmap/ic_launcher"

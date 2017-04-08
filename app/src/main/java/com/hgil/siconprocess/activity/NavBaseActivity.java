@@ -22,13 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.navFragments.CustomerOrderFragment;
 import com.hgil.siconprocess.activity.navFragments.DashboardFragment;
-import com.hgil.siconprocess.activity.navFragments.FinalPaymentFragment;
 import com.hgil.siconprocess.activity.navFragments.HomeFragment;
-import com.hgil.siconprocess.activity.navFragments.OutletInfoFragment;
 import com.hgil.siconprocess.activity.navFragments.SyncFragment;
-import com.hgil.siconprocess.activity.navFragments.VanInventoryFragment;
+import com.hgil.siconprocess.activity.temp_activities.SaleRejHistoryFragment;
 import com.hgil.siconprocess.base.BaseActivity;
 import com.hgil.siconprocess.utils.Utility;
 
@@ -148,20 +145,27 @@ public class NavBaseActivity extends BaseActivity {
             case R.id.nav_home:
                 fragment = HomeFragment.newInstance();
                 break;
-            case R.id.nav_customer_order:
+           /* case R.id.nav_customer_order:
                 fragment = CustomerOrderFragment.newInstance();
-                break;
+                break;*/
             case R.id.nav_dashboard:
                 fragment = DashboardFragment.newInstance();
                 break;
-            case R.id.nav_van_inventory:
-                fragment = VanInventoryFragment.newInstance();
+            case R.id.nav_view_van_stock:
+                //fragment = VanInventoryFragment.newInstance();
+                startActivity(new Intent(this, ViewVanStockActivity.class));
+                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
                 break;
-            case R.id.nav_final_payment:
-                fragment = FinalPaymentFragment.newInstance();
+            case R.id.nav_planner:
+                // fragment = FinalPaymentFragment.newInstance();
                 break;
-            case R.id.nav_outlet_info:
+           /* case R.id.nav_outlet_info:
                 fragment = OutletInfoFragment.newInstance();
+                break;*/
+            case R.id.nav_my_remarks:
+                break;
+            case R.id.nav_sale_rej_history:
+                fragment = SaleRejHistoryFragment.newInstance();
                 break;
             case R.id.nav_sync:
                 fragment = SyncFragment.newInstance();
