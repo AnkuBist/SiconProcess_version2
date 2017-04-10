@@ -184,8 +184,8 @@ public class NavBaseActivity extends BaseActivity {
             case R.id.nav_dashboard:
                 fragment = DashboardFragment.newInstance();
                 break;
-            case R.id.nav_view_van_stock:
-                fragment = ViewVanStockFragment.newInstance();
+            case R.id.nav_van_stock:
+                fragment = VanStockFragment.newInstance();
                 break;
             default:
                 fragment = HomeFragment.newInstance();

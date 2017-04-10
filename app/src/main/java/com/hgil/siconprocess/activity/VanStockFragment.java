@@ -24,7 +24,7 @@ import butterknife.BindView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ViewVanStockFragment extends BaseFragment {
+public class VanStockFragment extends BaseFragment {
 
     @BindView(R.id.tvCrateLoaded)
     TextView tvCrateLoaded;
@@ -45,18 +45,18 @@ public class ViewVanStockFragment extends BaseFragment {
     private ProductView productView;
     private ArrayList<VanStockModel> arrVanStock = new ArrayList<>();
 
-    public ViewVanStockFragment() {
+    public VanStockFragment() {
         // Required empty public constructor
     }
 
-    public static ViewVanStockFragment newInstance() {
-        ViewVanStockFragment fragment = new ViewVanStockFragment();
+    public static VanStockFragment newInstance() {
+        VanStockFragment fragment = new VanStockFragment();
         return fragment;
     }
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.fragment_view_van_stock;
+        return R.layout.fragment_van_stock;
     }
 
     @Override

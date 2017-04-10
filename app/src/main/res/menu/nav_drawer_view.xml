@@ -8,14 +8,14 @@
         <item
             android:id="@+id/nav_home_route"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/str_nav_outlet_list_home" />
+            android:title="@string/str_nav_sale_status" />
         <item
             android:id="@+id/nav_dashboard"
             android:icon="@mipmap/ic_launcher"
             android:title="@string/str_nav_dashboard" />
         <item
-            android:id="@+id/nav_view_van_stock"
+            android:id="@+id/nav_van_stock"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/str_view_van_stock" />
+            android:title="@string/str_van_stock" />
     </group>
 </menu>

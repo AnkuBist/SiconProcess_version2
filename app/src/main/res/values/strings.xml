@@ -12,9 +12,9 @@
 
     <!--drawer items names-->
     <string name="str_nav_route_list_home">Route List Home</string>
-    <string name="str_nav_outlet_list_home">Outlet Status</string>
+    <string name="str_nav_sale_status">Sale Status</string>
     <string name="str_nav_dashboard">Dashboard</string>
-    <string name="str_view_van_stock">View Van Stock</string>
+    <string name="str_van_stock">Van Stock</string>
 
 
     <!--home invoice drawer item names-->
