@@ -54,7 +54,5 @@ public class SelectedOutletInfoActivity extends BaseToolbarActivity {
         etRouteName.setText(customerRouteMapModel.getRouteName());
         etDealerType.setText(customerRouteMapModel.getCType());
         etDealerAcntNum.setText(customerRouteMapModel.getACCOUNTNUM());
-
-
     }
 }

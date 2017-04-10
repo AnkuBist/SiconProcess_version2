@@ -2,9 +2,9 @@
 
     <group android:checkableBehavior="none">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_route_home"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/str_nav_home" />
+            android:title="@string/str_nav_route_home" />
         <item
             android:id="@+id/nav_today_sale"
             android:icon="@mipmap/ic_launcher"
@@ -21,25 +21,5 @@
             android:id="@+id/nav_outlet_info"
             android:icon="@mipmap/ic_launcher"
             android:title="@string/str_nav_outlet_info" />
-        <!--  <item
-              android:id="@+id/nav_goods_return"
-              android:icon="@mipmap/ic_launcher"
-              android:title="@string/str_nav_goods_return" />
-          <item
-              android:id="@+id/nav_payment"
-              android:icon="@mipmap/ic_launcher"
-              android:title="@string/str_nav_payment" />
-          <item
-              android:id="@+id/nav_crate_management"
-              android:icon="@mipmap/ic_launcher"
-              android:title="@string/str_nav_crate_management" />
-          <item
-              android:id="@+id/nav_market_product"
-              android:icon="@mipmap/ic_launcher"
-              android:title="@string/str_nav_market_product" />
-          <item
-              android:id="@+id/nav_final_invoice"
-              android:icon="@mipmap/ic_launcher"
-              android:title="@string/str_nav_final_invoice" />-->
     </group>
 </menu>

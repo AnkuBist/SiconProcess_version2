@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.adapter.vanStock.VanStockAdapter;
 import com.hgil.siconprocess.adapter.vanStock.VanStockModel;
-import com.hgil.siconprocess.base.BaseToolbarActivity;
+import com.hgil.siconprocess.base.BaseFragment;
 import com.hgil.siconprocess.database.masterTables.CrateCollectionView;
 import com.hgil.siconprocess.database.masterTables.ProductView;
 import com.hgil.siconprocess.database.tables.PaymentTable;
@@ -20,33 +20,24 @@ import com.hgil.siconprocess.database.tables.PaymentTable;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ViewVanStockActivity extends BaseToolbarActivity {
+public class ViewVanStockFragment extends BaseFragment {
 
-    @Nullable
     @BindView(R.id.tvCrateLoaded)
     TextView tvCrateLoaded;
-    @Nullable
     @BindView(R.id.tvCrateOs)
     TextView tvCrateOs;
-    @Nullable
     @BindView(R.id.tvCrateIssued)
     TextView tvCrateIssued;
-    @Nullable
     @BindView(R.id.tvCrateReturned)
     TextView tvCrateReturned;
-    @Nullable
     @BindView(R.id.tvCrateLeftover)
     TextView tvCrateLeftover;
-
-    @Nullable
     @BindView(R.id.rvVanStock)
     RecyclerView rvVanStock;
-    @Nullable
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
 
@@ -54,18 +45,29 @@ public class ViewVanStockActivity extends BaseToolbarActivity {
     private ProductView productView;
     private ArrayList<VanStockModel> arrVanStock = new ArrayList<>();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_van_stock);
+    public ViewVanStockFragment() {
+        // Required empty public constructor
+    }
 
-        ButterKnife.bind(this);
-        setNavTitle("View Van Stock");
-        hideSaveBtn();
+    public static ViewVanStockFragment newInstance() {
+        ViewVanStockFragment fragment = new ViewVanStockFragment();
+        return fragment;
+    }
+
+    @Override
+    protected int getFragmentLayout() {
+        return R.layout.fragment_view_van_stock;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setTitle("View Van Stock");
+        hideSaveButton();
 
         // get crate info
-        CrateCollectionView crateCollectionView = new CrateCollectionView(this);
-        PaymentTable paymentTable = new PaymentTable(this);
+        CrateCollectionView crateCollectionView = new CrateCollectionView(getContext());
+        PaymentTable paymentTable = new PaymentTable(getContext());
 
         int crateLoaded = crateCollectionView.vanTotalCrate();
         int crateOs = 0;
@@ -80,13 +82,13 @@ public class ViewVanStockActivity extends BaseToolbarActivity {
         tvCrateReturned.setText(String.valueOf(crateReturned));
         tvCrateLeftover.setText(String.valueOf(crateLeftover));
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvVanStock.setLayoutManager(linearLayoutManager);
 
-        productView = new ProductView(this);
+        productView = new ProductView(getContext());
         arrVanStock.addAll(productView.getVanStock());
-        vanStockAdapter = new VanStockAdapter(this, arrVanStock);
+        vanStockAdapter = new VanStockAdapter(getContext(), arrVanStock);
         rvVanStock.setAdapter(vanStockAdapter);
     }
 

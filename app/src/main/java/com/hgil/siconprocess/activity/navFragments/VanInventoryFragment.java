@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
 import com.hgil.siconprocess.activity.NavBaseActivity;
-import com.hgil.siconprocess.activity.ViewVanStockActivity;
 import com.hgil.siconprocess.base.BaseFragment;
 
 import butterknife.BindView;
@@ -58,8 +57,8 @@ public class VanInventoryFragment extends BaseFragment {
         tvViewVanStock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), ViewVanStockActivity.class));
-                ((NavBaseActivity) getContext()).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+               // startActivity(new Intent(getContext(), ViewVanStockActivity.class));
+                //((NavBaseActivity) getContext()).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
             }
         });
 

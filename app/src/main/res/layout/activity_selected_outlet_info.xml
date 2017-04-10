@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     android:scrollbars="none"
     tools:context="com.hgil.siconprocess.activity.SelectedOutletInfoActivity">
 
@@ -13,7 +14,7 @@
         android:background="@color/colorWhite"
         android:orientation="vertical"
         android:padding="10dp">
-        
+
         <!--dealer name-->
         <TextView
             style="@style/OutletInfoTvLabel"

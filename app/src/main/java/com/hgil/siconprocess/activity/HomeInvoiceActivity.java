@@ -9,6 +9,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,7 +21,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.base_frame.OutletInfoFragment;
 import com.hgil.siconprocess.activity.fragments.invoice.makeSaleInvoice.CustomerInvoiceFragment;
+import com.hgil.siconprocess.activity.temp_activities.SaleRejHistoryFragment;
 import com.hgil.siconprocess.base.BaseActivity;
 import com.hgil.siconprocess.utils.Utility;
 
@@ -86,6 +89,22 @@ public class HomeInvoiceActivity extends BaseActivity {
         tvNavHeader.setText(customer_name);
         //}
 
+        // nav footer
+        NavigationView temp_nv = (NavigationView) mDrawer.findViewById(R.id.temp_nv);
+
+        //LinearLayout layout = (LinearLayout) nvDrawer.findViewById(R.id.footer_layout);
+        TextView textName = (TextView) temp_nv.findViewById(R.id.tvCashierName);
+        textName.setText("Ankush");
+        TextView textPhone = (TextView) temp_nv.findViewById(R.id.tvCashierNo);
+        textPhone.setText("9023503384");
+
+      /*  textPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO call phone
+            }
+        });*/
+
         MenuItem menuItem = nvDrawer.getMenu().findItem(R.id.nav_today_sale);
 
         CustomerInvoiceFragment fragment = CustomerInvoiceFragment.newInstance(customer_id, customer_name);
@@ -139,7 +158,7 @@ public class HomeInvoiceActivity extends BaseActivity {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
-            case R.id.nav_home:
+            case R.id.nav_route_home:
                 //fragment = HomeFragment.newInstance();
                 // start nav base activity here only
                 Intent intent = new Intent(this, NavBaseActivity.class);
@@ -154,35 +173,23 @@ public class HomeInvoiceActivity extends BaseActivity {
                 fragment = CustomerInvoiceFragment.newInstance(customer_id, customer_name);
                 break;
             case R.id.nav_sale_rej_history:
+                fragment = SaleRejHistoryFragment.newInstance(customer_id, customer_name);
                 break;
             case R.id.nav_remark:
                 break;
             case R.id.nav_outlet_info:
+                fragment = OutletInfoFragment.newInstance(customer_id, customer_name);
                 break;
-            /*case R.id.nav_goods_return:
-                fragment = CustomerRejectionFragment.newInstance(customer_id, customer_name);
-                break;
-            case R.id.nav_payment:
-                fragment = CustomerPaymentFragment.newInstance(customer_id, customer_name);
-                break;
-            case R.id.nav_crate_management:
-                fragment = CratesManagementFragment.newInstance(customer_id, customer_name);
-                break;
-            case R.id.nav_market_product:
-                fragment = CustOtherMarketProductDetailsFragment.newInstance(customer_id, customer_name);
-                break;
-            case R.id.nav_final_invoice:
-                fragment = FinalInvoiceFragment.newInstance(customer_id, customer_name);
-                break;*/
             default:
-                //fragment = HomeFragment.newInstance();
+                fragment = CustomerInvoiceFragment.newInstance(customer_id, customer_name);
+                break;
         }
 
         if (fragment != null) {
             String fragClassName = fragment.getClass().getName();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            if (menuItem.getItemId() != R.id.nav_home) {
+            if (menuItem.getItemId() != R.id.nav_route_home) {
                 // Insert the fragment by replacing any existing fragment
                 boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
                 if (!fragmentPopped) {
@@ -241,13 +248,18 @@ public class HomeInvoiceActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            super.onBackPressed();
-            overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+            //close drawer first
+            mDrawer.closeDrawers();
         } else {
-            super.onBackPressed();
-            overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-            finish();
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                super.onBackPressed();
+                overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+            } else {
+                super.onBackPressed();
+                overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+                finish();
+            }
         }
     }
 

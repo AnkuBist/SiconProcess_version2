@@ -1,9 +1,10 @@
-package com.hgil.siconprocess.activity;
+package com.hgil.siconprocess.activity.base_frame;
 
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -19,17 +20,16 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.base_frame.RouteListActivity;
-import com.hgil.siconprocess.activity.navFragments.DashboardFragment;
+import com.hgil.siconprocess.activity.LoginActivity;
 import com.hgil.siconprocess.activity.navFragments.HomeFragment;
-import com.hgil.siconprocess.base.BaseActivity;
 import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.BindView;
 
-public class NavBaseActivity extends BaseActivity {
+public class RouteListActivity extends RouteBaseActivity {
 
     @BindView(R.id.tvNavTitle)
     public TextView tvNavTitle;
@@ -43,9 +43,9 @@ public class NavBaseActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.nvView)
     NavigationView nvDrawer;
-    @BindView(R.id.flContent)
-
+    @BindView(R.id.base_frame)
     FrameLayout containerFrame;
+
     boolean doubleBackToExitPressedOnce = false;
     private ActionBarDrawerToggle drawerToggle;
 
@@ -75,16 +75,6 @@ public class NavBaseActivity extends BaseActivity {
         // Tie DrawerLayout events to the ActionBarToggle
         mDrawer.addDrawerListener(drawerToggle);
 
-      /*  //TODO initialize Sicon app object here only
-        String route_id = getIntent().getStringExtra("route_id");*/
-
-/*        RouteView routeView = new RouteView(this);
-        RouteModel routeModel = routeView.getRouteById(route_id);
-
-        SiconApp.getInstance().setRouteModel(routeModel);
-        SiconApp.getInstance().setRouteId(route_id);
-        SiconApp.getInstance().setRouteName(routeModel.getRouteName());*/
-
         // Setup drawer view
         setupDrawerContent(nvDrawer);
 
@@ -95,33 +85,17 @@ public class NavBaseActivity extends BaseActivity {
 
         imgNavIcon.setImageResource(R.mipmap.harvest_logo);
         imgNavIcon.setImageResource(R.mipmap.harvest_logo);
-        if (getRouteName() != null) {
+       /* if (getRouteName() != null) {
             String output = getRouteName().substring(0, 1).toUpperCase() + getRouteName().substring(1).toLowerCase();
             tvNavHeader.setText(output);
-        }
+        }*/
 
-        // nav footer
-        NavigationView temp_nv = (NavigationView) mDrawer.findViewById(R.id.temp_nv);
+        MenuItem menuItem = nvDrawer.getMenu().findItem(R.id.nav_route_list);
 
-        //LinearLayout layout = (LinearLayout) nvDrawer.findViewById(R.id.footer_layout);
-        TextView textName = (TextView) temp_nv.findViewById(R.id.tvCashierName);
-        textName.setText("Ankush");
-        TextView textPhone = (TextView) temp_nv.findViewById(R.id.tvCashierNo);
-        textPhone.setText("9023503384");
-
-       /* textPhone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO call phone
-            }
-        });*/
-
-        MenuItem menuItem = nvDrawer.getMenu().findItem(R.id.nav_home_route);
-
-        HomeFragment fragment = HomeFragment.newInstance();
+        RouteListFragment fragment = RouteListFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right)
-                .replace(R.id.flContent, fragment)
+                .replace(R.id.base_frame, fragment)
                 .commit();
 
         //menuItem.setChecked(true);
@@ -134,7 +108,7 @@ public class NavBaseActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.activity_nav_base);
+        super.setContentView(R.layout.activity_route_list);
         setup();
     }
 
@@ -166,26 +140,23 @@ public class NavBaseActivity extends BaseActivity {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
-            case R.id.nav_home:
-                //fragment = HomeFragment.newInstance();
-                // start nav base activity here only
-                Intent intent = new Intent(this, RouteListActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                // from right to left
-                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-                // from left to right
-                //overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+            case R.id.nav_route_list:
+                fragment = RouteListFragment.newInstance();
                 break;
-            case R.id.nav_home_route:
-                fragment = HomeFragment.newInstance();
+            case R.id.nav_remarks_summary:
+                //fragment = DashboardFragment.newInstance();
                 break;
+            case R.id.nav_planner:
+                break;
+            case R.id.nav_logout:
+                // put the code to logout user from application
+                Utility.saveLoginStatus(RouteListActivity.this, Utility.LOGIN_STATUS, false);
 
-            case R.id.nav_dashboard:
-                fragment = DashboardFragment.newInstance();
-                break;
-            case R.id.nav_view_van_stock:
-                fragment = ViewVanStockFragment.newInstance();
+                // now restart login activity after finish application top
+                startActivity(new Intent(RouteListActivity.this, LoginActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
+                overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
                 break;
             default:
                 fragment = HomeFragment.newInstance();
@@ -195,15 +166,15 @@ public class NavBaseActivity extends BaseActivity {
             String fragClassName = fragment.getClass().getName();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            if (menuItem.getItemId() != R.id.nav_home) {
+            if (menuItem.getItemId() != R.id.nav_route_list) {
                 // Insert the fragment by replacing any existing fragment
                 boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
                 if (!fragmentPopped) {
-                    ft.replace(R.id.flContent, fragment);
+                    ft.replace(R.id.base_frame, fragment);
                     ft.addToBackStack(fragClassName);
                 }
             } else {
-                ft.replace(R.id.flContent, fragment);
+                ft.replace(R.id.base_frame, fragment);
             }
             //fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
@@ -267,43 +238,31 @@ public class NavBaseActivity extends BaseActivity {
                 super.onBackPressed();
                 overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             } else {
-                super.onBackPressed();
-                overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-                finish();
+                if (doubleBackToExitPressedOnce) {
+                    super.onBackPressed();
+                    overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+                    return;
+                }
+
+                this.doubleBackToExitPressedOnce = true;
+                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000);
             }
         }
     }
-
-   /* @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            super.onBackPressed();
-            overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-        } else {
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed();
-                overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-                return;
-            }
-
-            this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    doubleBackToExitPressedOnce = false;
-                }
-            }, 2000);
-        }
-    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         // get current fragment in container
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.flContent);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.base_frame);
         fragment.onActivityResult(requestCode, resultCode, data);
     }
 }

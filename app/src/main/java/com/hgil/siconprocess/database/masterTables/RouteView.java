@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.hgil.siconprocess.activity.base_frame.RouteListModel;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
 
 import java.util.ArrayList;
@@ -131,11 +132,11 @@ public class RouteView extends SQLiteOpenHelper {
         return db.delete(TABLE_NAME, USER_ROLE_ID + "= ? ", new String[]{Integer.toString(id)});
     }*/
 
-    public RouteModel getRoute() {
+    public RouteModel getRouteById(String route_id) {
         RouteModel routeModel = new RouteModel();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
         if (res.moveToFirst()) {
             //while (res.isAfterLast() == false) {
             routeModel.setRecId(res.getInt(res.getColumnIndex(REC_ID)));
@@ -180,6 +181,25 @@ public class RouteView extends SQLiteOpenHelper {
                 routeModel.setFlag(res.getInt(res.getColumnIndex(FLAG)));
                 routeModel.setExpectedLastBillNo(res.getString(res.getColumnIndex(LAST_BILL_NO)));
 
+                array_list.add(routeModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return array_list;
+    }
+
+    public ArrayList<RouteListModel> getRouteList() {
+        ArrayList<RouteListModel> array_list = new ArrayList<RouteListModel>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                RouteListModel routeModel = new RouteListModel();
+                routeModel.setRoute_id(res.getString(res.getColumnIndex(ROUTE_ID)));
+                routeModel.setRoute_name(res.getString(res.getColumnIndex(ROUTE_NAME)));
                 array_list.add(routeModel);
                 res.moveToNext();
             }

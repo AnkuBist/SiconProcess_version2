@@ -29,7 +29,8 @@ public class CustomerInvoiceAdapter extends RecyclerView.Adapter<CustomerInvoice
 
     @Override
     public CustomerInvoiceAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_customer_invoice, null, false);
+        //View v = LayoutInflater.from(mContext).inflate(R.layout.item_customer_invoice, null, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_display_next_day_order, null, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }

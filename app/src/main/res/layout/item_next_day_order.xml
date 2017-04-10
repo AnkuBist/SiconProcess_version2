@@ -38,10 +38,10 @@
             android:layout_width="100dp"
             android:layout_height="35dp"
             android:background="@drawable/et_round_shape"
+            android:gravity="right|center_vertical"
+            android:inputType="number"
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
-            android:inputType="number"
-            android:gravity="right|center_vertical"
             android:textColor="@color/colorTextBlack"
             android:textSize="@dimen/text_size_medium" />
     </LinearLayout>

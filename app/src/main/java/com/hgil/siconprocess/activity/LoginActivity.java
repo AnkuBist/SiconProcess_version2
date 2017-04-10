@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.base_frame.RouteListActivity;
 import com.hgil.siconprocess.database.masterTables.CrateCollectionView;
 import com.hgil.siconprocess.database.masterTables.CrateOpeningTable;
 import com.hgil.siconprocess.database.masterTables.CreditOpeningTable;
@@ -145,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                     String last_login_password = Utility.readPreference(LoginActivity.this, Utility.LAST_LOGIN_PASSWORD);
                     if (username.matches(last_login_id) &&
                             password.matches(last_login_password)) {
-                        startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
+                        startActivity(new Intent(LoginActivity.this, RouteListActivity.class));
                         finish();
                         overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
                     } else {
@@ -346,7 +347,7 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean status) {
             RetrofitUtil.hideDialog();
             if (status) {
-                startActivity(new Intent(LoginActivity.this, NavBaseActivity.class));
+                startActivity(new Intent(LoginActivity.this, RouteListActivity.class));
                 finish();
                 overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
             } else {
@@ -354,5 +355,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
-    
+
 }

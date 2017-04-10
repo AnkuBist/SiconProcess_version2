@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.hgil.siconprocess.R;
+import com.hgil.siconprocess.activity.base_frame.RouteListActivity;
 import com.hgil.siconprocess.utils.Utility;
 
 public class SplashActivity extends Activity {
@@ -37,7 +38,7 @@ public class SplashActivity extends Activity {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));*/
                 //direct pass user to home if user has already logged same day with any of the last saved id.
                 if ((Utility.getCurDate()).matches(lastLoginDate) && loginStatus)
-                    startActivity(new Intent(SplashActivity.this, NavBaseActivity.class));
+                    startActivity(new Intent(SplashActivity.this, RouteListActivity.class));
                 else
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
 

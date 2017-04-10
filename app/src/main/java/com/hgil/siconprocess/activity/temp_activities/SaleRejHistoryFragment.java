@@ -42,8 +42,12 @@ public class SaleRejHistoryFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-    public static SaleRejHistoryFragment newInstance() {
+    public static SaleRejHistoryFragment newInstance(String customer_id, String customer_name) {
         SaleRejHistoryFragment fragment = new SaleRejHistoryFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(CUSTOMER_ID, customer_id);
+        bundle.putString(CUSTOMER_NAME, customer_name);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -51,6 +55,8 @@ public class SaleRejHistoryFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            customer_id = getArguments().getString(CUSTOMER_ID);
+            customer_name = getArguments().getString(CUSTOMER_NAME);
         }
     }
 

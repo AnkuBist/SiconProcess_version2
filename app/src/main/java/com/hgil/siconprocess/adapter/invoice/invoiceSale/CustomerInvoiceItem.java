@@ -1,17 +1,12 @@
 package com.hgil.siconprocess.adapter.invoice.invoiceSale;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hgil.siconprocess.R;
-import com.hgil.siconprocess.activity.fragments.invoice.makeSaleInvoice.CustomerInvoiceFragment;
 import com.hgil.siconprocess.adapter.invoice.InvoiceModel;
-import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -24,18 +19,20 @@ import butterknife.ButterKnife;
 public class CustomerInvoiceItem {
     @BindView(R.id.tvItemName)
     TextView tvItemName;
-    @BindView(R.id.tvStock)
-    TextView tvStock;
-    @BindView(R.id.tvRate)
-    TextView tvRate;
-    @BindView(R.id.tvTarget)
-    TextView tvTarget;
-    @BindView(R.id.etQty)
-    EditText etQty;
-    @BindView(R.id.etSample)
-    EditText etSample;
-    @BindView(R.id.etAmount)
-    EditText etAmount;
+    /* @BindView(R.id.tvStock)
+     TextView tvStock;
+     @BindView(R.id.tvRate)
+     TextView tvRate;
+     @BindView(R.id.tvTarget)
+     TextView tvTarget;
+     @BindView(R.id.etQty)
+     EditText etQty;
+     @BindView(R.id.etSample)
+     EditText etSample;
+     @BindView(R.id.etAmount)
+     EditText etAmount;*/
+    @BindView(R.id.etQuantity)
+    EditText etQuantity;
     @BindString(R.string.strRupee)
     String strRupee;
     private Context mContext;
@@ -48,25 +45,26 @@ public class CustomerInvoiceItem {
 
     public void updateInvoiceItem(final CustomerInvoiceAdapter.ViewHolder holder, final InvoiceModel itemInvoice, final int position) {
         final String itemName = itemInvoice.getItemName();
-        final float price = itemInvoice.getItemRate();
+        // final float price = itemInvoice.getItemRate();
         float demandQty = itemInvoice.getDemandTargetQty();
-        final double orderAmount = itemInvoice.getOrderAmount();
+        // final double orderAmount = itemInvoice.getOrderAmount();
 
-        // get product stock
+   /*     // get product stock
         stockAvail = itemInvoice.getStockAvail() + (int) demandQty;
-        tempStock = itemInvoice.getTempStock();
+        tempStock = itemInvoice.getTempStock();*/
 
         tvItemName.setText(itemName);
-        tvStock.setText("Stock : " + tempStock);
+        etQuantity.setText("" + demandQty);
+      /*  tvStock.setText("Stock : " + tempStock);
         tvRate.setText("Rate : " + strRupee + price);
         tvTarget.setText("TGT : ");
         tvTarget.setVisibility(View.GONE);
         etQty.setText(String.valueOf((int) demandQty));
         etSample.setText(String.valueOf(itemInvoice.getFixedSample()));
-        etAmount.setText(strRupee + String.valueOf(orderAmount));
+        etAmount.setText(strRupee + String.valueOf(orderAmount));*/
 
         // now calculate the total price of the entered quantity
-        etQty.addTextChangedListener(new TextWatcher() {
+       /* etQty.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -118,7 +116,7 @@ public class CustomerInvoiceItem {
                 String customerTotalInvoiceAmount = strRupee + String.valueOf(Utility.roundTwoDecimals(CustomerInvoiceFragment.grandTotal));
                 CustomerInvoiceFragment.tvInvoiceTotal.setText(customerTotalInvoiceAmount);
             }
-        });
+        });*/
     }
 
 

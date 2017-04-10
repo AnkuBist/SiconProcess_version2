@@ -1,16 +1,18 @@
-package com.hgil.siconprocess.base;
+package com.hgil.siconprocess.activity.base_frame;
 
 import android.support.v7.app.AppCompatActivity;
 
+import com.hgil.siconprocess.base.SiconApp;
 import com.hgil.siconprocess.retrofit.loginResponse.dbModels.RouteModel;
+import com.hgil.siconprocess.utils.Utility;
 
 import butterknife.ButterKnife;
 
 /**
- * Created by mohan.giri on 01-02-2017.
+ * Created by mohan.giri on 10-04-2017.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class RouteBaseActivity extends AppCompatActivity {
 
     protected RouteModel routeModel;
     protected String routeId, routeName, loginId;
@@ -27,24 +29,19 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void initiateAppInstance() {
-/*        RouteView routeView = new RouteView(this);
+     /*   RouteView routeView = new RouteView(this);
         routeModel = routeView.getRouteById(routeId);
         routeId = routeModel.getRouteId();
         routeName = routeModel.getRouteName();
         if (routeName != null)
             routeName = routeName.substring(0, 1).toUpperCase() + routeName.substring(1).toLowerCase();
         else
-            routeName = "";*/
+            routeName = "";
 
-        routeModel = SiconApp.getInstance().getRouteModel();
-        routeId = SiconApp.getInstance().getRouteId();
-        routeName = SiconApp.getInstance().getRouteName();
-        loginId = SiconApp.getInstance().getLoginId();
-
-       /* SiconApp.getInstance().setRouteModel(routeModel);
+        SiconApp.getInstance().setRouteModel(routeModel);
         SiconApp.getInstance().setRouteId(routeId);
-        SiconApp.getInstance().setRouteName(routeName);
-        SiconApp.getInstance().setLoginId(Utility.readPreference(this, Utility.LAST_LOGIN_ID));*/
+        SiconApp.getInstance().setRouteName(routeName);*/
+        SiconApp.getInstance().setLoginId(Utility.readPreference(this, Utility.LAST_LOGIN_ID));
     }
 
     public RouteModel getRouteModel() {

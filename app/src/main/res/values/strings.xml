@@ -1,27 +1,26 @@
 <resources>
-    <string name="app_name">SiconProcess</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">SiconProcess_View</string>
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
-    <!--drawer items names-->
-    <string name="str_nav_home">Home</string>
-    <string name="str_nav_customer_order">Tomorrow\'s Order</string>
-    <string name="str_nav_dashboard">Dashboard</string>
-    <string name="str_view_van_stock">View Van Stock</string>
-    <!--<string name="str_nav_today_sale">Today\'s Sale</string>-->
+    <!--drawer base nav items-->
+    <string name="str_nav_route_list">Route List</string>
+    <string name="str_nav_remarks_summary">Remarks Summary</string>
     <string name="str_nav_planner">Planner</string>
-    <string name="str_nav_my_remarks">My Remarks</string>
-    <string name="str_nav_sale_rej_history">Sale &amp; Rejection History</string>
-    <string name="str_nav_sync">Sync</string>
     <string name="str_nav_logout">Logout</string>
 
+    <!--drawer items names-->
+    <string name="str_nav_route_list_home">Route List Home</string>
+    <string name="str_nav_outlet_list_home">Outlet Status</string>
+    <string name="str_nav_dashboard">Dashboard</string>
+    <string name="str_view_van_stock">View Van Stock</string>
+
+
     <!--home invoice drawer item names-->
+    <string name="str_nav_route_home">Route Home</string>
     <string name="str_nav_today_sale">Today\'s Sale</string>
-    <string name="str_nav_goods_return">Goods Return</string>
+    <string name="str_nav_sale_rej_history">Sale &amp; Rejection History</string>
     <string name="str_nav_remark">Remark</string>
     <string name="str_nav_outlet_info">Outlet Info</string>
 
@@ -44,5 +43,8 @@
 
     <string name="status_stop"><font color='#FF8E8E93'>Stopped</font></string> <!--gray-->
     <string name="status_completed"><font color='#FF4CD964'>COMPLETED</font></string> <!--red-->
-    <string name="status_pending"><font color='#FFFF3B30'>PENDING</font></string> <!--green-->
+    <string name="status_pending"><font color='#FFFF3B30'>PENDING</font></string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string> <!--green-->
 </resources>

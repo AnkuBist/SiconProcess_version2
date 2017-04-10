@@ -44,7 +44,6 @@
         <activity android:name=".activity.fragments.invoice.rejActivities.FreshRejectionActivity" />
         <activity android:name=".activity.fragments.invoice.rejActivities.MarketRejectionActivity" />
         <activity android:name=".activity.fragments.invoice.ChequeDetailsActivity" />
-        <activity android:name=".activity.ViewVanStockActivity" />
         <activity android:name=".activity.fragments.invoice.makeOrderInvoice.TomorrowOrderProductListActivity" />
         <activity android:name=".activity.SelectedOutletInfoActivity" />
         <activity
@@ -53,6 +52,10 @@
         <activity android:name=".activity.fragments.customerOrder.OrderProductListActivity" />
         <activity android:name=".activity.fragments.clientMarket.MarketProductListActivity" />
         <activity android:name=".activity.temp_activities.RemarkActivity" />
+        <activity
+            android:name=".activity.base_frame.RouteListActivity"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>
