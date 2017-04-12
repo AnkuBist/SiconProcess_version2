@@ -226,7 +226,7 @@ public class OutletView extends SQLiteOpenHelper {
 
     public ArrayList<RouteCustomerModel> getRouteCustomers(String route_id) {
         ArrayList<RouteCustomerModel> array_list = new ArrayList<RouteCustomerModel>();
-        VanStockView vanStockView = new VanStockView(mContext);
+        OutletSaleView outletSaleView = new OutletSaleView(mContext);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
@@ -237,7 +237,7 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
                 routeCustomerModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
-                double sale_amt = vanStockView.outletSaleAmount(routeCustomerModel.getCustomerId());
+                double sale_amt = outletSaleView.outletSaleAmount(routeCustomerModel.getCustomerId());
                 if (sale_amt > 0)
                     routeCustomerModel.setCustStatus("Completed");
                 else
@@ -255,7 +255,7 @@ public class OutletView extends SQLiteOpenHelper {
 
     public ArrayList<RouteCustomerModel> getRoutePendingCustomers(String route_id) {
         ArrayList<RouteCustomerModel> array_list = new ArrayList<RouteCustomerModel>();
-        VanStockView vanStockView = new VanStockView(mContext);
+        OutletSaleView outletSaleView = new OutletSaleView(mContext);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
@@ -267,7 +267,7 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
                 routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
-                double sale_amt = vanStockView.outletSaleAmount(routeCustomerModel.getCustomerId());
+                double sale_amt = outletSaleView.outletSaleAmount(routeCustomerModel.getCustomerId());
                 if (sale_amt > 0) {
                     routeCustomerModel.setCustStatus("Completed");
                     // do nothing--PENDING CASE
@@ -286,7 +286,7 @@ public class OutletView extends SQLiteOpenHelper {
 
     public ArrayList<RouteCustomerModel> getRouteCompletedCustomers(String route_id) {
         ArrayList<RouteCustomerModel> array_list = new ArrayList<RouteCustomerModel>();
-        VanStockView vanStockView = new VanStockView(mContext);
+        OutletSaleView outletSaleView = new OutletSaleView(mContext);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
@@ -297,7 +297,7 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
                 routeCustomerModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
-                double sale_amt = vanStockView.outletSaleAmount(routeCustomerModel.getCustomerId());
+                double sale_amt = outletSaleView.outletSaleAmount(routeCustomerModel.getCustomerId());
                 if (sale_amt > 0) {
                     routeCustomerModel.setCustStatus("Completed");
                     routeCustomerModel.setSaleAmount(sale_amt);

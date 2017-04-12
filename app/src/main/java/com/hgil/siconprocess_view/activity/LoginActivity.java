@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.base_frame.RouteListActivity;
+import com.hgil.siconprocess_view.database.OutletSaleView;
 import com.hgil.siconprocess_view.database.OutletView;
 import com.hgil.siconprocess_view.database.RouteView;
 import com.hgil.siconprocess_view.database.VanStockView;
@@ -54,8 +55,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private RouteView dbRouteView;
     private OutletView dbOutletView;
+    private OutletSaleView dbOutletSale;
     private VanStockView dbVanStock;
-    //private OutletSaleView dbOutletSale;
 
 
     private String existing_id = "", saved_id = "";
@@ -82,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         dbRouteView = new RouteView(this);
         dbOutletView = new OutletView(this);
         dbVanStock = new VanStockView(this);
-        //dbOutletSale = new OutletSaleView(this);
+        dbOutletSale = new OutletSaleView(this);
     }
 
     public void onSubmit(View view) {
@@ -143,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
         dbRouteView.eraseTable();
         dbOutletView.eraseTable();
         dbVanStock.eraseTable();
-        // dbOutletSale.eraseTable();
+        dbOutletSale.eraseTable();
     }
 
     /*retrofit call test to fetch data from server*/
@@ -195,6 +196,7 @@ public class LoginActivity extends AppCompatActivity {
             // sync data to local table and views
             dbRouteView.insertRoutes(objResponse.getArrRoutes());
             dbOutletView.insertOutlet(objResponse.getArrOutlets());
+            dbOutletSale.insertOutletSale(objResponse.getArrOutletSale());
             dbVanStock.insertVanStock(objResponse.getArrVanStock());
 
             Utility.saveLoginStatus(LoginActivity.this, Utility.LOGIN_STATUS, true);

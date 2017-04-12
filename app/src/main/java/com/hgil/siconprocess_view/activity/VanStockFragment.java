@@ -38,7 +38,6 @@ public class VanStockFragment extends BaseFragment {
     TextView tvEmpty;
 
     private VanStockAdapter vanStockAdapter;
-    //private ProductView productView;
     private ArrayList<VanStockModel> arrVanStock = new ArrayList<>();
 
     public VanStockFragment() {

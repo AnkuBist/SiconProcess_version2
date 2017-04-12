@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
-import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.VanStockModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletSaleModel;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -34,7 +34,7 @@ public class OutletSaleItem {
         ButterKnife.bind(this, v);
     }
 
-    public void updateSaleItem(final OutletSaleAdapter.ViewHolder holder, final VanStockModel itemInvoice, final int position) {
+    public void updateSaleItem(final OutletSaleAdapter.ViewHolder holder, final OutletSaleModel itemInvoice, final int position) {
         final String itemName = itemInvoice.getItemName();
         tvItemName.setText(itemName);
         tvSaleQty.setText("" + itemInvoice.getNetSale());

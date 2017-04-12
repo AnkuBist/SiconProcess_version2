@@ -18,18 +18,23 @@ import java.util.List;
 
 public class OutletSaleView extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "Sicon_Customer_db";
-    private static final String TABLE_NAME = "V_SD_Customer_Route_Mapping";
+    private static final String DATABASE_NAME = "GOGB_Outlet_Sale_db";
+    private static final String TABLE_NAME = "Outlet_Sale_table";
 
-    private static final String CASHIER_ID = "CashierId";
-    private static final String CASHIER_NAME = "CashierName";
-    private static final String BEAT_CODE = "beat_code";
-    private static final String INVOICE_DATE = "Inv_date";
-    private static final String INVOICE_DATE_TIME = "Inv_Datetime";
-    private static final String INVOICE_ID = "inv_id";
-    private static final String ITEM_COUNT = "item_count";
-    private static final String REASON = "Reason";
+    private static final String LOCATION_CODE = "location_code";
+    private static final String ROUTE_MANAGEMENT_ID = "RouteManagementId";
+    private static final String STOCK_DATE = "stock_date";
     private static final String OUTLET_CODE = "outlet_code";
+    private static final String ROUTE_ID = "route_id";
+    private static final String ITEM_ID = "item_id";
+    private static final String ITEM_NAME = "item_name";
+    private static final String LOADING = "loading";
+    private static final String OTHER_REJ = "otherRej";
+    private static final String FRESH_REJ = "freshRej";
+    private static final String SAMPLE_QTY = "sampleQty";
+    private static final String NET_SALE = "netSale";
+    private static final String INVOICE_ID = "invoice_id";
+    private static final String INVOICE_AMT = "invoice_amt";
 
     private Context mContext;
 
@@ -40,10 +45,12 @@ public class OutletSaleView extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + CASHIER_ID + " TEXT NULL, "
-                + CASHIER_NAME + " TEXT NULL, " + BEAT_CODE + " TEXT NULL, " + INVOICE_DATE + " TEXT NULL, "
-                + INVOICE_DATE_TIME + " TEXT NULL, " + INVOICE_ID + " TEXT NULL, " + ITEM_COUNT + " INTEGER NULL, "
-                + REASON + " TEXT NULL, " + OUTLET_CODE + " TEXT NULL)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + LOCATION_CODE + " TEXT NULL, "
+                + ROUTE_MANAGEMENT_ID + " TEXT NULL, " + STOCK_DATE + " TEXT NULL, " + OUTLET_CODE + " TEXT NULL, "
+                + ROUTE_ID + " TEXT NULL, " + ITEM_ID + " TEXT NULL, " + ITEM_NAME + " TEXT NULL, "
+                + LOADING + " INTEGER NULL, " + OTHER_REJ + " INTEGER NULL, " + FRESH_REJ + " INTEGER NULL, "
+                + SAMPLE_QTY + " INTEGER NULL, " + NET_SALE + " INTEGER NULL, " + INVOICE_ID + " TEXT NULL, "
+                + INVOICE_AMT + " REAL NULL)");
     }
 
     @Override
@@ -62,49 +69,59 @@ public class OutletSaleView extends SQLiteOpenHelper {
     public boolean insertOutletSale(OutletSaleModel outletSaleModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(CASHIER_ID, outletSaleModel.getCashierId());
-        contentValues.put(CASHIER_NAME, outletSaleModel.getCashierName());
-        contentValues.put(BEAT_CODE, outletSaleModel.getBeatCode());
-        contentValues.put(INVOICE_DATE, outletSaleModel.getInvDate());
-        contentValues.put(INVOICE_DATE_TIME, outletSaleModel.getInvDatetime());
-        contentValues.put(INVOICE_ID, outletSaleModel.getInvId());
-        contentValues.put(ITEM_COUNT, outletSaleModel.getItemCount());
-        contentValues.put(REASON, outletSaleModel.getReason());
+        contentValues.put(LOCATION_CODE, outletSaleModel.getLocationCode());
+        contentValues.put(ROUTE_MANAGEMENT_ID, outletSaleModel.getRouteManagementId());
+        contentValues.put(STOCK_DATE, outletSaleModel.getStockDate());
         contentValues.put(OUTLET_CODE, outletSaleModel.getOutletCode());
+        contentValues.put(ROUTE_ID, outletSaleModel.getRouteId());
+        contentValues.put(ITEM_ID, outletSaleModel.getItemId());
+        contentValues.put(ITEM_NAME, outletSaleModel.getItemName());
+        contentValues.put(LOADING, outletSaleModel.getLoading());
+        contentValues.put(OTHER_REJ, outletSaleModel.getOtherRej());
+        contentValues.put(FRESH_REJ, outletSaleModel.getFreshRej());
+        contentValues.put(SAMPLE_QTY, outletSaleModel.getSampleQty());
+        contentValues.put(NET_SALE, outletSaleModel.getNetSale());
+        contentValues.put(INVOICE_ID, outletSaleModel.getInvoiceId());
+        contentValues.put(INVOICE_AMT, outletSaleModel.getInvoiceAmt());
         db.insert(TABLE_NAME, null, contentValues);
         db.close();
         return true;
     }
 
-    // insert multiple outlets
-    public boolean insertOutletSale(List<OutletSaleModel> arrOutletSale) {
+    // insert multiple
+    public boolean insertOutletSale(List<OutletSaleModel> arrVanStock) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        for (int i = 0; i < arrOutletSale.size(); i++) {
-            OutletSaleModel outletSaleModel = arrOutletSale.get(i);
+        for (int i = 0; i < arrVanStock.size(); i++) {
+            OutletSaleModel outletSaleModel = arrVanStock.get(i);
             ContentValues contentValues = new ContentValues();
-            contentValues.put(CASHIER_ID, outletSaleModel.getCashierId());
-            contentValues.put(CASHIER_NAME, outletSaleModel.getCashierName());
-            contentValues.put(BEAT_CODE, outletSaleModel.getBeatCode());
-            contentValues.put(INVOICE_DATE, outletSaleModel.getInvDate());
-            contentValues.put(INVOICE_DATE_TIME, outletSaleModel.getInvDatetime());
-            contentValues.put(INVOICE_ID, outletSaleModel.getInvId());
-            contentValues.put(ITEM_COUNT, outletSaleModel.getItemCount());
-            contentValues.put(REASON, outletSaleModel.getReason());
+            contentValues.put(LOCATION_CODE, outletSaleModel.getLocationCode());
+            contentValues.put(ROUTE_MANAGEMENT_ID, outletSaleModel.getRouteManagementId());
+            contentValues.put(STOCK_DATE, outletSaleModel.getStockDate());
             contentValues.put(OUTLET_CODE, outletSaleModel.getOutletCode());
+            contentValues.put(ROUTE_ID, outletSaleModel.getRouteId());
+            contentValues.put(ITEM_ID, outletSaleModel.getItemId());
+            contentValues.put(ITEM_NAME, outletSaleModel.getItemName());
+            contentValues.put(LOADING, outletSaleModel.getLoading());
+            contentValues.put(OTHER_REJ, outletSaleModel.getOtherRej());
+            contentValues.put(FRESH_REJ, outletSaleModel.getFreshRej());
+            contentValues.put(SAMPLE_QTY, outletSaleModel.getSampleQty());
+            contentValues.put(NET_SALE, outletSaleModel.getNetSale());
+            contentValues.put(INVOICE_ID, outletSaleModel.getInvoiceId());
+            contentValues.put(INVOICE_AMT, outletSaleModel.getInvoiceAmt());
             db.insert(TABLE_NAME, null, contentValues);
         }
         db.close();
         return true;
     }
 
-   /* public String getCustomerContact(String customer_id) {
+    /*public String getCustomerContact(String customer_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT " + CONTACT_NO + " FROM " + TABLE_NAME + " WHERE " + INVOICE_ID + "=?", new String[]{customer_id});
+        Cursor res = db.rawQuery("SELECT " + TIME_STAMP + " FROM " + TABLE_NAME + " WHERE " + ITEM_ID + "=?", new String[]{customer_id});
 
         String contact = "";
         if (res.moveToFirst()) {
-            contact = res.getString(res.getColumnIndex(CONTACT_NO));
+            contact = res.getString(res.getColumnIndex(TIME_STAMP));
         }
         res.close();
         db.close();
@@ -119,7 +136,7 @@ public class OutletSaleView extends SQLiteOpenHelper {
     }
 
     // get all customers
-    public ArrayList<OutletSaleModel> getAllOutletSale() {
+    public ArrayList<OutletSaleModel> getAllRouteSale() {
         ArrayList<OutletSaleModel> array_list = new ArrayList<OutletSaleModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -127,15 +144,20 @@ public class OutletSaleView extends SQLiteOpenHelper {
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 OutletSaleModel outletSaleModel = new OutletSaleModel();
-                outletSaleModel.setCashierId(res.getString(res.getColumnIndex(CASHIER_ID)));
-                outletSaleModel.setCashierName(res.getString(res.getColumnIndex(CASHIER_NAME)));
-                outletSaleModel.setBeatCode(res.getString(res.getColumnIndex(BEAT_CODE)));
-                outletSaleModel.setInvDate(res.getString(res.getColumnIndex(INVOICE_DATE)));
-                outletSaleModel.setInvDatetime(res.getString(res.getColumnIndex(INVOICE_DATE_TIME)));
-                outletSaleModel.setInvId(res.getString(res.getColumnIndex(INVOICE_ID)));
-                outletSaleModel.setItemCount(res.getInt(res.getColumnIndex(ITEM_COUNT)));
-                outletSaleModel.setReason(res.getString(res.getColumnIndex(REASON)));
+                outletSaleModel.setLocationCode(res.getString(res.getColumnIndex(LOCATION_CODE)));
+                outletSaleModel.setRouteManagementId(res.getString(res.getColumnIndex(ROUTE_MANAGEMENT_ID)));
+                outletSaleModel.setStockDate(res.getString(res.getColumnIndex(STOCK_DATE)));
                 outletSaleModel.setOutletCode(res.getString(res.getColumnIndex(OUTLET_CODE)));
+                outletSaleModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
+                outletSaleModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
+                outletSaleModel.setItemName(res.getString(res.getColumnIndex(ITEM_NAME)));
+                outletSaleModel.setLoading(res.getInt(res.getColumnIndex(LOADING)));
+                outletSaleModel.setOtherRej(res.getInt(res.getColumnIndex(OTHER_REJ)));
+                outletSaleModel.setFreshRej(res.getInt(res.getColumnIndex(FRESH_REJ)));
+                outletSaleModel.setSampleQty(res.getInt(res.getColumnIndex(SAMPLE_QTY)));
+                outletSaleModel.setNetSale(res.getInt(res.getColumnIndex(NET_SALE)));
+                outletSaleModel.setInvoiceId(res.getString(res.getColumnIndex(INVOICE_ID)));
+                outletSaleModel.setInvoiceAmt(res.getDouble(res.getColumnIndex(INVOICE_AMT)));
                 array_list.add(outletSaleModel);
                 res.moveToNext();
             }
@@ -146,7 +168,7 @@ public class OutletSaleView extends SQLiteOpenHelper {
     }
 
     /*get outlets/customers linked to route_id*/
-    public ArrayList<OutletSaleModel> getSaleByOutlet(String outlet_id) {
+    public ArrayList<OutletSaleModel> getRouteSaleByOutlet(String outlet_id) {
         ArrayList<OutletSaleModel> array_list = new ArrayList<OutletSaleModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -154,15 +176,20 @@ public class OutletSaleView extends SQLiteOpenHelper {
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 OutletSaleModel outletSaleModel = new OutletSaleModel();
-                outletSaleModel.setCashierId(res.getString(res.getColumnIndex(CASHIER_ID)));
-                outletSaleModel.setCashierName(res.getString(res.getColumnIndex(CASHIER_NAME)));
-                outletSaleModel.setBeatCode(res.getString(res.getColumnIndex(BEAT_CODE)));
-                outletSaleModel.setInvDate(res.getString(res.getColumnIndex(INVOICE_DATE)));
-                outletSaleModel.setInvDatetime(res.getString(res.getColumnIndex(INVOICE_DATE_TIME)));
-                outletSaleModel.setInvId(res.getString(res.getColumnIndex(INVOICE_ID)));
-                outletSaleModel.setItemCount(res.getInt(res.getColumnIndex(ITEM_COUNT)));
-                outletSaleModel.setReason(res.getString(res.getColumnIndex(REASON)));
+                outletSaleModel.setLocationCode(res.getString(res.getColumnIndex(LOCATION_CODE)));
+                outletSaleModel.setRouteManagementId(res.getString(res.getColumnIndex(ROUTE_MANAGEMENT_ID)));
+                outletSaleModel.setStockDate(res.getString(res.getColumnIndex(STOCK_DATE)));
                 outletSaleModel.setOutletCode(res.getString(res.getColumnIndex(OUTLET_CODE)));
+                outletSaleModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
+                outletSaleModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
+                outletSaleModel.setItemName(res.getString(res.getColumnIndex(ITEM_NAME)));
+                outletSaleModel.setLoading(res.getInt(res.getColumnIndex(LOADING)));
+                outletSaleModel.setOtherRej(res.getInt(res.getColumnIndex(OTHER_REJ)));
+                outletSaleModel.setFreshRej(res.getInt(res.getColumnIndex(FRESH_REJ)));
+                outletSaleModel.setSampleQty(res.getInt(res.getColumnIndex(SAMPLE_QTY)));
+                outletSaleModel.setNetSale(res.getInt(res.getColumnIndex(NET_SALE)));
+                outletSaleModel.setInvoiceId(res.getString(res.getColumnIndex(INVOICE_ID)));
+                outletSaleModel.setInvoiceAmt(res.getDouble(res.getColumnIndex(INVOICE_AMT)));
                 array_list.add(outletSaleModel);
                 res.moveToNext();
             }
@@ -170,5 +197,19 @@ public class OutletSaleView extends SQLiteOpenHelper {
         res.close();
         db.close();
         return array_list;
+    }
+
+    /*get invoice amount*/
+    public double outletSaleAmount(String customer_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT " + INVOICE_AMT + " FROM " + TABLE_NAME + " WHERE " + OUTLET_CODE + "=?", new String[]{customer_id});
+
+        double sale_amt = 0.00;
+        if (res.moveToFirst()) {
+            sale_amt = res.getDouble(res.getColumnIndex(INVOICE_AMT));
+        }
+        res.close();
+        db.close();
+        return sale_amt;
     }
 }
