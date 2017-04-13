@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.base.BaseFragment;
+import com.hgil.siconprocess_view.database.SaleHistoryView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -135,9 +136,11 @@ public class SaleRejHistoryFragment extends BaseFragment {
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                 linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 rvSaleRej.setLayoutManager(linearLayoutManager);
+                SaleHistoryView saleHistoryView = new SaleHistoryView(getContext());
 
-                ArrayList<SaleRejModel> arrSaleRej = new ArrayList<>();
+                ArrayList<SaleRejModel> arrSaleRej = saleHistoryView.outletSaleHistory(customer_id);
                 //arrSaleRej.addAll(routeMap.getRouteCustomers());
+/*
 
                 for (int i = 0; i < 10; i++) {
                     SaleRejModel saleRejModel = new SaleRejModel();
@@ -146,6 +149,7 @@ public class SaleRejHistoryFragment extends BaseFragment {
                     saleRejModel.setRej_prct((10 + i) + (i / 100));
                     arrSaleRej.add(saleRejModel);
                 }
+*/
 
                 SaleRejAdapter saleRejAdapter = new SaleRejAdapter(getContext(), arrSaleRej);
                 rvSaleRej.setAdapter(saleRejAdapter);

@@ -7,6 +7,8 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.hgil.siconprocess_view.adapter.vanStock.VanStkModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletSaleModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.VanStockModel;
 
 import java.util.ArrayList;
@@ -18,8 +20,8 @@ import java.util.List;
 
 public class VanStockView extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "Sicon_Customer_db";
-    private static final String TABLE_NAME = "V_SD_Customer_Route_Mapping";
+    private static final String DATABASE_NAME = "Sicon_Van_Stock_db";
+    private static final String TABLE_NAME = "V_Van_Stock_Table";
 
     private static final String ROUTE_ID = "Route_id";
     private static final String ITEM_ID = "Item_id";
@@ -120,17 +122,27 @@ public class VanStockView extends SQLiteOpenHelper {
     }
 
     /*get outlets/customers linked to route_id*/
-    public ArrayList<VanStockModel> getVanStockByRoute(String route_id) {
-        ArrayList<VanStockModel> array_list = new ArrayList<VanStockModel>();
+    public ArrayList<VanStkModel> getVanStockByRoute(String route_id) {
+        ArrayList<VanStkModel> array_list = new ArrayList<>();
+
+        OutletSaleView outletSaleView = new OutletSaleView(mContext);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
-                VanStockModel vanStockModel = new VanStockModel();
-                vanStockModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
-                vanStockModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
-                vanStockModel.setItemQty(res.getInt(res.getColumnIndex(ITEM_QTY)));
+                VanStkModel vanStockModel = new VanStkModel();
+                //vanStockModel.set(res.getString(res.getColumnIndex(ROUTE_ID)));
+                vanStockModel.setItem_id(res.getString(res.getColumnIndex(ITEM_ID)));
+                vanStockModel.setLoadQty(res.getInt(res.getColumnIndex(ITEM_QTY)));
+
+                OutletSaleModel outletSaleModel = outletSaleView.getRouteItemSale(route_id, vanStockModel.getItem_id());
+                vanStockModel.setItem_name(outletSaleModel.getItemName());
+                vanStockModel.setGross_sale(outletSaleModel.getNetSale());
+                vanStockModel.setSample(outletSaleModel.getSampleQty());
+                vanStockModel.setMarket_rejection(outletSaleModel.getOtherRej());
+                vanStockModel.setFresh_rejection(outletSaleModel.getFreshRej());
+                vanStockModel.setLeft_over(vanStockModel.getLoadQty() - vanStockModel.getGross_sale() - vanStockModel.getSample() - vanStockModel.getMarket_rejection() - vanStockModel.getFresh_rejection());
                 array_list.add(vanStockModel);
                 res.moveToNext();
             }

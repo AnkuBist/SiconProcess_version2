@@ -32,19 +32,19 @@ public class OutletSaleModel {
     private String itemName;
     @SerializedName("loading")
     @Expose
-    private Integer loading;
+    private int loading;
     @SerializedName("otherRej")
     @Expose
-    private Integer otherRej;
+    private int otherRej;
     @SerializedName("freshRej")
     @Expose
-    private Integer freshRej;
+    private int freshRej;
     @SerializedName("sampleQty")
     @Expose
-    private Integer sampleQty;
+    private int sampleQty;
     @SerializedName("netSale")
     @Expose
-    private Integer netSale;
+    private int netSale;
 
     @SerializedName("invoice_id")
     @Expose
@@ -108,43 +108,43 @@ public class OutletSaleModel {
         this.itemName = timeStamp;
     }
 
-    public Integer getLoading() {
+    public int getLoading() {
         return loading;
     }
 
-    public void setLoading(Integer loading) {
+    public void setLoading(int loading) {
         this.loading = loading;
     }
 
-    public Integer getOtherRej() {
+    public int getOtherRej() {
         return otherRej;
     }
 
-    public void setOtherRej(Integer otherRej) {
+    public void setOtherRej(int otherRej) {
         this.otherRej = otherRej;
     }
 
-    public Integer getFreshRej() {
+    public int getFreshRej() {
         return freshRej;
     }
 
-    public void setFreshRej(Integer freshRej) {
+    public void setFreshRej(int freshRej) {
         this.freshRej = freshRej;
     }
 
-    public Integer getSampleQty() {
+    public int getSampleQty() {
         return sampleQty;
     }
 
-    public void setSampleQty(Integer sampleQty) {
+    public void setSampleQty(int sampleQty) {
         this.sampleQty = sampleQty;
     }
 
-    public Integer getNetSale() {
+    public int getNetSale() {
         return netSale;
     }
 
-    public void setNetSale(Integer netSale) {
+    public void setNetSale(int netSale) {
         this.netSale = netSale;
     }
 

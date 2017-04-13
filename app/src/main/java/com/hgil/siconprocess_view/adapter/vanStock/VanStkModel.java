@@ -4,7 +4,7 @@ package com.hgil.siconprocess_view.adapter.vanStock;
  * Created by mohan.giri on 06-02-2017.
  */
 
-public class VanStockModel {
+public class VanStkModel {
 
     private String item_id;
     private String item_name;

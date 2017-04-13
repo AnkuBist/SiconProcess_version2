@@ -212,4 +212,82 @@ public class OutletSaleView extends SQLiteOpenHelper {
         db.close();
         return sale_amt;
     }
+
+    /*prepare van stock data*/
+    public OutletSaleModel getRouteItemSale(String route_id, String item_id) {
+        OutletSaleModel outletSaleModel = new OutletSaleModel();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+      /*  Cursor query (String table,
+                String[] columns,
+                String selection,
+                String[] selectionArgs,
+                String groupBy,
+                String having,
+                String orderBy)*/
+        Cursor res = db.query(TABLE_NAME, new String[]{ITEM_NAME
+                , "sum(" + LOADING + ") as " + LOADING,
+                "sum(" + OTHER_REJ + ") as " + OTHER_REJ,
+                "sum(" + FRESH_REJ + ") as " + FRESH_REJ,
+                "sum(" + SAMPLE_QTY + ") as " + SAMPLE_QTY,
+                "sum(" + NET_SALE + ") as " + NET_SALE,
+        }, ROUTE_ID + "=? AND " + ITEM_ID + "=?", new String[]{route_id, item_id}, ITEM_NAME, null, ITEM_ID);
+
+    /*    Cursor res = db.rawQuery("SELECT "+ROUTE_ID+",  FROM " + TABLE_NAME + " where "
+                + ROUTE_ID + "=? AND " + ITEM_ID + "=?", new String[]{route_id, item_id});*/
+        if (res.moveToFirst()) {
+            //while (res.isAfterLast() == false) {
+            //outletSaleModel.setLocationCode(res.getString(res.getColumnIndex(LOCATION_CODE)));
+            //outletSaleModel.setRouteManagementId(res.getString(res.getColumnIndex(ROUTE_MANAGEMENT_ID)));
+            //outletSaleModel.setStockDate(res.getString(res.getColumnIndex(STOCK_DATE)));
+            //outletSaleModel.setOutletCode(res.getString(res.getColumnIndex(OUTLET_CODE)));
+            //outletSaleModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
+            //outletSaleModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
+            outletSaleModel.setItemName(res.getString(res.getColumnIndex(ITEM_NAME)));
+            outletSaleModel.setLoading(res.getInt(res.getColumnIndex(LOADING)));
+            outletSaleModel.setOtherRej(res.getInt(res.getColumnIndex(OTHER_REJ)));
+            outletSaleModel.setFreshRej(res.getInt(res.getColumnIndex(FRESH_REJ)));
+            outletSaleModel.setSampleQty(res.getInt(res.getColumnIndex(SAMPLE_QTY)));
+            outletSaleModel.setNetSale(res.getInt(res.getColumnIndex(NET_SALE)));
+            //outletSaleModel.setInvoiceId(res.getString(res.getColumnIndex(INVOICE_ID)));
+            //outletSaleModel.setInvoiceAmt(res.getDouble(res.getColumnIndex(INVOICE_AMT)));
+            // res.moveToNext();
+            //}
+        }
+        res.close();
+        db.close();
+        return outletSaleModel;
+    }
+
+    /*item target sale over route*/
+    public int routeItemSaleQty(String route_id, String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT sum(" + NET_SALE + ") AS " + NET_SALE + " FROM " + TABLE_NAME + " WHERE "
+                + ROUTE_ID + "=? and " + ITEM_ID + "=?", new String[]{route_id, item_id});
+        int sale_qty = 0;
+        if (res.moveToFirst()) {
+            sale_qty = res.getInt(res.getColumnIndex(NET_SALE));
+        }
+        res.close();
+        db.close();
+        return sale_qty;
+    }
+
+    //TODO---temporary
+    /*get item name from this table*/
+    public String getItemName(String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT distinct " + ITEM_NAME + " FROM " + TABLE_NAME + " WHERE "
+                + ITEM_ID + "=?", new String[]{item_id});
+        String item_name = "";
+        if (res.moveToFirst()) {
+            item_name = res.getString(res.getColumnIndex(ITEM_NAME));
+        }
+        res.close();
+        db.close();
+        return item_name;
+    }
+
+
 }

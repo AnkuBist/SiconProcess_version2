@@ -9,9 +9,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
+import com.hgil.siconprocess_view.adapter.vanStock.VanStkModel;
 import com.hgil.siconprocess_view.adapter.vanStock.VanStockAdapter;
-import com.hgil.siconprocess_view.adapter.vanStock.VanStockModel;
 import com.hgil.siconprocess_view.base.BaseFragment;
+import com.hgil.siconprocess_view.database.VanStockView;
 
 import java.util.ArrayList;
 
@@ -22,23 +23,24 @@ import butterknife.BindView;
  */
 public class VanStockFragment extends BaseFragment {
 
-    @BindView(R.id.tvCrateLoaded)
-    TextView tvCrateLoaded;
-    @BindView(R.id.tvCrateOs)
-    TextView tvCrateOs;
-    @BindView(R.id.tvCrateIssued)
-    TextView tvCrateIssued;
-    @BindView(R.id.tvCrateReturned)
-    TextView tvCrateReturned;
-    @BindView(R.id.tvCrateLeftover)
-    TextView tvCrateLeftover;
+    /* @BindView(R.id.tvCrateLoaded)
+     TextView tvCrateLoaded;
+     @BindView(R.id.tvCrateOs)
+     TextView tvCrateOs;
+     @BindView(R.id.tvCrateIssued)
+     TextView tvCrateIssued;
+     @BindView(R.id.tvCrateReturned)
+     TextView tvCrateReturned;
+     @BindView(R.id.tvCrateLeftover)
+     TextView tvCrateLeftover;*/
     @BindView(R.id.rvVanStock)
     RecyclerView rvVanStock;
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
 
+    private VanStockView vanStockView;
     private VanStockAdapter vanStockAdapter;
-    private ArrayList<VanStockModel> arrVanStock = new ArrayList<>();
+    private ArrayList<VanStkModel> arrVanStock = new ArrayList<>();
 
     public VanStockFragment() {
         // Required empty public constructor
@@ -73,7 +75,7 @@ public class VanStockFragment extends BaseFragment {
         // display these in UI
         //tvCrateLoaded.setText(String.valueOf(crateLoaded));
         //tvCrateOs.setText(String.valueOf(crateOs));
-       // tvCrateIssued.setText(String.valueOf(crateIssued));
+        // tvCrateIssued.setText(String.valueOf(crateIssued));
         //tvCrateReturned.setText(String.valueOf(crateReturned));
         //tvCrateLeftover.setText(String.valueOf(crateLeftover));
 
@@ -81,8 +83,8 @@ public class VanStockFragment extends BaseFragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvVanStock.setLayoutManager(linearLayoutManager);
 
-        //productView = new ProductView(getContext());
-        //arrVanStock.addAll(productView.getVanStock());
+        vanStockView = new VanStockView(getContext());
+        arrVanStock.addAll(vanStockView.getVanStockByRoute(routeId));
         vanStockAdapter = new VanStockAdapter(getContext(), arrVanStock);
         rvVanStock.setAdapter(vanStockAdapter);
     }

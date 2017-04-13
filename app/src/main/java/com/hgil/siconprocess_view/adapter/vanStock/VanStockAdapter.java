@@ -20,10 +20,10 @@ import butterknife.ButterKnife;
 
 public class VanStockAdapter extends RecyclerView.Adapter<VanStockAdapter.ViewHolder> {
     private Context mContext;
-    private ArrayList<VanStockModel> mDataset;
+    private ArrayList<VanStkModel> mDataset;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public VanStockAdapter(Context mContext, ArrayList<VanStockModel> myDataset) {
+    public VanStockAdapter(Context mContext, ArrayList<VanStkModel> myDataset) {
         this.mContext = mContext;
         this.mDataset = myDataset;
     }
@@ -38,14 +38,14 @@ public class VanStockAdapter extends RecyclerView.Adapter<VanStockAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(VanStockAdapter.ViewHolder holder, int position) {
-        final VanStockModel vanStockModel = mDataset.get(position);
-        holder.tvItemName.setText(vanStockModel.getItem_name());
-        holder.tvLoadQty.setText(String.valueOf(vanStockModel.getLoadQty()));
-        holder.tvGrossSale.setText(String.valueOf(vanStockModel.getGross_sale()));
-        holder.tvSample.setText(String.valueOf(vanStockModel.getSample()));
-        holder.tvMarketRejection.setText(String.valueOf(vanStockModel.getMarket_rejection()));
-        holder.tvFreshRejection.setText(String.valueOf(vanStockModel.getFresh_rejection()));
-        holder.tvLeftover.setText(String.valueOf(vanStockModel.getLeft_over()));
+        final VanStkModel vanStkModel = mDataset.get(position);
+        holder.tvItemName.setText(vanStkModel.getItem_name());
+        holder.tvLoadQty.setText(String.valueOf(vanStkModel.getLoadQty()));
+        holder.tvGrossSale.setText(String.valueOf(vanStkModel.getGross_sale()));
+        holder.tvSample.setText(String.valueOf(vanStkModel.getSample()));
+        holder.tvMarketRejection.setText(String.valueOf(vanStkModel.getMarket_rejection()));
+        holder.tvFreshRejection.setText(String.valueOf(vanStkModel.getFresh_rejection()));
+        holder.tvLeftover.setText(String.valueOf(vanStkModel.getLeft_over()));
 
         holder.setIsRecyclable(false);
     }
@@ -70,7 +70,6 @@ public class VanStockAdapter extends RecyclerView.Adapter<VanStockAdapter.ViewHo
         public TextView tvLeftover;
         @BindView(R.id.tvItemName)
         TextView tvItemName;
-
 
         public ViewHolder(View v) {
             super(v);

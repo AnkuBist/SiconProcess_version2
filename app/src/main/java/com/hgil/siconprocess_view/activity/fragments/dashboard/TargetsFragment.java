@@ -11,6 +11,7 @@ import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.adapter.routeTarget.RouteTargetAdapter;
 import com.hgil.siconprocess_view.adapter.routeTarget.RouteTargetModel;
 import com.hgil.siconprocess_view.base.BaseFragment;
+import com.hgil.siconprocess_view.database.DemandTargetView;
 
 import java.util.ArrayList;
 
@@ -70,11 +71,14 @@ public class TargetsFragment extends BaseFragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvTargets.setLayoutManager(linearLayoutManager);
 
-        //DemandTargetTable demandTargetTable = new DemandTargetTable(getContext());
+        DemandTargetView demandTargetView = new DemandTargetView(getContext());
 
         arrRouteTarget = new ArrayList<>();
-       // arrRouteTarget.addAll(demandTargetTable.getDashboardTargets());
-        routeTargetAdapter = new RouteTargetAdapter(getContext(), arrRouteTarget);
+        //arrRouteTarget =demandTargetView.getDemandTargetByRoute(routeId);
+        arrRouteTarget.addAll(demandTargetView.getDemandTargetByRoute(routeId));
+
+        //ArrayList<DemandTargetModel> arrTargets = demandTargetView.getAllDemandTarget();
+
         rvTargets.setAdapter(routeTargetAdapter);
     }
 

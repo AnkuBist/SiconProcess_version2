@@ -6,9 +6,12 @@ package com.hgil.siconprocess_view.retrofit.loginResponse;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.DemandTargetModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.ItemModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletSaleModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SaleHistoryModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.VanStockModel;
 
 import java.io.Serializable;
@@ -18,15 +21,24 @@ public class ObjLoginResponse implements Serializable {
     @SerializedName("arrRoutes")
     @Expose
     private List<RouteModel> arrRoutes;
+/*    @SerializedName("arrItems")
+    @Expose
+    private List<ItemModel> arrItems;*/
     @SerializedName("arrOutlets")
     @Expose
     private List<OutletModel> arrOutlets;
+    @SerializedName("arrDemandTarget")
+    @Expose
+    private List<DemandTargetModel> arrDemandTarget;
     @SerializedName("arrVanStock")
     @Expose
     private List<VanStockModel> arrVanStock;
     @SerializedName("arrOutletSale")
     @Expose
     private List<OutletSaleModel> arrOutletSale;
+    @SerializedName("arrSaleHistory")
+    @Expose
+    private List<SaleHistoryModel> arrSaleHistory;
 
     public List<RouteModel> getArrRoutes() {
         return arrRoutes;
@@ -44,6 +56,14 @@ public class ObjLoginResponse implements Serializable {
         this.arrOutlets = arrOutlets;
     }
 
+    public List<DemandTargetModel> getArrDemandTarget() {
+        return arrDemandTarget;
+    }
+
+    public void setArrDemandTarget(List<DemandTargetModel> arrDemandTarget) {
+        this.arrDemandTarget = arrDemandTarget;
+    }
+
     public List<VanStockModel> getArrVanStock() {
         return arrVanStock;
     }
@@ -58,5 +78,13 @@ public class ObjLoginResponse implements Serializable {
 
     public void setArrOutletSale(List<OutletSaleModel> arrOutletSale) {
         this.arrOutletSale = arrOutletSale;
+    }
+
+    public List<SaleHistoryModel> getArrSaleHistory() {
+        return arrSaleHistory;
+    }
+
+    public void setArrSaleHistory(List<SaleHistoryModel> arrSaleHistory) {
+        this.arrSaleHistory = arrSaleHistory;
     }
 }

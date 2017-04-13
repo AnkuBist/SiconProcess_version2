@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.base_frame.RouteListActivity;
+import com.hgil.siconprocess_view.database.DemandTargetView;
 import com.hgil.siconprocess_view.database.OutletSaleView;
 import com.hgil.siconprocess_view.database.OutletView;
 import com.hgil.siconprocess_view.database.RouteView;
@@ -55,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private RouteView dbRouteView;
     private OutletView dbOutletView;
+    private DemandTargetView dbDemandTargetView;
     private OutletSaleView dbOutletSale;
     private VanStockView dbVanStock;
 
@@ -82,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
     private void initialiseDBObj() {
         dbRouteView = new RouteView(this);
         dbOutletView = new OutletView(this);
+        dbDemandTargetView = new DemandTargetView(this);
         dbVanStock = new VanStockView(this);
         dbOutletSale = new OutletSaleView(this);
     }
@@ -97,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Enter a valid password", Toast.LENGTH_SHORT).show();
         } else {
             // first check user login with the same existing id or not
-            if (checkUserId(username)) {
+           /* if (checkUserId(username)) {
                 // if the user is logged in today but somehow logged out then check for the last logged in date
                 // and local data in invoice if there exists any data then simply make user in
                 if ((Utility.getCurDate()).matches(Utility.readPreference(LoginActivity.this, Utility.LAST_LOGIN_DATE))) {
@@ -116,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                     // check for login
                     getUserLogin(username, password);
                 }
-            } else {
+            } else*/ {
 
                 //TODO--- this is a test code remove these lines and uncomment the below code after this
                 // check for login
@@ -143,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
     private void eraseAllTableData() {
         dbRouteView.eraseTable();
         dbOutletView.eraseTable();
+        dbDemandTargetView.eraseTable();
         dbVanStock.eraseTable();
         dbOutletSale.eraseTable();
     }
@@ -196,6 +200,7 @@ public class LoginActivity extends AppCompatActivity {
             // sync data to local table and views
             dbRouteView.insertRoutes(objResponse.getArrRoutes());
             dbOutletView.insertOutlet(objResponse.getArrOutlets());
+            dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
             dbOutletSale.insertOutletSale(objResponse.getArrOutletSale());
             dbVanStock.insertVanStock(objResponse.getArrVanStock());
 
