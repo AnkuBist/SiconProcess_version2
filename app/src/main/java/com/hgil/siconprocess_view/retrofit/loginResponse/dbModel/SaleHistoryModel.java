@@ -39,6 +39,9 @@ public class SaleHistoryModel {
     @SerializedName("SALEAMT")
     @Expose
     private Double sALEAMT;
+    @SerializedName("rej_prct")
+    @Expose
+    private Double rejPrct;
 
     public String getRouteId() {
         return routeId;
@@ -120,4 +123,11 @@ public class SaleHistoryModel {
         this.sALEAMT = sALEAMT;
     }
 
+    public Double getRejPrct() {
+        return rejPrct;
+    }
+
+    public void setRejPrct(Double rejPrct) {
+        this.rejPrct = rejPrct;
+    }
 }

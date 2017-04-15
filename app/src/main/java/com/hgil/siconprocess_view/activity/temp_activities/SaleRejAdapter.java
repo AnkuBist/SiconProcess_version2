@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SaleHistoryModel;
+import com.hgil.siconprocess_view.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -20,10 +22,10 @@ import butterknife.ButterKnife;
  */
 
 public class SaleRejAdapter extends RecyclerView.Adapter<SaleRejAdapter.ViewHolder> {
-    public ArrayList<SaleRejModel> mDataset;
+    public ArrayList<SaleHistoryModel> mDataset;
     private Context mContext;
 
-    public SaleRejAdapter(Context mContext, ArrayList<SaleRejModel> myDataset) {
+    public SaleRejAdapter(Context mContext, ArrayList<SaleHistoryModel> myDataset) {
         this.mContext = mContext;
         this.mDataset = myDataset;
     }
@@ -37,22 +39,10 @@ public class SaleRejAdapter extends RecyclerView.Adapter<SaleRejAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final SaleRejAdapter.ViewHolder holder, int position) {
-        final SaleRejModel saleRejModel = mDataset.get(position);
-        holder.tvDate.setText(saleRejModel.getStr_date());
-        holder.tvSaleAmt.setText(holder.strRupee + String.valueOf(saleRejModel.getSale_amt()));
-        holder.tvRejPrct.setText(String.valueOf(saleRejModel.getRej_prct()));
-
-
-    /*    holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, SelectedOutletInfoActivity.class);
-                intent.putExtra("customer_id", routeCustomerModel.getCustomerId());
-                mContext.startActivity(intent);
-                ((NavBaseActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-            }
-        });*/
-
+        final SaleHistoryModel saleHistoryModel = mDataset.get(position);
+        holder.tvDate.setText(saleHistoryModel.getStockDate());
+        holder.tvSaleAmt.setText(holder.strRupee + Utility.roundTwoDecimals(saleHistoryModel.getSALEAMT()));
+        holder.tvRejPrct.setText(String.valueOf(Utility.roundTwoDecimals(saleHistoryModel.getRejPrct())));
         holder.setIsRecyclable(false);
     }
 

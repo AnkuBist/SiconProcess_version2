@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.base.BaseFragment;
 import com.hgil.siconprocess_view.database.SaleHistoryView;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SaleHistoryModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -138,18 +139,8 @@ public class SaleRejHistoryFragment extends BaseFragment {
                 rvSaleRej.setLayoutManager(linearLayoutManager);
                 SaleHistoryView saleHistoryView = new SaleHistoryView(getContext());
 
-                ArrayList<SaleRejModel> arrSaleRej = saleHistoryView.outletSaleHistory(customer_id);
+                ArrayList<SaleHistoryModel> arrSaleRej = saleHistoryView.outletSaleHistory(customer_id);
                 //arrSaleRej.addAll(routeMap.getRouteCustomers());
-/*
-
-                for (int i = 0; i < 10; i++) {
-                    SaleRejModel saleRejModel = new SaleRejModel();
-                    saleRejModel.setStr_date("" + (i + 01) + "/03/2017");
-                    saleRejModel.setSale_amt((1000 + (1000 * i) + i) + (i * 10));
-                    saleRejModel.setRej_prct((10 + i) + (i / 100));
-                    arrSaleRej.add(saleRejModel);
-                }
-*/
 
                 SaleRejAdapter saleRejAdapter = new SaleRejAdapter(getContext(), arrSaleRej);
                 rvSaleRej.setAdapter(saleRejAdapter);

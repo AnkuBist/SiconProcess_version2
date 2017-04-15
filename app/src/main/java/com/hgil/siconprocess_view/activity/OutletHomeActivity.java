@@ -84,10 +84,10 @@ public class OutletHomeActivity extends BaseActivity {
         TextView tvNavHeader = (TextView) navHeaderView.findViewById(R.id.tvNavHeader);
 
         imgNavIcon.setImageResource(R.mipmap.harvest_logo);
-        //if (getRouteName() != null) {
-        //String output = getRouteName().substring(0, 1).toUpperCase() + getRouteName().substring(1).toLowerCase();
-        tvNavHeader.setText(customer_name);
-        //}
+        if (getRouteName() != null) {
+            String output = getRouteName().substring(0, 1).toUpperCase() + getRouteName().substring(1).toLowerCase();
+            tvNavHeader.setText(output);
+        }
 
         // nav footer
         NavigationView temp_nv = (NavigationView) mDrawer.findViewById(R.id.temp_nv);
@@ -98,7 +98,7 @@ public class OutletHomeActivity extends BaseActivity {
         TextView textPhone = (TextView) temp_nv.findViewById(R.id.tvCashierNo);
         textPhone.setText("9023503384");
 
-      /*  textPhone.setOnClickListener(new View.OnClickListener() {
+        /*textPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO call phone

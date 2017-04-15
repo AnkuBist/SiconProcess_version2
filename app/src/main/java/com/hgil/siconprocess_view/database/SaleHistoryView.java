@@ -32,6 +32,7 @@ public class SaleHistoryView extends SQLiteOpenHelper {
     private static final String SAMPLE_QTY = "sampleQty";
     private static final String NET_SALE = "netSale";
     private static final String SALEAMT = "sale_Amt";
+    private static final String REJECTION_PERCENTAGE = "rej_prct";
 
     private Context mContext;
 
@@ -45,7 +46,8 @@ public class SaleHistoryView extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + STOCK_DATE + " TEXT NULL, "
                 + OUTLET_CODE + " TEXT NULL, " + ROUTE_ID + " TEXT NULL, " + OUTLET_NAME + " TEXT NULL, "
                 + LOADING + " INTEGER NULL, " + OTHER_REJ + " INTEGER NULL, " + FRESH_REJ + " INTEGER NULL, "
-                + SAMPLE_QTY + " INTEGER NULL, " + NET_SALE + " INTEGER NULL, " + SALEAMT + " REAL NULL)");
+                + SAMPLE_QTY + " INTEGER NULL, " + NET_SALE + " INTEGER NULL, "
+                + SALEAMT + " REAL NULL, " + REJECTION_PERCENTAGE + " REAL NULL)");
     }
 
     @Override
@@ -74,6 +76,7 @@ public class SaleHistoryView extends SQLiteOpenHelper {
         contentValues.put(SAMPLE_QTY, saleHistoryModel.getSampleQty());
         contentValues.put(NET_SALE, saleHistoryModel.getNetSale());
         contentValues.put(SALEAMT, saleHistoryModel.getSALEAMT());
+        contentValues.put(REJECTION_PERCENTAGE, saleHistoryModel.getRejPrct());
         db.insert(TABLE_NAME, null, contentValues);
         db.close();
         return true;
@@ -96,6 +99,7 @@ public class SaleHistoryView extends SQLiteOpenHelper {
             contentValues.put(SAMPLE_QTY, saleHistoryModel.getSampleQty());
             contentValues.put(NET_SALE, saleHistoryModel.getNetSale());
             contentValues.put(SALEAMT, saleHistoryModel.getSALEAMT());
+            contentValues.put(REJECTION_PERCENTAGE, saleHistoryModel.getRejPrct());
             db.insert(TABLE_NAME, null, contentValues);
         }
         db.close();
@@ -141,6 +145,7 @@ public class SaleHistoryView extends SQLiteOpenHelper {
                 saleHistoryModel.setSampleQty(res.getInt(res.getColumnIndex(SAMPLE_QTY)));
                 saleHistoryModel.setNetSale(res.getInt(res.getColumnIndex(NET_SALE)));
                 saleHistoryModel.setSALEAMT(res.getDouble(res.getColumnIndex(SALEAMT)));
+                saleHistoryModel.setRejPrct(res.getDouble(res.getColumnIndex(REJECTION_PERCENTAGE)));
                 array_list.add(saleHistoryModel);
                 res.moveToNext();
             }
@@ -179,23 +184,33 @@ public class SaleHistoryView extends SQLiteOpenHelper {
     }
 */
 
-    public ArrayList<SaleRejModel> outletSaleHistory(String outlet_id) {
-        ArrayList<SaleRejModel> array_list = new ArrayList<SaleRejModel>();
+    public ArrayList<SaleHistoryModel> outletSaleHistory(String outlet_id) {
+        ArrayList<SaleHistoryModel> array_list = new ArrayList<SaleHistoryModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + OUTLET_CODE + "=?", new String[]{outlet_id});
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
-                SaleRejModel saleRejModel = new SaleRejModel();
+                SaleHistoryModel saleHistoryModel = new SaleHistoryModel();
+                saleHistoryModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
+                saleHistoryModel.setStockDate(res.getString(res.getColumnIndex(STOCK_DATE)));
+                saleHistoryModel.setOutletCode(res.getString(res.getColumnIndex(OUTLET_CODE)));
+                saleHistoryModel.setOutletName(res.getString(res.getColumnIndex(OUTLET_NAME)));
+                saleHistoryModel.setLoading(res.getInt(res.getColumnIndex(LOADING)));
+                saleHistoryModel.setOtherRej(res.getInt(res.getColumnIndex(OTHER_REJ)));
+                saleHistoryModel.setFreshRej(res.getInt(res.getColumnIndex(FRESH_REJ)));
+                saleHistoryModel.setSampleQty(res.getInt(res.getColumnIndex(SAMPLE_QTY)));
+                saleHistoryModel.setNetSale(res.getInt(res.getColumnIndex(NET_SALE)));
+                saleHistoryModel.setSALEAMT(res.getDouble(res.getColumnIndex(SALEAMT)));
+                saleHistoryModel.setRejPrct(res.getDouble(res.getColumnIndex(REJECTION_PERCENTAGE)));
+                array_list.add(saleHistoryModel);
+
+                /*SaleRejModel saleRejModel = new SaleRejModel();
                 saleRejModel.setRoute_id(res.getString(res.getColumnIndex(ROUTE_ID)));
                 saleRejModel.setStr_date(res.getString(res.getColumnIndex(STOCK_DATE)));
-
-                int loading = res.getInt(res.getColumnIndex(LOADING));
-                int net_rej = res.getInt(res.getColumnIndex(OTHER_REJ)) + res.getInt(res.getColumnIndex(FRESH_REJ));
-                double rej_prct = (net_rej / loading) * 100;
-                saleRejModel.setRej_prct(rej_prct);
+                saleRejModel.setRej_prct(res.getDouble(res.getColumnIndex(REJECTION_PERCENTAGE)));
                 saleRejModel.setSale_amt(res.getDouble(res.getColumnIndex(SALEAMT)));
-                array_list.add(saleRejModel);
+                array_list.add(saleRejModel);*/
                 res.moveToNext();
             }
         }

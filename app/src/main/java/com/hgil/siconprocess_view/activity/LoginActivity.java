@@ -23,6 +23,7 @@ import com.hgil.siconprocess_view.database.DemandTargetView;
 import com.hgil.siconprocess_view.database.OutletSaleView;
 import com.hgil.siconprocess_view.database.OutletView;
 import com.hgil.siconprocess_view.database.RouteView;
+import com.hgil.siconprocess_view.database.SaleHistoryView;
 import com.hgil.siconprocess_view.database.VanStockView;
 import com.hgil.siconprocess_view.retrofit.RetrofitService;
 import com.hgil.siconprocess_view.retrofit.RetrofitUtil;
@@ -59,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     private DemandTargetView dbDemandTargetView;
     private OutletSaleView dbOutletSale;
     private VanStockView dbVanStock;
+    private SaleHistoryView dbSaleHistory;
 
 
     private String existing_id = "", saved_id = "";
@@ -87,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         dbDemandTargetView = new DemandTargetView(this);
         dbVanStock = new VanStockView(this);
         dbOutletSale = new OutletSaleView(this);
+        dbSaleHistory = new SaleHistoryView(this);
     }
 
     public void onSubmit(View view) {
@@ -149,6 +152,7 @@ public class LoginActivity extends AppCompatActivity {
         dbDemandTargetView.eraseTable();
         dbVanStock.eraseTable();
         dbOutletSale.eraseTable();
+        dbSaleHistory.eraseTable();
     }
 
     /*retrofit call test to fetch data from server*/
@@ -203,6 +207,7 @@ public class LoginActivity extends AppCompatActivity {
             dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
             dbOutletSale.insertOutletSale(objResponse.getArrOutletSale());
             dbVanStock.insertVanStock(objResponse.getArrVanStock());
+            dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
 
             Utility.saveLoginStatus(LoginActivity.this, Utility.LOGIN_STATUS, true);
             Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_ID, user_id);
