@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
-import com.hgil.siconprocess_view.activity.NavBaseActivity;
 import com.hgil.siconprocess_view.base.SiconApp;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;
 import com.hgil.siconprocess_view.utils.Utility;
@@ -28,9 +27,9 @@ import butterknife.ButterKnife;
  */
 
 public abstract class RouteBaseFragment extends Fragment {
-    protected static final String CUSTOMER_ID = "customer_id";
-    protected static final String CUSTOMER_NAME = "customer_name";
-    protected String customer_id, customer_name;
+    // protected static final String ROUTE_ID = "route_id";
+    //protected static final String ROUTE_NAME = "route_name";
+    // protected String customer_id, customer_name;
 
     protected TextView tvNavTitle, tvNavDate;
     protected ImageView imgSave;
@@ -126,7 +125,7 @@ public abstract class RouteBaseFragment extends Fragment {
         imgSave.setVisibility(View.GONE);
     }
 
-    public RouteModel getRouteModel() {
+   /* public RouteModel getRouteModel() {
         return routeModel;
     }
 
@@ -136,7 +135,7 @@ public abstract class RouteBaseFragment extends Fragment {
 
     public String getRouteName() {
         return routeName;
-    }
+    }*/
 
     public String getLoginId() {
         return loginId;
@@ -149,7 +148,7 @@ public abstract class RouteBaseFragment extends Fragment {
     public void updateOkIcon() {
         imgSave.setImageResource(R.mipmap.ic_ok);
     }
-
+/*
     protected void launchInvoiceFragment(Fragment fragment) {
         String fragClassName = fragment.getClass().getName();
         FragmentManager fragmentManager = (getActivity().getSupportFragmentManager());
@@ -158,14 +157,14 @@ public abstract class RouteBaseFragment extends Fragment {
                 .replace(R.id.flInvoiceContent, fragment)
                 .addToBackStack(fragClassName)
                 .commit();
-    }
+    }*/
 
-    protected void launchNavFragment(Fragment fragment) {
+    public void launchRouteFragment(Fragment fragment) {
         String fragClassName = fragment.getClass().getName();
-        FragmentManager fragmentManager = ((NavBaseActivity) getActivity()).getSupportFragmentManager();
+        FragmentManager fragmentManager = ((RouteListActivity) getActivity()).getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right)
-                .replace(R.id.flContent, fragment)
+                .replace(R.id.base_frame, fragment)
                 .addToBackStack(fragClassName)
                 .commit();
     }

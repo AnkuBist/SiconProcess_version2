@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.LoginActivity;
+import com.hgil.siconprocess_view.activity.base_frame.planner.PlannerRouteListFragment;
 import com.hgil.siconprocess_view.activity.navFragments.HomeFragment;
 import com.hgil.siconprocess_view.utils.Utility;
 
@@ -147,6 +148,7 @@ public class RouteListActivity extends RouteBaseActivity {
                 //fragment = DashboardFragment.newInstance();
                 break;
             case R.id.nav_planner:
+                fragment = PlannerRouteListFragment.newInstance();
                 break;
             case R.id.nav_logout:
                 // put the code to logout user from application
