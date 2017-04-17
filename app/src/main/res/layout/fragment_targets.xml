@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hgil.siconprocess_view.activity.fragments.dashboard.TargetsFragment">
+    tools:context=".activity.fragments.routeLevel.dashboard.TargetsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

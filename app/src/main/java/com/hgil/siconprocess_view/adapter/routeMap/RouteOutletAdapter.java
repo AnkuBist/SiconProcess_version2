@@ -11,8 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
-import com.hgil.siconprocess_view.activity.NavBaseActivity;
-import com.hgil.siconprocess_view.activity.OutletHomeActivity;
+import com.hgil.siconprocess_view.activity.fragments.routeLevel.NavRouteBaseActivity;
+import com.hgil.siconprocess_view.activity.fragments.outletLevel.OutletHomeActivity;
 import com.hgil.siconprocess_view.utils.Utility;
 
 import java.util.ArrayList;
@@ -80,7 +80,7 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
                 intent.putExtra("customer_id", routeCustomerModel.getCustomerId());
                 intent.putExtra("customer_name", routeCustomerModel.getCustomerName());
                 mContext.startActivity(intent);
-                ((NavBaseActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+                ((NavRouteBaseActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
             }
         });
 

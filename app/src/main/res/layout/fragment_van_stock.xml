@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
-    tools:context=".activity.VanStockFragment">
+    tools:context=".activity.fragments.routeLevel.vanStock.VanStockFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -13,10 +12,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.hgil.siconprocess_view.R;
-import com.hgil.siconprocess_view.activity.base_frame.RouteListActivity;
+import com.hgil.siconprocess_view.activity.fragments.baseLevel.RouteListActivity;
 import com.hgil.siconprocess_view.database.DemandTargetView;
 import com.hgil.siconprocess_view.database.OutletSaleView;
 import com.hgil.siconprocess_view.database.OutletView;
+import com.hgil.siconprocess_view.database.PaymentView;
 import com.hgil.siconprocess_view.database.RouteView;
 import com.hgil.siconprocess_view.database.SaleHistoryView;
 import com.hgil.siconprocess_view.database.VanStockView;
@@ -55,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
     private DemandTargetView dbDemandTargetView;
     private OutletSaleView dbOutletSale;
     private VanStockView dbVanStock;
+    private PaymentView dbPaymentView;
     private SaleHistoryView dbSaleHistory;
 
 
@@ -84,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         dbDemandTargetView = new DemandTargetView(this);
         dbVanStock = new VanStockView(this);
         dbOutletSale = new OutletSaleView(this);
+        dbPaymentView = new PaymentView(this);
         dbSaleHistory = new SaleHistoryView(this);
     }
 
@@ -117,7 +119,8 @@ public class LoginActivity extends AppCompatActivity {
                     // check for login
                     getUserLogin(username, password);
                 }
-            } else*/ {
+            } else*/
+            {
 
                 //TODO--- this is a test code remove these lines and uncomment the below code after this
                 // check for login
@@ -147,6 +150,7 @@ public class LoginActivity extends AppCompatActivity {
         dbDemandTargetView.eraseTable();
         dbVanStock.eraseTable();
         dbOutletSale.eraseTable();
+        dbPaymentView.eraseTable();
         dbSaleHistory.eraseTable();
     }
 
@@ -202,6 +206,7 @@ public class LoginActivity extends AppCompatActivity {
             dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
             dbOutletSale.insertOutletSale(objResponse.getArrOutletSale());
             dbVanStock.insertVanStock(objResponse.getArrVanStock());
+            dbPaymentView.insertPayment(objResponse.getArrPayment());
             dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
 
             Utility.saveLoginStatus(LoginActivity.this, Utility.LOGIN_STATUS, true);

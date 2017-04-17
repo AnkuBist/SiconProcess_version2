@@ -313,4 +313,53 @@ public class OutletView extends SQLiteOpenHelper {
         db.close();
         return array_list;
     }
+
+    /*route sale value*/
+    public double routeTotalSale(String route_id) {
+        OutletSaleView outletSaleView = new OutletSaleView(mContext);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
+
+        double sale_amt = 0.00;
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                String customer_id = (res.getString(res.getColumnIndex(CUSTOMER_ID)));
+                sale_amt += outletSaleView.outletSaleAmount(customer_id);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return sale_amt;
+    }
+
+    /*target calls*/
+    public int routeTargetCalls(String route_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME, ROUTE_ID + "=?", new String[]{route_id});
+        db.close();
+        return numRows;
+    }
+
+    public int routeProductiveCalls(String route_id) {
+        OutletSaleView outletSaleView = new OutletSaleView(mContext);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
+
+        int count = 0;
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                double sale_amt = outletSaleView.outletSaleAmount(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+                if (sale_amt > 0)
+                    count++;
+
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return count;
+    }
 }

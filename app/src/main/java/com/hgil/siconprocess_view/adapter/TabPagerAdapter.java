@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.hgil.siconprocess_view.activity.fragments.homeTabs.HomeAllFragment;
-import com.hgil.siconprocess_view.activity.fragments.homeTabs.HomeCompleteFragment;
-import com.hgil.siconprocess_view.activity.fragments.homeTabs.HomePendingFragment;
+import com.hgil.siconprocess_view.activity.fragments.routeLevel.homeTabs.RouteHomeAllFragment;
+import com.hgil.siconprocess_view.activity.fragments.routeLevel.homeTabs.RouteHomeCompleteFragment;
+import com.hgil.siconprocess_view.activity.fragments.routeLevel.homeTabs.RouteHomePendingFragment;
 
 /**
  * Created by mohan.giri on 25-01-2017.
@@ -30,13 +30,13 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
         //Returning the current tabs
         switch (position) {
             case 0:
-                HomeAllFragment tab1 = HomeAllFragment.newInstance();
+                RouteHomeAllFragment tab1 = RouteHomeAllFragment.newInstance();
                 return tab1;
             case 1:
-                HomePendingFragment tab2 = HomePendingFragment.newInstance();
+                RouteHomePendingFragment tab2 = RouteHomePendingFragment.newInstance();
                 return tab2;
             case 2:
-                HomeCompleteFragment tab3 = HomeCompleteFragment.newInstance();
+                RouteHomeCompleteFragment tab3 = RouteHomeCompleteFragment.newInstance();
                 return tab3;
             default:
                 return null;

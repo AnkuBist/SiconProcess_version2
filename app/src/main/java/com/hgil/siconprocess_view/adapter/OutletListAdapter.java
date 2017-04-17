@@ -46,7 +46,7 @@ public class OutletListAdapter extends RecyclerView.Adapter<OutletListAdapter.Vi
                 Intent intent = new Intent(mContext, SelectedOutletInfoActivity.class);
                 intent.putExtra("customer_id", routeCustomerModel.getCustomerId());
                 mContext.startActivity(intent);
-                ((NavBaseActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+                ((NavRouteBaseActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
 
             }
         });*/

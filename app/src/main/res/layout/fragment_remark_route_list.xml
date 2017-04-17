@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hgil.siconprocess_view.activity.base_frame.remarkSummary.RemarkRouteListFragment">
+    tools:context=".activity.fragments.baseLevel.remarkSummary.RemarkListFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvRemarkRouteList"

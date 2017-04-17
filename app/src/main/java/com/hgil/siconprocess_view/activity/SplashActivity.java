@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.hgil.siconprocess_view.R;
-import com.hgil.siconprocess_view.activity.base_frame.RouteListActivity;
+import com.hgil.siconprocess_view.activity.fragments.baseLevel.RouteListActivity;
 import com.hgil.siconprocess_view.utils.Utility;
 
 public class SplashActivity extends Activity {

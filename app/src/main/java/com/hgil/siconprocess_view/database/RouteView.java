@@ -7,7 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.hgil.siconprocess_view.activity.base_frame.RouteListModel;
+import com.hgil.siconprocess_view.adapter.routeList.RouteListModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;
 
 import java.util.ArrayList;

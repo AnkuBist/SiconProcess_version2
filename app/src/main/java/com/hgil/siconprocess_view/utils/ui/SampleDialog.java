@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 
 import com.hgil.siconprocess_view.R;
-import com.hgil.siconprocess_view.activity.OutletHomeActivity;
-import com.hgil.siconprocess_view.activity.NavBaseActivity;
+import com.hgil.siconprocess_view.activity.fragments.outletLevel.OutletHomeActivity;
+import com.hgil.siconprocess_view.activity.fragments.routeLevel.NavRouteBaseActivity;
 
 /**
  * Created by mohan.giri on 23-02-2017.
@@ -79,11 +79,11 @@ public class SampleDialog {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 if (syncStatus) {
-                    //new NavBaseActivity().firstLaunch();
+                    //new NavRouteBaseActivity().firstLaunch();
                     // or start a simple activity to launch the first home fragment with
-                    context.startActivity(new Intent(context, NavBaseActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
-                    ((NavBaseActivity) context).finish();
-                    ((NavBaseActivity) context).overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+                    context.startActivity(new Intent(context, NavRouteBaseActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                    ((NavRouteBaseActivity) context).finish();
+                    ((NavRouteBaseActivity) context).overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
                 }
                 dialog.dismiss();
             }
@@ -110,7 +110,7 @@ public class SampleDialog {
         dialog.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                context.startActivity(new Intent(context, NavBaseActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                context.startActivity(new Intent(context, NavRouteBaseActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                 ((OutletHomeActivity) context).finish();
                 ((OutletHomeActivity) context).overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
 

@@ -10,6 +10,7 @@ import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.DemandTargetMod
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.ItemModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletSaleModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.PaymentModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SaleHistoryModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.VanStockModel;
@@ -36,6 +37,9 @@ public class ObjLoginResponse implements Serializable {
     @SerializedName("arrOutletSale")
     @Expose
     private List<OutletSaleModel> arrOutletSale;
+    @SerializedName("arrPayment")
+    @Expose
+    private List<PaymentModel> arrPayment;
     @SerializedName("arrSaleHistory")
     @Expose
     private List<SaleHistoryModel> arrSaleHistory;
@@ -78,6 +82,14 @@ public class ObjLoginResponse implements Serializable {
 
     public void setArrOutletSale(List<OutletSaleModel> arrOutletSale) {
         this.arrOutletSale = arrOutletSale;
+    }
+
+    public List<PaymentModel> getArrPayment() {
+        return arrPayment;
+    }
+
+    public void setArrPayment(List<PaymentModel> arrPayment) {
+        this.arrPayment = arrPayment;
     }
 
     public List<SaleHistoryModel> getArrSaleHistory() {
