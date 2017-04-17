@@ -32,7 +32,7 @@ public class SplashActivity extends Activity {
                 boolean loginStatus = Utility.readLoginStatus(SplashActivity.this, Utility.LOGIN_STATUS);
 
                 // this is not needed to sync data
-         /* // check if there exists any relevant data to sync to server
+               /* // check if there exists any relevant data to sync to server
                 if (checkSyncData())
                     // sync data here before login
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));*/

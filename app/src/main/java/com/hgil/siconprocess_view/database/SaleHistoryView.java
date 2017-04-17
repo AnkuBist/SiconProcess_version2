@@ -7,7 +7,6 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.hgil.siconprocess_view.activity.temp_activities.SaleRejModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SaleHistoryModel;
 
 import java.util.ArrayList;
@@ -204,13 +203,6 @@ public class SaleHistoryView extends SQLiteOpenHelper {
                 saleHistoryModel.setSALEAMT(res.getDouble(res.getColumnIndex(SALEAMT)));
                 saleHistoryModel.setRejPrct(res.getDouble(res.getColumnIndex(REJECTION_PERCENTAGE)));
                 array_list.add(saleHistoryModel);
-
-                /*SaleRejModel saleRejModel = new SaleRejModel();
-                saleRejModel.setRoute_id(res.getString(res.getColumnIndex(ROUTE_ID)));
-                saleRejModel.setStr_date(res.getString(res.getColumnIndex(STOCK_DATE)));
-                saleRejModel.setRej_prct(res.getDouble(res.getColumnIndex(REJECTION_PERCENTAGE)));
-                saleRejModel.setSale_amt(res.getDouble(res.getColumnIndex(SALEAMT)));
-                array_list.add(saleRejModel);*/
                 res.moveToNext();
             }
         }

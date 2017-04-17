@@ -16,7 +16,7 @@ import butterknife.BindView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends BaseFragment implements TabLayout.OnTabSelectedListener {
+public class RouteHomeFragment extends BaseFragment implements TabLayout.OnTabSelectedListener {
 
     @BindView(R.id.tvRouteName)
     TextView tvRouteName;
@@ -26,12 +26,12 @@ public class HomeFragment extends BaseFragment implements TabLayout.OnTabSelecte
     TabLayout tabLayout;
     private TabPagerAdapter adapter;
 
-    public HomeFragment() {
+    public RouteHomeFragment() {
         // Required empty public constructor
     }
 
-    public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
+    public static RouteHomeFragment newInstance() {
+        RouteHomeFragment fragment = new RouteHomeFragment();
         return fragment;
     }
 
@@ -62,7 +62,7 @@ public class HomeFragment extends BaseFragment implements TabLayout.OnTabSelecte
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_route_home;
     }
 
     @Override

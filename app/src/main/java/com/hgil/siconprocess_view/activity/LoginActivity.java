@@ -1,15 +1,10 @@
 package com.hgil.siconprocess_view.activity;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -80,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         /// initialise database objects
         initialiseDBObj();
 
-        askAppPermission();
+        //askAppPermission();
     }
 
     private void initialiseDBObj() {
@@ -103,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Enter a valid password", Toast.LENGTH_SHORT).show();
         } else {
             // first check user login with the same existing id or not
-           /* if (checkUserId(username)) {
+          /*  if (checkUserId(username)) {
                 // if the user is logged in today but somehow logged out then check for the last logged in date
                 // and local data in invoice if there exists any data then simply make user in
                 if ((Utility.getCurDate()).matches(Utility.readPreference(LoginActivity.this, Utility.LAST_LOGIN_DATE))) {
@@ -215,7 +210,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void askAppPermission() {
+   /* private void askAppPermission() {
         if (Build.VERSION.SDK_INT >= 23) {
             int check_COARSE_LOCATION = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
             int check_FINE_LOCATION = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
@@ -234,10 +229,10 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
         }
-    }
+    }*/
 
     // request permissions result
-    @Override
+   /* @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case APP_PERMISSION:
@@ -251,7 +246,7 @@ public class LoginActivity extends AppCompatActivity {
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-    }
+    }*/
 
     // AsyncTask copy one
     private class loginSync extends AsyncTask<Void, Void, Boolean> implements Serializable {

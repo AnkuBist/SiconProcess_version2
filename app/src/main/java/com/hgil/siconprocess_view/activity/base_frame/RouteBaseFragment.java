@@ -125,7 +125,7 @@ public abstract class RouteBaseFragment extends Fragment {
         imgSave.setVisibility(View.GONE);
     }
 
-   /* public RouteModel getRouteModel() {
+    public RouteModel getRouteModel() {
         return routeModel;
     }
 
@@ -135,7 +135,7 @@ public abstract class RouteBaseFragment extends Fragment {
 
     public String getRouteName() {
         return routeName;
-    }*/
+    }
 
     public String getLoginId() {
         return loginId;

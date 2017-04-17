@@ -8,6 +8,7 @@ public class RoutePlanModel {
 
     private String route_id;
     private String route_plan;
+    private String plan_date;
 
     public String getRoute_id() {
         return route_id;
@@ -23,5 +24,13 @@ public class RoutePlanModel {
 
     public void setRoute_plan(String route_plan) {
         this.route_plan = route_plan;
+    }
+
+    public String getPlan_date() {
+        return plan_date;
+    }
+
+    public void setPlan_date(String plan_date) {
+        this.plan_date = plan_date;
     }
 }

@@ -1,4 +1,4 @@
-package com.hgil.siconprocess_view.activity.base_frame.planner;
+package com.hgil.siconprocess_view.activity.base_frame.remarkSummary;
 
 
 import android.os.Bundle;
@@ -21,30 +21,30 @@ import butterknife.BindView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PlannerRouteListFragment extends RouteBaseFragment {
+public class RemarkRouteListFragment extends RouteBaseFragment {
 
-    @BindView(R.id.rvPlannerRouteList)
-    RecyclerView rvPlannerRouteList;
+    @BindView(R.id.rvRemarkRouteList)
+    RecyclerView rvRemarkRouteList;
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
 
-    private PlannerRouteListAdapter plannerRouteListAdapter;
+    private RemarkRouteListAdapter remarkRouteListAdapter;
     private RouteView routeView;
     private ArrayList<RouteListModel> arrRoute;
 
-    public PlannerRouteListFragment() {
+    public RemarkRouteListFragment() {
         // Required empty public constructor
     }
 
-    public static PlannerRouteListFragment newInstance() {
-        PlannerRouteListFragment fragment = new PlannerRouteListFragment();
+    public static RemarkRouteListFragment newInstance() {
+        RemarkRouteListFragment fragment = new RemarkRouteListFragment();
         return fragment;
     }
 
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.fragment_planner_route_list;
+        return R.layout.fragment_remark_route_list;
     }
 
     @Override
@@ -53,16 +53,16 @@ public class PlannerRouteListFragment extends RouteBaseFragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rvPlannerRouteList.setLayoutManager(linearLayoutManager);
+        rvRemarkRouteList.setLayoutManager(linearLayoutManager);
 
         hideSaveButton();
-        setTitle("Route Planner");
+        setTitle("Remarks Summary");
 
         arrRoute = new ArrayList<>();
         routeView = new RouteView(getActivity());
         arrRoute.addAll(routeView.getRouteList());
-        plannerRouteListAdapter = new PlannerRouteListAdapter(getActivity(), arrRoute);
-        rvPlannerRouteList.setAdapter(plannerRouteListAdapter);
+        remarkRouteListAdapter = new RemarkRouteListAdapter(getActivity(), arrRoute);
+        rvRemarkRouteList.setAdapter(remarkRouteListAdapter);
     }
 
     @Override
@@ -70,11 +70,10 @@ public class PlannerRouteListFragment extends RouteBaseFragment {
         super.onResume();
         if (arrRoute.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
-            rvPlannerRouteList.setVisibility(View.GONE);
+            rvRemarkRouteList.setVisibility(View.GONE);
         } else {
             tvEmpty.setVisibility(View.GONE);
-            rvPlannerRouteList.setVisibility(View.VISIBLE);
+            rvRemarkRouteList.setVisibility(View.VISIBLE);
         }
     }
-
 }

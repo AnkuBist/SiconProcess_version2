@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.base_frame.OutletInfoFragment;
 import com.hgil.siconprocess_view.activity.fragments.outletSale.OutletSaleFragment;
+import com.hgil.siconprocess_view.activity.fragments.remark.OutletRemarkFragment;
 import com.hgil.siconprocess_view.activity.temp_activities.SaleRejHistoryFragment;
 import com.hgil.siconprocess_view.base.BaseActivity;
 import com.hgil.siconprocess_view.utils.Utility;
@@ -159,7 +160,7 @@ public class OutletHomeActivity extends BaseActivity {
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_route_home:
-                //fragment = HomeFragment.newInstance();
+                //fragment = RouteHomeFragment.newInstance();
                 // start nav base activity here only
                 Intent intent = new Intent(this, NavBaseActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -176,6 +177,7 @@ public class OutletHomeActivity extends BaseActivity {
                 fragment = SaleRejHistoryFragment.newInstance(customer_id, customer_name);
                 break;
             case R.id.nav_remark:
+                fragment = OutletRemarkFragment.newInstance(customer_id, customer_name);
                 break;
             case R.id.nav_outlet_info:
                 fragment = OutletInfoFragment.newInstance(customer_id, customer_name);

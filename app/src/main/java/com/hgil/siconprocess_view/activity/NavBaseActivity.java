@@ -23,7 +23,7 @@ import android.widget.TextView;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.base_frame.RouteListActivity;
 import com.hgil.siconprocess_view.activity.navFragments.DashboardFragment;
-import com.hgil.siconprocess_view.activity.navFragments.HomeFragment;
+import com.hgil.siconprocess_view.activity.navFragments.RouteHomeFragment;
 import com.hgil.siconprocess_view.base.BaseActivity;
 import com.hgil.siconprocess_view.utils.Utility;
 
@@ -118,7 +118,7 @@ public class NavBaseActivity extends BaseActivity {
 
         MenuItem menuItem = nvDrawer.getMenu().findItem(R.id.nav_home_route);
 
-        HomeFragment fragment = HomeFragment.newInstance();
+        RouteHomeFragment fragment = RouteHomeFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right)
                 .replace(R.id.flContent, fragment)
@@ -167,7 +167,7 @@ public class NavBaseActivity extends BaseActivity {
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_home:
-                //fragment = HomeFragment.newInstance();
+                //fragment = RouteHomeFragment.newInstance();
                 // start nav base activity here only
                 Intent intent = new Intent(this, RouteListActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -178,7 +178,7 @@ public class NavBaseActivity extends BaseActivity {
                 //overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
                 break;
             case R.id.nav_home_route:
-                fragment = HomeFragment.newInstance();
+                fragment = RouteHomeFragment.newInstance();
                 break;
 
             case R.id.nav_dashboard:
@@ -188,7 +188,7 @@ public class NavBaseActivity extends BaseActivity {
                 fragment = VanStockFragment.newInstance();
                 break;
             default:
-                fragment = HomeFragment.newInstance();
+                fragment = RouteHomeFragment.newInstance();
         }
 
         if (fragment != null) {

@@ -25,7 +25,8 @@ import android.widget.Toast;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.LoginActivity;
 import com.hgil.siconprocess_view.activity.base_frame.planner.PlannerRouteListFragment;
-import com.hgil.siconprocess_view.activity.navFragments.HomeFragment;
+import com.hgil.siconprocess_view.activity.base_frame.remarkSummary.RemarkRouteListFragment;
+import com.hgil.siconprocess_view.activity.navFragments.RouteHomeFragment;
 import com.hgil.siconprocess_view.utils.Utility;
 
 import butterknife.BindView;
@@ -145,7 +146,7 @@ public class RouteListActivity extends RouteBaseActivity {
                 fragment = RouteListFragment.newInstance();
                 break;
             case R.id.nav_remarks_summary:
-                //fragment = DashboardFragment.newInstance();
+                fragment = RemarkRouteListFragment.newInstance();
                 break;
             case R.id.nav_planner:
                 fragment = PlannerRouteListFragment.newInstance();
@@ -161,7 +162,7 @@ public class RouteListActivity extends RouteBaseActivity {
                 overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
                 break;
             default:
-                fragment = HomeFragment.newInstance();
+                fragment = RouteHomeFragment.newInstance();
         }
 
         if (fragment != null) {

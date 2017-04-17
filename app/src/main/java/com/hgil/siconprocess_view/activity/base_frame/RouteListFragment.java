@@ -54,6 +54,7 @@ public class RouteListFragment extends RouteBaseFragment {
         rvRouteList.setLayoutManager(linearLayoutManager);
 
         hideSaveButton();
+        setTitle("Route List");
 
         arrRoute = new ArrayList<>();
         routeView = new RouteView(getActivity());

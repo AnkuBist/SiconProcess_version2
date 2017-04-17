@@ -7,9 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.hgil.siconprocess_view.adapter.routeTarget.RouteTargetModel;
-import com.hgil.siconprocess_view.database.OutletSaleView;
-import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RoutePlanModel;
+import com.hgil.siconprocess_view.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +23,7 @@ public class RoutePlannerTable extends SQLiteOpenHelper {
 
     private static final String ROUTE_ID = "Route_id";
     private static final String PLAN = "route_plan";
+    private static final String PLAN_DATE = "plan_date";
 
     private Context mContext;
 
@@ -36,7 +35,7 @@ public class RoutePlannerTable extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + ROUTE_ID + " TEXT NULL, "
-                + PLAN + " TEXT NULL)");
+                + PLAN + " TEXT NULL, " + PLAN_DATE + " TEXT NULL)");
     }
 
     @Override
@@ -57,13 +56,17 @@ public class RoutePlannerTable extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ROUTE_ID, routePlanModel.getRoute_id());
         contentValues.put(PLAN, routePlanModel.getRoute_plan());
-        db.insert(TABLE_NAME, null, contentValues);
+        contentValues.put(PLAN_DATE, Utility.getCurDate());
+        if (hasObject(db, routePlanModel.getRoute_id()))
+            db.update(TABLE_NAME, contentValues, ROUTE_ID + "=?", new String[]{routePlanModel.getRoute_id()});
+        else
+            db.insert(TABLE_NAME, null, contentValues);
         db.close();
         return true;
     }
 
     // insert multiple
-    public boolean insertDemandTarget(List<RoutePlanModel> arrRoutePlan) {
+    public boolean insertRoutePlan(List<RoutePlanModel> arrRoutePlan) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         for (int i = 0; i < arrRoutePlan.size(); i++) {
@@ -71,10 +74,28 @@ public class RoutePlannerTable extends SQLiteOpenHelper {
             ContentValues contentValues = new ContentValues();
             contentValues.put(ROUTE_ID, routePlanModel.getRoute_id());
             contentValues.put(PLAN, routePlanModel.getRoute_plan());
-            db.insert(TABLE_NAME, null, contentValues);
+            contentValues.put(PLAN_DATE, Utility.getCurDate());
+            if (hasObject(db, routePlanModel.getRoute_id()))
+                db.update(TABLE_NAME, contentValues, ROUTE_ID + "=?", new String[]{routePlanModel.getRoute_id()});
+            else
+                db.insert(TABLE_NAME, null, contentValues);
         }
         db.close();
         return true;
+    }
+
+    // check if the record exists or not
+    public boolean hasObject(SQLiteDatabase db, String id) {
+        String selectString = "SELECT * FROM " + TABLE_NAME + " WHERE " + ROUTE_ID + " =?";
+
+        Cursor cursor = db.rawQuery(selectString, new String[]{id});
+
+        boolean hasObject = false;
+        if (cursor.moveToFirst()) {
+            hasObject = true;
+        }
+        cursor.close();          // Don't forget to close your cursor
+        return hasObject;
     }
 
    /* public String getCustomerContact(String customer_id) {
@@ -98,20 +119,17 @@ public class RoutePlannerTable extends SQLiteOpenHelper {
     }
 
     // get all customers
-    public ArrayList<RoutePlanModel> getAllDemandTarget() {
+    public ArrayList<RoutePlanModel> getAllRoutePlan() {
         ArrayList<RoutePlanModel> array_list = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         if (res.moveToFirst()) {
-            while (res.isAfterLast() == false) {
                 RoutePlanModel routePlanModel = new RoutePlanModel();
-                routePlanModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
-                routePlanModel.setItemId(res.getString(res.getColumnIndex(PLAN)));
-                routePlanModel.setTargetQty(res.getInt(res.getColumnIndex(TARGET_QTY)));
+                routePlanModel.setRoute_id(res.getString(res.getColumnIndex(ROUTE_ID)));
+                routePlanModel.setRoute_plan(res.getString(res.getColumnIndex(PLAN)));
+                routePlanModel.setPlan_date(res.getString(res.getColumnIndex(PLAN_DATE)));
                 array_list.add(routePlanModel);
-                res.moveToNext();
-            }
         }
         res.close();
         db.close();
@@ -119,29 +137,21 @@ public class RoutePlannerTable extends SQLiteOpenHelper {
     }
 
     /*get demand target by route*/
-    public ArrayList<RouteTargetModel> getDemandTargetByRoute(String route_id) {
-
+    public RoutePlanModel getRoutePlan(String route_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        OutletSaleView outletSaleView = new OutletSaleView(mContext);
-        ArrayList<RouteTargetModel> array_list = new ArrayList<>();
+        RoutePlanModel routePlanModel = new RoutePlanModel();
 
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ROUTE_ID + " like '" + route_id + "'", null); //new String[]{route_id});
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ROUTE_ID + "=?", new String[]{route_id}); //new String[]{route_id});
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
-                RouteTargetModel routePlanModel = new RouteTargetModel();
-                routePlanModel.setItemId(res.getString(res.getColumnIndex(PLAN)));
-                routePlanModel.setTarget(res.getInt(res.getColumnIndex(TARGET_QTY)));
-
-                routePlanModel.setItem_name(outletSaleView.getItemName(routePlanModel.getItemId()));
-                routePlanModel.setAchieved(outletSaleView.routeItemSaleQty(route_id, routePlanModel.getItemId()));
-                routePlanModel.setVariance(routePlanModel.getTarget() - routePlanModel.getAchieved());
-
-                array_list.add(routePlanModel);
+                routePlanModel.setRoute_id(res.getString(res.getColumnIndex(ROUTE_ID)));
+                routePlanModel.setRoute_plan(res.getString(res.getColumnIndex(PLAN)));
+                routePlanModel.setPlan_date(res.getString(res.getColumnIndex(PLAN_DATE)));
                 res.moveToNext();
             }
         }
         res.close();
         db.close();
-        return array_list;
+        return routePlanModel;
     }
 }
