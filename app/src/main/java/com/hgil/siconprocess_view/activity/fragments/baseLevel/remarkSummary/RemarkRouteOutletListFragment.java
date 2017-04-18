@@ -23,6 +23,8 @@ import butterknife.BindView;
  */
 public class RemarkRouteOutletListFragment extends Route_Base_Fragment {
 
+    @BindView(R.id.tvRouteName)
+    TextView tvRouteName;
     @BindView(R.id.rvRemarkRouteOutletList)
     RecyclerView rvRemarkRouteOutletList;
     @BindView(R.id.tvEmpty)
@@ -52,6 +54,9 @@ public class RemarkRouteOutletListFragment extends Route_Base_Fragment {
 
         hideSaveButton();
         setTitle("Remarks Summary");
+        
+        if (getRouteName() != null)
+            tvRouteName.setText(getRouteName());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

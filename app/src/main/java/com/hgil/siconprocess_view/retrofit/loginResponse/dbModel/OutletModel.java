@@ -48,6 +48,9 @@ public class OutletModel {
     @SerializedName("ContactNo")
     @Expose
     private String contactNo;
+    @SerializedName("outstanding")
+    @Expose
+    private double outstanding;
 
     public String getSubCompanyId() {
         return subCompanyId;
@@ -153,4 +156,11 @@ public class OutletModel {
         this.contactNo = contactNo;
     }
 
+    public double getOutstanding() {
+        return outstanding;
+    }
+
+    public void setOutstanding(double outstanding) {
+        this.outstanding = outstanding;
+    }
 }

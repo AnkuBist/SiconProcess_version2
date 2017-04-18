@@ -11,8 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
-import com.hgil.siconprocess_view.activity.fragments.routeLevel.NavRouteBaseActivity;
 import com.hgil.siconprocess_view.activity.fragments.outletLevel.OutletHomeActivity;
+import com.hgil.siconprocess_view.activity.fragments.routeLevel.NavRouteBaseActivity;
 import com.hgil.siconprocess_view.utils.Utility;
 
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
 
         //text color change on status
         String status = routeCustomerModel.getCustStatus();
-        if (status == null || status.matches("") || status.matches("Pending")) {
+        if (status == null || status.matches("Pending")) { //status.matches("") ||
             String colored_status = "Status:" + " <font color='" + mContext.getResources().getColor(R.color.colorTextRed) + "'>" + status
                     + "</font>";
             holder.tvStatus.setText(Html.fromHtml(colored_status));

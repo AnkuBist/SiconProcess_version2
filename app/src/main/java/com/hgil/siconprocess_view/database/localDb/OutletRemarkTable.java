@@ -63,10 +63,10 @@ public class OutletRemarkTable extends SQLiteOpenHelper {
         contentValues.put(OUTLET_ID, outletRemarkModel.getOutlet_id());
         contentValues.put(OUTLET_NAME, outletRemarkModel.getOutlet_name());
         contentValues.put(REMARK, outletRemarkModel.getRemark());
-        contentValues.put(REMARK_DATE, Utility.getCurDate());
-        if (hasObject(db, outletRemarkModel.getRoute_id(), outletRemarkModel.getOutlet_id()))
-            db.update(TABLE_NAME, contentValues, ROUTE_ID + "=? AND " + OUTLET_ID + "=?",
-                    new String[]{outletRemarkModel.getRoute_id(), outletRemarkModel.getOutlet_id()});
+        contentValues.put(REMARK_DATE, outletRemarkModel.getRemark_date());
+        if (hasObject(db, outletRemarkModel.getRoute_id(), outletRemarkModel.getOutlet_id(), outletRemarkModel.getRemark_date()))
+            db.update(TABLE_NAME, contentValues, ROUTE_ID + "=? AND " + OUTLET_ID + "=? AND " + REMARK_DATE + "=?",
+                    new String[]{outletRemarkModel.getRoute_id(), outletRemarkModel.getOutlet_id(), outletRemarkModel.getRemark_date()});
         else
             db.insert(TABLE_NAME, null, contentValues);
         db.close();
@@ -86,9 +86,9 @@ public class OutletRemarkTable extends SQLiteOpenHelper {
             contentValues.put(OUTLET_NAME, outletRemarkModel.getOutlet_name());
             contentValues.put(REMARK, outletRemarkModel.getRemark());
             contentValues.put(REMARK_DATE, Utility.getCurDate());
-            if (hasObject(db, outletRemarkModel.getRoute_id(), outletRemarkModel.getOutlet_id()))
-                db.update(TABLE_NAME, contentValues, ROUTE_ID + "=? AND " + OUTLET_ID + "=?",
-                        new String[]{outletRemarkModel.getRoute_id(), outletRemarkModel.getOutlet_id()});
+            if (hasObject(db, outletRemarkModel.getRoute_id(), outletRemarkModel.getOutlet_id(), outletRemarkModel.getRemark_date()))
+                db.update(TABLE_NAME, contentValues, ROUTE_ID + "=? AND " + OUTLET_ID + "=? AND " + REMARK_DATE + "=?",
+                        new String[]{outletRemarkModel.getRoute_id(), outletRemarkModel.getOutlet_id(), outletRemarkModel.getRemark_date()});
             else
                 db.insert(TABLE_NAME, null, contentValues);
         }
@@ -97,10 +97,10 @@ public class OutletRemarkTable extends SQLiteOpenHelper {
     }
 
     // check if the record exists or not
-    public boolean hasObject(SQLiteDatabase db, String route_id, String outlet_id) {
-        String selectString = "SELECT * FROM " + TABLE_NAME + " WHERE " + ROUTE_ID + " =? AND " + OUTLET_ID + "=?";
+    public boolean hasObject(SQLiteDatabase db, String route_id, String outlet_id, String remark_date) {
+        String selectString = "SELECT * FROM " + TABLE_NAME + " WHERE " + ROUTE_ID + " =? AND " + OUTLET_ID + "=? AND " + REMARK_DATE + "=?";
 
-        Cursor cursor = db.rawQuery(selectString, new String[]{route_id, outlet_id});
+        Cursor cursor = db.rawQuery(selectString, new String[]{route_id, outlet_id, remark_date});
 
         boolean hasObject = false;
         if (cursor.moveToFirst()) {
@@ -185,8 +185,9 @@ public class OutletRemarkTable extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         OutletRemarkModel outletRemarkModel = new OutletRemarkModel();
 
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ROUTE_ID + "=? AND " + OUTLET_ID + "=?",
-                new String[]{route_id, outlet_id});
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE "
+                        + ROUTE_ID + "=? AND " + OUTLET_ID + "=? AND " + REMARK_DATE + "=?",
+                new String[]{route_id, outlet_id, Utility.getCurDate()});
         if (res.moveToFirst()) {
             outletRemarkModel.setRoute_id(res.getString(res.getColumnIndex(ROUTE_ID)));
             outletRemarkModel.setRoute_name(res.getString(res.getColumnIndex(ROUTE_NAME)));

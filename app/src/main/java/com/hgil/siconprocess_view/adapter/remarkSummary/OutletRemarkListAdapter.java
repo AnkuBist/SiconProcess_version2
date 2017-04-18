@@ -12,6 +12,7 @@ import com.hgil.siconprocess_view.database.localDb.OutletRemarkModel;
 
 import java.util.ArrayList;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -39,7 +40,8 @@ public class OutletRemarkListAdapter extends RecyclerView.Adapter<OutletRemarkLi
     public void onBindViewHolder(final OutletRemarkListAdapter.ViewHolder holder, int position) {
         final OutletRemarkModel outletRemarkModel = mDataset.get(position);
         holder.tvOutletName.setText(outletRemarkModel.getOutlet_name());
-        holder.tvOutletRemark.setText(outletRemarkModel.getRemark());
+        if (outletRemarkModel.getRemark() != null && outletRemarkModel.getRemark().length() > 0)
+            holder.tvOutletRemark.setText(holder.strFilledArrow + outletRemarkModel.getRemark());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +78,9 @@ public class OutletRemarkListAdapter extends RecyclerView.Adapter<OutletRemarkLi
         public TextView tvOutletName;
         @BindView(R.id.tvOutletRemark)
         public TextView tvOutletRemark;
+
+        @BindString(R.string.strFilledArrow)
+        String strFilledArrow;
 
         public ViewHolder(View v) {
             super(v);

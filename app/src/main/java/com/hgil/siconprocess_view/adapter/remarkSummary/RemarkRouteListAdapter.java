@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
-import com.hgil.siconprocess_view.activity.fragments.routeLevel.NavRouteBaseActivity;
 import com.hgil.siconprocess_view.activity.fragments.baseLevel.RouteListActivity;
-import com.hgil.siconprocess_view.adapter.routeList.RouteListModel;
 import com.hgil.siconprocess_view.activity.fragments.baseLevel.remarkSummary.RemarkRouteOutletListFragment;
+import com.hgil.siconprocess_view.activity.fragments.routeLevel.NavRouteBaseActivity;
+import com.hgil.siconprocess_view.adapter.routeList.RouteListModel;
 import com.hgil.siconprocess_view.base.SiconApp;
 import com.hgil.siconprocess_view.database.RouteView;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;

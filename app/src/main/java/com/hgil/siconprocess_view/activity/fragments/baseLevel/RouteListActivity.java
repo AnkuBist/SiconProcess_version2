@@ -24,11 +24,11 @@ import android.widget.Toast;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.LoginActivity;
-import com.hgil.siconprocess_view.base.Base_Activity;
-import com.hgil.siconprocess_view.activity.fragments.baseLevel.planner.PlannerListFragment;
+import com.hgil.siconprocess_view.activity.fragments.baseLevel.planner.PlanListFragment;
 import com.hgil.siconprocess_view.activity.fragments.baseLevel.remarkSummary.RemarkListFragment;
 import com.hgil.siconprocess_view.activity.fragments.baseLevel.routeList.RouteListFragment;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.homeTabs.RouteHomeFragment;
+import com.hgil.siconprocess_view.base.Base_Activity;
 import com.hgil.siconprocess_view.utils.Utility;
 
 import butterknife.BindView;
@@ -151,7 +151,7 @@ public class RouteListActivity extends Base_Activity {
                 fragment = RemarkListFragment.newInstance();
                 break;
             case R.id.nav_planner:
-                fragment = PlannerListFragment.newInstance();
+                fragment = PlanListFragment.newInstance();
                 break;
             case R.id.nav_logout:
                 // put the code to logout user from application

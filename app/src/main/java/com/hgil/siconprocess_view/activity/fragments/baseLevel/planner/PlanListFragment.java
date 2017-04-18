@@ -10,10 +10,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
-import com.hgil.siconprocess_view.adapter.planner.PlannerRouteListAdapter;
+import com.hgil.siconprocess_view.adapter.planner.PlanListAdapter;
 import com.hgil.siconprocess_view.base.Base_Fragment;
-import com.hgil.siconprocess_view.adapter.routeList.RouteListModel;
-import com.hgil.siconprocess_view.database.RouteView;
+import com.hgil.siconprocess_view.database.localDb.PlanModel;
+import com.hgil.siconprocess_view.database.localDb.PlannerTable;
 
 import java.util.ArrayList;
 
@@ -22,30 +22,30 @@ import butterknife.BindView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PlannerListFragment extends Base_Fragment {
+public class PlanListFragment extends Base_Fragment {
 
-    @BindView(R.id.rvPlannerRouteList)
-    RecyclerView rvPlannerRouteList;
+    @BindView(R.id.rvUserPlans)
+    RecyclerView rvUserPlans;
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
 
-    private PlannerRouteListAdapter plannerRouteListAdapter;
-    private RouteView routeView;
-    private ArrayList<RouteListModel> arrRoute;
+    private PlanListAdapter planListAdapter;
+    private PlannerTable planTable;
+    private ArrayList<PlanModel> arrPlans;
 
-    public PlannerListFragment() {
+    public PlanListFragment() {
         // Required empty public constructor
     }
 
-    public static PlannerListFragment newInstance() {
-        PlannerListFragment fragment = new PlannerListFragment();
+    public static PlanListFragment newInstance() {
+        PlanListFragment fragment = new PlanListFragment();
         return fragment;
     }
 
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.fragment_planner_route_list;
+        return R.layout.fragment_plan_list;
     }
 
     @Override
@@ -54,27 +54,27 @@ public class PlannerListFragment extends Base_Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rvPlannerRouteList.setLayoutManager(linearLayoutManager);
+        rvUserPlans.setLayoutManager(linearLayoutManager);
 
         hideSaveButton();
-        setTitle("Route Planner");
+        setTitle("User Plan");
 
-        arrRoute = new ArrayList<>();
-        routeView = new RouteView(getActivity());
-        arrRoute.addAll(routeView.getRouteList());
-        plannerRouteListAdapter = new PlannerRouteListAdapter(getActivity(), arrRoute);
-        rvPlannerRouteList.setAdapter(plannerRouteListAdapter);
+        arrPlans = new ArrayList<>();
+        planTable = new PlannerTable(getActivity());
+        arrPlans.addAll(planTable.getUserPlan(getLoginId()));
+        planListAdapter = new PlanListAdapter(getActivity(), arrPlans);
+        rvUserPlans.setAdapter(planListAdapter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (arrRoute.size() == 0) {
+        if (arrPlans.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
-            rvPlannerRouteList.setVisibility(View.GONE);
+            rvUserPlans.setVisibility(View.GONE);
         } else {
             tvEmpty.setVisibility(View.GONE);
-            rvPlannerRouteList.setVisibility(View.VISIBLE);
+            rvUserPlans.setVisibility(View.VISIBLE);
         }
     }
 

@@ -2,7 +2,6 @@ package com.hgil.siconprocess_view.base;
 
 import android.support.v7.app.AppCompatActivity;
 
-import com.hgil.siconprocess_view.base.SiconApp;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;
 import com.hgil.siconprocess_view.utils.Utility;
 

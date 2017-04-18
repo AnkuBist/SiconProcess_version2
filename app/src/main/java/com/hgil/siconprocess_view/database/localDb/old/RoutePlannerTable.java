@@ -1,4 +1,4 @@
-package com.hgil.siconprocess_view.database.localDb;
+package com.hgil.siconprocess_view.database.localDb.old;
 
 import android.content.ContentValues;
 import android.content.Context;

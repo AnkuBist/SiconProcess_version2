@@ -12,6 +12,7 @@ import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
 import com.hgil.siconprocess_view.database.localDb.OutletRemarkModel;
 import com.hgil.siconprocess_view.database.localDb.OutletRemarkTable;
+import com.hgil.siconprocess_view.utils.Utility;
 
 import butterknife.BindView;
 
@@ -77,6 +78,7 @@ public class OutletRemarkFragment extends Route_Base_Fragment {
                 routePlanModel.setOutlet_id(customer_id);
                 routePlanModel.setOutlet_name(customer_name);
                 routePlanModel.setRemark(etOutletRemark.getText().toString().trim());
+                routePlanModel.setRemark_date(Utility.getCurDate());
                 outletRemarkTable.insertOutletRemark(routePlanModel);
 
                 // snackbar to show plan updated

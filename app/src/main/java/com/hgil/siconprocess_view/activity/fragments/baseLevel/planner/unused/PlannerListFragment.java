@@ -1,4 +1,4 @@
-package com.hgil.siconprocess_view.activity.fragments.baseLevel.remarkSummary;
+package com.hgil.siconprocess_view.activity.fragments.baseLevel.planner.unused;
 
 
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
-import com.hgil.siconprocess_view.adapter.remarkSummary.RemarkRouteListAdapter;
+import com.hgil.siconprocess_view.adapter.planner.unused.PlannerRouteListAdapter;
 import com.hgil.siconprocess_view.adapter.routeList.RouteListModel;
 import com.hgil.siconprocess_view.base.Base_Fragment;
 import com.hgil.siconprocess_view.database.RouteView;
@@ -22,30 +22,30 @@ import butterknife.BindView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RemarkListFragment extends Base_Fragment {
+public class PlannerListFragment extends Base_Fragment {
 
-    @BindView(R.id.rvRemarkRouteList)
-    RecyclerView rvRemarkRouteList;
+    @BindView(R.id.rvPlannerRouteList)
+    RecyclerView rvPlannerRouteList;
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
 
-    private RemarkRouteListAdapter remarkRouteListAdapter;
+    private PlannerRouteListAdapter plannerRouteListAdapter;
     private RouteView routeView;
     private ArrayList<RouteListModel> arrRoute;
 
-    public RemarkListFragment() {
+    public PlannerListFragment() {
         // Required empty public constructor
     }
 
-    public static RemarkListFragment newInstance() {
-        RemarkListFragment fragment = new RemarkListFragment();
+    public static PlannerListFragment newInstance() {
+        PlannerListFragment fragment = new PlannerListFragment();
         return fragment;
     }
 
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.fragment_remark_route_list;
+        return R.layout.fragment_planner_route_list;
     }
 
     @Override
@@ -54,16 +54,16 @@ public class RemarkListFragment extends Base_Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rvRemarkRouteList.setLayoutManager(linearLayoutManager);
+        rvPlannerRouteList.setLayoutManager(linearLayoutManager);
 
         hideSaveButton();
-        setTitle("Remarks Summary");
+        setTitle("Route Planner");
 
         arrRoute = new ArrayList<>();
         routeView = new RouteView(getActivity());
         arrRoute.addAll(routeView.getRouteList());
-        remarkRouteListAdapter = new RemarkRouteListAdapter(getActivity(), arrRoute);
-        rvRemarkRouteList.setAdapter(remarkRouteListAdapter);
+        plannerRouteListAdapter = new PlannerRouteListAdapter(getActivity(), arrRoute);
+        rvPlannerRouteList.setAdapter(plannerRouteListAdapter);
     }
 
     @Override
@@ -71,10 +71,11 @@ public class RemarkListFragment extends Base_Fragment {
         super.onResume();
         if (arrRoute.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
-            rvRemarkRouteList.setVisibility(View.GONE);
+            rvPlannerRouteList.setVisibility(View.GONE);
         } else {
             tvEmpty.setVisibility(View.GONE);
-            rvRemarkRouteList.setVisibility(View.VISIBLE);
+            rvPlannerRouteList.setVisibility(View.VISIBLE);
         }
     }
+
 }

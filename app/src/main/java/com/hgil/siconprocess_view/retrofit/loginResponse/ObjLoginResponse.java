@@ -7,7 +7,6 @@ package com.hgil.siconprocess_view.retrofit.loginResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.DemandTargetModel;
-import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.ItemModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletSaleModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.PaymentModel;

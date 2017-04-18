@@ -9,8 +9,9 @@ import android.widget.EditText;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.base.Base_Fragment;
-import com.hgil.siconprocess_view.database.localDb.RoutePlanModel;
-import com.hgil.siconprocess_view.database.localDb.RoutePlannerTable;
+import com.hgil.siconprocess_view.database.localDb.PlanModel;
+import com.hgil.siconprocess_view.database.localDb.PlannerTable;
+import com.hgil.siconprocess_view.utils.Utility;
 
 import butterknife.BindView;
 
@@ -26,7 +27,7 @@ public class PlannerFragment extends Base_Fragment {
     @BindView(R.id.btnCancel)
     Button btnCancel;
 
-    private RoutePlannerTable routePlannerTable;
+    private PlannerTable plannerTable;
 
     public PlannerFragment() {
         // Required empty public constructor
@@ -49,21 +50,22 @@ public class PlannerFragment extends Base_Fragment {
         hideSaveButton();
         setTitle("Route Plan");
 
-        routePlannerTable = new RoutePlannerTable(getContext());
+        plannerTable = new PlannerTable(getContext());
 
-        final RoutePlanModel routePlanModel = routePlannerTable.getRoutePlan(getRouteId());
+        final PlanModel planModel = plannerTable.getUserPlan(getLoginId(), Utility.getCurDate());
 
-        etRoutePlan.setText(routePlanModel.getRoute_plan());
+        etRoutePlan.setText(planModel.getPlan());
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                routePlanModel.setRoute_id(getRouteId());
-                routePlanModel.setRoute_plan(etRoutePlan.getText().toString().trim());
-                routePlannerTable.insertRoutePlan(routePlanModel);
+                planModel.setUser_id(getRouteId());
+                planModel.setPlan(etRoutePlan.getText().toString().trim());
+                planModel.setPlan_date(Utility.getCurDate());
+                plannerTable.insertUserPlan(planModel);
 
                 // snackbar to show plan updated
-                showSnackbar(getView(), "Route Plan Updated");
+                showSnackbar(getView(), "Your Plan Updated");
 
                 //now finish this fragment
                 getActivity().getSupportFragmentManager().popBackStackImmediate();

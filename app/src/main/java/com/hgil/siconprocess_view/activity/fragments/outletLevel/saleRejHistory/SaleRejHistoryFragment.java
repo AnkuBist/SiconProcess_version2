@@ -115,6 +115,18 @@ public class SaleRejHistoryFragment extends Route_Base_Fragment {
             }
         });
 
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rvSaleRej.setLayoutManager(linearLayoutManager);
+        SaleHistoryView saleHistoryView = new SaleHistoryView(getContext());
+
+        ArrayList<SaleHistoryModel> arrSaleRej = saleHistoryView.outletSaleHistory(customer_id);
+        //arrSaleRej.addAll(routeMap.getRouteCustomers());
+
+        SaleRejAdapter saleRejAdapter = new SaleRejAdapter(getContext(), arrSaleRej);
+        rvSaleRej.setAdapter(saleRejAdapter);
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

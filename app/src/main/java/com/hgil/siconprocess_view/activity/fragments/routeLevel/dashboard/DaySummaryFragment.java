@@ -20,31 +20,20 @@ public class DaySummaryFragment extends Route_Base_Fragment {
 
     @BindView(R.id.tvRouteName)
     TextView tvRouteName;
-    @BindView(R.id.tvTargetCalls)
-    TextView tvTargetCalls;
+    /*    @BindView(R.id.tvTargetCalls)
+        TextView tvTargetCalls;*/
     @BindView(R.id.tvTotalCalls)
     TextView tvTotalCalls;
     @BindView(R.id.tvProductiveCalls)
     TextView tvProductiveCalls;
     @BindView(R.id.tvTotalBillValue)
     TextView tvTotalBillValue;
-    @BindView(R.id.tvAvgBillValue)
-    TextView tvAvgBillValue;
+    /*  @BindView(R.id.tvAvgBillValue)
+      TextView tvAvgBillValue;*/
     @BindView(R.id.tvTodayCollection)
     TextView tvTodayCollection;
     @BindView(R.id.tvTotalOS)
     TextView tvTotalOS;
-
-
-    /*total colleted amount on route*/
-    @BindView(R.id.tvTotalCollection)
-    TextView tvTotalCollection;
-    @BindView(R.id.tvCash)
-    TextView tvCash;
-    @BindView(R.id.tvUPI)
-    TextView tvUPI;
-    @BindView(R.id.tvCheque)
-    TextView tvCheque;
 
     public DaySummaryFragment() {
         // Required empty public constructor
@@ -92,42 +81,30 @@ public class DaySummaryFragment extends Route_Base_Fragment {
         double route_total_collection = paymentView.routeTotalSale(getRouteId());
 
         //  total route sale amount
-        double route_total_os = outletView.routeTotalSale(getRouteId());
+        double route_total_sale = outletView.routeTotalSale(getRouteId());
 
+        double route_outstanding = outletView.routeOutstanding(getRouteId());
 
         // count total outlets in the route
-        //CustomerRouteMappingView routeMappingView = new CustomerRouteMappingView(getContext());
-        //int targetCalls = routeMappingView.numberOfRows();
-        tvTargetCalls.setText(String.valueOf(target_calls));
+        //tvTargetCalls.setText(String.valueOf(target_calls));
 
-        //PaymentTable paymentTable = new PaymentTable(getContext());
         // get total outlet calls made
-        //int totalCalls = paymentTable.dataCount();
-        tvTotalCalls.setText(String.valueOf(productive_calls));
+        tvTotalCalls.setText(String.valueOf(target_calls));
         tvProductiveCalls.setText(String.valueOf(productive_calls));
 
         // get total bill value
-        // double totalBillValue = paymentTable.getRouteSale();
-        tvTotalBillValue.setText(strRupee + Utility.roundOff(route_total_os));
+        tvTotalBillValue.setText(strRupee + Utility.roundOff(route_total_sale));
 
         // calculate average bill value
-        double avgBill = 0;
+        /*double avgBill = 0;
 
         avgBill = route_total_os / productive_calls;
-
         if (Double.isNaN(avgBill))
             avgBill = 0;
-        tvAvgBillValue.setText(strRupee + Utility.roundOff(avgBill));
+        tvAvgBillValue.setText(strRupee + Utility.roundOff(avgBill));*/
 
         tvTodayCollection.setText(strRupee + Utility.roundOff(route_total_collection));
 
-        tvTotalOS.setText(strRupee + Utility.roundOff(route_total_os));
-
-        /*route collection details*/
-        //DaySummaryAmountCollectionModel cModel = paymentTable.routeCollectionDetail();
-        //tvTotalCollection.setText(strRupee + cModel.getTotalCollection());
-        //tvCash.setText(strRupee + cModel.getCashCollected());
-        //tvUPI.setText(strRupee + cModel.getUPIAmount());
-        //tvCheque.setText(strRupee + cModel.getChequeAmount());
+        tvTotalOS.setText(strRupee + Utility.roundOff(route_outstanding + route_total_sale - route_total_collection));
     }
 }
