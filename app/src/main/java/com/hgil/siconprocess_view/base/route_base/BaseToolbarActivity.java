@@ -28,8 +28,8 @@ public abstract class BaseToolbarActivity extends Route_Base_Activity {
     public TextView tvNavTitle;
     @BindView(R.id.tvNavDate)
     public TextView tvNavDate;
-    @BindView(R.id.imgSave)
-    public ImageView imgSave;
+    @BindView(R.id.imgSync)
+    public ImageView imgSync;
 
     protected String customer_id, customer_name;
 
@@ -57,12 +57,12 @@ public abstract class BaseToolbarActivity extends Route_Base_Activity {
         setNavDate(Utility.getDateMonth());
     }
 
-    protected void showSaveBtn() {
-        imgSave.setVisibility(View.VISIBLE);
+    protected void showSyncBtn() {
+        imgSync.setVisibility(View.VISIBLE);
     }
 
-    protected void hideSaveBtn() {
-        imgSave.setVisibility(View.GONE);
+    protected void hideSyncBtn() {
+        imgSync.setVisibility(View.GONE);
     }
 
     protected void setNavDate(String date) {

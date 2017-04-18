@@ -7,6 +7,8 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.PlanModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,11 +54,11 @@ public class PlannerTable extends SQLiteOpenHelper {
     public boolean insertUserPlan(PlanModel planModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(USER_ID, planModel.getUser_id());
-        contentValues.put(PLAN, planModel.getPlan());
-        contentValues.put(PLAN_DATE, planModel.getPlan_date());
-        if (hasObject(db, planModel.getUser_id(), planModel.getPlan_date()))
-            db.update(TABLE_NAME, contentValues, USER_ID + "=? AND " + PLAN_DATE + "=?", new String[]{planModel.getUser_id(), planModel.getPlan_date()});
+        contentValues.put(USER_ID, planModel.getUserId());
+        contentValues.put(PLAN, planModel.getUserPlan());
+        contentValues.put(PLAN_DATE, planModel.getPlanDate());
+        if (hasObject(db, planModel.getUserId(), planModel.getPlanDate()))
+            db.update(TABLE_NAME, contentValues, USER_ID + "=? AND " + PLAN_DATE + "=?", new String[]{planModel.getUserId(), planModel.getPlanDate()});
         else
             db.insert(TABLE_NAME, null, contentValues);
         db.close();
@@ -70,11 +72,11 @@ public class PlannerTable extends SQLiteOpenHelper {
         for (int i = 0; i < arrUserPlan.size(); i++) {
             PlanModel planModel = arrUserPlan.get(i);
             ContentValues contentValues = new ContentValues();
-            contentValues.put(USER_ID, planModel.getUser_id());
-            contentValues.put(PLAN, planModel.getPlan());
-            contentValues.put(PLAN_DATE, planModel.getPlan_date());
-            if (hasObject(db, planModel.getUser_id(), planModel.getPlan_date()))
-                db.update(TABLE_NAME, contentValues, USER_ID + "=? AND " + PLAN_DATE + "=?", new String[]{planModel.getUser_id(), planModel.getPlan_date()});
+            contentValues.put(USER_ID, planModel.getUserId());
+            contentValues.put(PLAN, planModel.getUserPlan());
+            contentValues.put(PLAN_DATE, planModel.getPlanDate());
+            if (hasObject(db, planModel.getUserId(), planModel.getPlanDate()))
+                db.update(TABLE_NAME, contentValues, USER_ID + "=? AND " + PLAN_DATE + "=?", new String[]{planModel.getUserId(), planModel.getPlanDate()});
             else
                 db.insert(TABLE_NAME, null, contentValues);
         }
@@ -84,7 +86,7 @@ public class PlannerTable extends SQLiteOpenHelper {
 
     // check if the record exists or not
     public boolean hasObject(SQLiteDatabase db, String user_id, String plan_date) {
-        String selectString = "SELECT * FROM " + TABLE_NAME + " WHERE " + USER_ID + " =? AND " + PLAN_DATE + "=?";
+        String selectString = "SELECT * FROM " + TABLE_NAME + " WHERE " + USER_ID + "=? AND " + PLAN_DATE + "=?";
 
         Cursor cursor = db.rawQuery(selectString, new String[]{user_id, plan_date});
 
@@ -124,9 +126,9 @@ public class PlannerTable extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         if (res.moveToFirst()) {
             PlanModel planModel = new PlanModel();
-            planModel.setUser_id(res.getString(res.getColumnIndex(USER_ID)));
-            planModel.setPlan(res.getString(res.getColumnIndex(PLAN)));
-            planModel.setPlan_date(res.getString(res.getColumnIndex(PLAN_DATE)));
+            planModel.setUserId(res.getString(res.getColumnIndex(USER_ID)));
+            planModel.setUserPlan(res.getString(res.getColumnIndex(PLAN)));
+            planModel.setPlanDate(res.getString(res.getColumnIndex(PLAN_DATE)));
             array_list.add(planModel);
         }
         res.close();
@@ -139,12 +141,12 @@ public class PlannerTable extends SQLiteOpenHelper {
         ArrayList<PlanModel> array_list = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + PLAN_DATE + "=?", new String[]{user_id});
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + USER_ID + "=?", new String[]{user_id});
         if (res.moveToFirst()) {
             PlanModel planModel = new PlanModel();
-            planModel.setUser_id(res.getString(res.getColumnIndex(USER_ID)));
-            planModel.setPlan(res.getString(res.getColumnIndex(PLAN)));
-            planModel.setPlan_date(res.getString(res.getColumnIndex(PLAN_DATE)));
+            planModel.setUserId(res.getString(res.getColumnIndex(USER_ID)));
+            planModel.setUserPlan(res.getString(res.getColumnIndex(PLAN)));
+            planModel.setPlanDate(res.getString(res.getColumnIndex(PLAN_DATE)));
             array_list.add(planModel);
         }
         res.close();
@@ -161,9 +163,9 @@ public class PlannerTable extends SQLiteOpenHelper {
                 new String[]{user_id, plan_date});
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
-                planModel.setUser_id(res.getString(res.getColumnIndex(USER_ID)));
-                planModel.setPlan(res.getString(res.getColumnIndex(PLAN)));
-                planModel.setPlan_date(res.getString(res.getColumnIndex(PLAN_DATE)));
+                planModel.setUserId(res.getString(res.getColumnIndex(USER_ID)));
+                planModel.setUserPlan(res.getString(res.getColumnIndex(PLAN)));
+                planModel.setPlanDate(res.getString(res.getColumnIndex(PLAN_DATE)));
                 res.moveToNext();
             }
         }

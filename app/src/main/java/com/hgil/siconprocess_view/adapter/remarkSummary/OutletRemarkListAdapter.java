@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
-import com.hgil.siconprocess_view.database.localDb.OutletRemarkModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletRemarkModel;
 
 import java.util.ArrayList;
 
@@ -40,30 +40,10 @@ public class OutletRemarkListAdapter extends RecyclerView.Adapter<OutletRemarkLi
     public void onBindViewHolder(final OutletRemarkListAdapter.ViewHolder holder, int position) {
         final OutletRemarkModel outletRemarkModel = mDataset.get(position);
         holder.tvOutletName.setText(outletRemarkModel.getOutlet_name());
+        holder.tvRemarkDate.setText(outletRemarkModel.getRemark_date());
+
         if (outletRemarkModel.getRemark() != null && outletRemarkModel.getRemark().length() > 0)
             holder.tvOutletRemark.setText(holder.strFilledArrow + outletRemarkModel.getRemark());
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO--expand and collapse the outlet remark onClick
-
-                /*String route_id = outletRemarkModel.getRoute_id();
-
-                RemarkRouteOutletListFragment fragment = RemarkRouteOutletListFragment.newInstance();
-                String fragClassName = fragment.getClass().getName();
-                FragmentManager fragmentManager = ((RouteListActivity) mContext).getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right)
-                        .replace(R.id.base_frame, fragment)
-                        .addToBackStack(fragClassName)
-                        .commit();*/
-
-               /* mContext.startActivity(intent);
-                ((RouteListActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);*/
-
-            }
-        });
 
         holder.setIsRecyclable(false);
     }
@@ -76,6 +56,8 @@ public class OutletRemarkListAdapter extends RecyclerView.Adapter<OutletRemarkLi
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvOutletName)
         public TextView tvOutletName;
+        @BindView(R.id.tvRemarkDate)
+        public TextView tvRemarkDate;
         @BindView(R.id.tvOutletRemark)
         public TextView tvOutletRemark;
 

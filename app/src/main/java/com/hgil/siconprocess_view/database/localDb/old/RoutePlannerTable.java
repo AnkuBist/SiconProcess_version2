@@ -125,11 +125,11 @@ public class RoutePlannerTable extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         if (res.moveToFirst()) {
-                RoutePlanModel routePlanModel = new RoutePlanModel();
-                routePlanModel.setRoute_id(res.getString(res.getColumnIndex(ROUTE_ID)));
-                routePlanModel.setRoute_plan(res.getString(res.getColumnIndex(PLAN)));
-                routePlanModel.setPlan_date(res.getString(res.getColumnIndex(PLAN_DATE)));
-                array_list.add(routePlanModel);
+            RoutePlanModel routePlanModel = new RoutePlanModel();
+            routePlanModel.setRoute_id(res.getString(res.getColumnIndex(ROUTE_ID)));
+            routePlanModel.setRoute_plan(res.getString(res.getColumnIndex(PLAN)));
+            routePlanModel.setPlan_date(res.getString(res.getColumnIndex(PLAN_DATE)));
+            array_list.add(routePlanModel);
         }
         res.close();
         db.close();

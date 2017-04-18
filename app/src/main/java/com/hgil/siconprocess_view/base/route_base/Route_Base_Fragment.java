@@ -33,7 +33,7 @@ public abstract class Route_Base_Fragment extends Fragment {
     protected String customer_id, customer_name;
 
     protected TextView tvNavTitle, tvNavDate;
-    protected ImageView imgSave;
+    protected ImageView imgSync;
     protected RouteModel routeModel;
     protected String routeId, routeName, loginId;
 
@@ -95,8 +95,7 @@ public abstract class Route_Base_Fragment extends Fragment {
     private void getToolbarView() {
         tvNavTitle = (TextView) getActivity().findViewById(R.id.tvNavTitle);
         tvNavDate = (TextView) getActivity().findViewById(R.id.tvNavDate);
-        imgSave = (ImageView) getActivity().findViewById(R.id.imgSave);
-        updateOkIcon();
+        imgSync = (ImageView) getActivity().findViewById(R.id.imgSync);
     }
 
     protected abstract int getFragmentLayout();
@@ -114,16 +113,16 @@ public abstract class Route_Base_Fragment extends Fragment {
         tvNavTitle.setText(title);
     }
 
-    public void showSaveButton() {
-        imgSave.setVisibility(View.VISIBLE);
+    public void showSyncButton() {
+        imgSync.setVisibility(View.VISIBLE);
     }
 
     /*public void onDestroyView(){
         // do nothing
     }*/
 
-    public void hideSaveButton() {
-        imgSave.setVisibility(View.GONE);
+    public void hideSyncButton() {
+        imgSync.setVisibility(View.GONE);
     }
 
     public RouteModel getRouteModel() {
@@ -140,14 +139,6 @@ public abstract class Route_Base_Fragment extends Fragment {
 
     public String getLoginId() {
         return loginId;
-    }
-
-    public void updateSaveIcon() {
-        imgSave.setImageResource(R.mipmap.ic_nav_save);
-    }
-
-    public void updateOkIcon() {
-        imgSave.setImageResource(R.mipmap.ic_ok);
     }
 
     protected void launchInvoiceFragment(Fragment fragment) {

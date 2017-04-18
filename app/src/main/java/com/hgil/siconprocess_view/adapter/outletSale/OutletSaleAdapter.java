@@ -48,6 +48,7 @@ public class OutletSaleAdapter extends RecyclerView.Adapter<OutletSaleAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private OutletSaleItem outletSaleView;
+
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);

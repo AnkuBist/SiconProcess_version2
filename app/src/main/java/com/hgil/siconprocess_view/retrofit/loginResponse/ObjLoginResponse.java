@@ -8,8 +8,10 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.DemandTargetModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletRemarkModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletSaleModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.PaymentModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.PlanModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SaleHistoryModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.VanStockModel;
@@ -21,9 +23,9 @@ public class ObjLoginResponse implements Serializable {
     @SerializedName("arrRoutes")
     @Expose
     private List<RouteModel> arrRoutes;
-/*    @SerializedName("arrItems")
-    @Expose
-    private List<ItemModel> arrItems;*/
+    /*    @SerializedName("arrItems")
+        @Expose
+        private List<ItemModel> arrItems;*/
     @SerializedName("arrOutlets")
     @Expose
     private List<OutletModel> arrOutlets;
@@ -42,6 +44,12 @@ public class ObjLoginResponse implements Serializable {
     @SerializedName("arrSaleHistory")
     @Expose
     private List<SaleHistoryModel> arrSaleHistory;
+    @SerializedName("arrRemark")
+    @Expose
+    private List<OutletRemarkModel> arrRemark;
+    @SerializedName("arrPlan")
+    @Expose
+    private List<PlanModel> arrPlan;
 
     public List<RouteModel> getArrRoutes() {
         return arrRoutes;
@@ -97,5 +105,21 @@ public class ObjLoginResponse implements Serializable {
 
     public void setArrSaleHistory(List<SaleHistoryModel> arrSaleHistory) {
         this.arrSaleHistory = arrSaleHistory;
+    }
+
+    public List<OutletRemarkModel> getArrRemark() {
+        return arrRemark;
+    }
+
+    public void setArrRemark(List<OutletRemarkModel> arrRemark) {
+        this.arrRemark = arrRemark;
+    }
+
+    public List<PlanModel> getArrPlan() {
+        return arrPlan;
+    }
+
+    public void setArrPlan(List<PlanModel> arrPlan) {
+        this.arrPlan = arrPlan;
     }
 }

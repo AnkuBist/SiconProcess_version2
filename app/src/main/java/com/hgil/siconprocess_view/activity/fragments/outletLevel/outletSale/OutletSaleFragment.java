@@ -24,10 +24,9 @@ import butterknife.BindView;
  * A simple {@link Fragment} subclass.
  */
 public class OutletSaleFragment extends Route_Base_Fragment {
+    public double grandTotal = 0.00;
     @BindView(R.id.tvInvoiceTotal)
     TextView tvInvoiceTotal;
-    public double grandTotal = 0.00;
-
     @BindView(R.id.tvCustomerName)
     TextView tvCustomerName;
     @BindView(R.id.rvCustomerInvoice)
@@ -92,7 +91,7 @@ public class OutletSaleFragment extends Route_Base_Fragment {
         rvCustomerInvoice.setAdapter(invoiceAdapter);
 
         setTitle("Today's Sale");
-        hideSaveButton();
+        hideSyncButton();
     }
 
     @Override

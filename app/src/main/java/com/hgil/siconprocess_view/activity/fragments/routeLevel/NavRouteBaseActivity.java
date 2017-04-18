@@ -36,8 +36,8 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
     public TextView tvNavTitle;
     @BindView(R.id.tvNavDate)
     public TextView tvNavDate;
-    @BindView(R.id.imgSave)
-    public ImageView imgSave;
+    @BindView(R.id.imgSync)
+    public ImageView imgSync;
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawer;
     @BindView(R.id.toolbar)
@@ -216,7 +216,7 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
 
             // Set action bar title
             tvNavTitle.setText(menuItem.getTitle());
-            imgSave.setVisibility(View.GONE);
+            imgSync.setVisibility(View.GONE);
         }
         // Close the navigation drawer
         mDrawer.closeDrawers();

@@ -52,7 +52,7 @@ public class OutletInfoFragment extends Route_Base_Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setTitle("Outlet Info");
-        hideSaveButton();
+        hideSyncButton();
 
         if (getArguments() != null) {
             customer_id = getArguments().getString(CUSTOMER_ID);

@@ -58,7 +58,7 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
         tvRouteName.setText(getRouteName());
 
         setTitle("Route");
-        hideSaveButton();
+        hideSyncButton();
     }
 
     @Override

@@ -66,7 +66,7 @@ public class DaySummaryFragment extends Route_Base_Fragment {
             tvRouteName.setText(routeName);
 
         setTitle("Day Summary");
-        hideSaveButton();
+        hideSyncButton();
 
         OutletView outletView = new OutletView(getContext());
         PaymentView paymentView = new PaymentView(getContext());

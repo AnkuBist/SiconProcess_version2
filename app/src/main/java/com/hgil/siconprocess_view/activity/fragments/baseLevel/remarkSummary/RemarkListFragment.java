@@ -56,7 +56,7 @@ public class RemarkListFragment extends Base_Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvRemarkRouteList.setLayoutManager(linearLayoutManager);
 
-        hideSaveButton();
+        hideSyncButton();
         setTitle("Remarks Summary");
 
         arrRoute = new ArrayList<>();

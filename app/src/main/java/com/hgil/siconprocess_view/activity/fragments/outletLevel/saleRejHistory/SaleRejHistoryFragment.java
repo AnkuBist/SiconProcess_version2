@@ -75,8 +75,9 @@ public class SaleRejHistoryFragment extends Route_Base_Fragment {
 
         // set route name to the route
         //tvRouteName.setText(getRouteName());
-        setTitle("Sale & Rejection History");
-        hideSaveButton();
+        //setTitle("Sale & Rejection History");
+        setTitle("Sale History");
+        hideSyncButton();
 
         myCalendar = Calendar.getInstance();
         updateToDate();

@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.base.Base_Fragment;
-import com.hgil.siconprocess_view.database.localDb.PlanModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.PlanModel;
 import com.hgil.siconprocess_view.database.localDb.PlannerTable;
 import com.hgil.siconprocess_view.utils.Utility;
 
@@ -47,21 +47,21 @@ public class PlannerFragment extends Base_Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        hideSaveButton();
-        setTitle("Route Plan");
+        hideSyncButton();
+        setTitle("User Plan");
 
         plannerTable = new PlannerTable(getContext());
 
         final PlanModel planModel = plannerTable.getUserPlan(getLoginId(), Utility.getCurDate());
 
-        etRoutePlan.setText(planModel.getPlan());
+        etRoutePlan.setText(planModel.getUserPlan());
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                planModel.setUser_id(getRouteId());
-                planModel.setPlan(etRoutePlan.getText().toString().trim());
-                planModel.setPlan_date(Utility.getCurDate());
+                planModel.setUserId(getLoginId());
+                planModel.setUserPlan(etRoutePlan.getText().toString().trim());
+                planModel.setPlanDate(Utility.getCurDate());
                 plannerTable.insertUserPlan(planModel);
 
                 // snackbar to show plan updated

@@ -1,16 +1,30 @@
-package com.hgil.siconprocess_view.database.localDb;
+package com.hgil.siconprocess_view.retrofit.loginResponse.dbModel;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by mohan.giri on 17-04-2017.
  */
 
 public class OutletRemarkModel {
-
+    @SerializedName("route_id")
+    @Expose
     private String route_id;
+    @SerializedName("route_name")
+    @Expose
     private String route_name;
+    @SerializedName("outlet_id")
+    @Expose
     private String outlet_id;
+    @SerializedName("outlet_name")
+    @Expose
     private String outlet_name;
+    @SerializedName("remark")
+    @Expose
     private String remark;
+    @SerializedName("remark_date")
+    @Expose
     private String remark_date;
 
     public String getRoute_id() {

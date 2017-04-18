@@ -20,6 +20,8 @@ import com.hgil.siconprocess_view.database.PaymentView;
 import com.hgil.siconprocess_view.database.RouteView;
 import com.hgil.siconprocess_view.database.SaleHistoryView;
 import com.hgil.siconprocess_view.database.VanStockView;
+import com.hgil.siconprocess_view.database.localDb.OutletRemarkTable;
+import com.hgil.siconprocess_view.database.localDb.PlannerTable;
 import com.hgil.siconprocess_view.retrofit.RetrofitService;
 import com.hgil.siconprocess_view.retrofit.RetrofitUtil;
 import com.hgil.siconprocess_view.retrofit.loginResponse.ObjLoginResponse;
@@ -58,6 +60,9 @@ public class LoginActivity extends AppCompatActivity {
     private PaymentView dbPaymentView;
     private SaleHistoryView dbSaleHistory;
 
+    // remark and plan updates
+    private OutletRemarkTable dbOutletRemark;
+    private PlannerTable dbPlanTable;
 
     private String existing_id = "", saved_id = "";
 
@@ -87,6 +92,10 @@ public class LoginActivity extends AppCompatActivity {
         dbOutletSale = new OutletSaleView(this);
         dbPaymentView = new PaymentView(this);
         dbSaleHistory = new SaleHistoryView(this);
+
+        // plan and remark update
+        dbOutletRemark = new OutletRemarkTable(this);
+        dbPlanTable = new PlannerTable(this);
     }
 
     public void onSubmit(View view) {
@@ -152,6 +161,10 @@ public class LoginActivity extends AppCompatActivity {
         dbOutletSale.eraseTable();
         dbPaymentView.eraseTable();
         dbSaleHistory.eraseTable();
+
+        /*plan and remark table erase on login*/
+        dbOutletRemark.eraseTable();
+        dbPlanTable.eraseTable();
     }
 
     /*retrofit call test to fetch data from server*/
@@ -208,6 +221,8 @@ public class LoginActivity extends AppCompatActivity {
             dbVanStock.insertVanStock(objResponse.getArrVanStock());
             dbPaymentView.insertPayment(objResponse.getArrPayment());
             dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
+            dbPlanTable.insertUserPlan(objResponse.getArrPlan());
+            dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
 
             Utility.saveLoginStatus(LoginActivity.this, Utility.LOGIN_STATUS, true);
             Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_ID, user_id);

@@ -14,13 +14,21 @@
         android:textColor="@color/colorTextBlue"
         android:textSize="@dimen/text_size_medium" />
 
+    <TextView
+        android:id="@+id/tvRemarkDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="6dp"
+        android:textColor="@color/colorTextGrey"
+        android:textSize="@dimen/text_size_medium" />
 
     <TextView
         android:id="@+id/tvOutletRemark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:padding="12dp"
+        android:padding="6dp"
         android:textColor="@color/colorTextGrey"
         android:textSize="@dimen/text_size_small" />
 

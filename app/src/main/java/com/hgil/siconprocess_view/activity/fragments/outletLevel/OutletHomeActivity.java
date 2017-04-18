@@ -37,8 +37,8 @@ public class OutletHomeActivity extends Route_Base_Activity {
     public TextView tvNavTitle;
     @BindView(R.id.tvNavDate)
     public TextView tvNavDate;
-    @BindView(R.id.imgSave)
-    public ImageView imgSave;
+    @BindView(R.id.imgSync)
+    public ImageView imgSync;
 
     protected String customer_id;
     protected String customer_name;
@@ -211,7 +211,7 @@ public class OutletHomeActivity extends Route_Base_Activity {
 
             // Set action bar title
             tvNavTitle.setText(menuItem.getTitle());
-            imgSave.setVisibility(View.GONE);
+            imgSync.setVisibility(View.GONE);
         }
         // Close the navigation drawer
         mDrawer.closeDrawers();

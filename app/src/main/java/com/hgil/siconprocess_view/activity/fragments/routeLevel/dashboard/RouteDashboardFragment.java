@@ -49,7 +49,7 @@ public class RouteDashboardFragment extends Route_Base_Fragment {
             tvRouteName.setText(routeName);
 
         setTitle("Dashboard");
-        hideSaveButton();
+        hideSyncButton();
 
         tvDaySummary.setOnClickListener(new View.OnClickListener() {
             @Override

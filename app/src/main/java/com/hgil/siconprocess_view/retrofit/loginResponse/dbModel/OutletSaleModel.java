@@ -100,6 +100,7 @@ public class OutletSaleModel {
     public void setItemId(String itemId) {
         this.itemId = itemId;
     }
+
     public String getItemName() {
         return itemName;
     }

@@ -56,7 +56,7 @@ public class PlannerListFragment extends Base_Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvPlannerRouteList.setLayoutManager(linearLayoutManager);
 
-        hideSaveButton();
+        hideSyncButton();
         setTitle("Route Planner");
 
         arrRoute = new ArrayList<>();

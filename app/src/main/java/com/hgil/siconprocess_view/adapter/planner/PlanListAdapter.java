@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
-import com.hgil.siconprocess_view.database.localDb.PlanModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.PlanModel;
 
 import java.util.ArrayList;
 
@@ -38,8 +38,8 @@ public class PlanListAdapter extends RecyclerView.Adapter<PlanListAdapter.ViewHo
     @Override
     public void onBindViewHolder(final PlanListAdapter.ViewHolder holder, int position) {
         final PlanModel planModel = mDataset.get(position);
-        holder.tvPlanDate.setText(planModel.getPlan_date());
-        holder.tvUserPlan.setText(planModel.getPlan());
+        holder.tvPlanDate.setText(planModel.getPlanDate());
+        holder.tvUserPlan.setText(planModel.getUserPlan());
         holder.setIsRecyclable(false);
     }
 

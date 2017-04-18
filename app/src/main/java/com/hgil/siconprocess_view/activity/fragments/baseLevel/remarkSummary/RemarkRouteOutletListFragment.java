@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.adapter.remarkSummary.OutletRemarkListAdapter;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
-import com.hgil.siconprocess_view.database.localDb.OutletRemarkModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletRemarkModel;
 import com.hgil.siconprocess_view.database.localDb.OutletRemarkTable;
 
 import java.util.ArrayList;
@@ -52,9 +52,9 @@ public class RemarkRouteOutletListFragment extends Route_Base_Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        hideSaveButton();
+        hideSyncButton();
         setTitle("Remarks Summary");
-        
+
         if (getRouteName() != null)
             tvRouteName.setText(getRouteName());
 

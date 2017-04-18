@@ -9,9 +9,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class RouteModel {
 
-/*    @SerializedName("depot")
-    @Expose
-    private String depot;*/
+    /*    @SerializedName("depot")
+        @Expose
+        private String depot;*/
     @SerializedName("route_id")
     @Expose
     private String routeId;

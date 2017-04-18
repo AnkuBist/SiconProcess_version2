@@ -3,6 +3,7 @@ package com.hgil.siconprocess_view.activity.fragments.baseLevel.planner;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,7 @@ import android.widget.TextView;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.adapter.planner.PlanListAdapter;
 import com.hgil.siconprocess_view.base.Base_Fragment;
-import com.hgil.siconprocess_view.database.localDb.PlanModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.PlanModel;
 import com.hgil.siconprocess_view.database.localDb.PlannerTable;
 
 import java.util.ArrayList;
@@ -28,6 +29,8 @@ public class PlanListFragment extends Base_Fragment {
     RecyclerView rvUserPlans;
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
+    @BindView(R.id.fabAddPlan)
+    FloatingActionButton fabAddPlan;
 
     private PlanListAdapter planListAdapter;
     private PlannerTable planTable;
@@ -56,7 +59,7 @@ public class PlanListFragment extends Base_Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvUserPlans.setLayoutManager(linearLayoutManager);
 
-        hideSaveButton();
+        hideSyncButton();
         setTitle("User Plan");
 
         arrPlans = new ArrayList<>();
@@ -64,6 +67,15 @@ public class PlanListFragment extends Base_Fragment {
         arrPlans.addAll(planTable.getUserPlan(getLoginId()));
         planListAdapter = new PlanListAdapter(getActivity(), arrPlans);
         rvUserPlans.setAdapter(planListAdapter);
+
+        fabAddPlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlannerFragment plannerFragment = PlannerFragment.newInstance();
+                launchRouteFragment(plannerFragment);
+            }
+        });
+
     }
 
     @Override

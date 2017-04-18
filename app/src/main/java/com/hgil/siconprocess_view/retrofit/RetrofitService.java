@@ -20,6 +20,10 @@ public interface RetrofitService {
     @POST(API.LOGIN_URL)
     Call<loginResponse> postUserLogin(@Field("psm_id") String username, @Field("password") String password);
 
+    @FormUrlEncoded
+    @POST(API.SYNC_URL)
+    Call<loginResponse> syncRemarkPlan(@Field("psm_id") String username, @Field("sync_data") String sync_data);
+
    /* @FormUrlEncoded
     @POST(API.SYNC_URL)
     Call<syncResponse> syncRouteData(@Field("route_id") String username, @Field("route_data") String route_data);

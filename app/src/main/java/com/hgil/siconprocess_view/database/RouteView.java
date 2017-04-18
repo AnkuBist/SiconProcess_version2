@@ -27,8 +27,8 @@ public class RouteView extends SQLiteOpenHelper {
     private static final String ROUTE_NAME = "Route_Name";
     private static final String PSMID = "PSMID";
     //private static final String CUSTOMER_ID = "Customer_id";
-   // private static final String CUSTOMER_NAME = "Customer_name";
-   // private static final String CONTACT_NO = "Contact_no";
+    // private static final String CUSTOMER_NAME = "Customer_name";
+    // private static final String CONTACT_NO = "Contact_no";
 
     public RouteView(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -37,9 +37,9 @@ public class RouteView extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + //DEPOT_ID + " TEXT NULL, "
-                 ROUTE_ID + " TEXT NULL, " + ROUTE_NAME + " TEXT NULL)"); //+ PSMID + " TEXT NULL)");
-                //+ CUSTOMER_ID + " TEXT NULL, " + CUSTOMER_NAME + " TEXT NULL, "
-               // + CONTACT_NO + " TEXT NULL)");
+                ROUTE_ID + " TEXT NULL, " + ROUTE_NAME + " TEXT NULL)"); //+ PSMID + " TEXT NULL)");
+        //+ CUSTOMER_ID + " TEXT NULL, " + CUSTOMER_NAME + " TEXT NULL, "
+        // + CONTACT_NO + " TEXT NULL)");
     }
 
     @Override

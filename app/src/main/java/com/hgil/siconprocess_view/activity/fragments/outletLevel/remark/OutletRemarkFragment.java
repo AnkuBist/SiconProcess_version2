@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
-import com.hgil.siconprocess_view.database.localDb.OutletRemarkModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletRemarkModel;
 import com.hgil.siconprocess_view.database.localDb.OutletRemarkTable;
 import com.hgil.siconprocess_view.utils.Utility;
 
@@ -61,7 +61,7 @@ public class OutletRemarkFragment extends Route_Base_Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        hideSaveButton();
+        hideSyncButton();
         setTitle("Route Plan");
 
         outletRemarkTable = new OutletRemarkTable(getContext());

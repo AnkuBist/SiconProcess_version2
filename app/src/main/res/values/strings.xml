@@ -20,7 +20,8 @@
     <!--home invoice drawer item names-->
     <string name="str_nav_route_home">Route Home</string>
     <string name="str_nav_today_sale">Today\'s Sale</string>
-    <string name="str_nav_sale_rej_history">Sale &amp; Rejection History</string>
+    <!--<string name="str_nav_sale_rej_history">Sale &amp; Rejection History</string>-->
+    <string name="str_nav_sale_rej_history">Sale History</string>
     <string name="str_nav_remark">Remark</string>
     <string name="str_nav_outlet_info">Outlet Info</string>
 

@@ -43,10 +43,10 @@
 
     <!--right save button-->
     <ImageView
-        android:id="@+id/imgSave"
+        android:id="@+id/imgSync"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_gravity="right|center_vertical"
         android:layout_marginRight="8dp"
-        android:src="@mipmap/ic_ok" />
+        android:src="@android:drawable/stat_notify_sync_noanim" />
 </android.support.v7.widget.Toolbar>

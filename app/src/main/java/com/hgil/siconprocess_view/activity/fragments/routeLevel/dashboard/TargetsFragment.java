@@ -63,7 +63,7 @@ public class TargetsFragment extends Route_Base_Fragment {
             tvRouteName.setText(routeName);
 
         setTitle("Targets");
-        hideSaveButton();
+        hideSyncButton();
 
         // handling recycler data and adapter working pending
         //TODO

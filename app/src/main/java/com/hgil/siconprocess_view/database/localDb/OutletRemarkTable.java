@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletRemarkModel;
 import com.hgil.siconprocess_view.utils.Utility;
 
 import java.util.ArrayList;
@@ -132,7 +133,7 @@ public class OutletRemarkTable extends SQLiteOpenHelper {
     }
 
     // get all customers
-    public ArrayList<OutletRemarkModel> getAllRouteRemark() {
+    public ArrayList<OutletRemarkModel> getAllRemark() {
         ArrayList<OutletRemarkModel> array_list = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
