@@ -1,17 +1,19 @@
-package com.hgil.siconprocess_view.activity.fragments.routeLevel.homeTabs;
+package com.hgil.siconprocess_view.activity.fragments.baseLevel.depotList;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.hgil.siconprocess_view.R;
-import com.hgil.siconprocess_view.adapter.TabPagerAdapter;
-import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
+import com.hgil.siconprocess_view.adapter.depotList.DepotListAdapter;
+import com.hgil.siconprocess_view.adapter.depotList.DepotModel;
+import com.hgil.siconprocess_view.base.Base_Fragment;
 import com.hgil.siconprocess_view.database.DemandTargetView;
 import com.hgil.siconprocess_view.database.OutletSaleView;
 import com.hgil.siconprocess_view.database.OutletView;
@@ -32,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import retrofit2.Call;
@@ -41,51 +44,50 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.OnTabSelectedListener {
+public class DepotListFragment extends Base_Fragment {
 
-    @BindView(R.id.tvRouteName)
-    TextView tvRouteName;
-    @BindView(R.id.pager)
-    ViewPager viewPager;
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
-    private TabPagerAdapter adapter;
+    @BindView(R.id.rvDepotList)
+    RecyclerView rvDepotList;
+    @BindView(R.id.tvEmpty)
+    TextView tvEmpty;
 
-    public RouteHomeFragment() {
+    private DepotListAdapter depotListAdapter;
+    private RouteView routeView;
+    private ArrayList<DepotModel> arrDepot;
+
+    public DepotListFragment() {
         // Required empty public constructor
     }
 
-    public static RouteHomeFragment newInstance() {
-        RouteHomeFragment fragment = new RouteHomeFragment();
+    public static DepotListFragment newInstance() {
+        DepotListFragment fragment = new DepotListFragment();
         return fragment;
     }
 
+
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    protected int getFragmentLayout() {
+        return R.layout.fragment_depot_list;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //Adding the tabs using addTab() method
-        tabLayout.addTab(tabLayout.newTab().setText("All"));
-        tabLayout.addTab(tabLayout.newTab().setText("Pending"));
-        tabLayout.addTab(tabLayout.newTab().setText("Complete"));
-        tabLayout.addTab(tabLayout.newTab().setText("Sale < 100"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rvDepotList.setLayoutManager(linearLayoutManager);
 
-        //Creating our pager adapter
-        adapter = new TabPagerAdapter(getChildFragmentManager(), tabLayout.getTabCount());
-
-        //Adding adapter to pager
-        viewPager.setAdapter(adapter);
-
-        tabLayout.setupWithViewPager(viewPager);
-
-        // set route name to the route
-        tvRouteName.setText(getRouteName());
-
-        setTitle("Route");
         showSyncButton();
+        setTitle("Depot List");
 
         initialiseDBObj();
+
+        arrDepot = new ArrayList<>();
+        routeView = new RouteView(getActivity());
+        arrDepot.addAll(routeView.getDepotList());
+        depotListAdapter = new DepotListAdapter(getActivity(), arrDepot);
+        rvDepotList.setAdapter(depotListAdapter);
 
         imgSync.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,24 +111,18 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
     }
 
     @Override
-    protected int getFragmentLayout() {
-        return R.layout.fragment_route_home;
+    public void onResume() {
+        super.onResume();
+        if (arrDepot.size() == 0) {
+            tvEmpty.setVisibility(View.VISIBLE);
+            rvDepotList.setVisibility(View.GONE);
+        } else {
+            tvEmpty.setVisibility(View.GONE);
+            rvDepotList.setVisibility(View.VISIBLE);
+        }
     }
 
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        //viewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-    }
-
-    /* sync process*/
+    /*sync process*/
     private RouteView dbRouteView;
     private OutletView dbOutletView;
     private DemandTargetView dbDemandTargetView;
@@ -139,7 +135,6 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
     private OutletRemarkTable dbOutletRemark;
     private PlannerTable dbPlanTable;
 
-    /*sync process*/
     private void initialiseDBObj() {
         dbRouteView = new RouteView(getContext());
         dbOutletView = new OutletView(getContext());
@@ -254,4 +249,5 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
             dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
         }
     }
+
 }

@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.hgil.siconprocess_view.adapter.depotList.DepotModel;
 import com.hgil.siconprocess_view.adapter.routeList.RouteListModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;
 
@@ -23,6 +24,7 @@ public class RouteView extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "V_SD_Route_Master";
 
     private static final String DEPOT_ID = "Depot_id";
+    private static final String DEPOT_NAME = "Depot_Name";
     private static final String ROUTE_ID = "Route_Id";
     private static final String ROUTE_NAME = "Route_Name";
     private static final String PSMID = "PSMID";
@@ -37,6 +39,7 @@ public class RouteView extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + //DEPOT_ID + " TEXT NULL, "
+                DEPOT_ID + " TEXT NULL, " + DEPOT_NAME + " TEXT NULL, " +
                 ROUTE_ID + " TEXT NULL, " + ROUTE_NAME + " TEXT NULL)"); //+ PSMID + " TEXT NULL)");
         //+ CUSTOMER_ID + " TEXT NULL, " + CUSTOMER_NAME + " TEXT NULL, "
         // + CONTACT_NO + " TEXT NULL)");
@@ -58,7 +61,8 @@ public class RouteView extends SQLiteOpenHelper {
     public boolean insertRoute(RouteModel routeModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        //contentValues.put(DEPOT_ID, routeModel.getDepot());
+        contentValues.put(DEPOT_ID, routeModel.getDepotId());
+        contentValues.put(DEPOT_NAME, routeModel.getDepotName());
         contentValues.put(ROUTE_ID, routeModel.getRouteId());
         contentValues.put(ROUTE_NAME, routeModel.getRouteName());
         //contentValues.put(PSMID, routeModel.getPSMID());
@@ -77,6 +81,8 @@ public class RouteView extends SQLiteOpenHelper {
         for (RouteModel routeModel : arrList) {
             ContentValues contentValues = new ContentValues();
             //contentValues.put(DEPOT_ID, routeModel.getDepot());
+            contentValues.put(DEPOT_ID, routeModel.getDepotId());
+            contentValues.put(DEPOT_NAME, routeModel.getDepotName());
             contentValues.put(ROUTE_ID, routeModel.getRouteId());
             contentValues.put(ROUTE_NAME, routeModel.getRouteName());
             //contentValues.put(PSMID, routeModel.getPSMID());
@@ -96,7 +102,8 @@ public class RouteView extends SQLiteOpenHelper {
 
         RouteModel routeModel = new RouteModel();
         if (res.moveToFirst()) {
-            //routeModel.setDepot(res.getString(res.getColumnIndex(DEPOT_ID)));
+            routeModel.setDepotId(res.getString(res.getColumnIndex(DEPOT_ID)));
+            routeModel.setDepotName(res.getString(res.getColumnIndex(DEPOT_NAME)));
             routeModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
             routeModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
             //routeModel.setPSMID(res.getString(res.getColumnIndex(PSMID)));
@@ -137,6 +144,8 @@ public class RouteView extends SQLiteOpenHelper {
         if (res.moveToFirst()) {
             //while (res.isAfterLast() == false) {
             //routeModel.setDepot(res.getString(res.getColumnIndex(DEPOT_ID)));
+            routeModel.setDepotId(res.getString(res.getColumnIndex(DEPOT_ID)));
+            routeModel.setDepotName(res.getString(res.getColumnIndex(DEPOT_NAME)));
             routeModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
             routeModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
             //routeModel.setPSMID(res.getString(res.getColumnIndex(PSMID)));
@@ -159,6 +168,8 @@ public class RouteView extends SQLiteOpenHelper {
             while (res.isAfterLast() == false) {
                 RouteModel routeModel = new RouteModel();
                 ///routeModel.setDepot(res.getString(res.getColumnIndex(DEPOT_ID)));
+                routeModel.setDepotId(res.getString(res.getColumnIndex(DEPOT_ID)));
+                routeModel.setDepotName(res.getString(res.getColumnIndex(DEPOT_NAME)));
                 routeModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
                 routeModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
                 //.setPSMID(res.getString(res.getColumnIndex(PSMID)));
@@ -193,4 +204,45 @@ public class RouteView extends SQLiteOpenHelper {
         db.close();
         return array_list;
     }
+
+    /*get unique depots for login user*/
+    public ArrayList<DepotModel> getDepotList() {
+        ArrayList<DepotModel> array_list = new ArrayList<DepotModel>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT distinct " + DEPOT_ID + ", " + DEPOT_NAME + " FROM " + TABLE_NAME, null);
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                DepotModel depotModel = new DepotModel();
+                depotModel.setDepot_id(res.getString(res.getColumnIndex(DEPOT_ID)));
+                depotModel.setDepot_name(res.getString(res.getColumnIndex(DEPOT_NAME)));
+                array_list.add(depotModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return array_list;
+    }
+
+    /*GET DEPOT ROUTES*/
+    public ArrayList<RouteListModel> getDepotRouteList(String depot_id) {
+        ArrayList<RouteListModel> array_list = new ArrayList<RouteListModel>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + DEPOT_ID + "=?", new String[]{depot_id});
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                RouteListModel routeModel = new RouteListModel();
+                routeModel.setRoute_id(res.getString(res.getColumnIndex(ROUTE_ID)));
+                routeModel.setRoute_name(res.getString(res.getColumnIndex(ROUTE_NAME)));
+                array_list.add(routeModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return array_list;
+    }
+
 }

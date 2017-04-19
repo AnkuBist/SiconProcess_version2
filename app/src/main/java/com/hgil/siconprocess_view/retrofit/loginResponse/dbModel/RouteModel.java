@@ -12,6 +12,12 @@ public class RouteModel {
     /*    @SerializedName("depot")
         @Expose
         private String depot;*/
+    @SerializedName("depot_id")
+    @Expose
+    private String depotId;
+    @SerializedName("depot_name")
+    @Expose
+    private String depotName;
     @SerializedName("route_id")
     @Expose
     private String routeId;
@@ -38,6 +44,22 @@ public class RouteModel {
     public void setDepot(String depot) {
         this.depot = depot;
     }*/
+
+    public String getDepotId() {
+        return depotId;
+    }
+
+    public void setDepotId(String depotId) {
+        this.depotId = depotId;
+    }
+
+    public String getDepotName() {
+        return depotName;
+    }
+
+    public void setDepotName(String depotName) {
+        this.depotName = depotName;
+    }
 
     public String getRouteId() {
         return routeId;

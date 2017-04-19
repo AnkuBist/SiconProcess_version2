@@ -47,6 +47,9 @@ import retrofit2.Response;
  */
 public class RouteListFragment extends Base_Fragment {
 
+    private static String DEPOT_ID = "depot_id";
+    private String depot_id;
+
     @BindView(R.id.rvRouteList)
     RecyclerView rvRouteList;
     @BindView(R.id.tvEmpty)
@@ -60,11 +63,21 @@ public class RouteListFragment extends Base_Fragment {
         // Required empty public constructor
     }
 
-    public static RouteListFragment newInstance() {
+    public static RouteListFragment newInstance(String depot_id) {
         RouteListFragment fragment = new RouteListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(DEPOT_ID, depot_id);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            depot_id = getArguments().getString(DEPOT_ID);
+        }
+    }
 
     @Override
     protected int getFragmentLayout() {
@@ -79,14 +92,14 @@ public class RouteListFragment extends Base_Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvRouteList.setLayoutManager(linearLayoutManager);
 
-        showSyncButton();
+        hideSyncButton();
         setTitle("Route List");
 
         initialiseDBObj();
 
         arrRoute = new ArrayList<>();
         routeView = new RouteView(getActivity());
-        arrRoute.addAll(routeView.getRouteList());
+        arrRoute.addAll(routeView.getDepotRouteList(depot_id));
         routeListAdapter = new RouteListAdapter(getActivity(), arrRoute);
         rvRouteList.setAdapter(routeListAdapter);
 
@@ -109,7 +122,6 @@ public class RouteListFragment extends Base_Fragment {
                 getUserLogin(getLoginId(), jObj);
             }
         });
-
     }
 
     @Override
@@ -124,6 +136,7 @@ public class RouteListFragment extends Base_Fragment {
         }
     }
 
+    /*sync process*/
     private RouteView dbRouteView;
     private OutletView dbOutletView;
     private DemandTargetView dbDemandTargetView;
@@ -136,7 +149,6 @@ public class RouteListFragment extends Base_Fragment {
     private OutletRemarkTable dbOutletRemark;
     private PlannerTable dbPlanTable;
 
-    /*sync process*/
     private void initialiseDBObj() {
         dbRouteView = new RouteView(getContext());
         dbOutletView = new OutletView(getContext());

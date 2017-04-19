@@ -26,6 +26,8 @@ public class DaySummaryFragment extends Route_Base_Fragment {
     TextView tvTotalCalls;
     @BindView(R.id.tvProductiveCalls)
     TextView tvProductiveCalls;
+    @BindView(R.id.tvOpening)
+    TextView tvOpening;
     @BindView(R.id.tvTotalBillValue)
     TextView tvTotalBillValue;
     /*  @BindView(R.id.tvAvgBillValue)
@@ -91,6 +93,9 @@ public class DaySummaryFragment extends Route_Base_Fragment {
         // get total outlet calls made
         tvTotalCalls.setText(String.valueOf(target_calls));
         tvProductiveCalls.setText(String.valueOf(productive_calls));
+
+        // opening amount for this route
+        tvOpening.setText(strRupee + Utility.roundOff(route_outstanding));
 
         // get total bill value
         tvTotalBillValue.setText(strRupee + Utility.roundOff(route_total_sale));

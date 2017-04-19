@@ -17,6 +17,7 @@ import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SaleHistoryMode
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.VanStockModel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ObjLoginResponse implements Serializable {

@@ -10,8 +10,8 @@ import android.widget.EditText;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
-import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletRemarkModel;
 import com.hgil.siconprocess_view.database.localDb.OutletRemarkTable;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletRemarkModel;
 import com.hgil.siconprocess_view.utils.Utility;
 
 import butterknife.BindView;
@@ -66,13 +66,14 @@ public class OutletRemarkFragment extends Route_Base_Fragment {
 
         outletRemarkTable = new OutletRemarkTable(getContext());
 
-        final OutletRemarkModel routePlanModel = outletRemarkTable.getOutletRemark(getRouteId(), customer_id);
+        final OutletRemarkModel routePlanModel = outletRemarkTable.getOutletRemark(getLoginId(), getRouteId(), customer_id);
 
         etOutletRemark.setText(routePlanModel.getRemark());
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                routePlanModel.setUser_id(getLoginId());
                 routePlanModel.setRoute_id(getRouteId());
                 routePlanModel.setRoute_name(getRouteName());
                 routePlanModel.setOutlet_id(customer_id);

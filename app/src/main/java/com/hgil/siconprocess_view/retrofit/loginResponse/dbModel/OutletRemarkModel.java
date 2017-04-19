@@ -8,6 +8,9 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class OutletRemarkModel {
+    @SerializedName("user_id")
+    @Expose
+    private String user_id;
     @SerializedName("route_id")
     @Expose
     private String route_id;
@@ -26,6 +29,14 @@ public class OutletRemarkModel {
     @SerializedName("remark_date")
     @Expose
     private String remark_date;
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
 
     public String getRoute_id() {
         return route_id;

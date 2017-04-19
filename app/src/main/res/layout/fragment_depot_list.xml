@@ -1,0 +1,24 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hgil.siconprocess_view.activity.fragments.baseLevel.depotList.DepotListFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvDepotList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" />
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:text="No Depot found"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="@dimen/text_size_large"
+        android:visibility="gone" />
+
+</FrameLayout>

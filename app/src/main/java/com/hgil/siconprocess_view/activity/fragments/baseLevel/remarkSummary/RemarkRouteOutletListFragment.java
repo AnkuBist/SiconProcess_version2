@@ -64,7 +64,7 @@ public class RemarkRouteOutletListFragment extends Route_Base_Fragment {
 
         arrOutletRemark = new ArrayList<>();
         outletRemarkTable = new OutletRemarkTable(getActivity());
-        arrOutletRemark.addAll(outletRemarkTable.getRouteRemarks(getRouteId()));
+        arrOutletRemark.addAll(outletRemarkTable.getRouteRemarks(getLoginId(), getRouteId()));
         outletRemarkListAdapter = new OutletRemarkListAdapter(getActivity(), arrOutletRemark);
         rvRemarkRouteOutletList.setAdapter(outletRemarkListAdapter);
     }
