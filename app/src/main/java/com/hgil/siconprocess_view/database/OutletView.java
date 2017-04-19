@@ -246,6 +246,7 @@ public class OutletView extends SQLiteOpenHelper {
                 else
                     routeCustomerModel.setCustStatus("Pending");
                 routeCustomerModel.setSaleAmount(sale_amt);
+                routeCustomerModel.setSale_time(outletSaleView.outletSaleTime(routeCustomerModel.getCustomerId()));
                 array_list.add(routeCustomerModel);
                 res.moveToNext();
             }
@@ -304,6 +305,7 @@ public class OutletView extends SQLiteOpenHelper {
                 if (sale_amt > 0) {
                     routeCustomerModel.setCustStatus("Completed");
                     routeCustomerModel.setSaleAmount(sale_amt);
+                    routeCustomerModel.setSale_time(outletSaleView.outletSaleTime(routeCustomerModel.getCustomerId()));
                     array_list.add(routeCustomerModel);
                 } else {
                     routeCustomerModel.setCustStatus("Pending");
@@ -334,6 +336,7 @@ public class OutletView extends SQLiteOpenHelper {
                 double sale_amt = outletSaleView.outletSaleAmount(routeCustomerModel.getCustomerId());
                 routeCustomerModel.setCustStatus("");
                 routeCustomerModel.setSaleAmount(sale_amt);
+                routeCustomerModel.setSale_time(outletSaleView.outletSaleTime(routeCustomerModel.getCustomerId()));
                 if (sale_amt < 100)
                     array_list.add(routeCustomerModel);
                 res.moveToNext();

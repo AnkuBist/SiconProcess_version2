@@ -52,6 +52,9 @@ public class OutletSaleModel {
     @SerializedName("invoice_amt")
     @Expose
     private Double invoiceAmt;
+    @SerializedName("inv_time")
+    @Expose
+    private String invTime;
 
     public String getLocationCode() {
         return locationCode;
@@ -165,4 +168,11 @@ public class OutletSaleModel {
         this.invoiceAmt = invoiceAmt;
     }
 
+    public String getInvTime() {
+        return invTime;
+    }
+
+    public void setInvTime(String invTime) {
+        this.invTime = invTime;
+    }
 }

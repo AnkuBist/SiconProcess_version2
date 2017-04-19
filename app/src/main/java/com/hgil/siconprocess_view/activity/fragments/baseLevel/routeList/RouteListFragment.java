@@ -48,8 +48,11 @@ import retrofit2.Response;
 public class RouteListFragment extends Base_Fragment {
 
     private static String DEPOT_ID = "depot_id";
-    private String depot_id;
+    private static String DEPOT_NAME = "depot_name";
+    private String depot_id, depotName;
 
+    @BindView(R.id.tvDepotName)
+    TextView tvDepotName;
     @BindView(R.id.rvRouteList)
     RecyclerView rvRouteList;
     @BindView(R.id.tvEmpty)
@@ -63,10 +66,11 @@ public class RouteListFragment extends Base_Fragment {
         // Required empty public constructor
     }
 
-    public static RouteListFragment newInstance(String depot_id) {
+    public static RouteListFragment newInstance(String depot_id, String depotName) {
         RouteListFragment fragment = new RouteListFragment();
         Bundle bundle = new Bundle();
         bundle.putString(DEPOT_ID, depot_id);
+        bundle.putString(DEPOT_NAME, depotName);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -76,6 +80,7 @@ public class RouteListFragment extends Base_Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             depot_id = getArguments().getString(DEPOT_ID);
+            depotName = getArguments().getString(DEPOT_NAME);
         }
     }
 
@@ -94,6 +99,9 @@ public class RouteListFragment extends Base_Fragment {
 
         hideSyncButton();
         setTitle("Route List");
+
+        if (depotName != null)
+            tvDepotName.setText(depotName);
 
         initialiseDBObj();
 

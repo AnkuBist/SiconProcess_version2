@@ -12,6 +12,7 @@ public class RouteCustomerModel {
     private String customerName;
     private String custStatus;
     private double saleAmount;
+    private String sale_time;
 
     public double getSaleAmount() {
         return saleAmount;
@@ -59,5 +60,13 @@ public class RouteCustomerModel {
 
     public void setCustStatus(String custStatus) {
         this.custStatus = custStatus;
+    }
+
+    public String getSale_time() {
+        return sale_time;
+    }
+
+    public void setSale_time(String sale_time) {
+        this.sale_time = sale_time;
     }
 }

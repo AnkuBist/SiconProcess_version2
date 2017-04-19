@@ -4,17 +4,29 @@
     android:layout_height="match_parent"
     tools:context="com.hgil.siconprocess_view.activity.fragments.baseLevel.routeList.RouteListFragment">
 
+    <TextView
+        android:id="@+id/tvDepotName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorBackgroundBlack"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:text="Title"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_extra_large" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvRouteList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         android:scrollbars="none" />
 
     <TextView
         android:id="@+id/tvEmpty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="60dp"
         android:gravity="center_horizontal"
         android:text="No Customer found"
         android:textColor="@color/colorTextBlack"

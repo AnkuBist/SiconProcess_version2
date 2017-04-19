@@ -39,18 +39,6 @@ public class OutletListAdapter extends RecyclerView.Adapter<OutletListAdapter.Vi
     public void onBindViewHolder(final OutletListAdapter.ViewHolder holder, int position) {
         final RouteCustomerModel routeCustomerModel = mDataset.get(position);
         holder.tvOutletName.setText(routeCustomerModel.getCustomerName());
-
-        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, SelectedOutletInfoActivity.class);
-                intent.putExtra("customer_id", routeCustomerModel.getCustomerId());
-                mContext.startActivity(intent);
-                ((NavRouteBaseActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-
-            }
-        });*/
-
         holder.setIsRecyclable(false);
     }
 

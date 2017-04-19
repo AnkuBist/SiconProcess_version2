@@ -18,11 +18,11 @@ public interface RetrofitService {
 
     @FormUrlEncoded
     @POST(API.LOGIN_URL)
-    Call<loginResponse> postUserLogin(@Field("psm_id") String username, @Field("password") String password);
+    Call<loginResponse> postUserLogin(@Field("login_id") String username, @Field("password") String password);
 
     @FormUrlEncoded
     @POST(API.SYNC_URL)
-    Call<loginResponse> syncRemarkPlan(@Field("psm_id") String username, @Field("sync_data") String sync_data);
+    Call<loginResponse> syncRemarkPlan(@Field("login_id") String username, @Field("sync_data") String sync_data);
 
    /* @FormUrlEncoded
     @POST(API.SYNC_URL)

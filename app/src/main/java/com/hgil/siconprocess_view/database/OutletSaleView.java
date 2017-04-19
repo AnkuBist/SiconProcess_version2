@@ -35,6 +35,7 @@ public class OutletSaleView extends SQLiteOpenHelper {
     private static final String NET_SALE = "netSale";
     private static final String INVOICE_ID = "invoice_id";
     private static final String INVOICE_AMT = "invoice_amt";
+    private static final String INVOICE_TIME = "invoice_time";
 
     private Context mContext;
 
@@ -50,7 +51,7 @@ public class OutletSaleView extends SQLiteOpenHelper {
                 + ROUTE_ID + " TEXT NULL, " + ITEM_ID + " TEXT NULL, " + ITEM_NAME + " TEXT NULL, "
                 + LOADING + " INTEGER NULL, " + OTHER_REJ + " INTEGER NULL, " + FRESH_REJ + " INTEGER NULL, "
                 + SAMPLE_QTY + " INTEGER NULL, " + NET_SALE + " INTEGER NULL, " + INVOICE_ID + " TEXT NULL, "
-                + INVOICE_AMT + " REAL NULL)");
+                + INVOICE_TIME + " TEXT NULL, " + INVOICE_AMT + " REAL NULL)");
     }
 
     @Override
@@ -83,6 +84,7 @@ public class OutletSaleView extends SQLiteOpenHelper {
         contentValues.put(NET_SALE, outletSaleModel.getNetSale());
         contentValues.put(INVOICE_ID, outletSaleModel.getInvoiceId());
         contentValues.put(INVOICE_AMT, outletSaleModel.getInvoiceAmt());
+        contentValues.put(INVOICE_TIME, outletSaleModel.getInvTime());
         db.insert(TABLE_NAME, null, contentValues);
         db.close();
         return true;
@@ -109,6 +111,7 @@ public class OutletSaleView extends SQLiteOpenHelper {
             contentValues.put(NET_SALE, outletSaleModel.getNetSale());
             contentValues.put(INVOICE_ID, outletSaleModel.getInvoiceId());
             contentValues.put(INVOICE_AMT, outletSaleModel.getInvoiceAmt());
+            contentValues.put(INVOICE_TIME, outletSaleModel.getInvTime());
             db.insert(TABLE_NAME, null, contentValues);
         }
         db.close();
@@ -158,6 +161,7 @@ public class OutletSaleView extends SQLiteOpenHelper {
                 outletSaleModel.setNetSale(res.getInt(res.getColumnIndex(NET_SALE)));
                 outletSaleModel.setInvoiceId(res.getString(res.getColumnIndex(INVOICE_ID)));
                 outletSaleModel.setInvoiceAmt(res.getDouble(res.getColumnIndex(INVOICE_AMT)));
+                outletSaleModel.setInvTime(res.getString(res.getColumnIndex(INVOICE_TIME)));
                 array_list.add(outletSaleModel);
                 res.moveToNext();
             }
@@ -190,6 +194,7 @@ public class OutletSaleView extends SQLiteOpenHelper {
                 outletSaleModel.setNetSale(res.getInt(res.getColumnIndex(NET_SALE)));
                 outletSaleModel.setInvoiceId(res.getString(res.getColumnIndex(INVOICE_ID)));
                 outletSaleModel.setInvoiceAmt(res.getDouble(res.getColumnIndex(INVOICE_AMT)));
+                outletSaleModel.setInvTime(res.getString(res.getColumnIndex(INVOICE_TIME)));
                 array_list.add(outletSaleModel);
                 res.moveToNext();
             }
@@ -211,6 +216,20 @@ public class OutletSaleView extends SQLiteOpenHelper {
         res.close();
         db.close();
         return sale_amt;
+    }
+
+    /*outlet sale time*/
+    public String outletSaleTime(String customer_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT " + INVOICE_TIME + " FROM " + TABLE_NAME + " WHERE " + OUTLET_CODE + "=?", new String[]{customer_id});
+
+        String sale_time = "";
+        if (res.moveToFirst()) {
+            sale_time = res.getString(res.getColumnIndex(INVOICE_TIME));
+        }
+        res.close();
+        db.close();
+        return sale_time;
     }
 
     /*prepare van stock data*/

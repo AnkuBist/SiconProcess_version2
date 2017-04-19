@@ -47,7 +47,8 @@ public class DepotListAdapter extends RecyclerView.Adapter<DepotListAdapter.View
             @Override
             public void onClick(View v) {
                 String depot_id = depotModel.getDepot_id();
-                RouteListFragment fragment = RouteListFragment.newInstance(depot_id);
+                String depot_name = depotModel.getDepot_name();
+                RouteListFragment fragment = RouteListFragment.newInstance(depot_id, depot_name);
                 String fragClassName = fragment.getClass().getName();
                 FragmentManager fragmentManager = ((RouteListActivity) mContext).getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();

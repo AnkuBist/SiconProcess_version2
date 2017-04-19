@@ -69,6 +69,11 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
             holder.customer_item.setBackgroundColor(mContext.getResources().getColor(R.color.colorBackgroundGreen));
         }
 
+        if (routeCustomerModel.getSale_time() != null && !routeCustomerModel.getSale_time().matches(""))
+            holder.tvSaleTime.setText("Sale Time:" + routeCustomerModel.getSale_time());
+        else
+            holder.tvSaleTime.setVisibility(View.GONE);
+
         holder.customer_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +109,8 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
         public TextView tvStatus;
         @BindView(R.id.tvTotalSaleAmt)
         public TextView tvTotalSaleAmt;
+        @BindView(R.id.tvSaleTime)
+        public TextView tvSaleTime;
         @BindView(R.id.customer_item)
         public LinearLayout customer_item;
 
