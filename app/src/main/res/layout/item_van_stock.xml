@@ -36,16 +36,16 @@
 
             <TextView
                 style="@style/VanStockAdapterTitle"
-                android:text="Market Rejection" />
+                android:text="Mkt Rej" />
 
             <TextView
                 style="@style/VanStockAdapterTitle"
-                android:text="Fresh Rejection" />
+                android:text="Frs Rej" />
 
             <TextView
                 style="@style/VanStockAdapterTitle"
                 android:layout_marginRight="0dp"
-                android:text="Lefover" />
+                android:text="Left" />
 
         </LinearLayout>
 
