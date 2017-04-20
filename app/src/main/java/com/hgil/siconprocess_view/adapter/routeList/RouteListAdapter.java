@@ -59,6 +59,7 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.View
                 SiconApp.getInstance().setRouteModel(routeModel);
                 SiconApp.getInstance().setRouteId(route_id);
                 SiconApp.getInstance().setRouteName(routeModel.getRouteName());
+                SiconApp.getInstance().setCashierName(routeModel.getCashierName());
 
                 //intent.putExtra("route_id", routeListModel.getRoute_id());
                 mContext.startActivity(intent);

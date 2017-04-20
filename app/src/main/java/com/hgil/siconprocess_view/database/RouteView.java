@@ -27,6 +27,7 @@ public class RouteView extends SQLiteOpenHelper {
     private static final String DEPOT_NAME = "Depot_Name";
     private static final String ROUTE_ID = "Route_Id";
     private static final String ROUTE_NAME = "Route_Name";
+    private static final String CASHIER_NAME = "Cashier_Name";
     private static final String PSMID = "PSMID";
     //private static final String CUSTOMER_ID = "Customer_id";
     // private static final String CUSTOMER_NAME = "Customer_name";
@@ -40,7 +41,7 @@ public class RouteView extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + //DEPOT_ID + " TEXT NULL, "
                 DEPOT_ID + " TEXT NULL, " + DEPOT_NAME + " TEXT NULL, " +
-                ROUTE_ID + " TEXT NULL, " + ROUTE_NAME + " TEXT NULL)"); //+ PSMID + " TEXT NULL)");
+                ROUTE_ID + " TEXT NULL, " + ROUTE_NAME + " TEXT NULL, " + CASHIER_NAME + " TEXT NULL)"); //+ PSMID + " TEXT NULL)");
         //+ CUSTOMER_ID + " TEXT NULL, " + CUSTOMER_NAME + " TEXT NULL, "
         // + CONTACT_NO + " TEXT NULL)");
     }
@@ -65,6 +66,7 @@ public class RouteView extends SQLiteOpenHelper {
         contentValues.put(DEPOT_NAME, routeModel.getDepotName());
         contentValues.put(ROUTE_ID, routeModel.getRouteId());
         contentValues.put(ROUTE_NAME, routeModel.getRouteName());
+        contentValues.put(CASHIER_NAME, routeModel.getCashierName());
         //contentValues.put(PSMID, routeModel.getPSMID());
         //contentValues.put(CUSTOMER_ID, routeModel.getCustomerId());
         //contentValues.put(CUSTOMER_NAME, routeModel.getCustomerName());
@@ -85,6 +87,7 @@ public class RouteView extends SQLiteOpenHelper {
             contentValues.put(DEPOT_NAME, routeModel.getDepotName());
             contentValues.put(ROUTE_ID, routeModel.getRouteId());
             contentValues.put(ROUTE_NAME, routeModel.getRouteName());
+            contentValues.put(CASHIER_NAME, routeModel.getCashierName());
             //contentValues.put(PSMID, routeModel.getPSMID());
             //contentValues.put(CUSTOMER_ID, routeModel.getCustomerId());
             //contentValues.put(CUSTOMER_NAME, routeModel.getCustomerName());
@@ -106,6 +109,7 @@ public class RouteView extends SQLiteOpenHelper {
             routeModel.setDepotName(res.getString(res.getColumnIndex(DEPOT_NAME)));
             routeModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
             routeModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
+            routeModel.setCashierName(res.getString(res.getColumnIndex(CASHIER_NAME)));
             //routeModel.setPSMID(res.getString(res.getColumnIndex(PSMID)));
             //routeModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
             //routeModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
@@ -148,6 +152,7 @@ public class RouteView extends SQLiteOpenHelper {
             routeModel.setDepotName(res.getString(res.getColumnIndex(DEPOT_NAME)));
             routeModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
             routeModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
+            routeModel.setCashierName(res.getString(res.getColumnIndex(CASHIER_NAME)));
             //routeModel.setPSMID(res.getString(res.getColumnIndex(PSMID)));
             //routeModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
             //routeModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
@@ -172,6 +177,7 @@ public class RouteView extends SQLiteOpenHelper {
                 routeModel.setDepotName(res.getString(res.getColumnIndex(DEPOT_NAME)));
                 routeModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
                 routeModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
+                routeModel.setCashierName(res.getString(res.getColumnIndex(CASHIER_NAME)));
                 //.setPSMID(res.getString(res.getColumnIndex(PSMID)));
                 //routeModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 //routeModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));

@@ -24,6 +24,9 @@ public class RouteModel {
     @SerializedName("route_name")
     @Expose
     private String routeName;
+    @SerializedName("cashier_name")
+    @Expose
+    private String cashierName;
 /*    @SerializedName("PSMID")
     @Expose
     private String pSMID;*/
@@ -77,7 +80,15 @@ public class RouteModel {
         this.routeName = routeName;
     }
 
-/*    public String getPSMID() {
+    public String getCashierName() {
+        return cashierName;
+    }
+
+    public void setCashierName(String cashierName) {
+        this.cashierName = cashierName;
+    }
+
+    /*    public String getPSMID() {
         return pSMID;
     }
 

@@ -18,6 +18,8 @@ public class SiconApp extends Application {
     private String routeName;
     private String routeId;
     private String loginId;
+    private String cashierName;
+    private String cashierContact;
 
     public static SiconApp getInstance() {
         if (null == appInstance) {
@@ -103,5 +105,21 @@ public class SiconApp extends Application {
 
     public void setLoginId(String loginId) {
         this.loginId = loginId;
+    }
+
+    public String getCashierName() {
+        return cashierName;
+    }
+
+    public void setCashierName(String cashierName) {
+        this.cashierName = cashierName;
+    }
+
+    public String getCashierContact() {
+        return cashierContact;
+    }
+
+    public void setCashierContact(String cashierContact) {
+        this.cashierContact = cashierContact;
     }
 }

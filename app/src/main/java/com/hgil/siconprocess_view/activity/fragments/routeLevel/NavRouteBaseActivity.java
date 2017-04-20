@@ -106,9 +106,14 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
 
         //LinearLayout layout = (LinearLayout) nvDrawer.findViewById(R.id.footer_layout);
         TextView textName = (TextView) temp_nv.findViewById(R.id.tvCashierName);
-        textName.setText("Ankush");
+        if (getCashierName() != null && !getCashierName().matches(""))
+            textName.setText(getCashierName());
+        else
+            textName.setVisibility(View.GONE);
+        
         TextView textPhone = (TextView) temp_nv.findViewById(R.id.tvCashierNo);
-        textPhone.setText("9023503384");
+        textPhone.setVisibility(View.GONE);
+        //textPhone.setText("9023503384");
 
        /* textPhone.setOnClickListener(new View.OnClickListener() {
             @Override

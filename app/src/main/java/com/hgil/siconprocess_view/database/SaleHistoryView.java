@@ -187,7 +187,7 @@ public class SaleHistoryView extends SQLiteOpenHelper {
         ArrayList<SaleHistoryModel> array_list = new ArrayList<SaleHistoryModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + OUTLET_CODE + "=?", new String[]{outlet_id});
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + OUTLET_CODE + "=? ORDER BY " + STOCK_DATE, new String[]{outlet_id});
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 SaleHistoryModel saleHistoryModel = new SaleHistoryModel();
@@ -211,7 +211,7 @@ public class SaleHistoryView extends SQLiteOpenHelper {
         return array_list;
     }
 
-    /*get invoice amount*/
+  /*  *//*get invoice amount*//*
     public double outletSaleAmount(String customer_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT " + SALEAMT + " FROM " + TABLE_NAME + " WHERE " + OUTLET_CODE + "=?", new String[]{customer_id});
@@ -225,7 +225,7 @@ public class SaleHistoryView extends SQLiteOpenHelper {
         return sale_amt;
     }
 
-    /*item target sale over route*/
+    *//*item target sale over route*//*
     public int routeItemSaleQty(String route_id, String item_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT sum(" + NET_SALE + ") AS " + NET_SALE + " FROM " + TABLE_NAME + " WHERE "
@@ -238,6 +238,6 @@ public class SaleHistoryView extends SQLiteOpenHelper {
         db.close();
         return sale_qty;
     }
-
+*/
 
 }
