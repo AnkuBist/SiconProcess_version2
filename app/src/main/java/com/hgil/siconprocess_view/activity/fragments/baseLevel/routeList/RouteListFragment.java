@@ -16,9 +16,7 @@ import com.hgil.siconprocess_view.adapter.routeList.RouteListAdapter;
 import com.hgil.siconprocess_view.adapter.routeList.RouteListModel;
 import com.hgil.siconprocess_view.base.Base_Fragment;
 import com.hgil.siconprocess_view.database.DemandTargetView;
-import com.hgil.siconprocess_view.database.OutletSaleView;
 import com.hgil.siconprocess_view.database.OutletView;
-import com.hgil.siconprocess_view.database.PaymentView;
 import com.hgil.siconprocess_view.database.RouteView;
 import com.hgil.siconprocess_view.database.SaleHistoryView;
 import com.hgil.siconprocess_view.database.VanStockView;
@@ -148,9 +146,9 @@ public class RouteListFragment extends Base_Fragment {
     private RouteView dbRouteView;
     private OutletView dbOutletView;
     private DemandTargetView dbDemandTargetView;
-    private OutletSaleView dbOutletSale;
+    //private OutletSaleView dbOutletSale;
     private VanStockView dbVanStock;
-    private PaymentView dbPaymentView;
+    //private PaymentView dbPaymentView;
     private SaleHistoryView dbSaleHistory;
 
     // remark and plan updates
@@ -162,8 +160,8 @@ public class RouteListFragment extends Base_Fragment {
         dbOutletView = new OutletView(getContext());
         dbDemandTargetView = new DemandTargetView(getContext());
         dbVanStock = new VanStockView(getContext());
-        dbOutletSale = new OutletSaleView(getContext());
-        dbPaymentView = new PaymentView(getContext());
+       // dbOutletSale = new OutletSaleView(getContext());
+        //dbPaymentView = new PaymentView(getContext());
         dbSaleHistory = new SaleHistoryView(getContext());
 
         // plan and remark update
@@ -176,8 +174,8 @@ public class RouteListFragment extends Base_Fragment {
         dbOutletView.eraseTable();
         dbDemandTargetView.eraseTable();
         dbVanStock.eraseTable();
-        dbOutletSale.eraseTable();
-        dbPaymentView.eraseTable();
+        //dbOutletSale.eraseTable();
+        //dbPaymentView.eraseTable();
         dbSaleHistory.eraseTable();
 
         /*plan and remark table erase on login*/
@@ -263,9 +261,9 @@ public class RouteListFragment extends Base_Fragment {
             dbRouteView.insertRoutes(objResponse.getArrRoutes());
             dbOutletView.insertOutlet(objResponse.getArrOutlets());
             dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
-            dbOutletSale.insertOutletSale(objResponse.getArrOutletSale());
+            //dbOutletSale.insertOutletSale(objResponse.getArrOutletSale());
             dbVanStock.insertVanStock(objResponse.getArrVanStock());
-            dbPaymentView.insertPayment(objResponse.getArrPayment());
+            //dbPaymentView.insertPayment(objResponse.getArrPayment());
             dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
             dbPlanTable.insertUserPlan(objResponse.getArrPlan());
             dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());

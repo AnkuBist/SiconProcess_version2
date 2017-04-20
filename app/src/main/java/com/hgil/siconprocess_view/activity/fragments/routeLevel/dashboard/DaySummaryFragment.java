@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
 import com.hgil.siconprocess_view.database.OutletView;
-import com.hgil.siconprocess_view.database.PaymentView;
 import com.hgil.siconprocess_view.utils.Utility;
 
 import butterknife.BindView;
@@ -71,7 +70,7 @@ public class DaySummaryFragment extends Route_Base_Fragment {
         hideSyncButton();
 
         OutletView outletView = new OutletView(getContext());
-        PaymentView paymentView = new PaymentView(getContext());
+        //PaymentView paymentView = new PaymentView(getContext());
 
         // route target calls
         int target_calls = outletView.routeTargetCalls(getRouteId());
@@ -80,7 +79,7 @@ public class DaySummaryFragment extends Route_Base_Fragment {
         int productive_calls = outletView.routeProductiveCalls(getRouteId());
 
         // total route collection amount
-        double route_total_collection = paymentView.routeTotalSale(getRouteId());
+        //double route_total_collection = paymentView.routeTotalSale(getRouteId());
 
         //  total route sale amount
         double route_total_sale = outletView.routeTotalSale(getRouteId());
@@ -108,8 +107,8 @@ public class DaySummaryFragment extends Route_Base_Fragment {
             avgBill = 0;
         tvAvgBillValue.setText(strRupee + Utility.roundOff(avgBill));*/
 
-        tvTodayCollection.setText(strRupee + Utility.roundOff(route_total_collection));
+        //tvTodayCollection.setText(strRupee + Utility.roundOff(route_total_collection));
 
-        tvTotalOS.setText(strRupee + Utility.roundOff(route_outstanding + route_total_sale - route_total_collection));
+       // tvTotalOS.setText(strRupee + Utility.roundOff(route_outstanding + route_total_sale - route_total_collection));
     }
 }

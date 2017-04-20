@@ -14,11 +14,11 @@ import android.widget.Toast;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.fragments.baseLevel.RouteListActivity;
 import com.hgil.siconprocess_view.database.DemandTargetView;
-import com.hgil.siconprocess_view.database.OutletSaleView;
+import com.hgil.siconprocess_view.database.ItemDetailView;
 import com.hgil.siconprocess_view.database.OutletView;
-import com.hgil.siconprocess_view.database.PaymentView;
 import com.hgil.siconprocess_view.database.RouteView;
 import com.hgil.siconprocess_view.database.SaleHistoryView;
+import com.hgil.siconprocess_view.database.TodaySaleView;
 import com.hgil.siconprocess_view.database.VanStockView;
 import com.hgil.siconprocess_view.database.localDb.OutletRemarkTable;
 import com.hgil.siconprocess_view.database.localDb.PlannerTable;
@@ -55,10 +55,13 @@ public class LoginActivity extends AppCompatActivity {
     private RouteView dbRouteView;
     private OutletView dbOutletView;
     private DemandTargetView dbDemandTargetView;
-    private OutletSaleView dbOutletSale;
+    //private OutletSaleView dbOutletSale;
     private VanStockView dbVanStock;
-    private PaymentView dbPaymentView;
+    //private PaymentView dbPaymentView;
     private SaleHistoryView dbSaleHistory;
+    private TodaySaleView dbTodaySale;
+    private ItemDetailView dbItemDetail;
+
 
     // remark and plan updates
     private OutletRemarkTable dbOutletRemark;
@@ -89,13 +92,16 @@ public class LoginActivity extends AppCompatActivity {
         dbOutletView = new OutletView(this);
         dbDemandTargetView = new DemandTargetView(this);
         dbVanStock = new VanStockView(this);
-        dbOutletSale = new OutletSaleView(this);
-        dbPaymentView = new PaymentView(this);
+        //dbOutletSale = new OutletSaleView(this);
+        //dbPaymentView = new PaymentView(this);
         dbSaleHistory = new SaleHistoryView(this);
 
         // plan and remark update
         dbOutletRemark = new OutletRemarkTable(this);
         dbPlanTable = new PlannerTable(this);
+
+        dbTodaySale = new TodaySaleView(this);
+        dbItemDetail = new ItemDetailView(this);
     }
 
     public void onSubmit(View view) {
@@ -158,13 +164,16 @@ public class LoginActivity extends AppCompatActivity {
         dbOutletView.eraseTable();
         dbDemandTargetView.eraseTable();
         dbVanStock.eraseTable();
-        dbOutletSale.eraseTable();
-        dbPaymentView.eraseTable();
+        //dbOutletSale.eraseTable();
+        //dbPaymentView.eraseTable();
         dbSaleHistory.eraseTable();
 
         /*plan and remark table erase on login*/
         dbOutletRemark.eraseTable();
         dbPlanTable.eraseTable();
+
+        dbItemDetail.eraseTable();
+        dbTodaySale.eraseTable();
     }
 
     /*retrofit call test to fetch data from server*/
@@ -217,12 +226,15 @@ public class LoginActivity extends AppCompatActivity {
             dbRouteView.insertRoutes(objResponse.getArrRoutes());
             dbOutletView.insertOutlet(objResponse.getArrOutlets());
             dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
-            dbOutletSale.insertOutletSale(objResponse.getArrOutletSale());
+            // dbOutletSale.insertOutletSale(objResponse.getArrOutletSale());
             dbVanStock.insertVanStock(objResponse.getArrVanStock());
-            dbPaymentView.insertPayment(objResponse.getArrPayment());
+            //dbPaymentView.insertPayment(objResponse.getArrPayment());
             dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
             dbPlanTable.insertUserPlan(objResponse.getArrPlan());
             dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
+
+            dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
+            dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
 
             Utility.saveLoginStatus(LoginActivity.this, Utility.LOGIN_STATUS, true);
             Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_ID, user_id);

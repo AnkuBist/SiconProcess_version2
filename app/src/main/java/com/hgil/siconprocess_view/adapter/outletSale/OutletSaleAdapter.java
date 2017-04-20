@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hgil.siconprocess_view.R;
-import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletSaleModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.TodaySaleModel;
 
 import java.util.ArrayList;
 
@@ -18,10 +18,10 @@ import butterknife.ButterKnife;
  */
 
 public class OutletSaleAdapter extends RecyclerView.Adapter<OutletSaleAdapter.ViewHolder> {
-    public ArrayList<OutletSaleModel> mDataset;
+    public ArrayList<TodaySaleModel> mDataset;
     private Context mContext;
 
-    public OutletSaleAdapter(Context mContext, ArrayList<OutletSaleModel> myDataset) {
+    public OutletSaleAdapter(Context mContext, ArrayList<TodaySaleModel> myDataset) {
         this.mContext = mContext;
         this.mDataset = myDataset;
     }
@@ -35,8 +35,8 @@ public class OutletSaleAdapter extends RecyclerView.Adapter<OutletSaleAdapter.Vi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final OutletSaleModel itemInvoice = mDataset.get(position);
-        holder.outletSaleView.updateSaleItem(holder, itemInvoice, position);
+        final TodaySaleModel todaySaleModel = mDataset.get(position);
+        holder.outletSaleView.updateSaleItem(holder, todaySaleModel, position);
         holder.setIsRecyclable(false);
     }
 

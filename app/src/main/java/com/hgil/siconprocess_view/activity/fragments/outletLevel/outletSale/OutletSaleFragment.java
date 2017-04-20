@@ -12,8 +12,8 @@ import android.widget.TextView;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.adapter.outletSale.OutletSaleAdapter;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
-import com.hgil.siconprocess_view.database.OutletSaleView;
-import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletSaleModel;
+import com.hgil.siconprocess_view.database.TodaySaleView;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.TodaySaleModel;
 import com.hgil.siconprocess_view.utils.Utility;
 
 import java.util.ArrayList;
@@ -35,8 +35,9 @@ public class OutletSaleFragment extends Route_Base_Fragment {
     TextView tvEmpty;
 
     private OutletSaleAdapter invoiceAdapter;
-    private OutletSaleView outletSaleView;
-    private ArrayList<OutletSaleModel> arrSaleItems = new ArrayList<>();
+    //private OutletSaleView outletSaleView;
+    private TodaySaleView todaySaleView;
+    private ArrayList<TodaySaleModel> arrSaleItems = new ArrayList<>();
 
     public OutletSaleFragment() {
         // Required empty public constructor
@@ -61,15 +62,16 @@ public class OutletSaleFragment extends Route_Base_Fragment {
         }
 
         // initialise the values at first time
-        outletSaleView = new OutletSaleView(getContext());
+        //outletSaleView = new OutletSaleView(getContext());
+        todaySaleView = new TodaySaleView(getContext());
 
         invoiceAdapter = new OutletSaleAdapter(getActivity(), arrSaleItems);
 
         if (arrSaleItems != null)
             arrSaleItems.clear();
-        arrSaleItems.addAll(outletSaleView.getRouteSaleByOutlet(customer_id));
+        arrSaleItems.addAll(todaySaleView.getRouteSaleByOutlet(customer_id));
 
-        grandTotal = outletSaleView.outletSaleAmount(customer_id);
+        // grandTotal = outletSaleView.outletSaleAmount(customer_id);
     }
 
     @Override

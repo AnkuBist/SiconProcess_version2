@@ -7,26 +7,22 @@ package com.hgil.siconprocess_view.retrofit.loginResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.DemandTargetModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.ItemDetailModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletRemarkModel;
-import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletSaleModel;
-import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.PaymentModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.PlanModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SaleHistoryModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.TodaySaleModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.VanStockModel;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ObjLoginResponse implements Serializable {
     @SerializedName("arrRoutes")
     @Expose
     private List<RouteModel> arrRoutes;
-    /*    @SerializedName("arrItems")
-        @Expose
-        private List<ItemModel> arrItems;*/
     @SerializedName("arrOutlets")
     @Expose
     private List<OutletModel> arrOutlets;
@@ -36,12 +32,12 @@ public class ObjLoginResponse implements Serializable {
     @SerializedName("arrVanStock")
     @Expose
     private List<VanStockModel> arrVanStock;
-    @SerializedName("arrOutletSale")
+    /* @SerializedName("arrOutletSale")
+     @Expose
+     private List<OutletSaleModel> arrOutletSale;*/
+   /* @SerializedName("arrPayment")
     @Expose
-    private List<OutletSaleModel> arrOutletSale;
-    @SerializedName("arrPayment")
-    @Expose
-    private List<PaymentModel> arrPayment;
+    private List<PaymentModel> arrPayment;*/
     @SerializedName("arrSaleHistory")
     @Expose
     private List<SaleHistoryModel> arrSaleHistory;
@@ -51,6 +47,13 @@ public class ObjLoginResponse implements Serializable {
     @SerializedName("arrPlan")
     @Expose
     private List<PlanModel> arrPlan;
+    @SerializedName("arrTodaySale")
+    @Expose
+    private List<TodaySaleModel> arrTodaySale;
+    @SerializedName("arrItemDetail")
+    @Expose
+    private List<ItemDetailModel> arrItemDetail;
+
 
     public List<RouteModel> getArrRoutes() {
         return arrRoutes;
@@ -84,7 +87,7 @@ public class ObjLoginResponse implements Serializable {
         this.arrVanStock = arrVanStock;
     }
 
-    public List<OutletSaleModel> getArrOutletSale() {
+    /*public List<OutletSaleModel> getArrOutletSale() {
         return arrOutletSale;
     }
 
@@ -98,7 +101,7 @@ public class ObjLoginResponse implements Serializable {
 
     public void setArrPayment(List<PaymentModel> arrPayment) {
         this.arrPayment = arrPayment;
-    }
+    }*/
 
     public List<SaleHistoryModel> getArrSaleHistory() {
         return arrSaleHistory;
@@ -122,5 +125,21 @@ public class ObjLoginResponse implements Serializable {
 
     public void setArrPlan(List<PlanModel> arrPlan) {
         this.arrPlan = arrPlan;
+    }
+
+    public List<TodaySaleModel> getArrTodaySale() {
+        return arrTodaySale;
+    }
+
+    public void setArrTodaySale(List<TodaySaleModel> arrTodaySale) {
+        this.arrTodaySale = arrTodaySale;
+    }
+
+    public List<ItemDetailModel> getArrItemDetail() {
+        return arrItemDetail;
+    }
+
+    public void setArrItemDetail(List<ItemDetailModel> arrItemDetail) {
+        this.arrItemDetail = arrItemDetail;
     }
 }

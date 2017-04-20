@@ -36,6 +36,9 @@ public class OutletView extends SQLiteOpenHelper {
     private static final String ACCOUNTNUM = "ACCOUNTNUM";
     private static final String CONTACT_NO = "ContactNo";
     private static final String OUTSTANDING = "outstanding";
+    private static final String INV_AMOUNT = "inv_amount";
+    private static final String CASH_PAYMENT = "cash_payment";
+    private static final String INV_TIME = "inv_time";
 
     private Context mContext;
 
@@ -50,8 +53,9 @@ public class OutletView extends SQLiteOpenHelper {
                 + DEPOT + " TEXT NULL, " + ROUTE_ID + " TEXT NULL, " + ROUTE_NAME + " TEXT NULL, "
                 + PSMID + " TEXT NULL, " + CUSTOMER_ID + " TEXT NULL, " + CUSTOMER_NAME + " TEXT NULL, "
                 + PRICEGROUP + " TEXT NULL, " + LINEDISC + " TEXT NULL, " + C_TYPE + " TEXT NULL, "
-                + SALE_STATUS + " TEXT NULL, " + ACCOUNTNUM + " TEXT NULL, "
-                + CONTACT_NO + " TEXT NULL, " + OUTSTANDING + " REAL NULL)");
+                + SALE_STATUS + " TEXT NULL, " + ACCOUNTNUM + " TEXT NULL, " + CONTACT_NO + " TEXT NULL, "
+                + OUTSTANDING + " REAL NULL, " + INV_AMOUNT + " REAL NULL, " + CASH_PAYMENT + " REAL NULL, "
+                + INV_TIME + " TEXT NULL)");
     }
 
     @Override
@@ -84,6 +88,9 @@ public class OutletView extends SQLiteOpenHelper {
         contentValues.put(ACCOUNTNUM, outletModel.getACCOUNTNUM());
         contentValues.put(CONTACT_NO, outletModel.getContactNo());
         contentValues.put(OUTSTANDING, outletModel.getOutstanding());
+        contentValues.put(INV_AMOUNT, outletModel.getInv_amount());
+        contentValues.put(CASH_PAYMENT, outletModel.getCash_payment());
+        contentValues.put(INV_TIME, outletModel.getInv_time());
         db.insert(TABLE_NAME, null, contentValues);
         db.close();
         return true;
@@ -110,6 +117,9 @@ public class OutletView extends SQLiteOpenHelper {
             contentValues.put(ACCOUNTNUM, outletModel.getACCOUNTNUM());
             contentValues.put(CONTACT_NO, outletModel.getContactNo());
             contentValues.put(OUTSTANDING, outletModel.getOutstanding());
+            contentValues.put(INV_AMOUNT, outletModel.getInv_amount());
+            contentValues.put(CASH_PAYMENT, outletModel.getCash_payment());
+            contentValues.put(INV_TIME, outletModel.getInv_time());
             db.insert(TABLE_NAME, null, contentValues);
         }
         db.close();
@@ -159,6 +169,9 @@ public class OutletView extends SQLiteOpenHelper {
                 outletModel.setACCOUNTNUM(res.getString(res.getColumnIndex(ACCOUNTNUM)));
                 outletModel.setContactNo(res.getString(res.getColumnIndex(CONTACT_NO)));
                 outletModel.setOutstanding(res.getDouble(res.getColumnIndex(OUTSTANDING)));
+                outletModel.setInv_amount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
+                outletModel.setCash_payment(res.getDouble(res.getColumnIndex(CASH_PAYMENT)));
+                outletModel.setInv_time(res.getString(res.getColumnIndex(INV_TIME)));
                 array_list.add(outletModel);
                 res.moveToNext();
             }
@@ -189,6 +202,9 @@ public class OutletView extends SQLiteOpenHelper {
             outletModel.setACCOUNTNUM(res.getString(res.getColumnIndex(ACCOUNTNUM)));
             outletModel.setContactNo(res.getString(res.getColumnIndex(CONTACT_NO)));
             outletModel.setOutstanding(res.getDouble(res.getColumnIndex(OUTSTANDING)));
+            outletModel.setInv_amount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
+            outletModel.setCash_payment(res.getDouble(res.getColumnIndex(CASH_PAYMENT)));
+            outletModel.setInv_time(res.getString(res.getColumnIndex(INV_TIME)));
         }
         res.close();
         db.close();
@@ -218,6 +234,9 @@ public class OutletView extends SQLiteOpenHelper {
                 outletModel.setACCOUNTNUM(res.getString(res.getColumnIndex(ACCOUNTNUM)));
                 outletModel.setContactNo(res.getString(res.getColumnIndex(CONTACT_NO)));
                 outletModel.setOutstanding(res.getDouble(res.getColumnIndex(OUTSTANDING)));
+                outletModel.setInv_amount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
+                outletModel.setCash_payment(res.getDouble(res.getColumnIndex(CASH_PAYMENT)));
+                outletModel.setInv_time(res.getString(res.getColumnIndex(INV_TIME)));
                 array_list.add(outletModel);
                 res.moveToNext();
             }
@@ -229,7 +248,6 @@ public class OutletView extends SQLiteOpenHelper {
 
     public ArrayList<RouteCustomerModel> getRouteCustomers(String route_id) {
         ArrayList<RouteCustomerModel> array_list = new ArrayList<RouteCustomerModel>();
-        OutletSaleView outletSaleView = new OutletSaleView(mContext);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
@@ -240,13 +258,13 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
                 routeCustomerModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
-                double sale_amt = outletSaleView.outletSaleAmount(routeCustomerModel.getCustomerId());
+                double sale_amt = res.getDouble(res.getColumnIndex(INV_AMOUNT));
                 if (sale_amt > 0)
                     routeCustomerModel.setCustStatus("Completed");
                 else
                     routeCustomerModel.setCustStatus("Pending");
                 routeCustomerModel.setSaleAmount(sale_amt);
-                routeCustomerModel.setSale_time(outletSaleView.outletSaleTime(routeCustomerModel.getCustomerId()));
+                routeCustomerModel.setSale_time(res.getString(res.getColumnIndex(INV_TIME)));
                 array_list.add(routeCustomerModel);
                 res.moveToNext();
             }
@@ -259,7 +277,6 @@ public class OutletView extends SQLiteOpenHelper {
 
     public ArrayList<RouteCustomerModel> getRoutePendingCustomers(String route_id) {
         ArrayList<RouteCustomerModel> array_list = new ArrayList<RouteCustomerModel>();
-        OutletSaleView outletSaleView = new OutletSaleView(mContext);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
@@ -271,7 +288,7 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
                 routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
-                double sale_amt = outletSaleView.outletSaleAmount(routeCustomerModel.getCustomerId());
+                double sale_amt = res.getDouble(res.getColumnIndex(INV_AMOUNT));
                 if (sale_amt > 0) {
                     routeCustomerModel.setCustStatus("Completed");
                     // do nothing--PENDING CASE
@@ -290,7 +307,6 @@ public class OutletView extends SQLiteOpenHelper {
 
     public ArrayList<RouteCustomerModel> getRouteCompletedCustomers(String route_id) {
         ArrayList<RouteCustomerModel> array_list = new ArrayList<RouteCustomerModel>();
-        OutletSaleView outletSaleView = new OutletSaleView(mContext);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
@@ -301,11 +317,11 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
                 routeCustomerModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
-                double sale_amt = outletSaleView.outletSaleAmount(routeCustomerModel.getCustomerId());
+                double sale_amt = res.getDouble(res.getColumnIndex(INV_AMOUNT));
                 if (sale_amt > 0) {
                     routeCustomerModel.setCustStatus("Completed");
                     routeCustomerModel.setSaleAmount(sale_amt);
-                    routeCustomerModel.setSale_time(outletSaleView.outletSaleTime(routeCustomerModel.getCustomerId()));
+                    routeCustomerModel.setSale_time(res.getString(res.getColumnIndex(INV_TIME)));
                     array_list.add(routeCustomerModel);
                 } else {
                     routeCustomerModel.setCustStatus("Pending");
@@ -322,7 +338,6 @@ public class OutletView extends SQLiteOpenHelper {
     /*customer with sale less than 100*/
     public ArrayList<RouteCustomerModel> getCustomerSaleLT100(String route_id) {
         ArrayList<RouteCustomerModel> array_list = new ArrayList<RouteCustomerModel>();
-        OutletSaleView outletSaleView = new OutletSaleView(mContext);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
@@ -333,10 +348,10 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
                 routeCustomerModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
-                double sale_amt = outletSaleView.outletSaleAmount(routeCustomerModel.getCustomerId());
+                double sale_amt = res.getDouble(res.getColumnIndex(INV_AMOUNT));
                 routeCustomerModel.setCustStatus("");
                 routeCustomerModel.setSaleAmount(sale_amt);
-                routeCustomerModel.setSale_time(outletSaleView.outletSaleTime(routeCustomerModel.getCustomerId()));
+                routeCustomerModel.setSale_time(res.getString(res.getColumnIndex(INV_TIME)));
                 if (sale_amt < 100)
                     array_list.add(routeCustomerModel);
                 res.moveToNext();
@@ -349,18 +364,12 @@ public class OutletView extends SQLiteOpenHelper {
 
     /*route sale value*/
     public double routeTotalSale(String route_id) {
-        OutletSaleView outletSaleView = new OutletSaleView(mContext);
-
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
+        Cursor res = db.rawQuery("SELECT sum(" + INV_AMOUNT + ") AS " + INV_AMOUNT + " FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
 
         double sale_amt = 0.00;
         if (res.moveToFirst()) {
-            while (res.isAfterLast() == false) {
-                String customer_id = (res.getString(res.getColumnIndex(CUSTOMER_ID)));
-                sale_amt += outletSaleView.outletSaleAmount(customer_id);
-                res.moveToNext();
-            }
+            sale_amt = res.getDouble(res.getColumnIndex(INV_AMOUNT));
         }
         res.close();
         db.close();
@@ -389,21 +398,9 @@ public class OutletView extends SQLiteOpenHelper {
     }
 
     public int routeProductiveCalls(String route_id) {
-        OutletSaleView outletSaleView = new OutletSaleView(mContext);
-
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
-
-        int count = 0;
-        if (res.moveToFirst()) {
-            while (res.isAfterLast() == false) {
-                double sale_amt = outletSaleView.outletSaleAmount(res.getString(res.getColumnIndex(CUSTOMER_ID)));
-                if (sale_amt > 0)
-                    count++;
-
-                res.moveToNext();
-            }
-        }
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=? AND " + INV_AMOUNT + ">0", new String[]{route_id});
+        int count = res.getCount();
         res.close();
         db.close();
         return count;

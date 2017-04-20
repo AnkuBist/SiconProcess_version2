@@ -51,6 +51,15 @@ public class OutletModel {
     @SerializedName("outstanding")
     @Expose
     private double outstanding;
+    @SerializedName("inv_amount")
+    @Expose
+    private double inv_amount;
+    @SerializedName("cash_payment")
+    @Expose
+    private double cash_payment;
+    @SerializedName("inv_time")
+    @Expose
+    private String inv_time;
 
     public String getSubCompanyId() {
         return subCompanyId;
@@ -162,5 +171,29 @@ public class OutletModel {
 
     public void setOutstanding(double outstanding) {
         this.outstanding = outstanding;
+    }
+
+    public String getInv_time() {
+        return inv_time;
+    }
+
+    public void setInv_time(String inv_time) {
+        this.inv_time = inv_time;
+    }
+
+    public double getCash_payment() {
+        return cash_payment;
+    }
+
+    public void setCash_payment(double cash_payment) {
+        this.cash_payment = cash_payment;
+    }
+
+    public double getInv_amount() {
+        return inv_amount;
+    }
+
+    public void setInv_amount(double inv_amount) {
+        this.inv_amount = inv_amount;
     }
 }
