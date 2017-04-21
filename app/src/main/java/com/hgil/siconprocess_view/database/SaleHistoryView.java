@@ -185,9 +185,12 @@ public class SaleHistoryView extends SQLiteOpenHelper {
 
     public ArrayList<SaleHistoryModel> outletSaleHistory(String outlet_id) {
         ArrayList<SaleHistoryModel> array_list = new ArrayList<SaleHistoryModel>();
+        SHVanLoadingView shVanLoadingView = new SHVanLoadingView(mContext);
+        SHOutletSaleView shOutletSaleView = new SHOutletSaleView(mContext);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + OUTLET_CODE + "=? ORDER BY " + STOCK_DATE, new String[]{outlet_id});
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + OUTLET_CODE + "=? ORDER BY "
+                + STOCK_DATE + " DESC", new String[]{outlet_id});
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 SaleHistoryModel saleHistoryModel = new SaleHistoryModel();
@@ -202,6 +205,11 @@ public class SaleHistoryView extends SQLiteOpenHelper {
                 saleHistoryModel.setNetSale(res.getInt(res.getColumnIndex(NET_SALE)));
                 saleHistoryModel.setSALEAMT(res.getDouble(res.getColumnIndex(SALEAMT)));
                 saleHistoryModel.setRejPrct(res.getDouble(res.getColumnIndex(REJECTION_PERCENTAGE)));
+
+                //updating new values
+                saleHistoryModel.setRoute_van_stock(shVanLoadingView.routeVanLoadingHistory(saleHistoryModel.getRouteId(), saleHistoryModel.getStockDate()));
+                saleHistoryModel.setOutlet_sale_items(shOutletSaleView.outletSaleHistory(saleHistoryModel.getOutletCode(), saleHistoryModel.getStockDate()));
+
                 array_list.add(saleHistoryModel);
                 res.moveToNext();
             }

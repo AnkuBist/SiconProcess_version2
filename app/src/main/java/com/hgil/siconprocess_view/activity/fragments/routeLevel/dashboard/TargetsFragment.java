@@ -76,6 +76,7 @@ public class TargetsFragment extends Route_Base_Fragment {
         arrRouteTarget = new ArrayList<>();
         //arrRouteTarget =demandTargetView.getDemandTargetByRoute(routeId);
         arrRouteTarget.addAll(demandTargetView.getDemandTargetByRoute(routeId));
+        routeTargetAdapter = new RouteTargetAdapter(getContext(), arrRouteTarget);
 
         //ArrayList<DemandTargetModel> arrTargets = demandTargetView.getAllDemandTarget();
 

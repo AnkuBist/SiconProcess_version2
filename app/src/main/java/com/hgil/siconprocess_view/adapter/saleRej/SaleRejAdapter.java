@@ -43,6 +43,8 @@ public class SaleRejAdapter extends RecyclerView.Adapter<SaleRejAdapter.ViewHold
         holder.tvDate.setText(saleHistoryModel.getStockDate());
         holder.tvSaleAmt.setText(holder.strRupee + Utility.roundTwoDecimals(saleHistoryModel.getSALEAMT()));
         holder.tvRejPrct.setText(String.valueOf(Utility.roundTwoDecimals(saleHistoryModel.getRejPrct())));
+        holder.tvVanStockSale.setText(String.valueOf(saleHistoryModel.getOutlet_sale_items() + "/" + saleHistoryModel.getRoute_van_stock()));
+
         holder.setIsRecyclable(false);
     }
 
@@ -58,6 +60,8 @@ public class SaleRejAdapter extends RecyclerView.Adapter<SaleRejAdapter.ViewHold
         public TextView tvSaleAmt;
         @BindView(R.id.tvRejPrct)
         public TextView tvRejPrct;
+        @BindView(R.id.tvVanStockSale)
+        public TextView tvVanStockSale;
         @BindString(R.string.strRupee)
         protected String strRupee;
 

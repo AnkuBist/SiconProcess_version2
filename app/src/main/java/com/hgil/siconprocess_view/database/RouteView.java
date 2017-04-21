@@ -12,6 +12,8 @@ import com.hgil.siconprocess_view.adapter.routeList.RouteListModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -248,7 +250,15 @@ public class RouteView extends SQLiteOpenHelper {
         }
         res.close();
         db.close();
-        return array_list;
+
+        ArrayList<RouteListModel> sortedArrayList = new ArrayList<RouteListModel>(array_list);
+        Collections.sort(sortedArrayList, new Comparator<RouteListModel>() {
+            public int compare(RouteListModel p1, RouteListModel p2) {
+                return String.valueOf(p1.getRoute_name()).compareTo(p2.getRoute_name());
+            }
+        });
+
+        return sortedArrayList;
     }
 
 }

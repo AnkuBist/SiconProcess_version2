@@ -26,7 +26,7 @@
             android:id="@+id/tvSaleAmt"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.2"
+            android:layout_weight="1.1"
             android:gravity="center_horizontal|center_vertical"
             android:textColor="@color/colorTextBlack"
             android:textSize="@dimen/text_size_medium" />
@@ -40,6 +40,15 @@
             android:textColor="@color/colorTextBlack"
             android:textSize="@dimen/text_size_medium"
             android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvVanStockSale"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.1"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="@color/colorTextBlack"
+            android:textSize="@dimen/text_size_medium" />
 
     </LinearLayout>
 </RelativeLayout>

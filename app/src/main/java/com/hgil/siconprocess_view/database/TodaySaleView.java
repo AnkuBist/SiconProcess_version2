@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.TodaySaleModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -146,10 +148,13 @@ public class TodaySaleView extends SQLiteOpenHelper {
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 TodaySaleModel todaySaleModel = new TodaySaleModel();
+
+                String item_code = res.getString(res.getColumnIndex(ITEM_ID));
+                todaySaleModel.setItem_name(itemDetailView.getItemName(item_code));
+                todaySaleModel.setItem_sequence(itemDetailView.getItemSequence(item_code));
+
                 todaySaleModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
                 todaySaleModel.setOutletCode(res.getString(res.getColumnIndex(OUTLET_CODE)));
-                String item_code = res.getString(res.getColumnIndex(ITEM_ID));
-                todaySaleModel.setItemCode(itemDetailView.getItemName(item_code));
                 todaySaleModel.setLoading(res.getInt(res.getColumnIndex(LOADING)));
                 todaySaleModel.setOtherRej(res.getInt(res.getColumnIndex(OTHER_REJ)));
                 todaySaleModel.setFreshRej(res.getInt(res.getColumnIndex(FRESH_REJ)));
@@ -160,7 +165,18 @@ public class TodaySaleView extends SQLiteOpenHelper {
         }
         res.close();
         db.close();
-        return array_list;
+
+        // sort array list
+        //Collections.sort(array_list, Comparator.comparing(TodaySaleModel::getItem_sequence));
+
+        ArrayList<TodaySaleModel> sortedArrayList = new ArrayList<TodaySaleModel>(array_list);
+        Collections.sort(sortedArrayList, new Comparator<TodaySaleModel>() {
+            public int compare(TodaySaleModel p1, TodaySaleModel p2) {
+                return Integer.valueOf(p1.getItem_sequence()).compareTo(p2.getItem_sequence());
+            }
+        });
+
+        return sortedArrayList;
     }
 
     /*get invoice amount*/
@@ -192,51 +208,53 @@ public class TodaySaleView extends SQLiteOpenHelper {
     }*/
 
     /*prepare van stock data*/
-   /* public TodaySaleModel getRouteItemSale(String route_id, String item_id) {
+    public TodaySaleModel getRouteItemSale(String route_id, String item_id) {
         TodaySaleModel todaySaleModel = new TodaySaleModel();
+        //ItemDetailView itemDetailView = new ItemDetailView(mContext);
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-      *//*  Cursor query (String table,
+      /*  Cursor query (String table,
                 String[] columns,
                 String selection,
                 String[] selectionArgs,
                 String groupBy,
                 String having,
-                String orderBy)*//*
-        Cursor res = db.query(TABLE_NAME, new String[]{ITEM_NAME
+                String orderBy)*/
+        Cursor res = db.query(TABLE_NAME, new String[]{ITEM_ID
                 , "sum(" + LOADING + ") as " + LOADING,
                 "sum(" + OTHER_REJ + ") as " + OTHER_REJ,
                 "sum(" + FRESH_REJ + ") as " + FRESH_REJ,
-                "sum(" + SAMPLE_QTY + ") as " + SAMPLE_QTY,
-                "sum(" + NET_SALE + ") as " + NET_SALE,
-        }, ROUTE_ID + "=? AND " + ITEM_ID + "=?", new String[]{route_id, item_id}, ITEM_NAME, null, ITEM_ID);
+                "sum(" + SAMPLE_QTY + ") as " + SAMPLE_QTY
+        }, ROUTE_ID + "=? AND " + ITEM_ID + "=?", new String[]{route_id, item_id}, ITEM_ID, null, ITEM_ID);
 
-    *//*    Cursor res = db.rawQuery("SELECT "+ROUTE_ID+",  FROM " + TABLE_NAME + " where "
-                + ROUTE_ID + "=? AND " + ITEM_ID + "=?", new String[]{route_id, item_id});*//*
         if (res.moveToFirst()) {
-            //while (res.isAfterLast() == false) {
-            //todaySaleModel.setLocationCode(res.getString(res.getColumnIndex(LOCATION_CODE)));
-            //todaySaleModel.setRouteManagementId(res.getString(res.getColumnIndex(ROUTE_MANAGEMENT_ID)));
-            //todaySaleModel.setStockDate(res.getString(res.getColumnIndex(STOCK_DATE)));
-            //todaySaleModel.setOutletCode(res.getString(res.getColumnIndex(OUTLET_CODE)));
-            //todaySaleModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
-            //todaySaleModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
-            todaySaleModel.setItemName(res.getString(res.getColumnIndex(ITEM_NAME)));
+            //String item_code = res.getString(res.getColumnIndex(ITEM_ID));
+            //todaySaleModel.setItem_name(itemDetailView.getItemName(item_code));
             todaySaleModel.setLoading(res.getInt(res.getColumnIndex(LOADING)));
             todaySaleModel.setOtherRej(res.getInt(res.getColumnIndex(OTHER_REJ)));
             todaySaleModel.setFreshRej(res.getInt(res.getColumnIndex(FRESH_REJ)));
             todaySaleModel.setSampleQty(res.getInt(res.getColumnIndex(SAMPLE_QTY)));
-            todaySaleModel.setNetSale(res.getInt(res.getColumnIndex(NET_SALE)));
-            //todaySaleModel.setInvoiceId(res.getString(res.getColumnIndex(INVOICE_ID)));
-            //todaySaleModel.setInvoiceAmt(res.getDouble(res.getColumnIndex(INVOICE_AMT)));
-            // res.moveToNext();
-            //}
+            //todaySaleModel.setItem_sequence(itemDetailView.getItemSequence(item_code));
         }
         res.close();
         db.close();
         return todaySaleModel;
-    }*/
+    }
+
+    /*item target sale over route*/
+    public int routeItemSaleQty(String route_id, String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT sum(" + LOADING + ") AS " + LOADING + " FROM " + TABLE_NAME + " WHERE "
+                + ROUTE_ID + "=? and " + ITEM_ID + "=?", new String[]{route_id, item_id});
+        int sale_qty = 0;
+        if (res.moveToFirst()) {
+            sale_qty = res.getInt(res.getColumnIndex(LOADING));
+        }
+        res.close();
+        db.close();
+        return sale_qty;
+    }
 
     /*item target sale over route*/
     /*public int routeItemSaleQty(String route_id, String item_id) {
@@ -266,6 +284,41 @@ public class TodaySaleView extends SQLiteOpenHelper {
         db.close();
         return item_name;
     }*/
+
+
+    /*calculate rej amount over route*/
+    public double getRouteRejAmount(String route_id) {
+        ItemDetailView itemDetailView = new ItemDetailView(mContext);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+      /*  Cursor query (String table,
+                String[] columns,
+                String selection,
+                String[] selectionArgs,
+                String groupBy,
+                String having,
+                String orderBy)*/
+        Cursor res = db.query(TABLE_NAME, new String[]{ITEM_ID,
+                "sum(" + OTHER_REJ + ") as " + OTHER_REJ,
+                "sum(" + FRESH_REJ + ") as " + FRESH_REJ
+        }, ROUTE_ID + "=?", new String[]{route_id}, ITEM_ID, null, ITEM_ID);
+
+        double net_rej_amount = 0.00;
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                String item_id = res.getString(res.getColumnIndex(ITEM_ID));
+                int o_rej = res.getInt(res.getColumnIndex(OTHER_REJ));
+                int f_rej = res.getInt(res.getColumnIndex(FRESH_REJ));
+                double item_price = itemDetailView.getItemPrice(item_id);
+                net_rej_amount += ((o_rej + f_rej) * item_price);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+        return net_rej_amount;
+    }
 
 
 }

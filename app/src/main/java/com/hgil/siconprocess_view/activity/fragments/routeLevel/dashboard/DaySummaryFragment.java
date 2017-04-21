@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
 import com.hgil.siconprocess_view.database.OutletView;
+import com.hgil.siconprocess_view.database.TodaySaleView;
 import com.hgil.siconprocess_view.utils.Utility;
 
 import butterknife.BindView;
@@ -70,7 +71,7 @@ public class DaySummaryFragment extends Route_Base_Fragment {
         hideSyncButton();
 
         OutletView outletView = new OutletView(getContext());
-        //PaymentView paymentView = new PaymentView(getContext());
+        TodaySaleView todaySaleView = new TodaySaleView(getContext());
 
         // route target calls
         int target_calls = outletView.routeTargetCalls(getRouteId());
@@ -79,15 +80,15 @@ public class DaySummaryFragment extends Route_Base_Fragment {
         int productive_calls = outletView.routeProductiveCalls(getRouteId());
 
         // total route collection amount
-        //double route_total_collection = paymentView.routeTotalSale(getRouteId());
+        double route_total_collection = outletView.routeCashCollection(getRouteId());
 
         //  total route sale amount
         double route_total_sale = outletView.routeTotalSale(getRouteId());
 
-        double route_outstanding = outletView.routeOutstanding(getRouteId());
+        double route_rej_amount = todaySaleView.getRouteRejAmount(getRouteId());
+        double net_sale_amount = route_total_sale - route_rej_amount;
 
-        // count total outlets in the route
-        //tvTargetCalls.setText(String.valueOf(target_calls));
+        double route_outstanding = outletView.routeOutstanding(getRouteId());
 
         // get total outlet calls made
         tvTotalCalls.setText(String.valueOf(target_calls));
@@ -97,18 +98,10 @@ public class DaySummaryFragment extends Route_Base_Fragment {
         tvOpening.setText(strRupee + Utility.roundOff(route_outstanding));
 
         // get total bill value
-        tvTotalBillValue.setText(strRupee + Utility.roundOff(route_total_sale));
+        tvTotalBillValue.setText(strRupee + Utility.roundOff(net_sale_amount));
 
-        // calculate average bill value
-        /*double avgBill = 0;
+        tvTodayCollection.setText(strRupee + Utility.roundOff(route_total_collection));
 
-        avgBill = route_total_os / productive_calls;
-        if (Double.isNaN(avgBill))
-            avgBill = 0;
-        tvAvgBillValue.setText(strRupee + Utility.roundOff(avgBill));*/
-
-        //tvTodayCollection.setText(strRupee + Utility.roundOff(route_total_collection));
-
-       // tvTotalOS.setText(strRupee + Utility.roundOff(route_outstanding + route_total_sale - route_total_collection));
+        tvTotalOS.setText(strRupee + Utility.roundOff(route_outstanding + route_total_sale - route_total_collection));
     }
 }

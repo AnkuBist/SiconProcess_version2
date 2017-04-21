@@ -8,6 +8,7 @@ public class VanStkModel {
 
     private String item_id;
     private String item_name;
+    private int item_sequence;
     private int loadQty;
     private int gross_sale;
     private int sample;
@@ -29,6 +30,14 @@ public class VanStkModel {
 
     public void setItem_name(String item_name) {
         this.item_name = item_name;
+    }
+
+    public int getItem_sequence() {
+        return item_sequence;
+    }
+
+    public void setItem_sequence(int item_sequence) {
+        this.item_sequence = item_sequence;
     }
 
     public int getLoadQty() {

@@ -12,6 +12,8 @@ import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletRemarkModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.PlanModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SHOutletItemSaleModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SHRouteVanLoadingModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SaleHistoryModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.TodaySaleModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.VanStockModel;
@@ -53,6 +55,12 @@ public class ObjLoginResponse implements Serializable {
     @SerializedName("arrItemDetail")
     @Expose
     private List<ItemDetailModel> arrItemDetail;
+    @SerializedName("arrSHVanLoading")
+    @Expose
+    private List<SHRouteVanLoadingModel> arrSHVanLoading;
+    @SerializedName("arrSHOutletSale")
+    @Expose
+    private List<SHOutletItemSaleModel> arrSHOutletSale;
 
 
     public List<RouteModel> getArrRoutes() {
@@ -141,5 +149,21 @@ public class ObjLoginResponse implements Serializable {
 
     public void setArrItemDetail(List<ItemDetailModel> arrItemDetail) {
         this.arrItemDetail = arrItemDetail;
+    }
+
+    public List<SHRouteVanLoadingModel> getArrSHVanLoading() {
+        return arrSHVanLoading;
+    }
+
+    public void setArrSHVanLoading(List<SHRouteVanLoadingModel> arrSHVanLoading) {
+        this.arrSHVanLoading = arrSHVanLoading;
+    }
+
+    public List<SHOutletItemSaleModel> getArrSHOutletSale() {
+        return arrSHOutletSale;
+    }
+
+    public void setArrSHOutletSale(List<SHOutletItemSaleModel> arrSHOutletSale) {
+        this.arrSHOutletSale = arrSHOutletSale;
     }
 }

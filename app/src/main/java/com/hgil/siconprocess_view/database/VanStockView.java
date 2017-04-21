@@ -8,10 +8,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.hgil.siconprocess_view.adapter.vanStock.VanStkModel;
-import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletSaleModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.TodaySaleModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.VanStockModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -124,31 +126,57 @@ public class VanStockView extends SQLiteOpenHelper {
     /*get outlets/customers linked to route_id*/
     public ArrayList<VanStkModel> getVanStockByRoute(String route_id) {
         ArrayList<VanStkModel> array_list = new ArrayList<>();
-
-        OutletSaleView outletSaleView = new OutletSaleView(mContext);
+        ItemDetailView itemDetailView = new ItemDetailView(mContext);
+        TodaySaleView todaySaleView = new TodaySaleView(mContext);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=? and "
+                + ITEM_ID + " not like '%CR100001%'", new String[]{route_id});
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 VanStkModel vanStockModel = new VanStkModel();
                 //vanStockModel.set(res.getString(res.getColumnIndex(ROUTE_ID)));
-                vanStockModel.setItem_id(res.getString(res.getColumnIndex(ITEM_ID)));
+                String item_id = res.getString(res.getColumnIndex(ITEM_ID));
+                vanStockModel.setItem_id(item_id);
                 vanStockModel.setLoadQty(res.getInt(res.getColumnIndex(ITEM_QTY)));
+                vanStockModel.setItem_name(itemDetailView.getItemName(item_id));
+                vanStockModel.setItem_sequence(itemDetailView.getItemSequence(item_id));
 
-                OutletSaleModel outletSaleModel = outletSaleView.getRouteItemSale(route_id, vanStockModel.getItem_id());
-                vanStockModel.setItem_name(outletSaleModel.getItemName());
-                vanStockModel.setGross_sale(outletSaleModel.getNetSale());
-                vanStockModel.setSample(outletSaleModel.getSampleQty());
-                vanStockModel.setMarket_rejection(outletSaleModel.getOtherRej());
-                vanStockModel.setFresh_rejection(outletSaleModel.getFreshRej());
-                vanStockModel.setLeft_over(vanStockModel.getLoadQty() - vanStockModel.getGross_sale() - vanStockModel.getSample() - vanStockModel.getMarket_rejection() - vanStockModel.getFresh_rejection());
+                TodaySaleModel todaySaleModel = todaySaleView.getRouteItemSale(route_id, item_id);
+                vanStockModel.setGross_sale(todaySaleModel.getLoading());
+                vanStockModel.setSample(todaySaleModel.getSampleQty());
+                vanStockModel.setMarket_rejection(todaySaleModel.getOtherRej());
+                vanStockModel.setFresh_rejection(todaySaleModel.getFreshRej());
+                vanStockModel.setLeft_over(vanStockModel.getLoadQty() - vanStockModel.getGross_sale());
                 array_list.add(vanStockModel);
                 res.moveToNext();
             }
         }
         res.close();
         db.close();
-        return array_list;
+
+        ArrayList<VanStkModel> sortedArrayList = new ArrayList<VanStkModel>(array_list);
+        Collections.sort(sortedArrayList, new Comparator<VanStkModel>() {
+            public int compare(VanStkModel p1, VanStkModel p2) {
+                return Integer.valueOf(p1.getItem_sequence()).compareTo(p2.getItem_sequence());
+            }
+        });
+
+        return sortedArrayList;
+    }
+
+    /*get user crate loading*/
+    public int getRouteCrateInfo(String route_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT " + ITEM_QTY + " FROM " + TABLE_NAME + " WHERE " + ITEM_ID + "=?",
+                new String[]{"CR100001"});
+
+        int crate_loading = 0;
+        if (res.moveToFirst()) {
+            crate_loading = res.getInt(res.getColumnIndex(ITEM_QTY));
+        }
+        res.close();
+        db.close();
+        return crate_loading;
     }
 }

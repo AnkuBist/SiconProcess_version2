@@ -9,6 +9,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="6">-->
+
+
+        <TextView
+            android:id="@+id/tvCrate"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/colorWhite"
+            android:gravity="center_vertical"
+            android:paddingLeft="12dp"
+            android:text="Crates Loaded : 0"
+            android:textColor="@color/colorTextBlue"
+            android:textSize="@dimen/text_size_large" />
 
         <!-- <LinearLayout
              android:layout_width="match_parent"

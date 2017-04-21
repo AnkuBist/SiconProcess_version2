@@ -35,7 +35,7 @@ public class OutletSaleItem {
     }
 
     public void updateSaleItem(final OutletSaleAdapter.ViewHolder holder, final TodaySaleModel itemInvoice, final int position) {
-        final String itemName = itemInvoice.getItemCode();
+        final String itemName = itemInvoice.getItem_name();
         tvItemName.setText(itemName);
         tvSaleQty.setText("" + itemInvoice.getLoading());
         tvRejQty.setText("" + (itemInvoice.getOtherRej() + itemInvoice.getFreshRej()));

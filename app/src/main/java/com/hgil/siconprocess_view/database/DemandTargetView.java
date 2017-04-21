@@ -11,6 +11,8 @@ import com.hgil.siconprocess_view.adapter.routeTarget.RouteTargetModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.DemandTargetModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -122,20 +124,23 @@ public class DemandTargetView extends SQLiteOpenHelper {
 
     /*get demand target by route*/
     public ArrayList<RouteTargetModel> getDemandTargetByRoute(String route_id) {
-
         SQLiteDatabase db = this.getReadableDatabase();
-        OutletSaleView outletSaleView = new OutletSaleView(mContext);
+        TodaySaleView todaySaleView = new TodaySaleView(mContext);
+        ItemDetailView itemDetailView = new ItemDetailView(mContext);
+
         ArrayList<RouteTargetModel> array_list = new ArrayList<>();
 
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ROUTE_ID + " like '" + route_id + "'", null); //new String[]{route_id});
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 RouteTargetModel demandTargetModel = new RouteTargetModel();
-                demandTargetModel.setItemId(res.getString(res.getColumnIndex(ITEM_ID)));
+                String item_id = res.getString(res.getColumnIndex(ITEM_ID));
+                demandTargetModel.setItemId(item_id);
                 demandTargetModel.setTarget(res.getInt(res.getColumnIndex(TARGET_QTY)));
 
-                demandTargetModel.setItem_name(outletSaleView.getItemName(demandTargetModel.getItemId()));
-                demandTargetModel.setAchieved(outletSaleView.routeItemSaleQty(route_id, demandTargetModel.getItemId()));
+                demandTargetModel.setItem_name(itemDetailView.getItemName(item_id));
+                demandTargetModel.setItem_sequence(itemDetailView.getItemSequence(item_id));
+                demandTargetModel.setAchieved(todaySaleView.routeItemSaleQty(route_id, demandTargetModel.getItemId()));
                 demandTargetModel.setVariance(demandTargetModel.getTarget() - demandTargetModel.getAchieved());
 
                 array_list.add(demandTargetModel);
@@ -144,6 +149,15 @@ public class DemandTargetView extends SQLiteOpenHelper {
         }
         res.close();
         db.close();
-        return array_list;
+
+        ArrayList<RouteTargetModel> sortedArrayList = new ArrayList<RouteTargetModel>(array_list);
+        Collections.sort(sortedArrayList, new Comparator<RouteTargetModel>() {
+            public int compare(RouteTargetModel p1, RouteTargetModel p2) {
+                return Integer.valueOf(p1.getItem_sequence()).compareTo(p2.getItem_sequence());
+            }
+        });
+
+
+        return sortedArrayList;
     }
 }

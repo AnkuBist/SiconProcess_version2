@@ -13,9 +13,11 @@ import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.adapter.TabPagerAdapter;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
 import com.hgil.siconprocess_view.database.DemandTargetView;
+import com.hgil.siconprocess_view.database.ItemDetailView;
 import com.hgil.siconprocess_view.database.OutletView;
 import com.hgil.siconprocess_view.database.RouteView;
 import com.hgil.siconprocess_view.database.SaleHistoryView;
+import com.hgil.siconprocess_view.database.TodaySaleView;
 import com.hgil.siconprocess_view.database.VanStockView;
 import com.hgil.siconprocess_view.database.localDb.OutletRemarkTable;
 import com.hgil.siconprocess_view.database.localDb.PlannerTable;
@@ -130,8 +132,10 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
     private DemandTargetView dbDemandTargetView;
     //private OutletSaleView dbOutletSale;
     private VanStockView dbVanStock;
-   // private PaymentView dbPaymentView;
+    // private PaymentView dbPaymentView;
     private SaleHistoryView dbSaleHistory;
+    private TodaySaleView dbTodaySale;
+    private ItemDetailView dbItemDetail;
 
     // remark and plan updates
     private OutletRemarkTable dbOutletRemark;
@@ -143,13 +147,16 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
         dbOutletView = new OutletView(getContext());
         dbDemandTargetView = new DemandTargetView(getContext());
         dbVanStock = new VanStockView(getContext());
-       // dbOutletSale = new OutletSaleView(getContext());
+        // dbOutletSale = new OutletSaleView(getContext());
         //dbPaymentView = new PaymentView(getContext());
         dbSaleHistory = new SaleHistoryView(getContext());
 
         // plan and remark update
         dbOutletRemark = new OutletRemarkTable(getContext());
         dbPlanTable = new PlannerTable(getContext());
+
+        dbTodaySale = new TodaySaleView(getContext());
+        dbItemDetail = new ItemDetailView(getContext());
     }
 
     private void eraseAllTableData() {
@@ -164,6 +171,9 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
         /*plan and remark table erase on login*/
         dbOutletRemark.eraseTable();
         dbPlanTable.eraseTable();
+
+        dbItemDetail.eraseTable();
+        dbTodaySale.eraseTable();
     }
 
 
@@ -246,10 +256,13 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
             dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
             //dbOutletSale.insertOutletSale(objResponse.getArrOutletSale());
             dbVanStock.insertVanStock(objResponse.getArrVanStock());
-           // dbPaymentView.insertPayment(objResponse.getArrPayment());
+            // dbPaymentView.insertPayment(objResponse.getArrPayment());
             dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
             dbPlanTable.insertUserPlan(objResponse.getArrPlan());
             dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
+
+            dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
+            dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
         }
     }
 }

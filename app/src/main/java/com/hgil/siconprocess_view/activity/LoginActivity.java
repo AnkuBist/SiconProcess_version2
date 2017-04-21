@@ -17,6 +17,8 @@ import com.hgil.siconprocess_view.database.DemandTargetView;
 import com.hgil.siconprocess_view.database.ItemDetailView;
 import com.hgil.siconprocess_view.database.OutletView;
 import com.hgil.siconprocess_view.database.RouteView;
+import com.hgil.siconprocess_view.database.SHOutletSaleView;
+import com.hgil.siconprocess_view.database.SHVanLoadingView;
 import com.hgil.siconprocess_view.database.SaleHistoryView;
 import com.hgil.siconprocess_view.database.TodaySaleView;
 import com.hgil.siconprocess_view.database.VanStockView;
@@ -62,10 +64,12 @@ public class LoginActivity extends AppCompatActivity {
     private TodaySaleView dbTodaySale;
     private ItemDetailView dbItemDetail;
 
-
     // remark and plan updates
     private OutletRemarkTable dbOutletRemark;
     private PlannerTable dbPlanTable;
+
+    private SHVanLoadingView dbShVanLoadingView;
+    private SHOutletSaleView dbShOutletSaleView;
 
     private String existing_id = "", saved_id = "";
 
@@ -102,6 +106,9 @@ public class LoginActivity extends AppCompatActivity {
 
         dbTodaySale = new TodaySaleView(this);
         dbItemDetail = new ItemDetailView(this);
+
+        dbShVanLoadingView = new SHVanLoadingView(this);
+        dbShOutletSaleView = new SHOutletSaleView(this);
     }
 
     public void onSubmit(View view) {
@@ -174,6 +181,9 @@ public class LoginActivity extends AppCompatActivity {
 
         dbItemDetail.eraseTable();
         dbTodaySale.eraseTable();
+
+        dbShVanLoadingView.eraseTable();
+        dbShOutletSaleView.eraseTable();
     }
 
     /*retrofit call test to fetch data from server*/
@@ -235,6 +245,9 @@ public class LoginActivity extends AppCompatActivity {
 
             dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
             dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
+
+            dbShVanLoadingView.insertSHRouteVanLoading(objResponse.getArrSHVanLoading());
+            dbShOutletSaleView.insertSHOutletSale(objResponse.getArrSHOutletSale());
 
             Utility.saveLoginStatus(LoginActivity.this, Utility.LOGIN_STATUS, true);
             Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_ID, user_id);

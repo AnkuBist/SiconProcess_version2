@@ -9,6 +9,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class TodaySaleModel {
 
+    private String item_name;
+    private int item_sequence;
+
     @SerializedName("route_id")
     @Expose
     private String routeId;
@@ -20,16 +23,32 @@ public class TodaySaleModel {
     private String itemCode;
     @SerializedName("loading")
     @Expose
-    private Integer loading;
+    private int loading;
     @SerializedName("otherRej")
     @Expose
-    private Integer otherRej;
+    private int otherRej;
     @SerializedName("freshRej")
     @Expose
-    private Integer freshRej;
+    private int freshRej;
     @SerializedName("sampleQty")
     @Expose
-    private Integer sampleQty;
+    private int sampleQty;
+
+    public String getItem_name() {
+        return item_name;
+    }
+
+    public void setItem_name(String item_name) {
+        this.item_name = item_name;
+    }
+
+    public int getItem_sequence() {
+        return item_sequence;
+    }
+
+    public void setItem_sequence(int item_sequence) {
+        this.item_sequence = item_sequence;
+    }
 
     public String getRouteId() {
         return routeId;
@@ -55,35 +74,35 @@ public class TodaySaleModel {
         this.itemCode = itemCode;
     }
 
-    public Integer getLoading() {
+    public int getLoading() {
         return loading;
     }
 
-    public void setLoading(Integer loading) {
+    public void setLoading(int loading) {
         this.loading = loading;
     }
 
-    public Integer getOtherRej() {
+    public int getOtherRej() {
         return otherRej;
     }
 
-    public void setOtherRej(Integer otherRej) {
+    public void setOtherRej(int otherRej) {
         this.otherRej = otherRej;
     }
 
-    public Integer getFreshRej() {
+    public int getFreshRej() {
         return freshRej;
     }
 
-    public void setFreshRej(Integer freshRej) {
+    public void setFreshRej(int freshRej) {
         this.freshRej = freshRej;
     }
 
-    public Integer getSampleQty() {
+    public int getSampleQty() {
         return sampleQty;
     }
 
-    public void setSampleQty(Integer sampleQty) {
+    public void setSampleQty(int sampleQty) {
         this.sampleQty = sampleQty;
     }
 

@@ -15,9 +15,11 @@ import com.hgil.siconprocess_view.adapter.depotList.DepotListAdapter;
 import com.hgil.siconprocess_view.adapter.depotList.DepotModel;
 import com.hgil.siconprocess_view.base.Base_Fragment;
 import com.hgil.siconprocess_view.database.DemandTargetView;
+import com.hgil.siconprocess_view.database.ItemDetailView;
 import com.hgil.siconprocess_view.database.OutletView;
 import com.hgil.siconprocess_view.database.RouteView;
 import com.hgil.siconprocess_view.database.SaleHistoryView;
+import com.hgil.siconprocess_view.database.TodaySaleView;
 import com.hgil.siconprocess_view.database.VanStockView;
 import com.hgil.siconprocess_view.database.localDb.OutletRemarkTable;
 import com.hgil.siconprocess_view.database.localDb.PlannerTable;
@@ -128,6 +130,8 @@ public class DepotListFragment extends Base_Fragment {
     private VanStockView dbVanStock;
     //private PaymentView dbPaymentView;
     private SaleHistoryView dbSaleHistory;
+    private TodaySaleView dbTodaySale;
+    private ItemDetailView dbItemDetail;
 
     // remark and plan updates
     private OutletRemarkTable dbOutletRemark;
@@ -145,6 +149,9 @@ public class DepotListFragment extends Base_Fragment {
         // plan and remark update
         dbOutletRemark = new OutletRemarkTable(getContext());
         dbPlanTable = new PlannerTable(getContext());
+
+        dbTodaySale = new TodaySaleView(getContext());
+        dbItemDetail = new ItemDetailView(getContext());
     }
 
     private void eraseAllTableData() {
@@ -159,6 +166,9 @@ public class DepotListFragment extends Base_Fragment {
         /*plan and remark table erase on login*/
         dbOutletRemark.eraseTable();
         dbPlanTable.eraseTable();
+
+        dbItemDetail.eraseTable();
+        dbTodaySale.eraseTable();
     }
 
 
@@ -245,6 +255,9 @@ public class DepotListFragment extends Base_Fragment {
             dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
             dbPlanTable.insertUserPlan(objResponse.getArrPlan());
             dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
+
+            dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
+            dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
         }
     }
 

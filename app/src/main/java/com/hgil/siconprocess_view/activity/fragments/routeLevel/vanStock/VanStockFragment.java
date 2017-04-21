@@ -23,9 +23,9 @@ import butterknife.BindView;
  */
 public class VanStockFragment extends Route_Base_Fragment {
 
-    /* @BindView(R.id.tvCrateLoaded)
-     TextView tvCrateLoaded;
-     @BindView(R.id.tvCrateOs)
+    @BindView(R.id.tvCrate)
+    TextView tvCrate;
+    /*  @BindView(R.id.tvCrateOs)
      TextView tvCrateOs;
      @BindView(R.id.tvCrateIssued)
      TextView tvCrateIssued;
@@ -79,11 +79,15 @@ public class VanStockFragment extends Route_Base_Fragment {
         //tvCrateReturned.setText(String.valueOf(crateReturned));
         //tvCrateLeftover.setText(String.valueOf(crateLeftover));
 
+        vanStockView = new VanStockView(getContext());
+
+
+        tvCrate.setText("Crate Loaded : " + vanStockView.getRouteCrateInfo(getRouteId()));
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvVanStock.setLayoutManager(linearLayoutManager);
 
-        vanStockView = new VanStockView(getContext());
         arrVanStock.addAll(vanStockView.getVanStockByRoute(routeId));
         vanStockAdapter = new VanStockAdapter(getContext(), arrVanStock);
         rvVanStock.setAdapter(vanStockAdapter);

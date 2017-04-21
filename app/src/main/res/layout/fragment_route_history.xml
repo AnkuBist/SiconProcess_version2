@@ -84,7 +84,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.2"
+            android:layout_weight="1.1"
             android:gravity="center_horizontal|center_vertical"
             android:text="Sale Amount"
             android:textColor="@color/colorTextBlack"
@@ -101,6 +101,16 @@
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
             android:visibility="gone" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.1"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Sale/Van"
+            android:textColor="@color/colorTextBlack"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

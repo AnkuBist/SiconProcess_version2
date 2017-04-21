@@ -43,6 +43,9 @@ public class SaleHistoryModel {
     @Expose
     private Double rejPrct;
 
+    private int route_van_stock;
+    private int outlet_sale_items;
+
     public String getRouteId() {
         return routeId;
     }
@@ -129,5 +132,21 @@ public class SaleHistoryModel {
 
     public void setRejPrct(Double rejPrct) {
         this.rejPrct = rejPrct;
+    }
+
+    public int getOutlet_sale_items() {
+        return outlet_sale_items;
+    }
+
+    public void setOutlet_sale_items(int outlet_sale_items) {
+        this.outlet_sale_items = outlet_sale_items;
+    }
+
+    public int getRoute_van_stock() {
+        return route_van_stock;
+    }
+
+    public void setRoute_van_stock(int route_van_stock) {
+        this.route_van_stock = route_van_stock;
     }
 }

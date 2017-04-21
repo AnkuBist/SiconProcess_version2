@@ -332,6 +332,15 @@ public class OutletView extends SQLiteOpenHelper {
         }
         res.close();
         db.close();
+
+        /*sort outlet by sale time*/
+       /* ArrayList<RouteCustomerModel> sortedArrayList = new ArrayList<RouteCustomerModel>(array_list);
+        Collections.sort(sortedArrayList, new Comparator<RouteCustomerModel>() {
+            public int compare(RouteCustomerModel p1, RouteCustomerModel p2) {
+                return Integer.valueOf(p1.getSale_time()).compareTo(p2.getSale_time());
+            }
+        });*/
+
         return array_list;
     }
 
@@ -362,6 +371,46 @@ public class OutletView extends SQLiteOpenHelper {
         return array_list;
     }
 
+    /*completed route time*/
+    public ArrayList<RouteCustomerModel> getSaleTimeCompletedOutlets(String route_id) {
+        ArrayList<RouteCustomerModel> array_list = new ArrayList<RouteCustomerModel>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                RouteCustomerModel routeCustomerModel = new RouteCustomerModel();
+                routeCustomerModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
+                routeCustomerModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
+                routeCustomerModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+                routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
+                double sale_amt = res.getDouble(res.getColumnIndex(INV_AMOUNT));
+                if (sale_amt > 0) {
+                    routeCustomerModel.setCustStatus("Completed");
+                    routeCustomerModel.setSaleAmount(sale_amt);
+                    routeCustomerModel.setSale_time(res.getString(res.getColumnIndex(INV_TIME)));
+                    array_list.add(routeCustomerModel);
+                } else {
+                    routeCustomerModel.setCustStatus("Pending");
+                    //do nothing --COMPLETED CASE
+                }
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+
+        /*sort outlet by sale time*/
+       /* ArrayList<RouteCustomerModel> sortedArrayList = new ArrayList<RouteCustomerModel>(array_list);
+        Collections.sort(sortedArrayList, new Comparator<RouteCustomerModel>() {
+            public int compare(RouteCustomerModel p1, RouteCustomerModel p2) {
+                return Integer.valueOf(p1.getSale_time()).compareTo(p2.getSale_time());
+            }
+        });*/
+
+        return array_list;
+    }
+
     /*route sale value*/
     public double routeTotalSale(String route_id) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -387,6 +436,20 @@ public class OutletView extends SQLiteOpenHelper {
         res.close();
         db.close();
         return sale_amt;
+    }
+
+    /*route cash collection value*/
+    public double routeCashCollection(String route_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT sum(" + CASH_PAYMENT + ") AS " + CASH_PAYMENT + " FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
+
+        double cash_payment = 0.00;
+        if (res.moveToFirst()) {
+            cash_payment = res.getDouble(res.getColumnIndex(CASH_PAYMENT));
+        }
+        res.close();
+        db.close();
+        return cash_payment;
     }
 
     /*target calls*/

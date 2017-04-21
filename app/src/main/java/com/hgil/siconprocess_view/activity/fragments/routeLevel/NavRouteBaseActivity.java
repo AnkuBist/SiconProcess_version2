@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
-import com.hgil.siconprocess_view.activity.fragments.baseLevel.RouteListActivity;
+import com.hgil.siconprocess_view.activity.fragments.routeLevel.completeOutlet.SaleCompleteOutletFragment;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.dashboard.RouteDashboardFragment;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.homeTabs.RouteHomeFragment;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.vanStock.VanStockFragment;
@@ -110,7 +110,7 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
             textName.setText(getCashierName());
         else
             textName.setVisibility(View.GONE);
-        
+
         TextView textPhone = (TextView) temp_nv.findViewById(R.id.tvCashierNo);
         textPhone.setVisibility(View.GONE);
         //textPhone.setText("9023503384");
@@ -175,9 +175,10 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
             case R.id.nav_home:
                 //fragment = RouteHomeFragment.newInstance();
                 // start nav base activity here only
-                Intent intent = new Intent(this, RouteListActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                //Intent intent = new Intent(this, RouteListActivity.class);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //startActivity(intent);
+                this.finish();
                 // from right to left
                 overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
                 // from left to right
@@ -192,6 +193,9 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
                 break;
             case R.id.nav_van_stock:
                 fragment = VanStockFragment.newInstance();
+                break;
+            case R.id.nav_sale_complete_time_diff:
+                fragment = SaleCompleteOutletFragment.newInstance();
                 break;
             default:
                 fragment = RouteHomeFragment.newInstance();

@@ -217,4 +217,33 @@ public class ItemDetailView extends SQLiteOpenHelper {
         return item_name;
     }
 
+    /*get item price*/
+    public double getItemPrice(String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT " + ITEM_PRICE + " FROM " + TABLE_NAME + " WHERE "
+                + ITEM_CODE + "=?", new String[]{item_id});
+        double item_price = 0.00;
+        if (res.moveToFirst()) {
+            item_price = res.getDouble(res.getColumnIndex(ITEM_PRICE));
+        }
+        res.close();
+        db.close();
+        return item_price;
+    }
+
+    /*get item sequence*/
+    public int getItemSequence(String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT " + SEQUENCE + " FROM " + TABLE_NAME + " WHERE "
+                + ITEM_CODE + "=?", new String[]{item_id});
+        int item_sequence = 0;
+        if (res.moveToFirst()) {
+            item_sequence = res.getInt(res.getColumnIndex(SEQUENCE));
+        }
+        res.close();
+        db.close();
+        return item_sequence;
+    }
+
+
 }
