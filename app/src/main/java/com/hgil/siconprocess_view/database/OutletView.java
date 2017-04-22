@@ -39,6 +39,7 @@ public class OutletView extends SQLiteOpenHelper {
     private static final String CONTACT_NO = "ContactNo";
     private static final String OUTSTANDING = "outstanding";
     private static final String INV_AMOUNT = "inv_amount";
+    private static final String NET_AMOUNT = "net_amount";
     private static final String CASH_PAYMENT = "cash_payment";
     private static final String INV_TIME = "inv_time";
 
@@ -56,8 +57,8 @@ public class OutletView extends SQLiteOpenHelper {
                 + PSMID + " TEXT NULL, " + CUSTOMER_ID + " TEXT NULL, " + CUSTOMER_NAME + " TEXT NULL, "
                 + PRICEGROUP + " TEXT NULL, " + LINEDISC + " TEXT NULL, " + C_TYPE + " TEXT NULL, "
                 + SALE_STATUS + " TEXT NULL, " + ACCOUNTNUM + " TEXT NULL, " + CONTACT_NO + " TEXT NULL, "
-                + OUTSTANDING + " REAL NULL, " + INV_AMOUNT + " REAL NULL, " + CASH_PAYMENT + " REAL NULL, "
-                + INV_TIME + " TEXT NULL)");
+                + OUTSTANDING + " REAL NULL, " + INV_AMOUNT + " REAL NULL, " + NET_AMOUNT + " REAL NULL, "
+                + CASH_PAYMENT + " REAL NULL, " + INV_TIME + " TEXT NULL)");
     }
 
     @Override
@@ -91,6 +92,7 @@ public class OutletView extends SQLiteOpenHelper {
         contentValues.put(CONTACT_NO, outletModel.getContactNo());
         contentValues.put(OUTSTANDING, outletModel.getOutstanding());
         contentValues.put(INV_AMOUNT, outletModel.getInv_amount());
+        contentValues.put(NET_AMOUNT, outletModel.getNet_amount());
         contentValues.put(CASH_PAYMENT, outletModel.getCash_payment());
         contentValues.put(INV_TIME, outletModel.getInv_time());
         db.insert(TABLE_NAME, null, contentValues);
@@ -120,6 +122,7 @@ public class OutletView extends SQLiteOpenHelper {
             contentValues.put(CONTACT_NO, outletModel.getContactNo());
             contentValues.put(OUTSTANDING, outletModel.getOutstanding());
             contentValues.put(INV_AMOUNT, outletModel.getInv_amount());
+            contentValues.put(NET_AMOUNT, outletModel.getNet_amount());
             contentValues.put(CASH_PAYMENT, outletModel.getCash_payment());
             contentValues.put(INV_TIME, outletModel.getInv_time());
             db.insert(TABLE_NAME, null, contentValues);
@@ -172,6 +175,7 @@ public class OutletView extends SQLiteOpenHelper {
                 outletModel.setContactNo(res.getString(res.getColumnIndex(CONTACT_NO)));
                 outletModel.setOutstanding(res.getDouble(res.getColumnIndex(OUTSTANDING)));
                 outletModel.setInv_amount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
+                outletModel.setNet_amount(res.getDouble(res.getColumnIndex(NET_AMOUNT)));
                 outletModel.setCash_payment(res.getDouble(res.getColumnIndex(CASH_PAYMENT)));
                 outletModel.setInv_time(res.getString(res.getColumnIndex(INV_TIME)));
                 array_list.add(outletModel);
@@ -205,6 +209,7 @@ public class OutletView extends SQLiteOpenHelper {
             outletModel.setContactNo(res.getString(res.getColumnIndex(CONTACT_NO)));
             outletModel.setOutstanding(res.getDouble(res.getColumnIndex(OUTSTANDING)));
             outletModel.setInv_amount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
+            outletModel.setNet_amount(res.getDouble(res.getColumnIndex(NET_AMOUNT)));
             outletModel.setCash_payment(res.getDouble(res.getColumnIndex(CASH_PAYMENT)));
             outletModel.setInv_time(res.getString(res.getColumnIndex(INV_TIME)));
         }
@@ -237,6 +242,7 @@ public class OutletView extends SQLiteOpenHelper {
                 outletModel.setContactNo(res.getString(res.getColumnIndex(CONTACT_NO)));
                 outletModel.setOutstanding(res.getDouble(res.getColumnIndex(OUTSTANDING)));
                 outletModel.setInv_amount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
+                outletModel.setNet_amount(res.getDouble(res.getColumnIndex(NET_AMOUNT)));
                 outletModel.setCash_payment(res.getDouble(res.getColumnIndex(CASH_PAYMENT)));
                 outletModel.setInv_time(res.getString(res.getColumnIndex(INV_TIME)));
                 array_list.add(outletModel);
@@ -379,7 +385,7 @@ public class OutletView extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String date1 = "00:00", date2 = "00:00";
-        int i = 0;
+        int i1 = 0;
 
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=? ORDER BY " + INV_TIME, new String[]{route_id});
         if (res.moveToFirst()) {
@@ -390,42 +396,35 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
                 routeCustomerModel.setSaleAmount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
-                //routeCustomerModel.setSale_time(res.getString(res.getColumnIndex(INV_TIME)));
+                routeCustomerModel.setSale_time(res.getString(res.getColumnIndex(INV_TIME)));
+                routeCustomerModel.setCash_received(res.getDouble(res.getColumnIndex(CASH_PAYMENT)));
 
-                String time_diff = "";
+                String time_diff = "00:00";
 
                 date1 = date2;
 
                 date2 = res.getString(res.getColumnIndex(INV_TIME));
-                if (i == 0) {
+                if (i1 == 0) {
+                    // do nothing
                 } else {
                     time_diff = Utility.timeVariance(date1, date2);
+                    routeCustomerModel.setTime_diff(time_diff);
                 }
 
-                routeCustomerModel.setSale_time(time_diff);
-                i++;
+                if (routeCustomerModel.getCash_received() > 0)
+                    routeCustomerModel.setCustStatus("Completed");
+                else
+                    routeCustomerModel.setCustStatus("Pending");
 
-                if (res.getDouble(res.getColumnIndex(INV_AMOUNT)) > 0) {
-                    //routeCustomerModel.setCustStatus("Completed");
+                if (res.getDouble(res.getColumnIndex(INV_AMOUNT)) > 0)
                     array_list.add(routeCustomerModel);
-                    // } else {
-                    //do nothing --COMPLETED CASE
-                    //routeCustomerModel.setCustStatus("Pending");
-                }
+
+                i1++;
                 res.moveToNext();
             }
         }
         res.close();
         db.close();
-
-        /*sort outlet by sale time*/
-       /* ArrayList<RouteCustomerModel> sortedArrayList = new ArrayList<RouteCustomerModel>(array_list);
-        Collections.sort(sortedArrayList, new Comparator<RouteCustomerModel>() {
-            public int compare(RouteCustomerModel p1, RouteCustomerModel p2) {
-                return Integer.valueOf(p1.getSale_time()).compareTo(p2.getSale_time());
-            }
-        });*/
-
         return array_list;
     }
 
@@ -491,6 +490,20 @@ public class OutletView extends SQLiteOpenHelper {
         double cash_payment = 0.00;
         if (res.moveToFirst()) {
             cash_payment = res.getDouble(res.getColumnIndex(CASH_PAYMENT));
+        }
+        res.close();
+        db.close();
+        return cash_payment;
+    }
+
+    /*route net sale value*/
+    public double routeNetSale(String route_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT sum(" + NET_AMOUNT + ") AS " + NET_AMOUNT + " FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
+
+        double cash_payment = 0.00;
+        if (res.moveToFirst()) {
+            cash_payment = res.getDouble(res.getColumnIndex(NET_AMOUNT));
         }
         res.close();
         db.close();

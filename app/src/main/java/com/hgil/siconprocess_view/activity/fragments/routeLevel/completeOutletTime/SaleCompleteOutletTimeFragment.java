@@ -10,8 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
+import com.hgil.siconprocess_view.adapter.outletSaleTimeDiff.RouteOutletSaleTimeDiffAdapter;
 import com.hgil.siconprocess_view.adapter.routeMap.RouteCustomerModel;
-import com.hgil.siconprocess_view.adapter.routeMap.RouteOutletAdapter;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
 import com.hgil.siconprocess_view.database.OutletView;
 
@@ -31,9 +31,9 @@ public class SaleCompleteOutletTimeFragment extends Route_Base_Fragment {
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
 
-    private RouteOutletAdapter mapRAdapter;
+    private RouteOutletSaleTimeDiffAdapter outletSaleTimeDiffAdapter;
     private OutletView outletView;
-    private ArrayList<RouteCustomerModel> arrRouteMap;
+    private ArrayList<RouteCustomerModel> arrSaleTimeDiff;
 
     public SaleCompleteOutletTimeFragment() {
         // Required empty public constructor
@@ -63,17 +63,17 @@ public class SaleCompleteOutletTimeFragment extends Route_Base_Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvCompleteOutletTime.setLayoutManager(linearLayoutManager);
 
-        arrRouteMap = new ArrayList<>();
+        arrSaleTimeDiff = new ArrayList<>();
         outletView = new OutletView(getActivity());
-        arrRouteMap.addAll(outletView.getSaleTimeCompletedOutlets(routeId));
-        mapRAdapter = new RouteOutletAdapter(getActivity(), arrRouteMap);
-        rvCompleteOutletTime.setAdapter(mapRAdapter);
+        arrSaleTimeDiff.addAll(outletView.getSaleTimeCompletedOutlets(routeId));
+        outletSaleTimeDiffAdapter = new RouteOutletSaleTimeDiffAdapter(getActivity(), arrSaleTimeDiff);
+        rvCompleteOutletTime.setAdapter(outletSaleTimeDiffAdapter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (arrRouteMap.size() == 0) {
+        if (arrSaleTimeDiff.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
             rvCompleteOutletTime.setVisibility(View.GONE);
         } else {

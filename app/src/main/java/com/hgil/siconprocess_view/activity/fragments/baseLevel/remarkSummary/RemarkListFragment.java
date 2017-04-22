@@ -57,7 +57,7 @@ public class RemarkListFragment extends Base_Fragment {
         rvRemarkRouteList.setLayoutManager(linearLayoutManager);
 
         hideSyncButton();
-        setTitle("Remarks Summary");
+        setTitle(getString(R.string.str_nav_remarks_summary));
 
         arrRoute = new ArrayList<>();
         routeView = new RouteView(getActivity());

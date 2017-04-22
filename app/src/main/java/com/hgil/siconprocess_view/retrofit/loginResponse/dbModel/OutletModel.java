@@ -54,6 +54,9 @@ public class OutletModel {
     @SerializedName("inv_amount")
     @Expose
     private double inv_amount;
+    @SerializedName("net_amount")
+    @Expose
+    private double net_amount;
     @SerializedName("cash_payment")
     @Expose
     private double cash_payment;
@@ -195,5 +198,13 @@ public class OutletModel {
 
     public void setInv_amount(double inv_amount) {
         this.inv_amount = inv_amount;
+    }
+
+    public double getNet_amount() {
+        return net_amount;
+    }
+
+    public void setNet_amount(double net_amount) {
+        this.net_amount = net_amount;
     }
 }

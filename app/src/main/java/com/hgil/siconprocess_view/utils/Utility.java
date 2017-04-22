@@ -184,7 +184,14 @@ public class Utility {
         int Hours = (int) (mills / (1000 * 60 * 60));
         int Mins = (int) (mills / (1000 * 60)) % 60;
 
-        String diff = Hours + ":" + Mins; // updated value every1 second
+        //String diff = Hours + ":" + Mins; // updated value every1 second
+
+        String diff = "";
+        if (Hours > 0)
+            diff = Hours + "hr, " + Mins + "min(s)";
+        else
+            diff = Mins + "min(s)";
+
         return diff;
     }
 

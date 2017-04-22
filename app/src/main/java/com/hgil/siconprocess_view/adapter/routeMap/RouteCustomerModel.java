@@ -12,6 +12,7 @@ public class RouteCustomerModel {
     private String customerName;
     private String custStatus;
     private double saleAmount;
+    private double cash_received;
     private String sale_time;
     private String time_diff;
 
@@ -69,5 +70,21 @@ public class RouteCustomerModel {
 
     public void setSale_time(String sale_time) {
         this.sale_time = sale_time;
+    }
+
+    public String getTime_diff() {
+        return time_diff;
+    }
+
+    public void setTime_diff(String time_diff) {
+        this.time_diff = time_diff;
+    }
+
+    public double getCash_received() {
+        return cash_received;
+    }
+
+    public void setCash_received(double cash_received) {
+        this.cash_received = cash_received;
     }
 }

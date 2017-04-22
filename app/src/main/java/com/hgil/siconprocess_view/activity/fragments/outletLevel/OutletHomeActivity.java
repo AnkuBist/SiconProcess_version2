@@ -88,13 +88,13 @@ public class OutletHomeActivity extends Route_Base_Activity {
 
         imgNavIcon.setImageResource(R.mipmap.harvest_logo);
         if (getDepotName() != null) {
-            String output_depot = getDepotName().substring(0, 1).toUpperCase() + getDepotName().substring(1).toLowerCase();
-            tvNavDepot.setText(output_depot);
+            //String output_depot = getDepotName().substring(0, 1).toUpperCase() + getDepotName().substring(1).toLowerCase();
+            tvNavDepot.setText(getDepotName());
         }
 
         if (getRouteName() != null) {
-            String output_route = getRouteName().substring(0, 1).toUpperCase() + getRouteName().substring(1).toLowerCase();
-            tvNavHeader.setText(output_route);
+            //String output_route = getRouteName().substring(0, 1).toUpperCase() + getRouteName().substring(1).toLowerCase();
+            tvNavHeader.setText(getRouteName());
         }
 
         // nav footer
