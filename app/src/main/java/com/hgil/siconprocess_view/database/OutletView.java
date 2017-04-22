@@ -7,7 +7,6 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.hgil.siconprocess_view.adapter.outletSkuSale.OutletItemSaleVarianceModel;
 import com.hgil.siconprocess_view.adapter.routeMap.RouteCustomerModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletModel;
 import com.hgil.siconprocess_view.utils.Utility;
@@ -87,7 +86,12 @@ public class OutletView extends SQLiteOpenHelper {
         contentValues.put(PRICEGROUP, outletModel.getPRICEGROUP());
         contentValues.put(LINEDISC, outletModel.getLINEDISC());
         contentValues.put(C_TYPE, outletModel.getCType());
-        contentValues.put(SALE_STATUS, outletModel.getSale_status());
+
+        if ((outletModel.getSale_status()).matches("SMS_SENT"))
+            contentValues.put(SALE_STATUS, "Completed");
+        else
+            contentValues.put(SALE_STATUS, "Pending");
+
         contentValues.put(ACCOUNTNUM, outletModel.getACCOUNTNUM());
         contentValues.put(CONTACT_NO, outletModel.getContactNo());
         contentValues.put(OUTSTANDING, outletModel.getOutstanding());
@@ -117,7 +121,12 @@ public class OutletView extends SQLiteOpenHelper {
             contentValues.put(PRICEGROUP, outletModel.getPRICEGROUP());
             contentValues.put(LINEDISC, outletModel.getLINEDISC());
             contentValues.put(C_TYPE, outletModel.getCType());
-            contentValues.put(SALE_STATUS, outletModel.getSale_status());
+
+            if ((outletModel.getSale_status()).matches("SMS_SENT"))
+                contentValues.put(SALE_STATUS, "Completed");
+            else
+                contentValues.put(SALE_STATUS, "Pending");
+
             contentValues.put(ACCOUNTNUM, outletModel.getACCOUNTNUM());
             contentValues.put(CONTACT_NO, outletModel.getContactNo());
             contentValues.put(OUTSTANDING, outletModel.getOutstanding());
@@ -269,10 +278,10 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setSaleAmount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
                 routeCustomerModel.setSale_time(res.getString(res.getColumnIndex(INV_TIME)));
 
-                if (res.getDouble(res.getColumnIndex(CASH_PAYMENT)) > 0)
-                    routeCustomerModel.setCustStatus("Completed");
-                else
-                    routeCustomerModel.setCustStatus("Pending");
+                //  if (res.getDouble(res.getColumnIndex(CASH_PAYMENT)) > 0)
+                routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
+                //   else
+                //       routeCustomerModel.setCustStatus("Pending");
 
                 array_list.add(routeCustomerModel);
                 res.moveToNext();
@@ -288,7 +297,8 @@ public class OutletView extends SQLiteOpenHelper {
         ArrayList<RouteCustomerModel> array_list = new ArrayList<RouteCustomerModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=? and " + SALE_STATUS + "=?",
+                new String[]{route_id, "Pending"});
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 RouteCustomerModel routeCustomerModel = new RouteCustomerModel();
@@ -298,13 +308,13 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
                 routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
                 routeCustomerModel.setSaleAmount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
-                if (res.getDouble(res.getColumnIndex(CASH_PAYMENT)) > 0) {
-                    // do nothing--PENDING CASE
-                    // routeCustomerModel.setCustStatus("Completed");
-                } else {
-                    routeCustomerModel.setCustStatus("Pending");
-                    array_list.add(routeCustomerModel);
-                }
+                //if (res.getDouble(res.getColumnIndex(CASH_PAYMENT)) > 0) {
+                // do nothing--Pending CASE
+                // routeCustomerModel.setCustStatus("Completed");
+                //} else {
+                routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
+                array_list.add(routeCustomerModel);
+                //}
                 res.moveToNext();
             }
         }
@@ -317,7 +327,8 @@ public class OutletView extends SQLiteOpenHelper {
         ArrayList<RouteCustomerModel> array_list = new ArrayList<RouteCustomerModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=? AND " + SALE_STATUS + "=?",
+                new String[]{route_id, "Completed"});
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 RouteCustomerModel routeCustomerModel = new RouteCustomerModel();
@@ -327,13 +338,15 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
                 routeCustomerModel.setSaleAmount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
                 routeCustomerModel.setSale_time(res.getString(res.getColumnIndex(INV_TIME)));
-                if (res.getDouble(res.getColumnIndex(CASH_PAYMENT)) > 0) {
-                    routeCustomerModel.setCustStatus("Completed");
-                    array_list.add(routeCustomerModel);
-                } else {
-                    //do nothing --COMPLETED CASE
-                    //routeCustomerModel.setCustStatus("Pending");
-                }
+                routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
+
+                //if (res.getDouble(res.getColumnIndex(CASH_PAYMENT)) > 0) {
+                //    routeCustomerModel.setCustStatus("Completed");
+                array_list.add(routeCustomerModel);
+                //} else {
+                //do nothing --Completed CASE
+                //routeCustomerModel.setCustStatus("Pending");
+                // }
                 res.moveToNext();
             }
         }
@@ -398,6 +411,7 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setSaleAmount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
                 routeCustomerModel.setSale_time(res.getString(res.getColumnIndex(INV_TIME)));
                 routeCustomerModel.setCash_received(res.getDouble(res.getColumnIndex(CASH_PAYMENT)));
+                routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
 
                 String time_diff = "00:00";
 
@@ -411,10 +425,10 @@ public class OutletView extends SQLiteOpenHelper {
                     routeCustomerModel.setTime_diff(time_diff);
                 }
 
-                if (routeCustomerModel.getCash_received() > 0)
-                    routeCustomerModel.setCustStatus("Completed");
-                else
-                    routeCustomerModel.setCustStatus("Pending");
+                //if (routeCustomerModel.getCash_received() > 0)
+                //    routeCustomerModel.setCustStatus("Completed");
+                //  else
+                //    routeCustomerModel.setCustStatus("Pending");
 
                 if (res.getDouble(res.getColumnIndex(INV_AMOUNT)) > 0)
                     array_list.add(routeCustomerModel);
@@ -429,9 +443,9 @@ public class OutletView extends SQLiteOpenHelper {
     }
 
     /*get route item variance sale*/
-    public ArrayList<OutletItemSaleVarianceModel> getRouteCustomersItemVariance(String
+    /*public ArrayList<ItemOutletSaleVarianceModel> getRouteCustomersItemVariance(String
                                                                                         route_id) {
-        ArrayList<OutletItemSaleVarianceModel> array_list = new ArrayList<OutletItemSaleVarianceModel>();
+        ArrayList<ItemOutletSaleVarianceModel> array_list = new ArrayList<ItemOutletSaleVarianceModel>();
         TodaySaleView todaySaleView = new TodaySaleView(mContext);
 
         int route_items_loaded = new VanStockView(mContext).routeItemLoadCount(route_id);
@@ -440,7 +454,7 @@ public class OutletView extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
-                OutletItemSaleVarianceModel itemSaleVarianceModel = new OutletItemSaleVarianceModel();
+                ItemOutletSaleVarianceModel itemSaleVarianceModel = new ItemOutletSaleVarianceModel();
                 itemSaleVarianceModel.setOutlet_name(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
                 itemSaleVarianceModel.setItem_loading(route_items_loaded);
                 String outlet_id = res.getString(res.getColumnIndex(CUSTOMER_ID));
@@ -452,7 +466,7 @@ public class OutletView extends SQLiteOpenHelper {
         res.close();
         db.close();
         return array_list;
-    }
+    }*/
 
     /*route sale value*/
 
@@ -525,5 +539,19 @@ public class OutletView extends SQLiteOpenHelper {
         res.close();
         db.close();
         return count;
+    }
+
+    public int routeTotalCustomersCount(String route_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT count(" + CUSTOMER_ID + ") AS customers FROM " + TABLE_NAME + " WHERE " + ROUTE_ID + "=?",
+                new String[]{route_id});
+
+        int item_count = 0;
+        if (res.moveToFirst()) {
+            item_count = res.getInt(res.getColumnIndex("customers"));
+        }
+        res.close();
+        db.close();
+        return item_count;
     }
 }

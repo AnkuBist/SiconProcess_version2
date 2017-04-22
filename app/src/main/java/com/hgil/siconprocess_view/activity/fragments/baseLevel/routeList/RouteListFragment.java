@@ -83,7 +83,7 @@ public class RouteListFragment extends Base_Fragment {
             depotName = getArguments().getString(DEPOT_NAME);
         }
     }
-
+    
     @Override
     protected int getFragmentLayout() {
         return R.layout.fragment_route_list;

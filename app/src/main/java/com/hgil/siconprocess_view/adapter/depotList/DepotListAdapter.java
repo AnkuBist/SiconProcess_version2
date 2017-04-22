@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.fragments.baseLevel.RouteListActivity;
 import com.hgil.siconprocess_view.activity.fragments.baseLevel.routeList.RouteListFragment;
+import com.hgil.siconprocess_view.base.SiconApp;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,7 @@ public class DepotListAdapter extends RecyclerView.Adapter<DepotListAdapter.View
             public void onClick(View v) {
                 String depot_id = depotModel.getDepot_id();
                 String depot_name = depotModel.getDepot_name();
+                SiconApp.getInstance().setDepotName(depot_name);
                 RouteListFragment fragment = RouteListFragment.newInstance(depot_id, depot_name);
                 String fragClassName = fragment.getClass().getName();
                 FragmentManager fragmentManager = ((RouteListActivity) mContext).getSupportFragmentManager();

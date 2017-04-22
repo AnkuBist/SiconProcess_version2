@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.hgil.siconprocess_view.adapter.skuOutletSale.ItemOutletSaleVarianceModel;
 import com.hgil.siconprocess_view.adapter.vanStock.VanStkModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.TodaySaleModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.VanStockModel;
@@ -194,5 +195,42 @@ public class VanStockView extends SQLiteOpenHelper {
         res.close();
         db.close();
         return item_count;
+    }
+
+    /*items sold and van stock over route*/
+    public ArrayList<ItemOutletSaleVarianceModel> getRouteCustomersItemSale(String route_id) {
+        ArrayList<ItemOutletSaleVarianceModel> array_list = new ArrayList<ItemOutletSaleVarianceModel>();
+        TodaySaleView todaySaleView = new TodaySaleView(mContext);
+        ItemDetailView itemDetailView = new ItemDetailView(mContext);
+
+        int total_customers = new OutletView(mContext).routeTotalCustomersCount(route_id);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=? and "
+                + ITEM_ID + " not like '%CR100001%'", new String[]{route_id});
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                ItemOutletSaleVarianceModel itemSaleVarianceModel = new ItemOutletSaleVarianceModel();
+                String item_id = (res.getString(res.getColumnIndex(ITEM_ID)));
+
+                itemSaleVarianceModel.setItem_name(itemDetailView.getItemName(item_id));
+                itemSaleVarianceModel.setTotal_customers(total_customers);
+                itemSaleVarianceModel.setItem_access_count(todaySaleView.itemPurchaseCustomerCount(route_id, item_id));
+                itemSaleVarianceModel.setItem_sequence(itemDetailView.getItemSequence(item_id));
+                array_list.add(itemSaleVarianceModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+
+        ArrayList<ItemOutletSaleVarianceModel> sortedArrayList = new ArrayList<ItemOutletSaleVarianceModel>(array_list);
+        Collections.sort(sortedArrayList, new Comparator<ItemOutletSaleVarianceModel>() {
+            public int compare(ItemOutletSaleVarianceModel p1, ItemOutletSaleVarianceModel p2) {
+                return Integer.valueOf(p1.getItem_sequence()).compareTo(p2.getItem_sequence());
+            }
+        });
+
+        return sortedArrayList;
     }
 }

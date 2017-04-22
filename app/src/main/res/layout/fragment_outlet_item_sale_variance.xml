@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.fragments.routeLevel.itemSaleCount.OutletItemSaleVarianceFragment">
+    tools:context=".activity.fragments.routeLevel.itemOutletSaleCount.ItemOutletSaleVarianceFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                 android:layout_weight="1.6"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="5dp"
-                android:text="Customer Name"
+                android:text="Item Name"
                 android:textColor="@color/colorTextBlack"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
@@ -47,7 +47,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="Loading/Sale"
+                android:text="Outlet Bought/Total"
                 android:textColor="@color/colorTextBlack"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="No Customer found"
+            android:text="No Item(s) found"
             android:textColor="@color/colorTextBlack"
             android:textSize="@dimen/text_size_large"
             android:visibility="gone" />

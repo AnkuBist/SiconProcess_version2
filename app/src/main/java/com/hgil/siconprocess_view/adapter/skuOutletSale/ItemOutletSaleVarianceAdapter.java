@@ -1,4 +1,4 @@
-package com.hgil.siconprocess_view.adapter.outletSkuSale;
+package com.hgil.siconprocess_view.adapter.skuOutletSale;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -19,22 +19,22 @@ import butterknife.ButterKnife;
  * Created by mohan.giri on 25-01-2017.
  */
 
-public class OutletItemSaleVarianceAdapter extends RecyclerView.Adapter<OutletItemSaleVarianceAdapter.ViewHolder> {
+public class ItemOutletSaleVarianceAdapter extends RecyclerView.Adapter<ItemOutletSaleVarianceAdapter.ViewHolder> {
     private Context mContext;
-    private ArrayList<OutletItemSaleVarianceModel> mDataset;
+    private ArrayList<ItemOutletSaleVarianceModel> mDataset;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public OutletItemSaleVarianceAdapter(Context mContext, ArrayList<OutletItemSaleVarianceModel> myDataset) {
+    public ItemOutletSaleVarianceAdapter(Context mContext, ArrayList<ItemOutletSaleVarianceModel> myDataset) {
         this.mContext = mContext;
         this.mDataset = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public OutletItemSaleVarianceAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public ItemOutletSaleVarianceAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                                        int viewType) {
         // create a new view
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_outlet_sku_sale_count, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sku_outlet_sale_count, parent, false);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -45,9 +45,9 @@ public class OutletItemSaleVarianceAdapter extends RecyclerView.Adapter<OutletIt
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final OutletItemSaleVarianceModel itemSaleVarianceModel = mDataset.get(position);
-        holder.tvOutletName.setText(itemSaleVarianceModel.getOutlet_name());
-        holder.tvSaleCount.setText(String.valueOf(itemSaleVarianceModel.getItem_loading() + "/" + itemSaleVarianceModel.getItem_buy()));
+        final ItemOutletSaleVarianceModel itemSaleVarianceModel = mDataset.get(position);
+        holder.tvItemName.setText(itemSaleVarianceModel.getItem_name());
+        holder.tvSaleCount.setText(String.valueOf(itemSaleVarianceModel.getItem_access_count() + "/" + itemSaleVarianceModel.getTotal_customers()));
 
         holder.setIsRecyclable(false);
     }
@@ -63,8 +63,8 @@ public class OutletItemSaleVarianceAdapter extends RecyclerView.Adapter<OutletIt
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        @BindView(R.id.tvOutletName)
-        public TextView tvOutletName;
+        @BindView(R.id.tvItemName)
+        public TextView tvItemName;
         @BindView(R.id.tvSaleCount)
         public TextView tvSaleCount;
 

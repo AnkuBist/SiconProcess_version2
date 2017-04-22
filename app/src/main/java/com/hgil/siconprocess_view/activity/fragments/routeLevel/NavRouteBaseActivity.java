@@ -24,7 +24,7 @@ import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.completeOutletTime.SaleCompleteOutletTimeFragment;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.dashboard.RouteDashboardFragment;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.homeTabs.RouteHomeFragment;
-import com.hgil.siconprocess_view.activity.fragments.routeLevel.itemSaleCount.OutletItemSaleVarianceFragment;
+import com.hgil.siconprocess_view.activity.fragments.routeLevel.itemOutletSaleCount.ItemOutletSaleVarianceFragment;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.outletSaleLt100.OutletSaleLT100Fragment;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.vanStock.VanStockFragment;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Activity;
@@ -198,7 +198,7 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
                 fragment = RouteDashboardFragment.newInstance();
                 break;
             case R.id.nav_item_sale_count:
-                fragment = OutletItemSaleVarianceFragment.newInstance();
+                fragment = ItemOutletSaleVarianceFragment.newInstance();
                 break;
             case R.id.nav_van_stock:
                 fragment = VanStockFragment.newInstance();

@@ -335,5 +335,19 @@ public class TodaySaleView extends SQLiteOpenHelper {
         return item_count;
     }
 
+    /*item purchased by customer*/
+    public int itemPurchaseCustomerCount(String route_id, String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT count(" + OUTLET_CODE + ") AS customers FROM " + TABLE_NAME + " WHERE "
+                + ROUTE_ID + "=? and " + ITEM_ID + "=?", new String[]{route_id, item_id});
+        int item_count = 0;
+        if (res.moveToFirst()) {
+            item_count = res.getInt(res.getColumnIndex("customers"));
+        }
+        res.close();
+        db.close();
+        return item_count;
+    }
+
 
 }

@@ -13,7 +13,7 @@
 
         <!--template of items in this list-->
         <TextView
-            android:id="@+id/tvOutletName"
+            android:id="@+id/tvItemName"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.6"

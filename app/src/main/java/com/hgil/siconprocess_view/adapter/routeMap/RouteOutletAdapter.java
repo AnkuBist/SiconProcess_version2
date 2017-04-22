@@ -57,12 +57,12 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
 
         //text color change on status
         String status = routeCustomerModel.getCustStatus();
-        if (status == null || status.matches("Pending")) { //status.matches("") ||
+        if (status == null || status.equals("Pending")) { //status.matches("") ||
             String colored_status = "Status:" + " <font color='" + mContext.getResources().getColor(R.color.colorTextRed) + "'>" + status
                     + "</font>";
             holder.tvStatus.setText(Html.fromHtml(colored_status));
             holder.customer_item.setBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
-        } else if (status.matches("Completed")) {
+        } else if (status.equals("Completed")) {
             String colored_status = "Status:" + " <font color='" + mContext.getResources().getColor(R.color.colorTextGreen) + "'>" + status
                     + "</font>";
             holder.tvStatus.setText(Html.fromHtml(colored_status));

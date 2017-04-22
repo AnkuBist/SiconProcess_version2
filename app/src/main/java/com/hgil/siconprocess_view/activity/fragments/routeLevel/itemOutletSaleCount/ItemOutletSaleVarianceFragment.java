@@ -1,4 +1,4 @@
-package com.hgil.siconprocess_view.activity.fragments.routeLevel.itemSaleCount;
+package com.hgil.siconprocess_view.activity.fragments.routeLevel.itemOutletSaleCount;
 
 
 import android.os.Bundle;
@@ -10,10 +10,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
-import com.hgil.siconprocess_view.adapter.outletSkuSale.OutletItemSaleVarianceAdapter;
-import com.hgil.siconprocess_view.adapter.outletSkuSale.OutletItemSaleVarianceModel;
+import com.hgil.siconprocess_view.adapter.skuOutletSale.ItemOutletSaleVarianceAdapter;
+import com.hgil.siconprocess_view.adapter.skuOutletSale.ItemOutletSaleVarianceModel;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
-import com.hgil.siconprocess_view.database.OutletView;
+import com.hgil.siconprocess_view.database.VanStockView;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ import butterknife.BindView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class OutletItemSaleVarianceFragment extends Route_Base_Fragment {
+public class ItemOutletSaleVarianceFragment extends Route_Base_Fragment {
 
     @BindView(R.id.tvRouteName)
     TextView tvRouteName;
@@ -31,16 +31,16 @@ public class OutletItemSaleVarianceFragment extends Route_Base_Fragment {
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
 
-    private OutletItemSaleVarianceAdapter itemSaleVarianceAdapter;
-    private OutletView outletView;
-    private ArrayList<OutletItemSaleVarianceModel> arrOutletSale;
+    private ItemOutletSaleVarianceAdapter itemSaleVarianceAdapter;
+    private VanStockView vanStockView;
+    private ArrayList<ItemOutletSaleVarianceModel> arrItemOutletSale;
 
-    public OutletItemSaleVarianceFragment() {
+    public ItemOutletSaleVarianceFragment() {
         // Required empty public constructor
     }
 
-    public static OutletItemSaleVarianceFragment newInstance() {
-        OutletItemSaleVarianceFragment fragment = new OutletItemSaleVarianceFragment();
+    public static ItemOutletSaleVarianceFragment newInstance() {
+        ItemOutletSaleVarianceFragment fragment = new ItemOutletSaleVarianceFragment();
         return fragment;
     }
 
@@ -63,17 +63,17 @@ public class OutletItemSaleVarianceFragment extends Route_Base_Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvItemSaleVariance.setLayoutManager(linearLayoutManager);
 
-        arrOutletSale = new ArrayList<>();
-        outletView = new OutletView(getActivity());
-        arrOutletSale.addAll(outletView.getRouteCustomersItemVariance(getRouteId()));
-        itemSaleVarianceAdapter = new OutletItemSaleVarianceAdapter(getActivity(), arrOutletSale);
+        arrItemOutletSale = new ArrayList<>();
+        vanStockView = new VanStockView(getActivity());
+        arrItemOutletSale.addAll(vanStockView.getRouteCustomersItemSale(getRouteId()));
+        itemSaleVarianceAdapter = new ItemOutletSaleVarianceAdapter(getActivity(), arrItemOutletSale);
         rvItemSaleVariance.setAdapter(itemSaleVarianceAdapter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (arrOutletSale.size() == 0) {
+        if (arrItemOutletSale.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
             rvItemSaleVariance.setVisibility(View.GONE);
         } else {
