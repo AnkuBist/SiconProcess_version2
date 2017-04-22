@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.homeTabs.RouteHomeAllFragment;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.homeTabs.RouteHomeCompleteFragment;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.homeTabs.RouteHomePendingFragment;
-import com.hgil.siconprocess_view.activity.fragments.routeLevel.homeTabs.RouteHomeSaleLT100Fragment;
 
 /**
  * Created by mohan.giri on 25-01-2017.
@@ -39,9 +38,9 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
             case 2:
                 RouteHomeCompleteFragment tab3 = RouteHomeCompleteFragment.newInstance();
                 return tab3;
-            case 3:
-                RouteHomeSaleLT100Fragment tab4 = RouteHomeSaleLT100Fragment.newInstance();
-                return tab4;
+           /* case 3:
+                OutletSaleLT100Fragment tab4 = OutletSaleLT100Fragment.newInstance();
+                return tab4;*/
             default:
                 return null;
         }
@@ -63,8 +62,8 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
                 return "Pending";
             case 2:
                 return "Complete";
-            case 3:
-                return "Sale < 100";
+           /* case 3:
+                return "Sale < 100";*/
         }
         return null;
     }

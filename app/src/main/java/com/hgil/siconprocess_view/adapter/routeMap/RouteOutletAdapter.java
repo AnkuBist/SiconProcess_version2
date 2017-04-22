@@ -69,7 +69,7 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
             holder.customer_item.setBackgroundColor(mContext.getResources().getColor(R.color.colorBackgroundGreen));
         }
 
-        if (routeCustomerModel.getSale_time() != null && !routeCustomerModel.getSale_time().matches("") && !routeCustomerModel.getSale_time().matches("00:00:00"))
+        if (routeCustomerModel.getSale_time() != null && !routeCustomerModel.getSale_time().matches("") && !routeCustomerModel.getSale_time().matches("00:00"))
             holder.tvSaleTime.setText("Sale Time:-" + routeCustomerModel.getSale_time());
         else
             holder.tvSaleTime.setVisibility(View.GONE);

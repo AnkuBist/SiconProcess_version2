@@ -25,7 +25,7 @@ import butterknife.BindView;
 public class RouteHomeCompleteFragment extends Route_Base_Fragment {
 
     @BindView(R.id.rvCompleteRouteMap)
-    RecyclerView rvAllRouteMap;
+    RecyclerView rvCompleteRouteMap;
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
 
@@ -52,13 +52,13 @@ public class RouteHomeCompleteFragment extends Route_Base_Fragment {
         super.onViewCreated(view, savedInstanceState);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rvAllRouteMap.setLayoutManager(linearLayoutManager);
+        rvCompleteRouteMap.setLayoutManager(linearLayoutManager);
 
         arrRouteMap = new ArrayList<>();
         outletView = new OutletView(getActivity());
         arrRouteMap.addAll(outletView.getRouteCompletedCustomers(routeId));
         mapRAdapter = new RouteOutletAdapter(getActivity(), arrRouteMap);
-        rvAllRouteMap.setAdapter(mapRAdapter);
+        rvCompleteRouteMap.setAdapter(mapRAdapter);
     }
 
     @Override
@@ -66,10 +66,10 @@ public class RouteHomeCompleteFragment extends Route_Base_Fragment {
         super.onResume();
         if (arrRouteMap.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
-            rvAllRouteMap.setVisibility(View.GONE);
+            rvCompleteRouteMap.setVisibility(View.GONE);
         } else {
             tvEmpty.setVisibility(View.GONE);
-            rvAllRouteMap.setVisibility(View.VISIBLE);
+            rvCompleteRouteMap.setVisibility(View.VISIBLE);
         }
     }
 }

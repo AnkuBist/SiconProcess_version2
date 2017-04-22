@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 public abstract class Base_Activity extends AppCompatActivity {
 
     protected RouteModel routeModel;
-    protected String routeId, routeName, loginId;
+    protected String depotName, routeId, routeName, loginId;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -33,6 +33,10 @@ public abstract class Base_Activity extends AppCompatActivity {
 
     public RouteModel getRouteModel() {
         return routeModel;
+    }
+
+    public String getDepotName() {
+        return depotName;
     }
 
     public String getRouteId() {

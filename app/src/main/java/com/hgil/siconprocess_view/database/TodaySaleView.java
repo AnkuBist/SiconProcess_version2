@@ -320,5 +320,20 @@ public class TodaySaleView extends SQLiteOpenHelper {
         return net_rej_amount;
     }
 
+    /* van route items loaded count*/
+    public int routeOutletItemSaleCount(String route_id, String outlet_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT count(" + ITEM_ID + ") AS items FROM " + TABLE_NAME + " WHERE "
+                        + ROUTE_ID + "=? and " + OUTLET_CODE + "=?",
+                new String[]{route_id, outlet_id});
+        int item_count = 0;
+        if (res.moveToFirst()) {
+            item_count = res.getInt(res.getColumnIndex("items"));
+        }
+        res.close();
+        db.close();
+        return item_count;
+    }
+
 
 }

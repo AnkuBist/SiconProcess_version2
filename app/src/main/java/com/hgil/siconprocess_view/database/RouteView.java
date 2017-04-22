@@ -210,7 +210,15 @@ public class RouteView extends SQLiteOpenHelper {
         }
         res.close();
         db.close();
-        return array_list;
+        
+        ArrayList<RouteListModel> sortedArrayList = new ArrayList<RouteListModel>(array_list);
+        Collections.sort(sortedArrayList, new Comparator<RouteListModel>() {
+            public int compare(RouteListModel p1, RouteListModel p2) {
+                return String.valueOf(p1.getRoute_name()).compareTo(p2.getRoute_name());
+            }
+        });
+
+        return sortedArrayList;
     }
 
     /*get unique depots for login user*/

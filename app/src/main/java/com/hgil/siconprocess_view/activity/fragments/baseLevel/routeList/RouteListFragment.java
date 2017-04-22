@@ -164,7 +164,7 @@ public class RouteListFragment extends Base_Fragment {
         dbOutletView = new OutletView(getContext());
         dbDemandTargetView = new DemandTargetView(getContext());
         dbVanStock = new VanStockView(getContext());
-       // dbOutletSale = new OutletSaleView(getContext());
+        // dbOutletSale = new OutletSaleView(getContext());
         //dbPaymentView = new PaymentView(getContext());
         dbSaleHistory = new SaleHistoryView(getContext());
 

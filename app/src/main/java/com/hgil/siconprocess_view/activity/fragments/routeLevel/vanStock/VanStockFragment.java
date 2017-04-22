@@ -59,7 +59,8 @@ public class VanStockFragment extends Route_Base_Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setTitle("Van Stock");
+
+        setTitle(getString(R.string.str_van_stock));
         hideSyncButton();
 
         // get crate info

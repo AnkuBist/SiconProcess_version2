@@ -15,6 +15,7 @@ public class SiconApp extends Application {
 
     public static SiconApp appInstance = null;
     private RouteModel routeModel;
+    private String depotName;
     private String routeName;
     private String routeId;
     private String loginId;
@@ -81,6 +82,14 @@ public class SiconApp extends Application {
 
     public void setRouteModel(RouteModel routeModel) {
         this.routeModel = routeModel;
+    }
+
+    public String getDepotName() {
+        return depotName;
+    }
+
+    public void setDepotName(String depotName) {
+        this.depotName = depotName;
     }
 
     public String getRouteId() {

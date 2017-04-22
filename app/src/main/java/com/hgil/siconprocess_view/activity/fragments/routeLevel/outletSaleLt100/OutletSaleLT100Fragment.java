@@ -1,5 +1,4 @@
-package com.hgil.siconprocess_view.activity.fragments.routeLevel.completeOutlet;
-
+package com.hgil.siconprocess_view.activity.fragments.routeLevel.outletSaleLt100;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,10 +21,12 @@ import butterknife.BindView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SaleCompleteOutletFragment extends Route_Base_Fragment {
+public class OutletSaleLT100Fragment extends Route_Base_Fragment {
 
-    @BindView(R.id.rvCompleteOutletTime)
-    RecyclerView rvCompleteOutletTime;
+    @BindView(R.id.tvRouteName)
+    TextView tvRouteName;
+    @BindView(R.id.rvSaleLT100)
+    RecyclerView rvSaleLT100;
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
 
@@ -33,32 +34,38 @@ public class SaleCompleteOutletFragment extends Route_Base_Fragment {
     private OutletView outletView;
     private ArrayList<RouteCustomerModel> arrRouteMap;
 
-    public SaleCompleteOutletFragment() {
+    public OutletSaleLT100Fragment() {
         // Required empty public constructor
     }
 
-    public static SaleCompleteOutletFragment newInstance() {
-        SaleCompleteOutletFragment fragment = new SaleCompleteOutletFragment();
+    public static OutletSaleLT100Fragment newInstance() {
+        OutletSaleLT100Fragment fragment = new OutletSaleLT100Fragment();
         return fragment;
     }
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.fragment_sale_complete_outlet_time;
+        return R.layout.fragment_outlet_sale_lt_100;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        tvRouteName.setText(getRouteName());
+
+        setTitle(getString(R.string.str_outlet_sale_lt_100));
+        hideSyncButton();
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rvCompleteOutletTime.setLayoutManager(linearLayoutManager);
+        rvSaleLT100.setLayoutManager(linearLayoutManager);
 
         arrRouteMap = new ArrayList<>();
         outletView = new OutletView(getActivity());
-        arrRouteMap.addAll(outletView.getSaleTimeCompletedOutlets(routeId));
+        arrRouteMap.addAll(outletView.getCustomerSaleLT100(routeId));
         mapRAdapter = new RouteOutletAdapter(getActivity(), arrRouteMap);
-        rvCompleteOutletTime.setAdapter(mapRAdapter);
+        rvSaleLT100.setAdapter(mapRAdapter);
     }
 
     @Override
@@ -66,10 +73,10 @@ public class SaleCompleteOutletFragment extends Route_Base_Fragment {
         super.onResume();
         if (arrRouteMap.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
-            rvCompleteOutletTime.setVisibility(View.GONE);
+            rvSaleLT100.setVisibility(View.GONE);
         } else {
             tvEmpty.setVisibility(View.GONE);
-            rvCompleteOutletTime.setVisibility(View.VISIBLE);
+            rvSaleLT100.setVisibility(View.VISIBLE);
         }
     }
 }

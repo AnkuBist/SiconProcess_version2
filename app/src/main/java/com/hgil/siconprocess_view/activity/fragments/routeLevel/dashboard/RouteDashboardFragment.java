@@ -48,7 +48,7 @@ public class RouteDashboardFragment extends Route_Base_Fragment {
         if (routeName != null && !routeName.isEmpty())
             tvRouteName.setText(routeName);
 
-        setTitle("Dashboard");
+        setTitle(getString(R.string.str_nav_dashboard));
         hideSyncButton();
 
         tvDaySummary.setOnClickListener(new View.OnClickListener() {

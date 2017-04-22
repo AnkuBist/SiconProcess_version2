@@ -83,12 +83,18 @@ public class OutletHomeActivity extends Route_Base_Activity {
         //header setting
         View navHeaderView = nvDrawer.getHeaderView(0);
         ImageView imgNavIcon = (ImageView) navHeaderView.findViewById(R.id.imgNavIcon);
+        TextView tvNavDepot = (TextView) navHeaderView.findViewById(R.id.tvNavDepot);
         TextView tvNavHeader = (TextView) navHeaderView.findViewById(R.id.tvNavHeader);
 
         imgNavIcon.setImageResource(R.mipmap.harvest_logo);
+        if (getDepotName() != null) {
+            String output_depot = getDepotName().substring(0, 1).toUpperCase() + getDepotName().substring(1).toLowerCase();
+            tvNavDepot.setText(output_depot);
+        }
+
         if (getRouteName() != null) {
-            String output = getRouteName().substring(0, 1).toUpperCase() + getRouteName().substring(1).toLowerCase();
-            tvNavHeader.setText(output);
+            String output_route = getRouteName().substring(0, 1).toUpperCase() + getRouteName().substring(1).toLowerCase();
+            tvNavHeader.setText(output_route);
         }
 
         // nav footer

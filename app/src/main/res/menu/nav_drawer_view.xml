@@ -13,10 +13,20 @@
             android:id="@+id/nav_dashboard"
             android:icon="@mipmap/ic_launcher"
             android:title="@string/str_nav_dashboard" />
+
+        <item
+            android:id="@+id/nav_item_sale_count"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/str_nav_item_sale_variance" />
+
         <item
             android:id="@+id/nav_van_stock"
             android:icon="@mipmap/ic_launcher"
             android:title="@string/str_van_stock" />
+        <item
+            android:id="@+id/nav_outlet_sale_lt_100"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/str_outlet_sale_lt_100" />
         <item
             android:id="@+id/nav_sale_complete_time_diff"
             android:icon="@mipmap/ic_launcher"

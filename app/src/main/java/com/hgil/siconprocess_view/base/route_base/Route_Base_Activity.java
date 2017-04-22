@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 public abstract class Route_Base_Activity extends AppCompatActivity {
 
     protected RouteModel routeModel;
-    protected String routeId, routeName, loginId, cashierName, cashierContact;
+    protected String depotName, routeId, routeName, loginId, cashierName, cashierContact;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -38,6 +38,7 @@ public abstract class Route_Base_Activity extends AppCompatActivity {
             routeName = "";*/
 
         routeModel = SiconApp.getInstance().getRouteModel();
+        depotName = SiconApp.getInstance().getDepotName();
         routeId = SiconApp.getInstance().getRouteId();
         routeName = SiconApp.getInstance().getRouteName();
         loginId = SiconApp.getInstance().getLoginId();
@@ -52,6 +53,10 @@ public abstract class Route_Base_Activity extends AppCompatActivity {
 
     public RouteModel getRouteModel() {
         return routeModel;
+    }
+
+    public String getDepotName() {
+        return depotName;
     }
 
     public String getRouteId() {

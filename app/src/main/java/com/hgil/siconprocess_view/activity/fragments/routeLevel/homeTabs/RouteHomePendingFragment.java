@@ -24,7 +24,7 @@ import butterknife.BindView;
 public class RouteHomePendingFragment extends Route_Base_Fragment {
 
     @BindView(R.id.rvPendingRouteMap)
-    RecyclerView rvAllRouteMap;
+    RecyclerView rvPendingRouteMap;
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
 
@@ -51,13 +51,13 @@ public class RouteHomePendingFragment extends Route_Base_Fragment {
         super.onViewCreated(view, savedInstanceState);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rvAllRouteMap.setLayoutManager(linearLayoutManager);
+        rvPendingRouteMap.setLayoutManager(linearLayoutManager);
 
         arrRouteMap = new ArrayList<>();
         outletView = new OutletView(getActivity());
         arrRouteMap.addAll(outletView.getRoutePendingCustomers(routeId));
         mapRAdapter = new RouteOutletAdapter(getActivity(), arrRouteMap);
-        rvAllRouteMap.setAdapter(mapRAdapter);
+        rvPendingRouteMap.setAdapter(mapRAdapter);
     }
 
     @Override
@@ -65,10 +65,10 @@ public class RouteHomePendingFragment extends Route_Base_Fragment {
         super.onResume();
         if (arrRouteMap.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
-            rvAllRouteMap.setVisibility(View.GONE);
+            rvPendingRouteMap.setVisibility(View.GONE);
         } else {
             tvEmpty.setVisibility(View.GONE);
-            rvAllRouteMap.setVisibility(View.VISIBLE);
+            rvPendingRouteMap.setVisibility(View.VISIBLE);
         }
     }
 }

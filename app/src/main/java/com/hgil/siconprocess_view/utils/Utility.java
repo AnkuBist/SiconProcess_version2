@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -14,6 +15,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -163,6 +165,27 @@ public class Utility {
         } else {
             return str;
         }
+    }
+
+    /*calculate time difference*/
+    public static String timeVariance(String date1, String date2) {
+
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+        Date Date1 = null, Date2 = null;
+        try {
+            Date1 = format.parse(date1);
+            Date2 = format.parse(date2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long mills = Date2.getTime() - Date1.getTime();
+        Log.v("Data1", "" + Date1.getTime());
+        Log.v("Data2", "" + Date2.getTime());
+        int Hours = (int) (mills / (1000 * 60 * 60));
+        int Mins = (int) (mills / (1000 * 60)) % 60;
+
+        String diff = Hours + ":" + Mins; // updated value every1 second
+        return diff;
     }
 
 

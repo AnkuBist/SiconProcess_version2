@@ -13,6 +13,7 @@ public class RouteCustomerModel {
     private String custStatus;
     private double saleAmount;
     private String sale_time;
+    private String time_diff;
 
     public double getSaleAmount() {
         return saleAmount;
