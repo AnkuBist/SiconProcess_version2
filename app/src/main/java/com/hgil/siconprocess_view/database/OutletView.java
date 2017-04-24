@@ -443,9 +443,9 @@ public class OutletView extends SQLiteOpenHelper {
     }
 
     /*get route item variance sale*/
-    /*public ArrayList<ItemOutletSaleVarianceModel> getRouteCustomersItemVariance(String
+    /*public ArrayList<SkuSaleDetailModel> getRouteCustomersItemVariance(String
                                                                                         route_id) {
-        ArrayList<ItemOutletSaleVarianceModel> array_list = new ArrayList<ItemOutletSaleVarianceModel>();
+        ArrayList<SkuSaleDetailModel> array_list = new ArrayList<SkuSaleDetailModel>();
         TodaySaleView todaySaleView = new TodaySaleView(mContext);
 
         int route_items_loaded = new VanStockView(mContext).routeItemLoadCount(route_id);
@@ -454,7 +454,7 @@ public class OutletView extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
-                ItemOutletSaleVarianceModel itemSaleVarianceModel = new ItemOutletSaleVarianceModel();
+                SkuSaleDetailModel itemSaleVarianceModel = new SkuSaleDetailModel();
                 itemSaleVarianceModel.setOutlet_name(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
                 itemSaleVarianceModel.setItem_loading(route_items_loaded);
                 String outlet_id = res.getString(res.getColumnIndex(CUSTOMER_ID));
@@ -534,7 +534,7 @@ public class OutletView extends SQLiteOpenHelper {
 
     public int routeProductiveCalls(String route_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=? AND " + INV_AMOUNT + ">0", new String[]{route_id});
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=? AND " + SALE_STATUS + "=?", new String[]{route_id, "Completed"});
         int count = res.getCount();
         res.close();
         db.close();

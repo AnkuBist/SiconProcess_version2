@@ -104,7 +104,7 @@ public class DaySummaryFragment extends Route_Base_Fragment {
         tvOpening.setText(strRupee + Utility.roundOff(route_outstanding));
 
         /*gross sale amount*/
-        tvGrossSale.setText(strRupee + Utility.roundTwoDecimals(route_total_collection));
+        tvGrossSale.setText(strRupee + Utility.roundTwoDecimals(route_total_sale));
 
         /*rejection amount ouver route*/
         tvRejAmount.setText(strRupee + Utility.roundTwoDecimals(route_rej_amount));

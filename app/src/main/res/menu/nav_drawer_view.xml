@@ -15,9 +15,9 @@
             android:title="@string/str_nav_dashboard" />
 
         <item
-            android:id="@+id/nav_item_sale_count"
+            android:id="@+id/nav_sku_sale_detail"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/str_nav_item_sale_variance" />
+            android:title="@string/str_nav_sku_sale_detail" />
 
         <item
             android:id="@+id/nav_van_stock"

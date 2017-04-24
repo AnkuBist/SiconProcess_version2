@@ -19,22 +19,22 @@ import butterknife.ButterKnife;
  * Created by mohan.giri on 25-01-2017.
  */
 
-public class ItemOutletSaleVarianceAdapter extends RecyclerView.Adapter<ItemOutletSaleVarianceAdapter.ViewHolder> {
+public class SkuSaleDetailAdapter extends RecyclerView.Adapter<SkuSaleDetailAdapter.ViewHolder> {
     private Context mContext;
-    private ArrayList<ItemOutletSaleVarianceModel> mDataset;
+    private ArrayList<SkuSaleDetailModel> mDataset;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ItemOutletSaleVarianceAdapter(Context mContext, ArrayList<ItemOutletSaleVarianceModel> myDataset) {
+    public SkuSaleDetailAdapter(Context mContext, ArrayList<SkuSaleDetailModel> myDataset) {
         this.mContext = mContext;
         this.mDataset = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public ItemOutletSaleVarianceAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                       int viewType) {
+    public SkuSaleDetailAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                              int viewType) {
         // create a new view
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sku_outlet_sale_count, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sku_sale_detail, parent, false);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -45,9 +45,9 @@ public class ItemOutletSaleVarianceAdapter extends RecyclerView.Adapter<ItemOutl
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final ItemOutletSaleVarianceModel itemSaleVarianceModel = mDataset.get(position);
-        holder.tvItemName.setText(itemSaleVarianceModel.getItem_name());
-        holder.tvSaleCount.setText(String.valueOf(itemSaleVarianceModel.getItem_access_count() + "/" + itemSaleVarianceModel.getTotal_customers()));
+        final SkuSaleDetailModel skuSaleDetailModel = mDataset.get(position);
+        holder.tvItemName.setText(skuSaleDetailModel.getItem_name());
+        holder.tvSaleCount.setText(String.valueOf(skuSaleDetailModel.getItem_access_count() + "/" + skuSaleDetailModel.getTotal_customers()));
 
         holder.setIsRecyclable(false);
     }

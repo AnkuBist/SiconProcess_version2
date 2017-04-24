@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.fragments.routeLevel.itemOutletSaleCount.ItemOutletSaleVarianceFragment">
+    tools:context=".activity.fragments.routeLevel.skuSaleDetail.SkuSaleDetailFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +19,42 @@
             android:text="Title"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_size_extra_large" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:background="@color/colorWhite"
+                android:elevation="5dp"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Productive Calls"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:id="@+id/tvProductiveCalls"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/colorWhite"
+                android:elevation="5dp"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="@dimen/text_size_medium" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorBackgroundBlack"
+            android:elevation="1dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,6 +89,12 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorBackgroundBlack"
+            android:elevation="0.5dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvItemSaleVariance"

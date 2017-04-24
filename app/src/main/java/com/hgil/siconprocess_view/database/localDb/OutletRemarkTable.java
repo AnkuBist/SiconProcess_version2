@@ -116,6 +116,26 @@ public class OutletRemarkTable extends SQLiteOpenHelper {
         return hasObject;
     }
 
+    /*check has route*/
+    // check if the record exists or not
+    public boolean hasRoute(String route_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String selectString = "SELECT * FROM " + TABLE_NAME + " WHERE " +//+ USER_ID + "=? AND " +
+                ROUTE_ID + "=?";
+
+        Cursor cursor = db.rawQuery(selectString, new String[]{route_id});
+
+        boolean hasObject = false;
+        if (cursor.moveToFirst()) {
+            hasObject = true;
+        }
+
+        cursor.close();          // Don't forget to close your cursor
+        db.close();
+        return hasObject;
+    }
+
    /* public String getCustomerContact(String customer_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT " + CONTACT_NO + " FROM " + TABLE_NAME + " WHERE " + INVOICE_ID + "=?", new String[]{customer_id});

@@ -14,7 +14,7 @@
     <string name="str_nav_route_list_home">Route List Home</string>
     <string name="str_nav_sale_status">Sale Status</string>
     <string name="str_nav_dashboard">Dashboard</string>
-    <string name="str_nav_item_sale_variance">Item Sale Variance</string>
+    <string name="str_nav_sku_sale_detail">SKU Sale Details</string>
     <string name="str_van_stock">Van Stock</string>
     <string name="str_outlet_sale_lt_100">Sale &lt; 100</string>
     <string name="str_outlet_sale_inv_time_diff">Sale Time Diff</string>

@@ -61,7 +61,7 @@ public class RemarkListFragment extends Base_Fragment {
 
         arrRoute = new ArrayList<>();
         routeView = new RouteView(getActivity());
-        arrRoute.addAll(routeView.getRouteList());
+        arrRoute.addAll(routeView.getRemarkRouteList());
         remarkRouteListAdapter = new RemarkRouteListAdapter(getActivity(), arrRoute);
         rvRemarkRouteList.setAdapter(remarkRouteListAdapter);
     }

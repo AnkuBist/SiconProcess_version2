@@ -18,20 +18,23 @@ import java.util.List;
 
 public class SaleHistoryView extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "GOGB_Sale_Hisotry_db";
+    private static final String DATABASE_NAME = "GOGB_Sale_History_db";
     private static final String TABLE_NAME = "Outlet_Sale_History_table";
 
     private static final String ROUTE_ID = "route_id";
     private static final String STOCK_DATE = "stock_date";
     private static final String OUTLET_CODE = "outlet_code";
-    private static final String OUTLET_NAME = "outlet_name";
-    private static final String LOADING = "loading";
-    private static final String OTHER_REJ = "otherRej";
-    private static final String FRESH_REJ = "freshRej";
-    private static final String SAMPLE_QTY = "sampleQty";
-    private static final String NET_SALE = "netSale";
-    private static final String SALEAMT = "sale_Amt";
-    private static final String REJECTION_PERCENTAGE = "rej_prct";
+    //private static final String OUTLET_NAME = "outlet_name";
+    // private static final String LOADING = "loading";
+    //private static final String OTHER_REJ = "otherRej";
+    //private static final String FRESH_REJ = "freshRej";
+    //private static final String SAMPLE_QTY = "sampleQty";
+
+    private static final String ITEMS_SOLD = "items_sold";
+    private static final String GROSS_SALE = "gross_sale";
+    private static final String NET_SALE = "net_sale";
+
+    //private static final String REJECTION_PERCENTAGE = "rej_prct";
 
     private Context mContext;
 
@@ -43,10 +46,11 @@ public class SaleHistoryView extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + STOCK_DATE + " TEXT NULL, "
-                + OUTLET_CODE + " TEXT NULL, " + ROUTE_ID + " TEXT NULL, " + OUTLET_NAME + " TEXT NULL, "
-                + LOADING + " INTEGER NULL, " + OTHER_REJ + " INTEGER NULL, " + FRESH_REJ + " INTEGER NULL, "
-                + SAMPLE_QTY + " INTEGER NULL, " + NET_SALE + " INTEGER NULL, "
-                + SALEAMT + " REAL NULL, " + REJECTION_PERCENTAGE + " REAL NULL)");
+                + OUTLET_CODE + " TEXT NULL, " + ROUTE_ID + " TEXT NULL, " //+ OUTLET_NAME + " TEXT NULL, "
+                //  + LOADING + " INTEGER NULL, " + OTHER_REJ + " INTEGER NULL, " + FRESH_REJ + " INTEGER NULL, "
+                + ITEMS_SOLD + " INTEGER NULL, " + GROSS_SALE + " REAL NULL, "
+                + NET_SALE + " REAL NULL" + //REJECTION_PERCENTAGE + " REAL NULL" +
+                ")");
     }
 
     @Override
@@ -68,14 +72,14 @@ public class SaleHistoryView extends SQLiteOpenHelper {
         contentValues.put(ROUTE_ID, saleHistoryModel.getRouteId());
         contentValues.put(STOCK_DATE, saleHistoryModel.getStockDate());
         contentValues.put(OUTLET_CODE, saleHistoryModel.getOutletCode());
-        contentValues.put(OUTLET_NAME, saleHistoryModel.getOutletName());
-        contentValues.put(LOADING, saleHistoryModel.getLoading());
-        contentValues.put(OTHER_REJ, saleHistoryModel.getOtherRej());
-        contentValues.put(FRESH_REJ, saleHistoryModel.getFreshRej());
-        contentValues.put(SAMPLE_QTY, saleHistoryModel.getSampleQty());
+        //   contentValues.put(OUTLET_NAME, saleHistoryModel.getOutletName());
+        //contentValues.put(LOADING, saleHistoryModel.getLoading());
+        // contentValues.put(OTHER_REJ, saleHistoryModel.getOtherRej());
+        //contentValues.put(FRESH_REJ, saleHistoryModel.getFreshRej());
+        contentValues.put(ITEMS_SOLD, saleHistoryModel.getItemsSold());
+        contentValues.put(GROSS_SALE, saleHistoryModel.getGrossSale());
         contentValues.put(NET_SALE, saleHistoryModel.getNetSale());
-        contentValues.put(SALEAMT, saleHistoryModel.getSALEAMT());
-        contentValues.put(REJECTION_PERCENTAGE, saleHistoryModel.getRejPrct());
+        //  contentValues.put(REJECTION_PERCENTAGE, saleHistoryModel.getRejPrct());
         db.insert(TABLE_NAME, null, contentValues);
         db.close();
         return true;
@@ -91,14 +95,14 @@ public class SaleHistoryView extends SQLiteOpenHelper {
             contentValues.put(ROUTE_ID, saleHistoryModel.getRouteId());
             contentValues.put(STOCK_DATE, saleHistoryModel.getStockDate());
             contentValues.put(OUTLET_CODE, saleHistoryModel.getOutletCode());
-            contentValues.put(OUTLET_NAME, saleHistoryModel.getOutletName());
-            contentValues.put(LOADING, saleHistoryModel.getLoading());
-            contentValues.put(OTHER_REJ, saleHistoryModel.getOtherRej());
-            contentValues.put(FRESH_REJ, saleHistoryModel.getFreshRej());
-            contentValues.put(SAMPLE_QTY, saleHistoryModel.getSampleQty());
+            //   contentValues.put(OUTLET_NAME, saleHistoryModel.getOutletName());
+            //contentValues.put(LOADING, saleHistoryModel.getLoading());
+            // contentValues.put(OTHER_REJ, saleHistoryModel.getOtherRej());
+            //contentValues.put(FRESH_REJ, saleHistoryModel.getFreshRej());
+            contentValues.put(ITEMS_SOLD, saleHistoryModel.getItemsSold());
+            contentValues.put(GROSS_SALE, saleHistoryModel.getGrossSale());
             contentValues.put(NET_SALE, saleHistoryModel.getNetSale());
-            contentValues.put(SALEAMT, saleHistoryModel.getSALEAMT());
-            contentValues.put(REJECTION_PERCENTAGE, saleHistoryModel.getRejPrct());
+            //  contentValues.put(REJECTION_PERCENTAGE, saleHistoryModel.getRejPrct());
             db.insert(TABLE_NAME, null, contentValues);
         }
         db.close();
@@ -137,14 +141,14 @@ public class SaleHistoryView extends SQLiteOpenHelper {
                 saleHistoryModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
                 saleHistoryModel.setStockDate(res.getString(res.getColumnIndex(STOCK_DATE)));
                 saleHistoryModel.setOutletCode(res.getString(res.getColumnIndex(OUTLET_CODE)));
-                saleHistoryModel.setOutletName(res.getString(res.getColumnIndex(OUTLET_NAME)));
-                saleHistoryModel.setLoading(res.getInt(res.getColumnIndex(LOADING)));
+                //saleHistoryModel.setOutletName(res.getString(res.getColumnIndex(OUTLET_NAME)));
+                /*saleHistoryModel.setLoading(res.getInt(res.getColumnIndex(LOADING)));
                 saleHistoryModel.setOtherRej(res.getInt(res.getColumnIndex(OTHER_REJ)));
-                saleHistoryModel.setFreshRej(res.getInt(res.getColumnIndex(FRESH_REJ)));
-                saleHistoryModel.setSampleQty(res.getInt(res.getColumnIndex(SAMPLE_QTY)));
-                saleHistoryModel.setNetSale(res.getInt(res.getColumnIndex(NET_SALE)));
-                saleHistoryModel.setSALEAMT(res.getDouble(res.getColumnIndex(SALEAMT)));
-                saleHistoryModel.setRejPrct(res.getDouble(res.getColumnIndex(REJECTION_PERCENTAGE)));
+                saleHistoryModel.setFreshRej(res.getInt(res.getColumnIndex(FRESH_REJ)));*/
+                saleHistoryModel.setItemsSold(res.getInt(res.getColumnIndex(ITEMS_SOLD)));
+                saleHistoryModel.setGrossSale(res.getDouble(res.getColumnIndex(GROSS_SALE)));
+                saleHistoryModel.setNetSale(res.getDouble(res.getColumnIndex(NET_SALE)));
+                //saleHistoryModel.setRejPrct(res.getDouble(res.getColumnIndex(REJECTION_PERCENTAGE)));
                 array_list.add(saleHistoryModel);
                 res.moveToNext();
             }
@@ -197,14 +201,11 @@ public class SaleHistoryView extends SQLiteOpenHelper {
                 saleHistoryModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
                 saleHistoryModel.setStockDate(res.getString(res.getColumnIndex(STOCK_DATE)));
                 saleHistoryModel.setOutletCode(res.getString(res.getColumnIndex(OUTLET_CODE)));
-                saleHistoryModel.setOutletName(res.getString(res.getColumnIndex(OUTLET_NAME)));
-                saleHistoryModel.setLoading(res.getInt(res.getColumnIndex(LOADING)));
-                saleHistoryModel.setOtherRej(res.getInt(res.getColumnIndex(OTHER_REJ)));
-                saleHistoryModel.setFreshRej(res.getInt(res.getColumnIndex(FRESH_REJ)));
-                saleHistoryModel.setSampleQty(res.getInt(res.getColumnIndex(SAMPLE_QTY)));
-                saleHistoryModel.setNetSale(res.getInt(res.getColumnIndex(NET_SALE)));
-                saleHistoryModel.setSALEAMT(res.getDouble(res.getColumnIndex(SALEAMT)));
-                saleHistoryModel.setRejPrct(res.getDouble(res.getColumnIndex(REJECTION_PERCENTAGE)));
+                //saleHistoryModel.setOutletName(res.getString(res.getColumnIndex(OUTLET_NAME)));
+                saleHistoryModel.setItemsSold(res.getInt(res.getColumnIndex(ITEMS_SOLD)));
+                saleHistoryModel.setGrossSale(res.getDouble(res.getColumnIndex(GROSS_SALE)));
+                saleHistoryModel.setNetSale(res.getDouble(res.getColumnIndex(NET_SALE)));
+                //saleHistoryModel.setRejPrct(res.getDouble(res.getColumnIndex(REJECTION_PERCENTAGE)));
 
                 //updating new values
                 saleHistoryModel.setRoute_van_stock(shVanLoadingView.routeVanLoadingHistory(saleHistoryModel.getRouteId(), saleHistoryModel.getStockDate()));

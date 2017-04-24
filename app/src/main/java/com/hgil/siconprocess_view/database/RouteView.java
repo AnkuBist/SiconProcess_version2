@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.hgil.siconprocess_view.adapter.depotList.DepotModel;
 import com.hgil.siconprocess_view.adapter.routeList.RouteListModel;
+import com.hgil.siconprocess_view.database.localDb.OutletRemarkTable;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;
 
 import java.util.ArrayList;
@@ -35,8 +36,11 @@ public class RouteView extends SQLiteOpenHelper {
     // private static final String CUSTOMER_NAME = "Customer_name";
     // private static final String CONTACT_NO = "Contact_no";
 
+    private Context mContext;
+
     public RouteView(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        this.mContext = context;
     }
 
     @Override
@@ -210,7 +214,38 @@ public class RouteView extends SQLiteOpenHelper {
         }
         res.close();
         db.close();
-        
+
+        ArrayList<RouteListModel> sortedArrayList = new ArrayList<RouteListModel>(array_list);
+        Collections.sort(sortedArrayList, new Comparator<RouteListModel>() {
+            public int compare(RouteListModel p1, RouteListModel p2) {
+                return String.valueOf(p1.getRoute_name()).compareTo(p2.getRoute_name());
+            }
+        });
+
+        return sortedArrayList;
+    }
+
+    /*get routes for remarks*/
+    public ArrayList<RouteListModel> getRemarkRouteList() {
+        ArrayList<RouteListModel> array_list = new ArrayList<RouteListModel>();
+
+        OutletRemarkTable remarkTable = new OutletRemarkTable(mContext);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                RouteListModel routeModel = new RouteListModel();
+                routeModel.setRoute_id(res.getString(res.getColumnIndex(ROUTE_ID)));
+                routeModel.setRoute_name(res.getString(res.getColumnIndex(ROUTE_NAME)));
+                if (remarkTable.hasRoute(routeModel.getRoute_id()))
+                    array_list.add(routeModel);
+                res.moveToNext();
+            }
+        }
+        res.close();
+        db.close();
+
         ArrayList<RouteListModel> sortedArrayList = new ArrayList<RouteListModel>(array_list);
         Collections.sort(sortedArrayList, new Comparator<RouteListModel>() {
             public int compare(RouteListModel p1, RouteListModel p2) {

@@ -4,7 +4,7 @@ package com.hgil.siconprocess_view.adapter.skuOutletSale;
  * Created by mohan.giri on 22-04-2017.
  */
 
-public class ItemOutletSaleVarianceModel {
+public class SkuSaleDetailModel {
 
     private String item_name;
     private int total_customers;

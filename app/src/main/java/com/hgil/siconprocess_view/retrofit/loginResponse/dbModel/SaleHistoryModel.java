@@ -18,30 +18,15 @@ public class SaleHistoryModel {
     @SerializedName("outlet_code")
     @Expose
     private String outletCode;
-    @SerializedName("outlet_name")
+    @SerializedName("items_sold")
     @Expose
-    private String outletName;
-    @SerializedName("Loading")
+    private Integer itemsSold;
+    @SerializedName("gross_sale")
     @Expose
-    private Integer loading;
-    @SerializedName("OtherRej")
+    private Double grossSale;
+    @SerializedName("net_Sale")
     @Expose
-    private Integer otherRej;
-    @SerializedName("FreshRej")
-    @Expose
-    private Integer freshRej;
-    @SerializedName("SampleQty")
-    @Expose
-    private Integer sampleQty;
-    @SerializedName("NetSale")
-    @Expose
-    private Integer netSale;
-    @SerializedName("SALEAMT")
-    @Expose
-    private Double sALEAMT;
-    @SerializedName("rej_prct")
-    @Expose
-    private Double rejPrct;
+    private Double netSale;
 
     private int route_van_stock;
     private int outlet_sale_items;
@@ -70,68 +55,28 @@ public class SaleHistoryModel {
         this.outletCode = outletCode;
     }
 
-    public String getOutletName() {
-        return outletName;
+    public Integer getItemsSold() {
+        return itemsSold;
     }
 
-    public void setOutletName(String outletName) {
-        this.outletName = outletName;
+    public void setItemsSold(Integer itemsSold) {
+        this.itemsSold = itemsSold;
     }
 
-    public Integer getLoading() {
-        return loading;
+    public Double getGrossSale() {
+        return grossSale;
     }
 
-    public void setLoading(Integer loading) {
-        this.loading = loading;
+    public void setGrossSale(Double grossSale) {
+        this.grossSale = grossSale;
     }
 
-    public Integer getOtherRej() {
-        return otherRej;
-    }
-
-    public void setOtherRej(Integer otherRej) {
-        this.otherRej = otherRej;
-    }
-
-    public Integer getFreshRej() {
-        return freshRej;
-    }
-
-    public void setFreshRej(Integer freshRej) {
-        this.freshRej = freshRej;
-    }
-
-    public Integer getSampleQty() {
-        return sampleQty;
-    }
-
-    public void setSampleQty(Integer sampleQty) {
-        this.sampleQty = sampleQty;
-    }
-
-    public Integer getNetSale() {
+    public Double getNetSale() {
         return netSale;
     }
 
-    public void setNetSale(Integer netSale) {
+    public void setNetSale(Double netSale) {
         this.netSale = netSale;
-    }
-
-    public Double getSALEAMT() {
-        return sALEAMT;
-    }
-
-    public void setSALEAMT(Double sALEAMT) {
-        this.sALEAMT = sALEAMT;
-    }
-
-    public Double getRejPrct() {
-        return rejPrct;
-    }
-
-    public void setRejPrct(Double rejPrct) {
-        this.rejPrct = rejPrct;
     }
 
     public int getOutlet_sale_items() {

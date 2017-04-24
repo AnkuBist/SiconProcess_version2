@@ -7,7 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.hgil.siconprocess_view.adapter.skuOutletSale.ItemOutletSaleVarianceModel;
+import com.hgil.siconprocess_view.adapter.skuOutletSale.SkuSaleDetailModel;
 import com.hgil.siconprocess_view.adapter.vanStock.VanStkModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.TodaySaleModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.VanStockModel;
@@ -198,8 +198,8 @@ public class VanStockView extends SQLiteOpenHelper {
     }
 
     /*items sold and van stock over route*/
-    public ArrayList<ItemOutletSaleVarianceModel> getRouteCustomersItemSale(String route_id) {
-        ArrayList<ItemOutletSaleVarianceModel> array_list = new ArrayList<ItemOutletSaleVarianceModel>();
+    public ArrayList<SkuSaleDetailModel> getRouteCustomersItemSale(String route_id) {
+        ArrayList<SkuSaleDetailModel> array_list = new ArrayList<SkuSaleDetailModel>();
         TodaySaleView todaySaleView = new TodaySaleView(mContext);
         ItemDetailView itemDetailView = new ItemDetailView(mContext);
 
@@ -210,7 +210,7 @@ public class VanStockView extends SQLiteOpenHelper {
                 + ITEM_ID + " not like '%CR100001%'", new String[]{route_id});
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
-                ItemOutletSaleVarianceModel itemSaleVarianceModel = new ItemOutletSaleVarianceModel();
+                SkuSaleDetailModel itemSaleVarianceModel = new SkuSaleDetailModel();
                 String item_id = (res.getString(res.getColumnIndex(ITEM_ID)));
 
                 itemSaleVarianceModel.setItem_name(itemDetailView.getItemName(item_id));
@@ -224,9 +224,9 @@ public class VanStockView extends SQLiteOpenHelper {
         res.close();
         db.close();
 
-        ArrayList<ItemOutletSaleVarianceModel> sortedArrayList = new ArrayList<ItemOutletSaleVarianceModel>(array_list);
-        Collections.sort(sortedArrayList, new Comparator<ItemOutletSaleVarianceModel>() {
-            public int compare(ItemOutletSaleVarianceModel p1, ItemOutletSaleVarianceModel p2) {
+        ArrayList<SkuSaleDetailModel> sortedArrayList = new ArrayList<SkuSaleDetailModel>(array_list);
+        Collections.sort(sortedArrayList, new Comparator<SkuSaleDetailModel>() {
+            public int compare(SkuSaleDetailModel p1, SkuSaleDetailModel p2) {
                 return Integer.valueOf(p1.getItem_sequence()).compareTo(p2.getItem_sequence());
             }
         });
