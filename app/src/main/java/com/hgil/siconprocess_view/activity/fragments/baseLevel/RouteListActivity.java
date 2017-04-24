@@ -26,7 +26,7 @@ import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.LoginActivity;
 import com.hgil.siconprocess_view.activity.fragments.baseLevel.depotList.DepotListFragment;
 import com.hgil.siconprocess_view.activity.fragments.baseLevel.planner.PlanListFragment;
-import com.hgil.siconprocess_view.activity.fragments.baseLevel.remarkSummary.RemarkListFragment;
+import com.hgil.siconprocess_view.activity.fragments.baseLevel.remarkSummary.RemarkRouteListFragment;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.homeTabs.RouteHomeFragment;
 import com.hgil.siconprocess_view.base.Base_Activity;
 import com.hgil.siconprocess_view.utils.Utility;
@@ -89,6 +89,7 @@ public class RouteListActivity extends Base_Activity {
 
         imgNavIcon.setImageResource(R.mipmap.harvest_logo);
         //imgNavIcon.setImageResource(R.mipmap.harvest_logo);
+        tvNavHeader.setText("App Version: " + Utility.getAppVersion(this));
        /* if (getRouteName() != null) {
             String output = getRouteName().substring(0, 1).toUpperCase() + getRouteName().substring(1).toLowerCase();
             tvNavHeader.setText(output);
@@ -148,7 +149,7 @@ public class RouteListActivity extends Base_Activity {
                 fragment = DepotListFragment.newInstance();
                 break;
             case R.id.nav_remarks_summary:
-                fragment = RemarkListFragment.newInstance();
+                fragment = RemarkRouteListFragment.newInstance();
                 break;
             case R.id.nav_planner:
                 fragment = PlanListFragment.newInstance();

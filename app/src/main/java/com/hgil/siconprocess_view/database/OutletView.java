@@ -325,10 +325,17 @@ public class OutletView extends SQLiteOpenHelper {
 
     public ArrayList<RouteCustomerModel> getRouteCompletedCustomers(String route_id) {
         ArrayList<RouteCustomerModel> array_list = new ArrayList<RouteCustomerModel>();
+        TodaySaleView todaySaleView = new TodaySaleView(mContext);
+
+        int van_sku_count = new VanStockView(mContext).routeItemLoadCount(route_id);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=? AND " + SALE_STATUS + "=?",
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=? AND " + SALE_STATUS + "=? ORDER BY " + INV_TIME,
                 new String[]{route_id, "Completed"});
+
+        String date1 = "00:00", date2 = "00:00";
+        int i1 = 0;
+
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 RouteCustomerModel routeCustomerModel = new RouteCustomerModel();
@@ -340,6 +347,21 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setSale_time(res.getString(res.getColumnIndex(INV_TIME)));
                 routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
 
+                routeCustomerModel.setVan_total_sku(van_sku_count);
+                routeCustomerModel.setOutlet_purchased_sku(todaySaleView.routeOutletItemSaleCount(routeCustomerModel.getRouteId(), routeCustomerModel.getCustomerId()));
+
+                String time_diff = "00:00";
+                date1 = date2;
+                date2 = res.getString(res.getColumnIndex(INV_TIME));
+                if (i1 == 0) {
+                    // do nothing
+                } else {
+                    time_diff = Utility.timeVariance(date1, date2);
+                    routeCustomerModel.setTime_diff(time_diff);
+                }
+
+                //routeCustomerModel.setTime_diff(time_diff);
+
                 //if (res.getDouble(res.getColumnIndex(CASH_PAYMENT)) > 0) {
                 //    routeCustomerModel.setCustStatus("Completed");
                 array_list.add(routeCustomerModel);
@@ -347,6 +369,7 @@ public class OutletView extends SQLiteOpenHelper {
                 //do nothing --Completed CASE
                 //routeCustomerModel.setCustStatus("Pending");
                 // }
+                i1++;
                 res.moveToNext();
             }
         }

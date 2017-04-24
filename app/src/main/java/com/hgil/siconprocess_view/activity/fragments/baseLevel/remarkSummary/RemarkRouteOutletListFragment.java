@@ -11,8 +11,8 @@ import android.widget.TextView;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.adapter.remarkSummary.OutletRemarkListAdapter;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
-import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletRemarkModel;
 import com.hgil.siconprocess_view.database.localDb.OutletRemarkTable;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletRemarkModel;
 
 import java.util.ArrayList;
 

@@ -22,7 +22,7 @@ import butterknife.BindView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RemarkListFragment extends Base_Fragment {
+public class RemarkRouteListFragment extends Base_Fragment {
 
     @BindView(R.id.rvRemarkRouteList)
     RecyclerView rvRemarkRouteList;
@@ -33,12 +33,12 @@ public class RemarkListFragment extends Base_Fragment {
     private RouteView routeView;
     private ArrayList<RouteListModel> arrRoute;
 
-    public RemarkListFragment() {
+    public RemarkRouteListFragment() {
         // Required empty public constructor
     }
 
-    public static RemarkListFragment newInstance() {
-        RemarkListFragment fragment = new RemarkListFragment();
+    public static RemarkRouteListFragment newInstance() {
+        RemarkRouteListFragment fragment = new RemarkRouteListFragment();
         return fragment;
     }
 

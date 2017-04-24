@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.adapter.routeMap.RouteCustomerModel;
-import com.hgil.siconprocess_view.adapter.routeMap.RouteOutletAdapter;
+import com.hgil.siconprocess_view.adapter.routeMap.homeCompleted.RouteHomeCompletedTimeDiffAdapter;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
 import com.hgil.siconprocess_view.database.OutletView;
 
@@ -29,7 +29,7 @@ public class RouteHomeCompleteFragment extends Route_Base_Fragment {
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
 
-    private RouteOutletAdapter mapRAdapter;
+    private RouteHomeCompletedTimeDiffAdapter timeDiffAdapter;
     private OutletView outletView;
     private ArrayList<RouteCustomerModel> arrRouteMap;
 
@@ -57,8 +57,8 @@ public class RouteHomeCompleteFragment extends Route_Base_Fragment {
         arrRouteMap = new ArrayList<>();
         outletView = new OutletView(getActivity());
         arrRouteMap.addAll(outletView.getRouteCompletedCustomers(routeId));
-        mapRAdapter = new RouteOutletAdapter(getActivity(), arrRouteMap);
-        rvCompleteRouteMap.setAdapter(mapRAdapter);
+        timeDiffAdapter = new RouteHomeCompletedTimeDiffAdapter(getActivity(), arrRouteMap);
+        rvCompleteRouteMap.setAdapter(timeDiffAdapter);
     }
 
     @Override

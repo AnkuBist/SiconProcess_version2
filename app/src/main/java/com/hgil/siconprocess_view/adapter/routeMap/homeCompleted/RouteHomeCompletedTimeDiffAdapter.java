@@ -1,6 +1,7 @@
-package com.hgil.siconprocess_view.adapter.outletSaleTimeDiff;
+package com.hgil.siconprocess_view.adapter.routeMap.homeCompleted;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
+import com.hgil.siconprocess_view.activity.fragments.outletLevel.OutletHomeActivity;
+import com.hgil.siconprocess_view.activity.fragments.routeLevel.NavRouteBaseActivity;
 import com.hgil.siconprocess_view.adapter.routeMap.RouteCustomerModel;
 import com.hgil.siconprocess_view.utils.Utility;
 
@@ -23,20 +26,20 @@ import butterknife.ButterKnife;
  * Created by mohan.giri on 25-01-2017.
  */
 
-public class RouteOutletSaleTimeDiffAdapter extends RecyclerView.Adapter<RouteOutletSaleTimeDiffAdapter.ViewHolder> {
+public class RouteHomeCompletedTimeDiffAdapter extends RecyclerView.Adapter<RouteHomeCompletedTimeDiffAdapter.ViewHolder> {
     private Context mContext;
     private ArrayList<RouteCustomerModel> mDataset;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RouteOutletSaleTimeDiffAdapter(Context mContext, ArrayList<RouteCustomerModel> myDataset) {
+    public RouteHomeCompletedTimeDiffAdapter(Context mContext, ArrayList<RouteCustomerModel> myDataset) {
         this.mContext = mContext;
         this.mDataset = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public RouteOutletSaleTimeDiffAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                        int viewType) {
+    public RouteHomeCompletedTimeDiffAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                                           int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_outlet_sale_time_diff, parent, false);
         // set the view's size, margins, paddings and layout parameters
@@ -82,12 +85,15 @@ public class RouteOutletSaleTimeDiffAdapter extends RecyclerView.Adapter<RouteOu
         else
             holder.tvSaleTimeDiff.setVisibility(View.GONE);
 
-        /*holder.customer_item.setOnClickListener(new View.OnClickListener() {
+        /*sku updates*/
+        holder.tvSkuDetail.setText("" + routeCustomerModel.getOutlet_purchased_sku() + "/" + routeCustomerModel.getVan_total_sku());
+
+        holder.customer_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               *//* if (routeCustomerModel.getCustStatus().matches("Pending")) {
+               /* if (routeCustomerModel.getCustStatus().matches("Pending")) {
                     //do nothing as the route is not processed yet
-                }*//*
+                }*/
                 //launch activity with updated nav bar
                 Intent intent = new Intent(mContext, OutletHomeActivity.class);
                 intent.putExtra("customer_id", routeCustomerModel.getCustomerId());
@@ -95,7 +101,7 @@ public class RouteOutletSaleTimeDiffAdapter extends RecyclerView.Adapter<RouteOu
                 mContext.startActivity(intent);
                 ((NavRouteBaseActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
             }
-        });*/
+        });
 
         holder.setIsRecyclable(false);
     }

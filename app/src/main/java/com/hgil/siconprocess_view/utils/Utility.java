@@ -3,6 +3,7 @@ package com.hgil.siconprocess_view.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
@@ -108,6 +109,19 @@ public class Utility {
         return simpleDateformat.format(now);
     }
 
+    // get day month and day abbrevation
+    public static String getDayMonthAbbrev(String strDate) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = null;
+        try {
+            startDate = df.parse(strDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat simpleDateformat = new SimpleDateFormat("E, dd MMMM"); // the day of the week abbreviated
+        return simpleDateformat.format(startDate);
+    }
+
     /*date month and year*/
     public static String getDateMonth() {
         Format formatter = new SimpleDateFormat("dd, MMMM yyyy");
@@ -119,6 +133,11 @@ public class Utility {
     public static String decimal2Place(float floatVal) {
         String formattedString = String.format("%.02f", floatVal);
         return formattedString;
+    }
+
+    public static double roundZeroDecimals(double d) {
+        DecimalFormat twoDForm = new DecimalFormat("#");
+        return Double.valueOf(twoDForm.format(d));
     }
 
     public static double roundTwoDecimals(double d) {
@@ -195,5 +214,17 @@ public class Utility {
         return diff;
     }
 
+
+    public static String getAppVersion(Context context) {
+        String appVersion = "";
+        try {
+            appVersion = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+            return appVersion;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            appVersion = "";
+        }
+        return appVersion;
+    }
 
 }

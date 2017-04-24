@@ -16,6 +16,9 @@ public class RouteCustomerModel {
     private String sale_time;
     private String time_diff;
 
+    private int van_total_sku;
+    private int outlet_purchased_sku;
+
     public double getSaleAmount() {
         return saleAmount;
     }
@@ -86,5 +89,21 @@ public class RouteCustomerModel {
 
     public void setCash_received(double cash_received) {
         this.cash_received = cash_received;
+    }
+
+    public int getVan_total_sku() {
+        return van_total_sku;
+    }
+
+    public void setVan_total_sku(int van_total_sku) {
+        this.van_total_sku = van_total_sku;
+    }
+
+    public int getOutlet_purchased_sku() {
+        return outlet_purchased_sku;
+    }
+
+    public void setOutlet_purchased_sku(int outlet_purchased_sku) {
+        this.outlet_purchased_sku = outlet_purchased_sku;
     }
 }
