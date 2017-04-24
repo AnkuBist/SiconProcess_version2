@@ -17,6 +17,7 @@ import java.util.List;
  */
 
 public class SHOutletSaleView extends SQLiteOpenHelper {
+    public static final int DATABASE_VERSION = 2;
 
     private static final String DATABASE_NAME = "GODb_SH_outlet_sale";
     private static final String TABLE_NAME = "Route_SH_outlet_sale_table";
@@ -28,7 +29,7 @@ public class SHOutletSaleView extends SQLiteOpenHelper {
     private Context mContext;
 
     public SHOutletSaleView(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.mContext = context;
     }
 

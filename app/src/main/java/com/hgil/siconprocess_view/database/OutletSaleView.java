@@ -17,6 +17,7 @@ import java.util.List;
  */
 
 public class OutletSaleView extends SQLiteOpenHelper {
+    public static final int DATABASE_VERSION = 2;
 
     private static final String DATABASE_NAME = "GOGB_Outlet_Sale_db";
     private static final String TABLE_NAME = "Outlet_Sale_table";
@@ -40,7 +41,7 @@ public class OutletSaleView extends SQLiteOpenHelper {
     private Context mContext;
 
     public OutletSaleView(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.mContext = context;
     }
 

@@ -17,6 +17,7 @@ import java.util.List;
  */
 
 public class PlannerTable extends SQLiteOpenHelper {
+    public static final int DATABASE_VERSION = 2;
 
     private static final String DATABASE_NAME = "Sicon_Planner_db";
     private static final String TABLE_NAME = "Planner_Table";
@@ -28,7 +29,7 @@ public class PlannerTable extends SQLiteOpenHelper {
     private Context mContext;
 
     public PlannerTable(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.mContext = context;
     }
 

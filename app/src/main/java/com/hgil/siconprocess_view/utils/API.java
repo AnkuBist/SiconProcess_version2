@@ -5,6 +5,8 @@ package com.hgil.siconprocess_view.utils;
  */
 
 public class API {
+    public static final int DATABASE_VERSION = 1;
+
     //ide server
     //public static final String BASE_URL = "http://10.10.1.121:8084/Sicon_View/REST/webService/";
 
