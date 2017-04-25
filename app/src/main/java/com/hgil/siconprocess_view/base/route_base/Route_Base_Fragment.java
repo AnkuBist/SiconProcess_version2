@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.NavRouteBaseActivity;
 import com.hgil.siconprocess_view.base.SiconApp;
+import com.hgil.siconprocess_view.base.SynchronizeDataBase;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;
 import com.hgil.siconprocess_view.utils.Utility;
 
@@ -27,7 +28,7 @@ import butterknife.ButterKnife;
  * Created by mohan.giri on 02-02-2017.
  */
 
-public abstract class Route_Base_Fragment extends Fragment {
+public abstract class Route_Base_Fragment extends SynchronizeDataBase {
     protected static final String CUSTOMER_ID = "customer_id";
     protected static final String CUSTOMER_NAME = "customer_name";
     protected String customer_id, customer_name;

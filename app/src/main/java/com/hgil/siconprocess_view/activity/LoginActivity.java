@@ -186,7 +186,7 @@ public class LoginActivity extends AppCompatActivity {
     /*retrofit call test to fetch data from server*/
     public void getUserLogin(final String user_id, final String password) {
 
-        RetrofitUtil.showDialog(this);
+        RetrofitUtil.showDialog(this, getString(R.string.str_login));
         RetrofitService service = RetrofitUtil.retrofitClient();
         Call<loginResponse> apiCall = service.postUserLogin(user_id, password);
         apiCall.enqueue(new Callback<loginResponse>() {
@@ -228,6 +228,7 @@ public class LoginActivity extends AppCompatActivity {
                         Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_ID, user_id);
                         Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_DATE, Utility.getCurDate());
 
+                        RetrofitUtil.hideDialog();
                         startActivity(new Intent(LoginActivity.this, RouteListActivity.class));
                         finish();
                         overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);

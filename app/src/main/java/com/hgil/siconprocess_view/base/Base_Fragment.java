@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
  * Created by mohan.giri on 10-04-2017.
  */
 
-public abstract class Base_Fragment extends Fragment {
+public abstract class Base_Fragment extends SynchronizeDataBase {
     // protected static final String ROUTE_ID = "route_id";
     //protected static final String ROUTE_NAME = "route_name";
     // protected String customer_id, customer_name;

@@ -36,10 +36,15 @@ public class RetrofitUtil {
         return service;
     }
 
-    public static void showDialog(Context context) {
-        loading = ProgressDialog.show(context, "Fetching Data", "Please ...", false, false);
-
+    public static void showDialog(Context context, String title) {
+        loading = ProgressDialog.show(context, title, "Please Wait...", false, false);
     }
+
+
+    public static void updateDialogTitle(String title) {
+        loading.setTitle(title);
+    }
+
 
     public static void hideDialog() {
         if (loading != null && loading.isShowing())
