@@ -79,6 +79,7 @@ public class RouteListFragment extends Base_Fragment {
             @Override
             public void onClick(View v) {
                 startSyncData(getLoginId());
+                initializeListData();
             }
         });
     }

@@ -46,13 +46,7 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
         //tabLayout.addTab(tabLayout.newTab().setText("Sale < 100"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        //Creating our pager adapter
-        adapter = new TabPagerAdapter(getChildFragmentManager(), tabLayout.getTabCount());
-
-        //Adding adapter to pager
-        viewPager.setAdapter(adapter);
-
-        tabLayout.setupWithViewPager(viewPager);
+        initializeTabs();
 
         // set route name to the route
         tvRouteName.setText(getRouteName());
@@ -64,8 +58,19 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
             @Override
             public void onClick(View v) {
                 startSyncData(getLoginId());
+                initializeTabs();
             }
         });
+    }
+
+    public void initializeTabs() {
+        //Creating our pager adapter
+        adapter = new TabPagerAdapter(getChildFragmentManager(), tabLayout.getTabCount());
+
+        //Adding adapter to pager
+        viewPager.setAdapter(adapter);
+
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override

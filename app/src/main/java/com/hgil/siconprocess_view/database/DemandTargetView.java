@@ -70,14 +70,38 @@ public class DemandTargetView extends SQLiteOpenHelper {
     public boolean insertDemandTarget(List<DemandTargetModel> arrDemandTarget) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        for (int i = 0; i < arrDemandTarget.size(); i++) {
+       /* for (int i = 0; i < arrDemandTarget.size(); i++) {
             DemandTargetModel demandTargetModel = arrDemandTarget.get(i);
             ContentValues contentValues = new ContentValues();
             contentValues.put(ROUTE_ID, demandTargetModel.getRouteId());
             contentValues.put(ITEM_ID, demandTargetModel.getItemId());
             contentValues.put(TARGET_QTY, demandTargetModel.getTargetQty());
             db.insert(TABLE_NAME, null, contentValues);
+        }*/
+
+        DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, TABLE_NAME);
+
+        // Get the numeric indexes for each of the columns that we're updating
+        final int routeIdColumn = ih.getColumnIndex(ROUTE_ID);
+        final int itemIdColumn = ih.getColumnIndex(ITEM_ID);
+        final int targetQtyColumn = ih.getColumnIndex(TARGET_QTY);
+
+        try {
+            db.beginTransaction();
+            for (DemandTargetModel demandTargetModel : arrDemandTarget) {
+                ih.prepareForInsert();
+
+                ih.bind(routeIdColumn, demandTargetModel.getRouteId());
+                ih.bind(itemIdColumn, demandTargetModel.getItemId());
+                ih.bind(targetQtyColumn, demandTargetModel.getTargetQty());
+
+                ih.execute();
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
         }
+
         db.close();
         return true;
     }

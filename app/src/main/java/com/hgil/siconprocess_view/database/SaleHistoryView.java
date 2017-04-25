@@ -90,21 +90,46 @@ public class SaleHistoryView extends SQLiteOpenHelper {
     public boolean insertSaleHistory(List<SaleHistoryModel> arrSaleHistory) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        for (int i = 0; i < arrSaleHistory.size(); i++) {
+       /* for (int i = 0; i < arrSaleHistory.size(); i++) {
             SaleHistoryModel saleHistoryModel = arrSaleHistory.get(i);
             ContentValues contentValues = new ContentValues();
             contentValues.put(ROUTE_ID, saleHistoryModel.getRouteId());
             contentValues.put(STOCK_DATE, saleHistoryModel.getStockDate());
             contentValues.put(OUTLET_CODE, saleHistoryModel.getOutletCode());
-            //   contentValues.put(OUTLET_NAME, saleHistoryModel.getOutletName());
-            //contentValues.put(LOADING, saleHistoryModel.getLoading());
-            // contentValues.put(OTHER_REJ, saleHistoryModel.getOtherRej());
-            //contentValues.put(FRESH_REJ, saleHistoryModel.getFreshRej());
             contentValues.put(ITEMS_SOLD, saleHistoryModel.getItemsSold());
             contentValues.put(GROSS_SALE, saleHistoryModel.getGrossSale());
             contentValues.put(NET_SALE, saleHistoryModel.getNetSale());
-            //  contentValues.put(REJECTION_PERCENTAGE, saleHistoryModel.getRejPrct());
+
             db.insert(TABLE_NAME, null, contentValues);
+        }*/
+
+        DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, TABLE_NAME);
+
+        // Get the numeric indexes for each of the columns that we're updating
+        final int routeIdColumn = ih.getColumnIndex(ROUTE_ID);
+        final int stockDateColumn = ih.getColumnIndex(STOCK_DATE);
+        final int outletCodeColumn = ih.getColumnIndex(OUTLET_CODE);
+        final int itemsSoldColumn = ih.getColumnIndex(ITEMS_SOLD);
+        final int grossSaleColumn = ih.getColumnIndex(GROSS_SALE);
+        final int netSaleColumn = ih.getColumnIndex(NET_SALE);
+
+        try {
+            db.beginTransaction();
+            for (SaleHistoryModel saleHistoryModel : arrSaleHistory) {
+                ih.prepareForInsert();
+
+                ih.bind(routeIdColumn, saleHistoryModel.getRouteId());
+                ih.bind(stockDateColumn, saleHistoryModel.getStockDate());
+                ih.bind(outletCodeColumn, saleHistoryModel.getOutletCode());
+                ih.bind(itemsSoldColumn, saleHistoryModel.getItemsSold());
+                ih.bind(grossSaleColumn, saleHistoryModel.getGrossSale());
+                ih.bind(netSaleColumn, saleHistoryModel.getNetSale());
+
+                ih.execute();
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
         }
         db.close();
         return true;

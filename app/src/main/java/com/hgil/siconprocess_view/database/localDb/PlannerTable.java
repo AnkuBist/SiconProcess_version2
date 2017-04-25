@@ -70,17 +70,41 @@ public class PlannerTable extends SQLiteOpenHelper {
     public boolean insertUserPlan(List<PlanModel> arrUserPlan) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        for (int i = 0; i < arrUserPlan.size(); i++) {
+       /* for (int i = 0; i < arrUserPlan.size(); i++) {
             PlanModel planModel = arrUserPlan.get(i);
             ContentValues contentValues = new ContentValues();
             contentValues.put(USER_ID, planModel.getUserId());
             contentValues.put(PLAN, planModel.getUserPlan());
             contentValues.put(PLAN_DATE, planModel.getPlanDate());
-            if (hasObject(db, planModel.getUserId(), planModel.getPlanDate()))
+            *//*if (hasObject(db, planModel.getUserId(), planModel.getPlanDate()))
                 db.update(TABLE_NAME, contentValues, USER_ID + "=? AND " + PLAN_DATE + "=?", new String[]{planModel.getUserId(), planModel.getPlanDate()});
-            else
+            else*//*
                 db.insert(TABLE_NAME, null, contentValues);
+        }*/
+
+        DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, TABLE_NAME);
+
+        // Get the numeric indexes for each of the columns that we're updating
+        final int userIdColumn = ih.getColumnIndex(USER_ID);
+        final int planColumn = ih.getColumnIndex(PLAN);
+        final int planDateColumn = ih.getColumnIndex(PLAN_DATE);
+
+        try {
+            db.beginTransaction();
+            for (PlanModel planModel : arrUserPlan) {
+                ih.prepareForInsert();
+
+                ih.bind(userIdColumn, planModel.getUserId());
+                ih.bind(planColumn, planModel.getUserPlan());
+                ih.bind(planDateColumn, planModel.getPlanDate());
+
+                ih.execute();
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
         }
+
         db.close();
         return true;
     }

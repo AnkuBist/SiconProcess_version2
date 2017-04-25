@@ -81,7 +81,7 @@ public class OutletRemarkTable extends SQLiteOpenHelper {
     public boolean insertOutletRemark(List<OutletRemarkModel> arrRoutePlan) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        for (int i = 0; i < arrRoutePlan.size(); i++) {
+     /*   for (int i = 0; i < arrRoutePlan.size(); i++) {
             OutletRemarkModel outletRemarkModel = arrRoutePlan.get(i);
             ContentValues contentValues = new ContentValues();
             contentValues.put(USER_ID, outletRemarkModel.getUser_id());
@@ -91,12 +91,44 @@ public class OutletRemarkTable extends SQLiteOpenHelper {
             contentValues.put(OUTLET_NAME, outletRemarkModel.getOutlet_name());
             contentValues.put(REMARK, outletRemarkModel.getRemark());
             contentValues.put(REMARK_DATE, Utility.getCurDate());
-            if (hasObject(db, outletRemarkModel.getUser_id(), outletRemarkModel.getRoute_id(), outletRemarkModel.getOutlet_id(), outletRemarkModel.getRemark_date()))
+           *//* if (hasObject(db, outletRemarkModel.getUser_id(), outletRemarkModel.getRoute_id(), outletRemarkModel.getOutlet_id(), outletRemarkModel.getRemark_date()))
                 db.update(TABLE_NAME, contentValues, USER_ID + "=? AND " + ROUTE_ID + "=? AND " + OUTLET_ID + "=? AND " + REMARK_DATE + "=?",
                         new String[]{outletRemarkModel.getUser_id(), outletRemarkModel.getRoute_id(), outletRemarkModel.getOutlet_id(), outletRemarkModel.getRemark_date()});
-            else
+            else*//*
                 db.insert(TABLE_NAME, null, contentValues);
+        }*/
+
+        DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, TABLE_NAME);
+
+        // Get the numeric indexes for each of the columns that we're updating
+        final int userIdColumn = ih.getColumnIndex(USER_ID);
+        final int routeIdColumn = ih.getColumnIndex(ROUTE_ID);
+        final int routeNameColumn = ih.getColumnIndex(ROUTE_NAME);
+        final int outletIdColumn = ih.getColumnIndex(OUTLET_ID);
+        final int outletNameColumn = ih.getColumnIndex(OUTLET_NAME);
+        final int remarkColumn = ih.getColumnIndex(REMARK);
+        final int remarkDateColumn = ih.getColumnIndex(REMARK_DATE);
+
+        try {
+            db.beginTransaction();
+            for (OutletRemarkModel outletRemarkModel : arrRoutePlan) {
+                ih.prepareForInsert();
+
+                ih.bind(userIdColumn, outletRemarkModel.getUser_id());
+                ih.bind(routeIdColumn, outletRemarkModel.getRoute_id());
+                ih.bind(routeNameColumn, outletRemarkModel.getRoute_name());
+                ih.bind(outletIdColumn, outletRemarkModel.getOutlet_id());
+                ih.bind(outletNameColumn, outletRemarkModel.getOutlet_name());
+                ih.bind(remarkColumn, outletRemarkModel.getRemark());
+                ih.bind(remarkDateColumn, outletRemarkModel.getRemark_date());
+
+                ih.execute();
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
         }
+
         db.close();
         return true;
     }

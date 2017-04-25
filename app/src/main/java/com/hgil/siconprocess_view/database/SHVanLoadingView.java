@@ -67,14 +67,38 @@ public class SHVanLoadingView extends SQLiteOpenHelper {
     public boolean insertSHRouteVanLoading(List<SHRouteVanLoadingModel> arrRouteVanLoading) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        for (int i = 0; i < arrRouteVanLoading.size(); i++) {
+        /*for (int i = 0; i < arrRouteVanLoading.size(); i++) {
             SHRouteVanLoadingModel shRouteVanLoadingModel = arrRouteVanLoading.get(i);
             ContentValues contentValues = new ContentValues();
             contentValues.put(ROUTE_ID, shRouteVanLoadingModel.getRouteId());
             contentValues.put(STOCK_DATE, shRouteVanLoadingModel.getStockDate());
             contentValues.put(COUNT, shRouteVanLoadingModel.getCount());
             db.insert(TABLE_NAME, null, contentValues);
+        }*/
+
+        DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, TABLE_NAME);
+
+        // Get the numeric indexes for each of the columns that we're updating
+        final int routeIdColumn = ih.getColumnIndex(ROUTE_ID);
+        final int stockDateColumn = ih.getColumnIndex(STOCK_DATE);
+        final int countColumn = ih.getColumnIndex(COUNT);
+
+        try {
+            db.beginTransaction();
+            for (SHRouteVanLoadingModel shRouteVanLoadingModel : arrRouteVanLoading) {
+                ih.prepareForInsert();
+
+                ih.bind(routeIdColumn, shRouteVanLoadingModel.getRouteId());
+                ih.bind(stockDateColumn, shRouteVanLoadingModel.getStockDate());
+                ih.bind(countColumn, shRouteVanLoadingModel.getCount());
+
+                ih.execute();
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
         }
+
         db.close();
         return true;
     }

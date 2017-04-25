@@ -72,7 +72,7 @@ public class ItemDetailView extends SQLiteOpenHelper {
     public boolean insertItemInfo(List<ItemDetailModel> arrItemDetail) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        for (int i = 0; i < arrItemDetail.size(); i++) {
+        /*for (int i = 0; i < arrItemDetail.size(); i++) {
             ItemDetailModel itemDetailModel = arrItemDetail.get(i);
             ContentValues contentValues = new ContentValues();
             contentValues.put(ITEM_CODE, itemDetailModel.getItemCode());
@@ -81,7 +81,35 @@ public class ItemDetailView extends SQLiteOpenHelper {
             contentValues.put(SEQUENCE, itemDetailModel.getSequence());
             contentValues.put(ITEM_PRICE, itemDetailModel.getItemPrice());
             db.insert(TABLE_NAME, null, contentValues);
+        }*/
+
+        DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, TABLE_NAME);
+
+        // Get the numeric indexes for each of the columns that we're updating
+        final int itemCodeColumn = ih.getColumnIndex(ITEM_CODE);
+        final int itemNameColumn = ih.getColumnIndex(ITEM_NAME);
+        final int itemDescColumn = ih.getColumnIndex(ITEM_DESC);
+        final int sequenceColumn = ih.getColumnIndex(SEQUENCE);
+        final int itemPriceColumn = ih.getColumnIndex(ITEM_PRICE);
+
+        try {
+            db.beginTransaction();
+            for (ItemDetailModel itemDetailModel : arrItemDetail) {
+                ih.prepareForInsert();
+
+                ih.bind(itemCodeColumn, itemDetailModel.getItemCode());
+                ih.bind(itemNameColumn, itemDetailModel.getItemName());
+                ih.bind(itemDescColumn, itemDetailModel.getItemDesc());
+                ih.bind(sequenceColumn, itemDetailModel.getSequence());
+                ih.bind(itemPriceColumn, itemDetailModel.getItemPrice());
+
+                ih.execute();
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
         }
+
         db.close();
         return true;
     }

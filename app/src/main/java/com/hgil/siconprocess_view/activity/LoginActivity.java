@@ -2,8 +2,10 @@ package com.hgil.siconprocess_view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -72,6 +74,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private String existing_id = "", saved_id = "";
 
+    private Handler updateBarHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,10 +88,11 @@ public class LoginActivity extends AppCompatActivity {
 
         etUserId.setText(saved_id);
 
-        tvAppVersion.setText(Utility.getAppVersion(this));
+        tvAppVersion.setText("App Version: " + Utility.getAppVersion(this));
 
         /// initialise database objects
         initialiseDBObj();
+        updateBarHandler = new Handler();
 
         //askAppPermission();
     }
@@ -185,14 +190,24 @@ public class LoginActivity extends AppCompatActivity {
 
     /*retrofit call test to fetch data from server*/
     public void getUserLogin(final String user_id, final String password) {
+        updateBarHandler.post(new Runnable() {
+            public void run() {
+                RetrofitUtil.showDialog(LoginActivity.this, getString(R.string.str_login));
+            }
+        });
 
-        RetrofitUtil.showDialog(this, getString(R.string.str_login));
         RetrofitService service = RetrofitUtil.retrofitClient();
         Call<loginResponse> apiCall = service.postUserLogin(user_id, password);
         apiCall.enqueue(new Callback<loginResponse>() {
             @Override
             public void onResponse(Call<loginResponse> call, Response<loginResponse> response) {
-                loginResponse loginResult = response.body();
+                updateBarHandler.post(new Runnable() {
+                    public void run() {
+                        RetrofitUtil.updateDialogTitle(getString(R.string.str_login_detail_fetch));
+                    }
+                });
+
+                final loginResponse loginResult = response.body();
 
                 // rest call to read data from api service
                 if (loginResult.getReturnCode()) {
@@ -206,45 +221,82 @@ public class LoginActivity extends AppCompatActivity {
                     // erase all masterTables data
                     eraseAllTableData();
 
-                    ObjLoginResponse objResponse = loginResult.getObjLoginResponse();
-
                     try {
-                        // sync data to local table and views
-                        dbRouteView.insertRoutes(objResponse.getArrRoutes());
-                        dbOutletView.insertOutlet(objResponse.getArrOutlets());
-                        dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
-                        dbVanStock.insertVanStock(objResponse.getArrVanStock());
-                        dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
-                        dbPlanTable.insertUserPlan(objResponse.getArrPlan());
-                        dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
 
-                        dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
-                        dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
+                        /*updateBarHandler.post(new Runnable() {
+                            public void run() {
+                                RetrofitUtil.updateDialogTitle("Writing Data To Local");//getString(R.string.str_login_detail_fetch));
+                                */
+                                ObjLoginResponse objResponse = loginResult.getObjLoginResponse();
+                                final long startTime = System.currentTimeMillis();
 
-                        dbShVanLoadingView.insertSHRouteVanLoading(objResponse.getArrSHVanLoading());
-                        dbShOutletSaleView.insertSHOutletSale(objResponse.getArrSHOutletSale());
+                                // sync data to local table and views
+                                dbRouteView.insertRoutes(objResponse.getArrRoutes());
+                                dbOutletView.insertOutlet(objResponse.getArrOutlets());
+                                dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
+                                dbVanStock.insertVanStock(objResponse.getArrVanStock());
+                                dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
+                                dbPlanTable.insertUserPlan(objResponse.getArrPlan());
+                                dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
 
-                        Utility.saveLoginStatus(LoginActivity.this, Utility.LOGIN_STATUS, true);
-                        Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_ID, user_id);
-                        Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_DATE, Utility.getCurDate());
+                                dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
+                                dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
 
-                        RetrofitUtil.hideDialog();
+                                dbShVanLoadingView.insertSHRouteVanLoading(objResponse.getArrSHVanLoading());
+                                dbShOutletSaleView.insertSHOutletSale(objResponse.getArrSHOutletSale());
+
+                                final long endtime = System.currentTimeMillis();
+                                Log.i("Total Time: ", String.valueOf(endtime - startTime));
+
+                                Utility.saveLoginStatus(LoginActivity.this, Utility.LOGIN_STATUS, true);
+                                Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_ID, user_id);
+                                Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_DATE, Utility.getCurDate());
+                            }
+                        }).start();
+                        updateBarHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                RetrofitUtil.hideDialog();
+                            }
+                        }, 500);
                         startActivity(new Intent(LoginActivity.this, RouteListActivity.class));
                         finish();
                         overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-                    } catch (Exception e) {
-                        RetrofitUtil.hideDialog();
+                    } catch (
+                            Exception e
+                            )
+
+                    {
+                        updateBarHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                RetrofitUtil.hideDialog();
+                            }
+                        }, 500);
                         new SampleDialog("", getString(R.string.str_error_login), LoginActivity.this);
                     }
                 } else {
-                    RetrofitUtil.hideDialog();
+                    updateBarHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            RetrofitUtil.hideDialog();
+                        }
+                    }, 500);
                     new SampleDialog("", loginResult.getStrMessage(), LoginActivity.this);
                 }
             }
 
             @Override
             public void onFailure(Call<loginResponse> call, Throwable t) {
-                RetrofitUtil.hideDialog();
+                updateBarHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        RetrofitUtil.hideDialog();
+                    }
+                }, 500);
                 // show some error toast or message to display the api call issue
                 new SampleDialog("", getString(R.string.str_retrofit_failure), LoginActivity.this);
             }

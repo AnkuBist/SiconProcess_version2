@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.hgil.siconprocess_view.adapter.depotList.DepotModel;
 import com.hgil.siconprocess_view.adapter.routeList.RouteListModel;
@@ -89,7 +90,15 @@ public class RouteView extends SQLiteOpenHelper {
     // insert multiple routes
     public boolean insertRoutes(List<RouteModel> arrList) {
         SQLiteDatabase db = this.getWritableDatabase();
-        for (RouteModel routeModel : arrList) {
+        final long startTime = System.currentTimeMillis();
+       /* db.beginTransaction();
+        for (entry : arrList) {
+            db.insert(entry);
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();*/
+
+      /*  for (RouteModel routeModel : arrList) {
             ContentValues contentValues = new ContentValues();
             //contentValues.put(DEPOT_ID, routeModel.getDepot());
             contentValues.put(DEPOT_ID, routeModel.getDepotId());
@@ -104,8 +113,45 @@ public class RouteView extends SQLiteOpenHelper {
             //contentValues.put(CONTACT_NO, routeModel.getContactNo());
 
             db.insert(TABLE_NAME, null, contentValues);
+        }*/
+        //db.close();
+
+        DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, TABLE_NAME);
+
+        // Get the numeric indexes for each of the columns that we're updating
+        final int depotIdColumn = ih.getColumnIndex(DEPOT_ID);
+        final int depotNameColumn = ih.getColumnIndex(DEPOT_NAME);
+        final int routeIdColumn = ih.getColumnIndex(ROUTE_ID);
+        final int routeNameColumn = ih.getColumnIndex(ROUTE_NAME);
+        final int cashierNameColumn = ih.getColumnIndex(CASHIER_NAME);
+        final int psmIdColumn = ih.getColumnIndex(PSMID);
+        final int psmNameColumn = ih.getColumnIndex(PSM_NAME);
+
+        try {
+            db.beginTransaction();
+            for (RouteModel routeModel : arrList) {
+                ih.prepareForInsert();
+
+                ih.bind(depotIdColumn, routeModel.getDepotId());
+                ih.bind(depotNameColumn, routeModel.getDepotName());
+                ih.bind(routeIdColumn, routeModel.getRouteId());
+                ih.bind(routeNameColumn, routeModel.getRouteName());
+                ih.bind(cashierNameColumn, routeModel.getCashierName());
+                ih.bind(psmIdColumn, routeModel.getPSMID());
+                ih.bind(psmNameColumn, routeModel.getPSMName());
+
+                ih.execute();
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
         }
+        final long endtime = System.currentTimeMillis();
+        Log.i("Route Time: ", String.valueOf(endtime - startTime));
+
+
         db.close();
+
         return true;
     }
 

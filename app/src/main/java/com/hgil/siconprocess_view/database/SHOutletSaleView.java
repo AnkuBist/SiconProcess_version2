@@ -67,14 +67,38 @@ public class SHOutletSaleView extends SQLiteOpenHelper {
     public boolean insertSHOutletSale(List<SHOutletItemSaleModel> arrOutletSaleHistory) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        for (int i = 0; i < arrOutletSaleHistory.size(); i++) {
+        /*for (int i = 0; i < arrOutletSaleHistory.size(); i++) {
             SHOutletItemSaleModel shOutletItemSaleModel = arrOutletSaleHistory.get(i);
             ContentValues contentValues = new ContentValues();
             contentValues.put(OUTLET_ID, shOutletItemSaleModel.getOutletCode());
             contentValues.put(STOCK_DATE, shOutletItemSaleModel.getStockDate());
             contentValues.put(COUNT, shOutletItemSaleModel.getCount());
             db.insert(TABLE_NAME, null, contentValues);
+        }*/
+
+        DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, TABLE_NAME);
+
+        // Get the numeric indexes for each of the columns that we're updating
+        final int outletIdColumn = ih.getColumnIndex(OUTLET_ID);
+        final int stockDateColumn = ih.getColumnIndex(STOCK_DATE);
+        final int countColumn = ih.getColumnIndex(COUNT);
+
+        try {
+            db.beginTransaction();
+            for (SHOutletItemSaleModel shOutletItemSaleModel : arrOutletSaleHistory) {
+                ih.prepareForInsert();
+
+                ih.bind(outletIdColumn, shOutletItemSaleModel.getOutletCode());
+                ih.bind(stockDateColumn, shOutletItemSaleModel.getStockDate());
+                ih.bind(countColumn, shOutletItemSaleModel.getCount());
+
+                ih.execute();
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
         }
+
         db.close();
         return true;
     }

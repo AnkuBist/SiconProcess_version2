@@ -78,7 +78,7 @@ public class TodaySaleView extends SQLiteOpenHelper {
     public boolean insertTodaySale(List<TodaySaleModel> arrTodaySale) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        for (int i = 0; i < arrTodaySale.size(); i++) {
+        /*for (int i = 0; i < arrTodaySale.size(); i++) {
             TodaySaleModel todaySaleModel = arrTodaySale.get(i);
             ContentValues contentValues = new ContentValues();
             contentValues.put(ROUTE_ID, todaySaleModel.getRouteId());
@@ -89,7 +89,39 @@ public class TodaySaleView extends SQLiteOpenHelper {
             contentValues.put(FRESH_REJ, todaySaleModel.getFreshRej());
             contentValues.put(SAMPLE_QTY, todaySaleModel.getSampleQty());
             db.insert(TABLE_NAME, null, contentValues);
+        }*/
+
+        DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, TABLE_NAME);
+
+        // Get the numeric indexes for each of the columns that we're updating
+        final int routeIdColumn = ih.getColumnIndex(ROUTE_ID);
+        final int outletCodeColumn = ih.getColumnIndex(OUTLET_CODE);
+        final int itemIdColumn = ih.getColumnIndex(ITEM_ID);
+        final int loadingColumn = ih.getColumnIndex(LOADING);
+        final int otherRejColumn = ih.getColumnIndex(OTHER_REJ);
+        final int freshRejColumn = ih.getColumnIndex(FRESH_REJ);
+        final int sampleQtyColumn = ih.getColumnIndex(SAMPLE_QTY);
+
+        try {
+            db.beginTransaction();
+            for (TodaySaleModel todaySaleModel : arrTodaySale) {
+                ih.prepareForInsert();
+
+                ih.bind(routeIdColumn, todaySaleModel.getRouteId());
+                ih.bind(outletCodeColumn, todaySaleModel.getOutletCode());
+                ih.bind(itemIdColumn, todaySaleModel.getItemCode());
+                ih.bind(loadingColumn, todaySaleModel.getLoading());
+                ih.bind(otherRejColumn, todaySaleModel.getOtherRej());
+                ih.bind(freshRejColumn, todaySaleModel.getFreshRej());
+                ih.bind(sampleQtyColumn, todaySaleModel.getSampleQty());
+
+                ih.execute();
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
         }
+
         db.close();
         return true;
     }

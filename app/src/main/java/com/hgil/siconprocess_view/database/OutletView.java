@@ -109,7 +109,7 @@ public class OutletView extends SQLiteOpenHelper {
     public boolean insertOutlet(List<OutletModel> arrOutlets) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        for (int i = 0; i < arrOutlets.size(); i++) {
+       /* for (int i = 0; i < arrOutlets.size(); i++) {
             OutletModel outletModel = arrOutlets.get(i);
             ContentValues contentValues = new ContentValues();
             contentValues.put(SUB_COMPANY_ID, outletModel.getSubCompanyId());
@@ -136,7 +136,64 @@ public class OutletView extends SQLiteOpenHelper {
             contentValues.put(CASH_PAYMENT, outletModel.getCash_payment());
             contentValues.put(INV_TIME, outletModel.getInv_time());
             db.insert(TABLE_NAME, null, contentValues);
+        }*/
+
+        DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, TABLE_NAME);
+
+        // Get the numeric indexes for each of the columns that we're updating
+        final int subCompanyIdColumn = ih.getColumnIndex(SUB_COMPANY_ID);
+        final int depotColumn = ih.getColumnIndex(DEPOT);
+        final int routeIdColumn = ih.getColumnIndex(ROUTE_ID);
+        final int routeNameColumn = ih.getColumnIndex(ROUTE_NAME);
+        final int psmIdColumn = ih.getColumnIndex(PSMID);
+        final int customerIdColumn = ih.getColumnIndex(CUSTOMER_ID);
+        final int customerNameColumn = ih.getColumnIndex(CUSTOMER_NAME);
+        final int priceGroupColumn = ih.getColumnIndex(PRICEGROUP);
+        final int lineDiscColumn = ih.getColumnIndex(LINEDISC);
+        final int cTypeColumn = ih.getColumnIndex(C_TYPE);
+        final int saleStatusColumn = ih.getColumnIndex(SALE_STATUS);
+        final int accountNumColumn = ih.getColumnIndex(ACCOUNTNUM);
+        final int contactNoColumn = ih.getColumnIndex(CONTACT_NO);
+        final int outstandingColumn = ih.getColumnIndex(OUTSTANDING);
+        final int invAmountColumn = ih.getColumnIndex(INV_AMOUNT);
+        final int netAmountColumn = ih.getColumnIndex(NET_AMOUNT);
+        final int cashPaymentColumn = ih.getColumnIndex(CASH_PAYMENT);
+        final int invTimeColumn = ih.getColumnIndex(INV_TIME);
+
+        try {
+            db.beginTransaction();
+            for (OutletModel outletModel : arrOutlets) {
+                ih.prepareForInsert();
+
+                ih.bind(subCompanyIdColumn, outletModel.getSubCompanyId());
+                ih.bind(depotColumn, outletModel.getDepot());
+                ih.bind(routeIdColumn, outletModel.getRouteId());
+                ih.bind(routeNameColumn, outletModel.getRouteName());
+                ih.bind(psmIdColumn, outletModel.getPSMID());
+                ih.bind(customerIdColumn, outletModel.getCustomerId());
+                ih.bind(customerNameColumn, outletModel.getCustomerName());
+                ih.bind(priceGroupColumn, outletModel.getPRICEGROUP());
+                ih.bind(lineDiscColumn, outletModel.getLINEDISC());
+                ih.bind(cTypeColumn, outletModel.getCType());
+                if ((outletModel.getSale_status()).matches("SMS_SENT"))
+                    ih.bind(saleStatusColumn, "Completed");
+                else
+                    ih.bind(saleStatusColumn, "Pending");
+                ih.bind(accountNumColumn, outletModel.getACCOUNTNUM());
+                ih.bind(contactNoColumn, outletModel.getContactNo());
+                ih.bind(outstandingColumn, outletModel.getOutstanding());
+                ih.bind(invAmountColumn, outletModel.getInv_amount());
+                ih.bind(netAmountColumn, outletModel.getNet_amount());
+                ih.bind(cashPaymentColumn, outletModel.getCash_payment());
+                ih.bind(invTimeColumn, outletModel.getInv_time());
+
+                ih.execute();
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
         }
+
         db.close();
         return true;
     }

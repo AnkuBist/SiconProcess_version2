@@ -69,16 +69,39 @@ public class VanStockView extends SQLiteOpenHelper {
     }
 
     // insert multiple
-    public boolean insertVanStock(List<VanStockModel> arrOutletSale) {
+    public boolean insertVanStock(List<VanStockModel> arrVanStock) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        for (int i = 0; i < arrOutletSale.size(); i++) {
+        /*for (int i = 0; i < arrOutletSale.size(); i++) {
             VanStockModel vanStockModel = arrOutletSale.get(i);
             ContentValues contentValues = new ContentValues();
             contentValues.put(ROUTE_ID, vanStockModel.getRouteId());
             contentValues.put(ITEM_ID, vanStockModel.getItemId());
             contentValues.put(ITEM_QTY, vanStockModel.getItemQty());
             db.insert(TABLE_NAME, null, contentValues);
+        }*/
+
+        DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, TABLE_NAME);
+
+        // Get the numeric indexes for each of the columns that we're updating
+        final int routeIdColumn = ih.getColumnIndex(ROUTE_ID);
+        final int itemIdColumn = ih.getColumnIndex(ITEM_ID);
+        final int itemQtyColumn = ih.getColumnIndex(ITEM_QTY);
+
+        try {
+            db.beginTransaction();
+            for (VanStockModel vanStockModel : arrVanStock) {
+                ih.prepareForInsert();
+
+                ih.bind(routeIdColumn, vanStockModel.getRouteId());
+                ih.bind(itemIdColumn, vanStockModel.getItemId());
+                ih.bind(itemQtyColumn, vanStockModel.getItemQty());
+
+                ih.execute();
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
         }
         db.close();
         return true;
