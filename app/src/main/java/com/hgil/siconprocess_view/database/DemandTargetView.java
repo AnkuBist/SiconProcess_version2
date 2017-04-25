@@ -142,7 +142,8 @@ public class DemandTargetView extends SQLiteOpenHelper {
                 demandTargetModel.setItem_name(itemDetailView.getItemName(item_id));
                 demandTargetModel.setItem_sequence(itemDetailView.getItemSequence(item_id));
                 demandTargetModel.setAchieved(todaySaleView.routeItemSaleQty(route_id, demandTargetModel.getItemId()));
-                demandTargetModel.setVariance(demandTargetModel.getTarget() - demandTargetModel.getAchieved());
+                //demandTargetModel.setVariance(demandTargetModel.getTarget() - demandTargetModel.getAchieved());
+                demandTargetModel.setVariance(demandTargetModel.getAchieved() - demandTargetModel.getTarget());
 
                 array_list.add(demandTargetModel);
                 res.moveToNext();

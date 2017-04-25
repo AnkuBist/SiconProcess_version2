@@ -18,10 +18,9 @@ import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SaleHistoryMode
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.TodaySaleModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.VanStockModel;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class ObjLoginResponse implements Serializable {
+public class ObjLoginResponse {
     @SerializedName("arrRoutes")
     @Expose
     private List<RouteModel> arrRoutes;

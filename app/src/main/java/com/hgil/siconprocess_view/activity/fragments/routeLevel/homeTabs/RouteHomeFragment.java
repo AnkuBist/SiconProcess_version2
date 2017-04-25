@@ -1,6 +1,5 @@
 package com.hgil.siconprocess_view.activity.fragments.routeLevel.homeTabs;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -31,8 +30,6 @@ import com.hgil.siconprocess_view.utils.ui.SampleDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
-
 import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,7 +47,17 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     private TabPagerAdapter adapter;
-
+    /* sync process*/
+    private RouteView dbRouteView;
+    private OutletView dbOutletView;
+    private DemandTargetView dbDemandTargetView;
+    private VanStockView dbVanStock;
+    private SaleHistoryView dbSaleHistory;
+    private TodaySaleView dbTodaySale;
+    private ItemDetailView dbItemDetail;
+    // remark and plan updates
+    private OutletRemarkTable dbOutletRemark;
+    private PlannerTable dbPlanTable;
     public RouteHomeFragment() {
         // Required empty public constructor
     }
@@ -102,7 +109,6 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 getUserLogin(getLoginId(), jObj);
             }
         });
@@ -126,29 +132,12 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
     public void onTabReselected(TabLayout.Tab tab) {
     }
 
-    /* sync process*/
-    private RouteView dbRouteView;
-    private OutletView dbOutletView;
-    private DemandTargetView dbDemandTargetView;
-    //private OutletSaleView dbOutletSale;
-    private VanStockView dbVanStock;
-    // private PaymentView dbPaymentView;
-    private SaleHistoryView dbSaleHistory;
-    private TodaySaleView dbTodaySale;
-    private ItemDetailView dbItemDetail;
-
-    // remark and plan updates
-    private OutletRemarkTable dbOutletRemark;
-    private PlannerTable dbPlanTable;
-
     /*sync process*/
     private void initialiseDBObj() {
         dbRouteView = new RouteView(getContext());
         dbOutletView = new OutletView(getContext());
         dbDemandTargetView = new DemandTargetView(getContext());
         dbVanStock = new VanStockView(getContext());
-        // dbOutletSale = new OutletSaleView(getContext());
-        //dbPaymentView = new PaymentView(getContext());
         dbSaleHistory = new SaleHistoryView(getContext());
 
         // plan and remark update
@@ -164,8 +153,6 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
         dbOutletView.eraseTable();
         dbDemandTargetView.eraseTable();
         dbVanStock.eraseTable();
-        //dbOutletSale.eraseTable();
-        //dbPaymentView.eraseTable();
         dbSaleHistory.eraseTable();
 
         /*plan and remark table erase on login*/
@@ -179,19 +166,39 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
 
     /*retrofit call test to fetch data from server*/
     public void getUserLogin(final String user_id, final JSONObject syncData) {
-
         RetrofitUtil.showDialog(getContext());
         RetrofitService service = RetrofitUtil.retrofitClient();
         Call<loginResponse> apiCall = service.syncRemarkPlan(user_id, syncData.toString());
         apiCall.enqueue(new Callback<loginResponse>() {
             @Override
             public void onResponse(Call<loginResponse> call, Response<loginResponse> response) {
-
                 loginResponse loginResult = response.body();
 
                 // rest call to read data from api service
                 if (loginResult.getReturnCode()) {
-                    new loginSync(loginResult, user_id).execute();
+                    // erase all masterTables data
+                    eraseAllTableData();
+
+                    ObjLoginResponse objResponse = loginResult.getObjLoginResponse();
+
+                    try {
+                        // sync data to local table and views
+                        dbRouteView.insertRoutes(objResponse.getArrRoutes());
+                        dbOutletView.insertOutlet(objResponse.getArrOutlets());
+                        dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
+                        dbVanStock.insertVanStock(objResponse.getArrVanStock());
+                        dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
+                        dbPlanTable.insertUserPlan(objResponse.getArrPlan());
+                        dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
+
+                        dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
+                        dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
+                        RetrofitUtil.hideDialog();
+                        showSnackbar(getView(), getString(R.string.str_sync_complete));
+                    } catch (Exception e) {
+                        RetrofitUtil.hideDialog();
+                        new SampleDialog("", getString(R.string.str_error_sync_data), getContext());
+                    }
                 } else {
                     RetrofitUtil.hideDialog();
                     new SampleDialog("", loginResult.getStrMessage(), getContext());
@@ -202,67 +209,8 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
             public void onFailure(Call<loginResponse> call, Throwable t) {
                 RetrofitUtil.hideDialog();
                 // show some error toast or message to display the api call issue
-                new SampleDialog("", "Unable to access API", getContext());
+                new SampleDialog("", getString(R.string.str_retrofit_failure), getContext());
             }
         });
-    }
-
-    // AsyncTask copy one
-    private class loginSync extends AsyncTask<Void, Void, Boolean> implements Serializable {
-
-        loginResponse loginResponse;
-        String user_id;
-
-        public loginSync(loginResponse loginResponse, String user_id) {
-            this.loginResponse = loginResponse;
-            this.user_id = user_id;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            syncToLocal(loginResponse);
-            return loginResponse.getReturnCode();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean status) {
-            RetrofitUtil.hideDialog();
-            if (status) {
-                showSnackbar(getView(), "Data Sync Successfully");
-            }
-
-           /* if (false) {
-                startActivity(new Intent(getContext(), LoginActivity.class));
-                getActivity().finish();
-                getActivity().overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-            } else {
-                new SampleDialog("", "Some error occurred while synchronising data", getContext());
-            }*/
-        }
-    }
-
-    // data processing and local db update
-    private void syncToLocal(loginResponse loginResult) {
-        // rest call to read data from api service
-        if (loginResult.getReturnCode()) {
-            // erase all masterTables data
-            eraseAllTableData();
-
-            ObjLoginResponse objResponse = loginResult.getObjLoginResponse();
-
-            // sync data to local table and views
-            dbRouteView.insertRoutes(objResponse.getArrRoutes());
-            dbOutletView.insertOutlet(objResponse.getArrOutlets());
-            dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
-            //dbOutletSale.insertOutletSale(objResponse.getArrOutletSale());
-            dbVanStock.insertVanStock(objResponse.getArrVanStock());
-            // dbPaymentView.insertPayment(objResponse.getArrPayment());
-            dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
-            dbPlanTable.insertUserPlan(objResponse.getArrPlan());
-            dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
-
-            dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
-            dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
-        }
     }
 }

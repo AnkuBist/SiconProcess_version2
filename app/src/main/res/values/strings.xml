@@ -4,6 +4,13 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
+    <!--server calls ERROR messages-->
+    <string name="str_retrofit_failure">Error Server Response</string>
+    <string name="str_login_successful">User Login</string>
+    <string name="str_error_login">Error While Login</string>
+    <string name="str_sync_complete">Sync Data Completed</string>
+    <string name="str_error_sync_data">Error While Synchronising Data</string>
+
     <!--drawer base nav items-->
     <string name="str_nav_depot_list">Depot List</string>
     <string name="str_nav_remarks_summary">Remarks Summary</string>
@@ -48,7 +55,4 @@
     <string name="status_stop"><font color='#FF8E8E93'>Stopped</font></string> <!--gray-->
     <string name="status_completed"><font color='#FF4CD964'>COMPLETED</font></string> <!--red-->
     <string name="status_pending"><font color='#FFFF3B30'>PENDING</font></string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string> <!--green-->
 </resources>

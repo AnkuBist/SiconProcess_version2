@@ -7,9 +7,7 @@ package com.hgil.siconprocess_view.retrofit.loginResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class loginResponse implements Serializable {
+public class loginResponse {
 
     @SerializedName("returnCode")
     @Expose

@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.adapter.planner.PlanListAdapter;
 import com.hgil.siconprocess_view.base.Base_Fragment;
-import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.PlanModel;
 import com.hgil.siconprocess_view.database.localDb.PlannerTable;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.PlanModel;
 
 import java.util.ArrayList;
 

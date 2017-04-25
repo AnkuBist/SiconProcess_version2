@@ -81,7 +81,7 @@ public class VanStockFragment extends Route_Base_Fragment {
         //tvCrateLeftover.setText(String.valueOf(crateLeftover));
 
         vanStockView = new VanStockView(getContext());
-        
+
         tvCrate.setText("Crate Loaded : " + vanStockView.getRouteCrateInfo(getRouteId()));
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

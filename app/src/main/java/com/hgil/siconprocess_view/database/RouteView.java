@@ -22,7 +22,7 @@ import java.util.List;
  */
 
 public class RouteView extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
 
     private static final String DATABASE_NAME = "Sicon_route";
     private static final String TABLE_NAME = "V_SD_Route_Master";
@@ -33,7 +33,7 @@ public class RouteView extends SQLiteOpenHelper {
     private static final String ROUTE_NAME = "Route_Name";
     private static final String CASHIER_NAME = "Cashier_Name";
     private static final String PSMID = "PSMID";
-    //private static final String CUSTOMER_ID = "Customer_id";
+    private static final String PSM_NAME = "PSM_Name";
     // private static final String CUSTOMER_NAME = "Customer_name";
     // private static final String CONTACT_NO = "Contact_no";
 
@@ -48,7 +48,8 @@ public class RouteView extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + //DEPOT_ID + " TEXT NULL, "
                 DEPOT_ID + " TEXT NULL, " + DEPOT_NAME + " TEXT NULL, " +
-                ROUTE_ID + " TEXT NULL, " + ROUTE_NAME + " TEXT NULL, " + CASHIER_NAME + " TEXT NULL)"); //+ PSMID + " TEXT NULL)");
+                ROUTE_ID + " TEXT NULL, " + ROUTE_NAME + " TEXT NULL, " + CASHIER_NAME + " TEXT NULL, "
+                + PSMID + " TEXT NULL, " + PSM_NAME + " TEXT NULL)");
         //+ CUSTOMER_ID + " TEXT NULL, " + CUSTOMER_NAME + " TEXT NULL, "
         // + CONTACT_NO + " TEXT NULL)");
     }
@@ -74,7 +75,8 @@ public class RouteView extends SQLiteOpenHelper {
         contentValues.put(ROUTE_ID, routeModel.getRouteId());
         contentValues.put(ROUTE_NAME, routeModel.getRouteName());
         contentValues.put(CASHIER_NAME, routeModel.getCashierName());
-        //contentValues.put(PSMID, routeModel.getPSMID());
+        contentValues.put(PSMID, routeModel.getPSMID());
+        contentValues.put(PSM_NAME, routeModel.getPSMName());
         //contentValues.put(CUSTOMER_ID, routeModel.getCustomerId());
         //contentValues.put(CUSTOMER_NAME, routeModel.getCustomerName());
         //contentValues.put(CONTACT_NO, routeModel.getContactNo());
@@ -95,7 +97,8 @@ public class RouteView extends SQLiteOpenHelper {
             contentValues.put(ROUTE_ID, routeModel.getRouteId());
             contentValues.put(ROUTE_NAME, routeModel.getRouteName());
             contentValues.put(CASHIER_NAME, routeModel.getCashierName());
-            //contentValues.put(PSMID, routeModel.getPSMID());
+            contentValues.put(PSMID, routeModel.getPSMID());
+            contentValues.put(PSM_NAME, routeModel.getPSMName());
             //contentValues.put(CUSTOMER_ID, routeModel.getCustomerId());
             //contentValues.put(CUSTOMER_NAME, routeModel.getCustomerName());
             //contentValues.put(CONTACT_NO, routeModel.getContactNo());
@@ -117,7 +120,8 @@ public class RouteView extends SQLiteOpenHelper {
             routeModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
             routeModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
             routeModel.setCashierName(res.getString(res.getColumnIndex(CASHIER_NAME)));
-            //routeModel.setPSMID(res.getString(res.getColumnIndex(PSMID)));
+            routeModel.setPSMID(res.getString(res.getColumnIndex(PSMID)));
+            routeModel.setPSMName(res.getString(res.getColumnIndex(PSM_NAME)));
             //routeModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
             //routeModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
             //routeModel.setContactNo(res.getString(res.getColumnIndex(CONTACT_NO)));
@@ -160,7 +164,8 @@ public class RouteView extends SQLiteOpenHelper {
             routeModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
             routeModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
             routeModel.setCashierName(res.getString(res.getColumnIndex(CASHIER_NAME)));
-            //routeModel.setPSMID(res.getString(res.getColumnIndex(PSMID)));
+            routeModel.setPSMID(res.getString(res.getColumnIndex(PSMID)));
+            routeModel.setPSMName(res.getString(res.getColumnIndex(PSM_NAME)));
             //routeModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
             //routeModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
             //routeModel.setContactNo(res.getString(res.getColumnIndex(CONTACT_NO)));
@@ -185,7 +190,8 @@ public class RouteView extends SQLiteOpenHelper {
                 routeModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
                 routeModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
                 routeModel.setCashierName(res.getString(res.getColumnIndex(CASHIER_NAME)));
-                //.setPSMID(res.getString(res.getColumnIndex(PSMID)));
+                routeModel.setPSMID(res.getString(res.getColumnIndex(PSMID)));
+                routeModel.setPSMName(res.getString(res.getColumnIndex(PSM_NAME)));
                 //routeModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 //routeModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
                 //routeModel.setContactNo(res.getString(res.getColumnIndex(CONTACT_NO)));

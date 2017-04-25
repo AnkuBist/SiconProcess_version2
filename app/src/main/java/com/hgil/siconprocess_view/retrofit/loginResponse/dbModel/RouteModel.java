@@ -8,10 +8,6 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class RouteModel {
-
-    /*    @SerializedName("depot")
-        @Expose
-        private String depot;*/
     @SerializedName("depot_id")
     @Expose
     private String depotId;
@@ -27,26 +23,12 @@ public class RouteModel {
     @SerializedName("cashier_name")
     @Expose
     private String cashierName;
-/*    @SerializedName("PSMID")
+    @SerializedName("PSMID")
     @Expose
-    private String pSMID;*/
-/*    @SerializedName("customer_id")
+    private String pSMID;
+    @SerializedName("PSM_Name")
     @Expose
-    private String customerId;
-    @SerializedName("customer_name")
-    @Expose
-    private String customerName;
-    @SerializedName("contact_no")
-    @Expose
-    private String contactNo;*/
-
-    /*public String getDepot() {
-        return depot;
-    }
-
-    public void setDepot(String depot) {
-        this.depot = depot;
-    }*/
+    private String pSMName;
 
     public String getDepotId() {
         return depotId;
@@ -88,36 +70,19 @@ public class RouteModel {
         this.cashierName = cashierName;
     }
 
-    /*    public String getPSMID() {
+    public String getPSMID() {
         return pSMID;
     }
 
     public void setPSMID(String pSMID) {
         this.pSMID = pSMID;
-    }*/
-/*
-    public String getCustomerId() {
-        return customerId;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public String getPSMName() {
+        return pSMName;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public void setPSMName(String pSMName) {
+        this.pSMName = pSMName;
     }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getContactNo() {
-        return contactNo;
-    }
-
-    public void setContactNo(String contactNo) {
-        this.contactNo = contactNo;
-    }*/
-
 }

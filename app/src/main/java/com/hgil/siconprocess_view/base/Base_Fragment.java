@@ -128,7 +128,7 @@ public abstract class Base_Fragment extends Fragment {
     public RouteModel getRouteModel() {
         return routeModel;
     }
-    
+
     public String getDepotName() {
         return depotName;
     }
