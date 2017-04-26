@@ -35,7 +35,6 @@ public class OutletSaleFragment extends Route_Base_Fragment {
     TextView tvEmpty;
 
     private OutletSaleAdapter invoiceAdapter;
-    //private OutletSaleView outletSaleView;
     private TodaySaleView todaySaleView;
     private ArrayList<TodaySaleModel> arrSaleItems = new ArrayList<>();
 
@@ -62,13 +61,15 @@ public class OutletSaleFragment extends Route_Base_Fragment {
         }
 
         // initialise the values at first time
-        //outletSaleView = new OutletSaleView(getContext());
         todaySaleView = new TodaySaleView(getContext());
 
         invoiceAdapter = new OutletSaleAdapter(getActivity(), arrSaleItems);
 
-        if (arrSaleItems != null)
+        if(arrSaleItems!=null)
             arrSaleItems.clear();
+        else
+            arrSaleItems = new ArrayList<>();
+
         arrSaleItems.addAll(todaySaleView.getRouteSaleByOutlet(customer_id));
 
         // grandTotal = outletSaleView.outletSaleAmount(customer_id);
@@ -92,7 +93,7 @@ public class OutletSaleFragment extends Route_Base_Fragment {
 
         rvCustomerInvoice.setAdapter(invoiceAdapter);
 
-        setTitle("Today's Sale");
+        setTitle(getString(R.string.str_nav_today_sale));
         hideSyncButton();
     }
 

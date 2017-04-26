@@ -32,7 +32,7 @@ public class RemarkRouteOutletListFragment extends Route_Base_Fragment {
 
     private OutletRemarkListAdapter outletRemarkListAdapter;
     private OutletRemarkTable outletRemarkTable;
-    private ArrayList<OutletRemarkModel> arrOutletRemark;
+    private ArrayList<OutletRemarkModel> arrOutletRemark = new ArrayList<>();
 
     public RemarkRouteOutletListFragment() {
         // Required empty public constructor
@@ -62,7 +62,11 @@ public class RemarkRouteOutletListFragment extends Route_Base_Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvRemarkRouteOutletList.setLayoutManager(linearLayoutManager);
 
-        arrOutletRemark = new ArrayList<>();
+        if(arrOutletRemark!=null)
+            arrOutletRemark.clear();
+        else
+            arrOutletRemark = new ArrayList<>();
+
         outletRemarkTable = new OutletRemarkTable(getActivity());
         arrOutletRemark.addAll(outletRemarkTable.getRouteRemarks(getLoginId(), getRouteId()));
         outletRemarkListAdapter = new OutletRemarkListAdapter(getActivity(), arrOutletRemark);

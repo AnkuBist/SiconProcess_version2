@@ -40,6 +40,8 @@ public class DaySummaryFragment extends Route_Base_Fragment {
     TextView tvTodayCollection;
     @BindView(R.id.tvTotalOS)
     TextView tvTotalOS;
+    @BindView(R.id.tvRejPercentage)
+    TextView tvRejPercentage;
 
     public DaySummaryFragment() {
         // Required empty public constructor
@@ -115,5 +117,11 @@ public class DaySummaryFragment extends Route_Base_Fragment {
         tvTodayCollection.setText(strRupee + Utility.roundOff(route_total_collection));
 
         tvTotalOS.setText(strRupee + Utility.roundOff(route_outstanding + net_sale_amount - route_total_collection));
+
+        double rejPrct = 0.00;
+        if (route_total_sale > 0)
+            rejPrct = route_rej_amount / route_total_sale;
+
+        tvRejPercentage.setText(String.valueOf(rejPrct) + "%");
     }
 }

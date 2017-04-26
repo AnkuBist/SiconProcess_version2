@@ -31,7 +31,7 @@ public class RouteHomeCompleteFragment extends Route_Base_Fragment {
 
     private RouteHomeCompletedTimeDiffAdapter timeDiffAdapter;
     private OutletView outletView;
-    private ArrayList<RouteCustomerModel> arrRouteMap;
+    private ArrayList<RouteCustomerModel> arrRouteMap = new ArrayList<>();
 
     public RouteHomeCompleteFragment() {
         // Required empty public constructor
@@ -54,7 +54,11 @@ public class RouteHomeCompleteFragment extends Route_Base_Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvCompleteRouteMap.setLayoutManager(linearLayoutManager);
 
-        arrRouteMap = new ArrayList<>();
+        if (arrRouteMap != null)
+            arrRouteMap.clear();
+        else
+            arrRouteMap = new ArrayList<>();
+
         outletView = new OutletView(getActivity());
         arrRouteMap.addAll(outletView.getRouteCompletedCustomers(routeId));
         timeDiffAdapter = new RouteHomeCompletedTimeDiffAdapter(getActivity(), arrRouteMap);

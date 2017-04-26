@@ -33,7 +33,7 @@ public class SaleCompleteOutletTimeFragment extends Route_Base_Fragment {
 
     private RouteOutletSaleTimeDiffAdapter outletSaleTimeDiffAdapter;
     private OutletView outletView;
-    private ArrayList<RouteCustomerModel> arrSaleTimeDiff;
+    private ArrayList<RouteCustomerModel>  arrSaleTimeDiff = new ArrayList<>();
 
     public SaleCompleteOutletTimeFragment() {
         // Required empty public constructor
@@ -63,7 +63,11 @@ public class SaleCompleteOutletTimeFragment extends Route_Base_Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvCompleteOutletTime.setLayoutManager(linearLayoutManager);
 
+        if(arrSaleTimeDiff!=null)
+        arrSaleTimeDiff.clear();
+        else
         arrSaleTimeDiff = new ArrayList<>();
+
         outletView = new OutletView(getActivity());
         arrSaleTimeDiff.addAll(outletView.getSaleTimeCompletedOutlets(routeId));
         outletSaleTimeDiffAdapter = new RouteOutletSaleTimeDiffAdapter(getActivity(), arrSaleTimeDiff);

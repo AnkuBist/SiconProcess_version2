@@ -6,11 +6,17 @@
     android:layout_height="match_parent"
     android:background="@color/colorTextLightGrey"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.hgil.siconprocess_view.activity.fragments.outletLevel.saleRejHistory.SaleRejHistoryFragment">
+
+    <TextView
+        android:id="@+id/tvCustomerName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorBackgroundBlack"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_extra_large" />
 
     <LinearLayout
         style="@style/checkDetailLayout"
@@ -66,7 +72,11 @@
         android:layout_height="wrap_content"
         android:elevation="5dp"
         android:minHeight="50dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="0dp"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:paddingTop="7dp">
         <!-- android:weightSum="4"-->
 
         <!--template of items in this list-->
@@ -86,7 +96,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1.1"
             android:gravity="center_horizontal|center_vertical"
-            android:text="Gross/\nRej"
+            android:text="Gross/\nRej%"
             android:textColor="@color/colorTextBlack"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold" />
@@ -107,7 +117,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1.1"
             android:gravity="center_vertical|center_horizontal"
-            android:text="Sale/Van"
+            android:text="Sale SKU/\nT. SKU"
             android:textColor="@color/colorTextBlack"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold" />
@@ -124,17 +134,25 @@
         android:id="@+id/rvSaleRej"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="7dp"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:paddingTop="0dp"
         android:scrollbars="none" />
 
-    <!--<TextView
+    <TextView
         android:id="@+id/tvEmpty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:text="No Customer found"
+        android:paddingBottom="7dp"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:paddingTop="0dp"
+        android:text="No Sale History Found"
         android:textColor="@color/colorTextBlack"
         android:textSize="@dimen/text_size_large"
-        android:visibility="gone" />-->
+        android:visibility="gone" />
 
 </LinearLayout>

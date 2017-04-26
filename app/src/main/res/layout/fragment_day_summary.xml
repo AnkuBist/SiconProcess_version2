@@ -28,12 +28,12 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="55dp"
                 android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentLeft="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -46,7 +46,7 @@
                 <TextView
                     android:id="@+id/tvTargetCalls"
                     android:layout_width="120dp"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentRight="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -65,11 +65,11 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="55dp">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentLeft="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -82,7 +82,7 @@
                 <TextView
                     android:id="@+id/tvTotalCalls"
                     android:layout_width="120dp"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentRight="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -100,11 +100,11 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="55dp">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentLeft="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -117,7 +117,7 @@
                 <TextView
                     android:id="@+id/tvProductiveCalls"
                     android:layout_width="120dp"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentRight="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -135,11 +135,11 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="55dp">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentLeft="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -152,7 +152,7 @@
                 <TextView
                     android:id="@+id/tvOpening"
                     android:layout_width="120dp"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentRight="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -170,11 +170,11 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="55dp">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentLeft="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -187,7 +187,7 @@
                 <TextView
                     android:id="@+id/tvGrossSale"
                     android:layout_width="120dp"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentRight="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -205,11 +205,11 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="55dp">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentLeft="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -222,7 +222,7 @@
                 <TextView
                     android:id="@+id/tvRejAmount"
                     android:layout_width="120dp"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentRight="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -240,11 +240,11 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="55dp">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentLeft="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -257,7 +257,7 @@
                 <TextView
                     android:id="@+id/tvTotalBillValue"
                     android:layout_width="120dp"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentRight="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -277,12 +277,12 @@
             <!--remove average bill value-->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="55dp"
                 android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentLeft="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -295,7 +295,7 @@
                 <TextView
                     android:id="@+id/tvAvgBillValue"
                     android:layout_width="120dp"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentRight="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -314,11 +314,11 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="55dp">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentLeft="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -331,7 +331,7 @@
                 <TextView
                     android:id="@+id/tvTodayCollection"
                     android:layout_width="120dp"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentRight="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -349,11 +349,11 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="55dp">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentLeft="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"
@@ -366,7 +366,42 @@
                 <TextView
                     android:id="@+id/tvTotalOS"
                     android:layout_width="120dp"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/colorWhite"
+                    android:elevation="5dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/colorTextBlack"
+                    android:textSize="@dimen/text_size_medium" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorBackgroundBlack" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_alignParentLeft="true"
+                    android:background="@color/colorWhite"
+                    android:elevation="5dp"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="Rej Percentage"
+                    android:textColor="@color/colorTextBlack"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <TextView
+                    android:id="@+id/tvRejPercentage"
+                    android:layout_width="120dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentRight="true"
                     android:background="@color/colorWhite"
                     android:elevation="5dp"

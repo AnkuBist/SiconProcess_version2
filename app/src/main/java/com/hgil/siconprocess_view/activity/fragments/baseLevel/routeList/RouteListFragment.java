@@ -88,8 +88,12 @@ public class RouteListFragment extends Base_Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvRouteList.setLayoutManager(linearLayoutManager);
-        if (arrRoute != null)
+
+        if(arrRoute!=null)
             arrRoute.clear();
+        else
+            arrRoute = new ArrayList<>();
+
         routeView = new RouteView(getActivity());
         arrRoute.addAll(routeView.getDepotRouteList(depot_id));
         routeListAdapter = new RouteListAdapter(getActivity(), arrRoute);

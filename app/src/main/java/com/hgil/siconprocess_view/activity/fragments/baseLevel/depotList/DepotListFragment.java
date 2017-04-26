@@ -67,8 +67,12 @@ public class DepotListFragment extends Base_Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvDepotList.setLayoutManager(linearLayoutManager);
+        
         if (arrDepot != null)
             arrDepot.clear();
+        else
+            arrDepot = new ArrayList<>();
+
         routeView = new RouteView(getActivity());
         arrDepot.addAll(routeView.getDepotList());
         depotListAdapter = new DepotListAdapter(getActivity(), arrDepot);

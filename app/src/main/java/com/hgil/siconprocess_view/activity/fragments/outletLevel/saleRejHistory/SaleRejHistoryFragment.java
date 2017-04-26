@@ -2,7 +2,6 @@ package com.hgil.siconprocess_view.activity.fragments.outletLevel.saleRejHistory
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.adapter.saleRej.SaleRejAdapter;
@@ -26,17 +26,22 @@ import butterknife.BindView;
 
 public class SaleRejHistoryFragment extends Route_Base_Fragment {
 
-    @Nullable
+    @BindView(R.id.tvCustomerName)
+    TextView tvCustomerName;
     @BindView(R.id.etFromDate)
     EditText etFromDate;
-    @Nullable
     @BindView(R.id.etToDate)
     EditText etToDate;
-    @Nullable
     @BindView(R.id.btnSubmit)
     Button btnSubmit;
     @BindView(R.id.rvSaleRej)
     RecyclerView rvSaleRej;
+    @BindView(R.id.tvEmpty)
+    TextView tvEmpty;
+
+    private SaleHistoryView saleHistoryView;
+    private SaleRejAdapter saleRejAdapter;
+    private ArrayList<SaleHistoryModel> arrSaleRej = new ArrayList<>();
 
     private Calendar myCalendar;
     private DatePickerDialog.OnDateSetListener date;
@@ -68,16 +73,15 @@ public class SaleRejHistoryFragment extends Route_Base_Fragment {
         return R.layout.fragment_route_history;
     }
 
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // set route name to the route
-        //tvRouteName.setText(getRouteName());
-        //setTitle("Sale & Rejection History");
-        setTitle("Sale History");
+        setTitle(getString(R.string.str_nav_sale_rej_history));
         hideSyncButton();
+
+        if (customer_name != null)
+            tvCustomerName.setText(customer_name);
 
         myCalendar = Calendar.getInstance();
         updateToDate();
@@ -116,16 +120,19 @@ public class SaleRejHistoryFragment extends Route_Base_Fragment {
             }
         });
 
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvSaleRej.setLayoutManager(linearLayoutManager);
-        SaleHistoryView saleHistoryView = new SaleHistoryView(getContext());
+        saleHistoryView = new SaleHistoryView(getContext());
 
-        ArrayList<SaleHistoryModel> arrSaleRej = saleHistoryView.outletSaleHistory(customer_id);
-        //arrSaleRej.addAll(routeMap.getRouteCustomers());
+        if (arrSaleRej != null)
+            arrSaleRej.clear();
+        else
+            arrSaleRej = new ArrayList<>();
 
-        SaleRejAdapter saleRejAdapter = new SaleRejAdapter(getContext(), arrSaleRej);
+        arrSaleRej.addAll(saleHistoryView.outletSaleHistory(customer_id));
+
+        saleRejAdapter = new SaleRejAdapter(getContext(), arrSaleRej);
         rvSaleRej.setAdapter(saleRejAdapter);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -147,19 +154,24 @@ public class SaleRejHistoryFragment extends Route_Base_Fragment {
 
                 //simly udpated the recycler view to display dummy data
                 //TODO
+                arrSaleRej.clear();
+                arrSaleRej.addAll(saleHistoryView.outletSaleHistory(customer_id));
+                saleRejAdapter.notifyDataSetChanged();
 
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                rvSaleRej.setLayoutManager(linearLayoutManager);
-                SaleHistoryView saleHistoryView = new SaleHistoryView(getContext());
-
-                ArrayList<SaleHistoryModel> arrSaleRej = saleHistoryView.outletSaleHistory(customer_id);
-                //arrSaleRej.addAll(routeMap.getRouteCustomers());
-
-                SaleRejAdapter saleRejAdapter = new SaleRejAdapter(getContext(), arrSaleRej);
-                rvSaleRej.setAdapter(saleRejAdapter);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (arrSaleRej.size() == 0) {
+            tvEmpty.setVisibility(View.VISIBLE);
+            rvSaleRej.setVisibility(View.GONE);
+        } else {
+            tvEmpty.setVisibility(View.GONE);
+            rvSaleRej.setVisibility(View.VISIBLE);
+        }
     }
 
     private void updateLabel() {

@@ -30,7 +30,7 @@ public class RouteHomeAllFragment extends Route_Base_Fragment {
 
     private RouteOutletAdapter mapRAdapter;
     private OutletView outletView;
-    private ArrayList<RouteCustomerModel> arrRouteMap;
+    private ArrayList<RouteCustomerModel> arrRouteMap = new ArrayList<>();
 
     public RouteHomeAllFragment() {
         // Required empty public constructor
@@ -54,7 +54,11 @@ public class RouteHomeAllFragment extends Route_Base_Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvAllRouteMap.setLayoutManager(linearLayoutManager);
 
-        arrRouteMap = new ArrayList<>();
+        if (arrRouteMap != null)
+            arrRouteMap.clear();
+        else
+            arrRouteMap = new ArrayList<>();
+
         outletView = new OutletView(getActivity());
         arrRouteMap.addAll(outletView.getRouteCustomers(routeId));
         mapRAdapter = new RouteOutletAdapter(getActivity(), arrRouteMap);

@@ -25,14 +25,6 @@ public class VanStockFragment extends Route_Base_Fragment {
 
     @BindView(R.id.tvCrate)
     TextView tvCrate;
-    /*  @BindView(R.id.tvCrateOs)
-     TextView tvCrateOs;
-     @BindView(R.id.tvCrateIssued)
-     TextView tvCrateIssued;
-     @BindView(R.id.tvCrateReturned)
-     TextView tvCrateReturned;
-     @BindView(R.id.tvCrateLeftover)
-     TextView tvCrateLeftover;*/
     @BindView(R.id.rvVanStock)
     RecyclerView rvVanStock;
     @BindView(R.id.tvEmpty)
@@ -63,23 +55,6 @@ public class VanStockFragment extends Route_Base_Fragment {
         setTitle(getString(R.string.str_van_stock));
         hideSyncButton();
 
-        // get crate info
-        //CrateCollectionView crateCollectionView = new CrateCollectionView(getContext());
-        //PaymentTable paymentTable = new PaymentTable(getContext());
-
-        //int crateLoaded = crateCollectionView.vanTotalCrate();
-        //int crateOs = 0;
-        //int crateIssued = paymentTable.routeIssuedCrate();
-        //int crateReturned = paymentTable.routeReceivedCrate();
-        //int crateLeftover = crateLoaded - crateIssued + crateReturned;
-
-        // display these in UI
-        //tvCrateLoaded.setText(String.valueOf(crateLoaded));
-        //tvCrateOs.setText(String.valueOf(crateOs));
-        // tvCrateIssued.setText(String.valueOf(crateIssued));
-        //tvCrateReturned.setText(String.valueOf(crateReturned));
-        //tvCrateLeftover.setText(String.valueOf(crateLeftover));
-
         vanStockView = new VanStockView(getContext());
 
         tvCrate.setText("Crate Loaded : " + vanStockView.getRouteCrateInfo(getRouteId()));
@@ -90,6 +65,8 @@ public class VanStockFragment extends Route_Base_Fragment {
 
         if (arrVanStock != null)
             arrVanStock.clear();
+        else
+            arrVanStock = new ArrayList<>();
 
         arrVanStock.addAll(vanStockView.getVanStockByRoute(routeId));
         vanStockAdapter = new VanStockAdapter(getContext(), arrVanStock);

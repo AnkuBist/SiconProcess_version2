@@ -31,7 +31,7 @@ public class PlannerListFragment extends Base_Fragment {
 
     private PlannerRouteListAdapter plannerRouteListAdapter;
     private RouteView routeView;
-    private ArrayList<RouteListModel> arrRoute;
+    private ArrayList<RouteListModel> arrRoute = new ArrayList<>();
 
     public PlannerListFragment() {
         // Required empty public constructor
@@ -59,7 +59,11 @@ public class PlannerListFragment extends Base_Fragment {
         hideSyncButton();
         setTitle("Route Planner");
 
+        if(arrRoute!=null)
+            arrRoute.clear();
+        else
         arrRoute = new ArrayList<>();
+
         routeView = new RouteView(getActivity());
         arrRoute.addAll(routeView.getRouteList());
         plannerRouteListAdapter = new PlannerRouteListAdapter(getActivity(), arrRoute);

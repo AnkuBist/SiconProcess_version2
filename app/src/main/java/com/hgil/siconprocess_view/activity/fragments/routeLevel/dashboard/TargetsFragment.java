@@ -30,7 +30,8 @@ public class TargetsFragment extends Route_Base_Fragment {
     TextView tvEmpty;
 
     private RouteTargetAdapter routeTargetAdapter;
-    private ArrayList<RouteTargetModel> arrRouteTarget;
+    private DemandTargetView demandTargetView;
+    private ArrayList<RouteTargetModel> arrRouteTarget = new ArrayList<>();
 
     public TargetsFragment() {
         // Required empty public constructor
@@ -65,20 +66,19 @@ public class TargetsFragment extends Route_Base_Fragment {
         setTitle("Targets");
         hideSyncButton();
 
-        // handling recycler data and adapter working pending
-        //TODO
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvTargets.setLayoutManager(linearLayoutManager);
 
-        DemandTargetView demandTargetView = new DemandTargetView(getContext());
+        demandTargetView = new DemandTargetView(getContext());
 
-        arrRouteTarget = new ArrayList<>();
-        //arrRouteTarget =demandTargetView.getDemandTargetByRoute(routeId);
+        if (arrRouteTarget != null)
+            arrRouteTarget.clear();
+        else
+            arrRouteTarget = new ArrayList<>();
+
         arrRouteTarget.addAll(demandTargetView.getDemandTargetByRoute(routeId));
         routeTargetAdapter = new RouteTargetAdapter(getContext(), arrRouteTarget);
-
-        //ArrayList<DemandTargetModel> arrTargets = demandTargetView.getAllDemandTarget();
 
         rvTargets.setAdapter(routeTargetAdapter);
     }

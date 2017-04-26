@@ -31,7 +31,7 @@ public class RemarkRouteListFragment extends Base_Fragment {
 
     private RemarkRouteListAdapter remarkRouteListAdapter;
     private RouteView routeView;
-    private ArrayList<RouteListModel> arrRoute;
+    private ArrayList<RouteListModel> arrRoute = new ArrayList<>();
 
     public RemarkRouteListFragment() {
         // Required empty public constructor
@@ -59,7 +59,11 @@ public class RemarkRouteListFragment extends Base_Fragment {
         hideSyncButton();
         setTitle(getString(R.string.str_nav_remarks_summary));
 
+        if(arrRoute!=null)
+            arrRoute.clear();
+        else
         arrRoute = new ArrayList<>();
+
         routeView = new RouteView(getActivity());
         arrRoute.addAll(routeView.getRemarkRouteList());
         remarkRouteListAdapter = new RemarkRouteListAdapter(getActivity(), arrRoute);

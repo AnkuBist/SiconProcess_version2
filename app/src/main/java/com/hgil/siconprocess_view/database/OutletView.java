@@ -613,9 +613,20 @@ public class OutletView extends SQLiteOpenHelper {
         return numRows;
     }
 
-    public int routeProductiveCalls(String route_id) {
+   /* public int routeProductiveCalls(String route_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=? AND " + SALE_STATUS + "=?", new String[]{route_id, "Completed"});
+        int count = res.getCount();
+        res.close();
+        db.close();
+        return count;
+    }*/
+
+    //productive call reference changed
+    public int routeProductiveCalls(String route_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=? AND CAST(" + INV_TIME + " as time)>0",
+                new String[]{route_id});
         int count = res.getCount();
         res.close();
         db.close();

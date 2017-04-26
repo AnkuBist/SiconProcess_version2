@@ -34,7 +34,7 @@ public class PlanListFragment extends Base_Fragment {
 
     private PlanListAdapter planListAdapter;
     private PlannerTable planTable;
-    private ArrayList<PlanModel> arrPlans;
+    private ArrayList<PlanModel> arrPlans = new ArrayList<>();
 
     public PlanListFragment() {
         // Required empty public constructor
@@ -62,7 +62,11 @@ public class PlanListFragment extends Base_Fragment {
         hideSyncButton();
         setTitle("User Plan");
 
-        arrPlans = new ArrayList<>();
+        if (arrPlans != null)
+            arrPlans.clear();
+        else
+            arrPlans = new ArrayList<>();
+
         planTable = new PlannerTable(getActivity());
         arrPlans.addAll(planTable.getUserPlan(getLoginId()));
         planListAdapter = new PlanListAdapter(getActivity(), arrPlans);
@@ -75,7 +79,6 @@ public class PlanListFragment extends Base_Fragment {
                 launchRouteFragment(plannerFragment);
             }
         });
-
     }
 
     @Override

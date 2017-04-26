@@ -36,7 +36,7 @@ public class SkuSaleDetailFragment extends Route_Base_Fragment {
 
     private SkuSaleDetailAdapter skuSaleDetailAdapter;
     private VanStockView vanStockView;
-    private ArrayList<SkuSaleDetailModel> arrItemOutletSale;
+    private ArrayList<SkuSaleDetailModel> arrItemOutletSale = new ArrayList<>();
 
     public SkuSaleDetailFragment() {
         // Required empty public constructor
@@ -72,7 +72,11 @@ public class SkuSaleDetailFragment extends Route_Base_Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvItemSaleVariance.setLayoutManager(linearLayoutManager);
 
-        arrItemOutletSale = new ArrayList<>();
+        if (arrItemOutletSale != null)
+            arrItemOutletSale.clear();
+        else
+            arrItemOutletSale = new ArrayList<>();
+
         vanStockView = new VanStockView(getActivity());
         arrItemOutletSale.addAll(vanStockView.getRouteCustomersItemSale(getRouteId()));
         skuSaleDetailAdapter = new SkuSaleDetailAdapter(getActivity(), arrItemOutletSale);
