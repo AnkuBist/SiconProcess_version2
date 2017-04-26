@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.adapter.routeMap.RouteCustomerModel;
-import com.hgil.siconprocess_view.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -51,7 +50,7 @@ public class RouteOutletSaleTimeDiffAdapter extends RecyclerView.Adapter<RouteOu
         // - replace the contents of the view with that element
         final RouteCustomerModel routeCustomerModel = mDataset.get(position);
         holder.tvCustomerName.setText(routeCustomerModel.getCustomerName());
-        holder.tvTotalSaleAmt.setText("Gross Sale: " + holder.strRupee + Utility.roundTwoDecimals(routeCustomerModel.getSaleAmount()));
+        holder.tvTotalSaleAmt.setText("Gross Sale: " + holder.strRupee + Math.round(routeCustomerModel.getSaleAmount()));
 
         //text color change on status
         String status = routeCustomerModel.getCustStatus();
@@ -73,7 +72,7 @@ public class RouteOutletSaleTimeDiffAdapter extends RecyclerView.Adapter<RouteOu
             holder.tvSaleTime.setVisibility(View.GONE);
 
         if (routeCustomerModel.getCash_received() > 0)
-            holder.tvAmountReceived.setText("Amount Received : " + holder.strRupee + Utility.roundTwoDecimals(routeCustomerModel.getCash_received()));
+            holder.tvAmountReceived.setText("Amount Received : " + holder.strRupee + Math.round(routeCustomerModel.getCash_received()));
         else
             holder.tvAmountReceived.setVisibility(View.GONE);
 

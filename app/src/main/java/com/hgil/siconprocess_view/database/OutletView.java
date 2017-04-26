@@ -323,9 +323,12 @@ public class OutletView extends SQLiteOpenHelper {
 
     public ArrayList<RouteCustomerModel> getRouteCustomers(String route_id) {
         ArrayList<RouteCustomerModel> array_list = new ArrayList<RouteCustomerModel>();
+        TodaySaleView todaySaleView = new TodaySaleView(mContext);
+
+        int van_sku_count = new VanStockView(mContext).routeItemLoadCount(route_id);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=? ORDER BY " + INV_TIME, new String[]{route_id});
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 RouteCustomerModel routeCustomerModel = new RouteCustomerModel();
@@ -335,11 +338,11 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
                 routeCustomerModel.setSaleAmount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
                 routeCustomerModel.setSale_time(res.getString(res.getColumnIndex(INV_TIME)));
-
-                //  if (res.getDouble(res.getColumnIndex(CASH_PAYMENT)) > 0)
                 routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
-                //   else
-                //       routeCustomerModel.setCustStatus("Pending");
+
+                routeCustomerModel.setVan_total_sku(van_sku_count);
+                routeCustomerModel.setOutlet_purchased_sku(todaySaleView.routeOutletItemSaleCount(
+                        routeCustomerModel.getRouteId(), routeCustomerModel.getCustomerId()));
 
                 array_list.add(routeCustomerModel);
                 res.moveToNext();
@@ -366,13 +369,8 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
                 routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
                 routeCustomerModel.setSaleAmount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
-                //if (res.getDouble(res.getColumnIndex(CASH_PAYMENT)) > 0) {
-                // do nothing--Pending CASE
-                // routeCustomerModel.setCustStatus("Completed");
-                //} else {
                 routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
                 array_list.add(routeCustomerModel);
-                //}
                 res.moveToNext();
             }
         }
@@ -418,15 +416,7 @@ public class OutletView extends SQLiteOpenHelper {
                     routeCustomerModel.setTime_diff(time_diff);
                 }
 
-                //routeCustomerModel.setTime_diff(time_diff);
-
-                //if (res.getDouble(res.getColumnIndex(CASH_PAYMENT)) > 0) {
-                //    routeCustomerModel.setCustStatus("Completed");
                 array_list.add(routeCustomerModel);
-                //} else {
-                //do nothing --Completed CASE
-                //routeCustomerModel.setCustStatus("Pending");
-                // }
                 i1++;
                 res.moveToNext();
             }

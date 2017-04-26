@@ -100,7 +100,7 @@ public class OutletSaleFragment extends Route_Base_Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        tvInvoiceTotal.setText(strRupee + String.valueOf(Utility.roundTwoDecimals(grandTotal)));
+        tvInvoiceTotal.setText(strRupee + String.valueOf(Math.round(grandTotal)));
         if (arrSaleItems.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
             rvCustomerInvoice.setVisibility(View.GONE);

@@ -54,7 +54,7 @@ public class RouteHomeCompletedTimeDiffAdapter extends RecyclerView.Adapter<Rout
         // - replace the contents of the view with that element
         final RouteCustomerModel routeCustomerModel = mDataset.get(position);
         holder.tvCustomerName.setText(routeCustomerModel.getCustomerName());
-        holder.tvTotalSaleAmt.setText("Gross Sale: " + holder.strRupee + Utility.roundTwoDecimals(routeCustomerModel.getSaleAmount()));
+        holder.tvTotalSaleAmt.setText("Gross Sale: " + holder.strRupee +  Math.round(routeCustomerModel.getSaleAmount()));
 
         //text color change on status
         String status = routeCustomerModel.getCustStatus();
@@ -76,7 +76,7 @@ public class RouteHomeCompletedTimeDiffAdapter extends RecyclerView.Adapter<Rout
             holder.tvSaleTime.setVisibility(View.GONE);
 
         if (routeCustomerModel.getCash_received() > 0)
-            holder.tvAmountReceived.setText("Amount Received : " + holder.strRupee + Utility.roundTwoDecimals(routeCustomerModel.getCash_received()));
+            holder.tvAmountReceived.setText("Amount Received : " + holder.strRupee +  Math.round(routeCustomerModel.getCash_received()));
         else
             holder.tvAmountReceived.setVisibility(View.GONE);
 

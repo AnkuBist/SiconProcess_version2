@@ -26,8 +26,8 @@ public class OutletInfoFragment extends Route_Base_Fragment {
     TextView etRouteName;
     @BindView(R.id.etDealerType)
     TextView etDealerType;
-    @BindView(R.id.etDealerAcntNum)
-    TextView etDealerAcntNum;
+    @BindView(R.id.etDealerContact)
+    TextView etDealerContact;
 
     public OutletInfoFragment() {
         // Required empty public constructor
@@ -68,6 +68,6 @@ public class OutletInfoFragment extends Route_Base_Fragment {
         etDealerCode.setText(outletModel.getCustomerId());
         etRouteName.setText(outletModel.getRouteName());
         etDealerType.setText(outletModel.getCType());
-        etDealerAcntNum.setText(outletModel.getACCOUNTNUM());
+        etDealerContact.setText(outletModel.getContactNo());
     }
 }

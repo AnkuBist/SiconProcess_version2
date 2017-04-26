@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     android:scrollbars="none"
-    tools:context="com.hgil.siconprocess_view.activity.SelectedOutletInfoActivity">
+    tools:context="com.hgil.siconprocess_view.activity.fragments.outletLevel.outletInfo.OutletInfoFragment">
 
     <LinearLayout
         android:id="@+id/activity_selected_outlet_info"
@@ -54,10 +54,10 @@
         <!--dealer account number-->
         <TextView
             style="@style/OutletInfoTvLabel"
-            android:text="Dealer Account Number" />
+            android:text="Dealer Contact" />
 
         <EditText
-            android:id="@+id/etDealerAcntNum"
+            android:id="@+id/etDealerContact"
             style="@style/OutletInfoEtStyle" />
 
     </LinearLayout>

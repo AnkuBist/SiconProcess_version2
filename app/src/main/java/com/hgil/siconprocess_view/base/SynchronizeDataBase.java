@@ -9,6 +9,8 @@ import com.hgil.siconprocess_view.database.DemandTargetView;
 import com.hgil.siconprocess_view.database.ItemDetailView;
 import com.hgil.siconprocess_view.database.OutletView;
 import com.hgil.siconprocess_view.database.RouteView;
+import com.hgil.siconprocess_view.database.SHOutletSaleView;
+import com.hgil.siconprocess_view.database.SHVanLoadingView;
 import com.hgil.siconprocess_view.database.SaleHistoryView;
 import com.hgil.siconprocess_view.database.TodaySaleView;
 import com.hgil.siconprocess_view.database.VanStockView;
@@ -43,9 +45,13 @@ public class SynchronizeDataBase extends Fragment {
     private SaleHistoryView dbSaleHistory;
     private TodaySaleView dbTodaySale;
     private ItemDetailView dbItemDetail;
+
     // remark and plan updates
     private OutletRemarkTable dbOutletRemark;
     private PlannerTable dbPlanTable;
+
+    private SHVanLoadingView dbShVanLoadingView;
+    private SHOutletSaleView dbShOutletSaleView;
 
     public SynchronizeDataBase() {
     }
@@ -93,6 +99,9 @@ public class SynchronizeDataBase extends Fragment {
 
         dbTodaySale = new TodaySaleView(getContext());
         dbItemDetail = new ItemDetailView(getContext());
+
+        dbShVanLoadingView = new SHVanLoadingView(getContext());
+        dbShOutletSaleView = new SHOutletSaleView(getContext());
     }
 
     private void eraseAllTableData() {
@@ -108,6 +117,9 @@ public class SynchronizeDataBase extends Fragment {
 
         dbItemDetail.eraseTable();
         dbTodaySale.eraseTable();
+
+        dbShVanLoadingView.eraseTable();
+        dbShOutletSaleView.eraseTable();
     }
 
     /*retrofit call test to fetch data from server*/
@@ -152,6 +164,9 @@ public class SynchronizeDataBase extends Fragment {
 
                                 dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
                                 dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
+
+                                dbShVanLoadingView.insertSHRouteVanLoading(objResponse.getArrSHVanLoading());
+                                dbShOutletSaleView.insertSHOutletSale(objResponse.getArrSHOutletSale());
                             }
                         }).start();
                         updateBarHandler.postDelayed(new Runnable() {

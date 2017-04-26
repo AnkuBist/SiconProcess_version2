@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.fragments.outletLevel.OutletHomeActivity;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.NavRouteBaseActivity;
-import com.hgil.siconprocess_view.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -53,7 +52,7 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
         // - replace the contents of the view with that element
         final RouteCustomerModel routeCustomerModel = mDataset.get(position);
         holder.tvCustomerName.setText(routeCustomerModel.getCustomerName());
-        holder.tvTotalSaleAmt.setText("Gross Sale: " + holder.strRupee + Utility.roundTwoDecimals(routeCustomerModel.getSaleAmount()));
+        holder.tvTotalSaleAmt.setText("Gross Sale: " + holder.strRupee + Math.round(routeCustomerModel.getSaleAmount()));
 
         //text color change on status
         String status = routeCustomerModel.getCustStatus();
@@ -69,10 +68,16 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
             holder.customer_item.setBackgroundColor(mContext.getResources().getColor(R.color.colorBackgroundGreen));
         }
 
-        if (routeCustomerModel.getSale_time() != null && !routeCustomerModel.getSale_time().matches("") && !routeCustomerModel.getSale_time().matches("00:00"))
+        if (routeCustomerModel.getSale_time() != null && !routeCustomerModel.getSale_time().matches("")
+                && !routeCustomerModel.getSale_time().matches("00:00")) {
             holder.tvSaleTime.setText("Sale Time: " + routeCustomerModel.getSale_time());
-        else
+
+            /*sku updates*/
+            holder.tvSkuDetail.setText("" + routeCustomerModel.getOutlet_purchased_sku() + "/" + routeCustomerModel.getVan_total_sku());
+
+        } else {
             holder.tvSaleTime.setVisibility(View.GONE);
+        }
 
         holder.customer_item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +110,8 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
         // each data item is just a string in this case
         @BindView(R.id.tvCustomerName)
         public TextView tvCustomerName;
+        @BindView(R.id.tvSkuDetail)
+        public TextView tvSkuDetail;
         @BindView(R.id.tvStatus)
         public TextView tvStatus;
         @BindView(R.id.tvTotalSaleAmt)
