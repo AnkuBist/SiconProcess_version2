@@ -1,0 +1,55 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hgil.siconprocess_view.activity.fragments.routeLevel.routeRemark.Route_RemarkListFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvRouteName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorBackgroundBlack"
+            android:elevation="5dp"
+            android:gravity="center"
+            android:text="Title"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_extra_large" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvRouteRemarkList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:scrollbars="none" />
+
+        <TextView
+            android:id="@+id/tvEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:gravity="center_horizontal"
+            android:text="No Remark Added Yet"
+            android:textColor="@color/colorTextBlack"
+            android:textSize="@dimen/text_size_large"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabAddRemark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="@color/colorTextBlue"
+        app:fabSize="auto" />
+
+</android.support.design.widget.CoordinatorLayout>

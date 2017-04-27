@@ -78,11 +78,11 @@ public class OutletRemarkTable extends SQLiteOpenHelper {
     }
 
     // insert multiple
-    public boolean insertOutletRemark(List<OutletRemarkModel> arrRoutePlan) {
+    public boolean insertOutletRemark(List<OutletRemarkModel> arrOutletRemark) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-     /*   for (int i = 0; i < arrRoutePlan.size(); i++) {
-            OutletRemarkModel outletRemarkModel = arrRoutePlan.get(i);
+     /*   for (int i = 0; i < arrOutletRemark.size(); i++) {
+            OutletRemarkModel outletRemarkModel = arrOutletRemark.get(i);
             ContentValues contentValues = new ContentValues();
             contentValues.put(USER_ID, outletRemarkModel.getUser_id());
             contentValues.put(ROUTE_ID, outletRemarkModel.getRoute_id());
@@ -111,7 +111,7 @@ public class OutletRemarkTable extends SQLiteOpenHelper {
 
         try {
             db.beginTransaction();
-            for (OutletRemarkModel outletRemarkModel : arrRoutePlan) {
+            for (OutletRemarkModel outletRemarkModel : arrOutletRemark) {
                 ih.prepareForInsert();
 
                 ih.bind(userIdColumn, outletRemarkModel.getUser_id());

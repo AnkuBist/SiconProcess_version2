@@ -21,7 +21,7 @@ import butterknife.BindView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RemarkRouteOutletListFragment extends Route_Base_Fragment {
+public class RemarkSummary_RouteOutletListFragment extends Route_Base_Fragment {
 
     @BindView(R.id.tvRouteName)
     TextView tvRouteName;
@@ -34,18 +34,18 @@ public class RemarkRouteOutletListFragment extends Route_Base_Fragment {
     private OutletRemarkTable outletRemarkTable;
     private ArrayList<OutletRemarkModel> arrOutletRemark = new ArrayList<>();
 
-    public RemarkRouteOutletListFragment() {
+    public RemarkSummary_RouteOutletListFragment() {
         // Required empty public constructor
     }
 
-    public static RemarkRouteOutletListFragment newInstance() {
-        RemarkRouteOutletListFragment fragment = new RemarkRouteOutletListFragment();
+    public static RemarkSummary_RouteOutletListFragment newInstance() {
+        RemarkSummary_RouteOutletListFragment fragment = new RemarkSummary_RouteOutletListFragment();
         return fragment;
     }
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.fragment_remark_route_outlet_list;
+        return R.layout.fragment_remark_summary_route_outlet_list;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class RemarkRouteOutletListFragment extends Route_Base_Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvRemarkRouteOutletList.setLayoutManager(linearLayoutManager);
 
-        if(arrOutletRemark!=null)
+        if (arrOutletRemark != null)
             arrOutletRemark.clear();
         else
             arrOutletRemark = new ArrayList<>();

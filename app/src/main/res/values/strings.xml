@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HG Cheetah 1.5</string>
+    <string name="app_name">Cheetah 1.6</string>
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
@@ -31,6 +31,7 @@
     <string name="str_van_stock">Van Stock</string>
     <string name="str_outlet_sale_lt_100">Sale &lt; 100</string>
     <string name="str_outlet_sale_inv_time_diff">Sale Time Diff</string>
+    <string name="str_route_remark">Route Remark</string>
 
 
     <!--home invoice drawer item names-->

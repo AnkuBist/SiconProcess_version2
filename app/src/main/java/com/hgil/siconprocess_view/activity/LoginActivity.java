@@ -1,6 +1,7 @@
 package com.hgil.siconprocess_view.activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -27,6 +28,7 @@ import com.hgil.siconprocess_view.database.VanStockView;
 import com.hgil.siconprocess_view.database.ZoneView;
 import com.hgil.siconprocess_view.database.localDb.OutletRemarkTable;
 import com.hgil.siconprocess_view.database.localDb.PlannerTable;
+import com.hgil.siconprocess_view.database.localDb.RouteRemarkTable;
 import com.hgil.siconprocess_view.retrofit.RetrofitService;
 import com.hgil.siconprocess_view.retrofit.RetrofitUtil;
 import com.hgil.siconprocess_view.retrofit.loginResponse.ObjLoginResponse;
@@ -68,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
     private ItemDetailView dbItemDetail;
 
     // remark and plan updates
+    private RouteRemarkTable dbRouteRemark;
     private OutletRemarkTable dbOutletRemark;
     private PlannerTable dbPlanTable;
 
@@ -108,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
         dbSaleHistory = new SaleHistoryView(this);
 
         // plan and remark update
+        dbRouteRemark = new RouteRemarkTable(this);
         dbOutletRemark = new OutletRemarkTable(this);
         dbPlanTable = new PlannerTable(this);
 
@@ -182,6 +186,7 @@ public class LoginActivity extends AppCompatActivity {
         dbSaleHistory.eraseTable();
 
         /*plan and remark table erase on login*/
+        dbRouteRemark.eraseTable();
         dbOutletRemark.eraseTable();
         dbPlanTable.eraseTable();
 
@@ -225,15 +230,18 @@ public class LoginActivity extends AppCompatActivity {
                     // erase all masterTables data
                     eraseAllTableData();
 
-                    try {
+                    //async process
+                    new syncDataToLocalDb(user_id, loginResult).execute();
+
+                   /* try {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
 
-                        /*updateBarHandler.post(new Runnable() {
+                        *//*updateBarHandler.post(new Runnable() {
                             public void run() {
                                 RetrofitUtil.updateDialogTitle("Writing Data To Local");//getString(R.string.str_login_detail_fetch));
-                                */
+                                *//*
                                 ObjLoginResponse objResponse = loginResult.getObjLoginResponse();
                                 final long startTime = System.currentTimeMillis();
 
@@ -245,6 +253,7 @@ public class LoginActivity extends AppCompatActivity {
                                 dbVanStock.insertVanStock(objResponse.getArrVanStock());
                                 dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
                                 dbPlanTable.insertUserPlan(objResponse.getArrPlan());
+                                dbRouteRemark.insertRouteRemark(objResponse.getArrRouteRemark());
                                 dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
 
                                 dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
@@ -270,11 +279,7 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(new Intent(LoginActivity.this, RouteListActivity.class));
                         finish();
                         overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-                    } catch (
-                            Exception e
-                            )
-
-                    {
+                    } catch (Exception e) {
                         updateBarHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -282,7 +287,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }, 500);
                         new SampleDialog("", getString(R.string.str_error_login), LoginActivity.this);
-                    }
+                    }*/
                 } else {
                     updateBarHandler.postDelayed(new Runnable() {
                         @Override
@@ -307,6 +312,79 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    /*async process*/
+    private class syncDataToLocalDb extends AsyncTask<Void, Void, Boolean> {
+        String login_id;
+        loginResponse loginResponse;
+
+
+        public syncDataToLocalDb(String login_id, loginResponse loginResponse) {
+            this.login_id = login_id;
+            this.loginResponse = loginResponse;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                ObjLoginResponse objResponse = loginResponse.getObjLoginResponse();
+                final long startTime = System.currentTimeMillis();
+
+                // sync data to local table and views
+                dbZoneView.insertZone(objResponse.getArrZones());
+                dbRouteView.insertRoutes(objResponse.getArrRoutes());
+                dbOutletView.insertOutlet(objResponse.getArrOutlets());
+                dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
+                dbVanStock.insertVanStock(objResponse.getArrVanStock());
+                dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
+                dbPlanTable.insertUserPlan(objResponse.getArrPlan());
+                dbRouteRemark.insertRouteRemark(objResponse.getArrRouteRemark());
+                dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
+
+                dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
+                dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
+
+                dbShVanLoadingView.insertSHRouteVanLoading(objResponse.getArrSHVanLoading());
+                dbShOutletSaleView.insertSHOutletSale(objResponse.getArrSHOutletSale());
+
+                final long endtime = System.currentTimeMillis();
+                Log.i("Total Time: ", String.valueOf(endtime - startTime));
+
+                Utility.saveLoginStatus(LoginActivity.this, Utility.LOGIN_STATUS, true);
+                Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_ID, login_id);
+                Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_DATE, Utility.getCurDate());
+            } catch (Exception e) {
+                return false;
+            }
+            return loginResponse.getReturnCode();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean status) {
+            if (status) {
+                updateBarHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        RetrofitUtil.hideDialog();
+                    }
+                }, 500);
+                startActivity(new Intent(LoginActivity.this, RouteListActivity.class));
+                finish();
+                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+            } else {
+                updateBarHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        RetrofitUtil.hideDialog();
+                    }
+                }, 500);
+                new SampleDialog("", getString(R.string.str_error_login), LoginActivity.this);
+            }
+
+        }
+    }
+
 
    /* private void askAppPermission() {
         if (Build.VERSION.SDK_INT >= 23) {

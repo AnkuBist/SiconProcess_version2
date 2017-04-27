@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.fragments.baseLevel.remarkSummary.RemarkRouteOutletListFragment">
+    tools:context=".activity.fragments.baseLevel.remarkSummary.RemarkSummary_RouteOutletListFragment">
 
     <TextView
         android:id="@+id/tvRouteName"

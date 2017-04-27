@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.fragments.baseLevel.RouteListActivity;
-import com.hgil.siconprocess_view.activity.fragments.baseLevel.remarkSummary.RemarkRouteOutletListFragment;
+import com.hgil.siconprocess_view.activity.fragments.baseLevel.remarkSummary.RemarkSummary_RouteOutletListFragment;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.NavRouteBaseActivity;
 import com.hgil.siconprocess_view.adapter.routeList.RouteListModel;
 import com.hgil.siconprocess_view.base.SiconApp;
@@ -66,7 +66,7 @@ public class RemarkRouteListAdapter extends RecyclerView.Adapter<RemarkRouteList
                 SiconApp.getInstance().setCashierName(routeModel.getCashierName());
 
                 //intent.putExtra("route_id", routeListModel.getRoute_id());
-                RemarkRouteOutletListFragment fragment = RemarkRouteOutletListFragment.newInstance();
+                RemarkSummary_RouteOutletListFragment fragment = RemarkSummary_RouteOutletListFragment.newInstance();
                 //((RouteListActivity) mContext).
                 //((PlannerListFragment) mContext)
 

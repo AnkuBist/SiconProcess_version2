@@ -31,5 +31,9 @@
             android:id="@+id/nav_sale_complete_time_diff"
             android:icon="@mipmap/ic_launcher"
             android:title="@string/str_outlet_sale_inv_time_diff" />
+        <item
+            android:id="@+id/nav_route_remark"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/str_route_remark" />
     </group>
 </menu>

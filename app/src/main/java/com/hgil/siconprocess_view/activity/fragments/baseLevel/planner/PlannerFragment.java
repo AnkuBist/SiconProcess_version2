@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.base.Base_Fragment;
@@ -59,16 +60,21 @@ public class PlannerFragment extends Base_Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                planModel.setUserId(getLoginId());
-                planModel.setUserPlan(etRoutePlan.getText().toString().trim());
-                planModel.setPlanDate(Utility.getCurDate());
-                plannerTable.insertUserPlan(planModel);
+                String strPlan = etRoutePlan.getText().toString().trim();
+                if (strPlan.isEmpty()) {
+                    Toast.makeText(getContext(), "Enter some plan before submit", Toast.LENGTH_LONG).show();
+                } else {
+                    planModel.setUserId(getLoginId());
+                    planModel.setUserPlan(strPlan);
+                    planModel.setPlanDate(Utility.getCurDate());
+                    plannerTable.insertUserPlan(planModel);
 
-                // snackbar to show plan updated
-                showSnackbar(getView(), "Your Plan Updated");
+                    // snackbar to show plan updated
+                    showSnackbar(getView(), "Your Plan Updated");
 
-                //now finish this fragment
-                getActivity().getSupportFragmentManager().popBackStackImmediate();
+                    //now finish this fragment
+                    getActivity().getSupportFragmentManager().popBackStackImmediate();
+                }
             }
         });
 

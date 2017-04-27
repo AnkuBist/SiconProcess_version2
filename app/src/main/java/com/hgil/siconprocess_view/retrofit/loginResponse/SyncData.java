@@ -2,6 +2,7 @@ package com.hgil.siconprocess_view.retrofit.loginResponse;
 
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletRemarkModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.PlanModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteRemarkModel;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 public class SyncData {
 
     private ArrayList<PlanModel> arrPlan;
+    private ArrayList<RouteRemarkModel> arrRouteRemark;
     private ArrayList<OutletRemarkModel> arrRemark;
 
     public ArrayList<PlanModel> getArrPlan() {
@@ -20,6 +22,14 @@ public class SyncData {
 
     public void setArrPlan(ArrayList<PlanModel> arrPlan) {
         this.arrPlan = arrPlan;
+    }
+
+    public ArrayList<RouteRemarkModel> getArrRouteRemark() {
+        return arrRouteRemark;
+    }
+
+    public void setArrRouteRemark(ArrayList<RouteRemarkModel> arrRouteRemark) {
+        this.arrRouteRemark = arrRouteRemark;
     }
 
     public ArrayList<OutletRemarkModel> getArrRemark() {

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
@@ -73,20 +74,25 @@ public class OutletRemarkFragment extends Route_Base_Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                routePlanModel.setUser_id(getLoginId());
-                routePlanModel.setRoute_id(getRouteId());
-                routePlanModel.setRoute_name(getRouteName());
-                routePlanModel.setOutlet_id(customer_id);
-                routePlanModel.setOutlet_name(customer_name);
-                routePlanModel.setRemark(etOutletRemark.getText().toString().trim());
-                routePlanModel.setRemark_date(Utility.getCurDate());
-                outletRemarkTable.insertOutletRemark(routePlanModel);
+                String strRemark = etOutletRemark.getText().toString().trim();
+                if (strRemark.isEmpty()) {
+                    Toast.makeText(getContext(), "Enter some remark before submit", Toast.LENGTH_LONG).show();
+                } else {
+                    routePlanModel.setUser_id(getLoginId());
+                    routePlanModel.setRoute_id(getRouteId());
+                    routePlanModel.setRoute_name(getRouteName());
+                    routePlanModel.setOutlet_id(customer_id);
+                    routePlanModel.setOutlet_name(customer_name);
+                    routePlanModel.setRemark(strRemark);
+                    routePlanModel.setRemark_date(Utility.getCurDate());
+                    outletRemarkTable.insertOutletRemark(routePlanModel);
 
-                // snackbar to show plan updated
-                showSnackbar(getView(), "Outlet Remark Updated");
+                    // snackbar to show plan updated
+                    showSnackbar(getView(), "Outlet Remark Updated");
 
-                //now finish this fragment
-                getActivity().getSupportFragmentManager().popBackStackImmediate();
+                    //now finish this fragment
+                    getActivity().getSupportFragmentManager().popBackStackImmediate();
+                }
             }
         });
 

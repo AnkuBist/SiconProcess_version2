@@ -12,6 +12,7 @@ import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletRemarkModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.PlanModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteRemarkModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SHOutletItemSaleModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SHRouteVanLoadingModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SaleHistoryModel;
@@ -46,6 +47,9 @@ public class ObjLoginResponse {
     @SerializedName("arrSaleHistory")
     @Expose
     private List<SaleHistoryModel> arrSaleHistory;
+    @SerializedName("arrRouteRemark")
+    @Expose
+    private List<RouteRemarkModel> arrRouteRemark;
     @SerializedName("arrRemark")
     @Expose
     private List<OutletRemarkModel> arrRemark;
@@ -127,6 +131,14 @@ public class ObjLoginResponse {
 
     public void setArrSaleHistory(List<SaleHistoryModel> arrSaleHistory) {
         this.arrSaleHistory = arrSaleHistory;
+    }
+
+    public List<RouteRemarkModel> getArrRouteRemark() {
+        return arrRouteRemark;
+    }
+
+    public void setArrRouteRemark(List<RouteRemarkModel> arrRouteRemark) {
+        this.arrRouteRemark = arrRouteRemark;
     }
 
     public List<OutletRemarkModel> getArrRemark() {

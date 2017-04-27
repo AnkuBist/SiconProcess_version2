@@ -1,7 +1,9 @@
 package com.hgil.siconprocess_view.base;
 
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.hgil.siconprocess_view.R;
@@ -17,6 +19,7 @@ import com.hgil.siconprocess_view.database.VanStockView;
 import com.hgil.siconprocess_view.database.ZoneView;
 import com.hgil.siconprocess_view.database.localDb.OutletRemarkTable;
 import com.hgil.siconprocess_view.database.localDb.PlannerTable;
+import com.hgil.siconprocess_view.database.localDb.RouteRemarkTable;
 import com.hgil.siconprocess_view.retrofit.RetrofitService;
 import com.hgil.siconprocess_view.retrofit.RetrofitUtil;
 import com.hgil.siconprocess_view.retrofit.loginResponse.ObjLoginResponse;
@@ -49,6 +52,7 @@ public class SynchronizeDataBase extends Fragment {
     private ItemDetailView dbItemDetail;
 
     // remark and plan updates
+    private RouteRemarkTable dbRouteRemark;
     private OutletRemarkTable dbOutletRemark;
     private PlannerTable dbPlanTable;
 
@@ -72,6 +76,7 @@ public class SynchronizeDataBase extends Fragment {
             public void run() {
                 SyncData syncData = new SyncData();
                 syncData.setArrPlan(dbPlanTable.getAllPlan());
+                syncData.setArrRouteRemark(dbRouteRemark.getAllRouteRemark());
                 syncData.setArrRemark(dbOutletRemark.getAllRemark());
 
                 String json = new Gson().toJson(syncData);
@@ -97,6 +102,7 @@ public class SynchronizeDataBase extends Fragment {
         dbSaleHistory = new SaleHistoryView(getContext());
 
         // plan and remark update
+        dbRouteRemark = new RouteRemarkTable(getContext());
         dbOutletRemark = new OutletRemarkTable(getContext());
         dbPlanTable = new PlannerTable(getContext());
 
@@ -116,6 +122,7 @@ public class SynchronizeDataBase extends Fragment {
         dbSaleHistory.eraseTable();
 
         /*plan and remark table erase on login*/
+        dbRouteRemark.eraseTable();
         dbOutletRemark.eraseTable();
         dbPlanTable.eraseTable();
 
@@ -151,7 +158,9 @@ public class SynchronizeDataBase extends Fragment {
                     // erase all masterTables data
                     eraseAllTableData();
 
-                    try {
+                    //async process
+                    new syncDataToLocalDb(loginResult).execute();
+                    /*try {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -189,7 +198,7 @@ public class SynchronizeDataBase extends Fragment {
                             }
                         }, 500);
                         new SampleDialog("", getString(R.string.str_error_sync_data), getContext());
-                    }
+                    }*/
                 } else {
                     updateBarHandler.postDelayed(new Runnable() {
                         @Override
@@ -213,5 +222,67 @@ public class SynchronizeDataBase extends Fragment {
                 new SampleDialog("", getString(R.string.str_retrofit_failure), getContext());
             }
         });
+    }
+
+    /*async process*/
+    private class syncDataToLocalDb extends AsyncTask<Void, Void, Boolean> {
+        loginResponse loginResponse;
+
+        public syncDataToLocalDb(loginResponse loginResponse) {
+            this.loginResponse = loginResponse;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                ObjLoginResponse objResponse = loginResponse.getObjLoginResponse();
+
+                final long startTime = System.currentTimeMillis();
+                // sync data to local table and views
+                dbZoneView.insertZone(objResponse.getArrZones());
+                dbRouteView.insertRoutes(objResponse.getArrRoutes());
+                dbOutletView.insertOutlet(objResponse.getArrOutlets());
+                dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
+                dbVanStock.insertVanStock(objResponse.getArrVanStock());
+                dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
+                dbPlanTable.insertUserPlan(objResponse.getArrPlan());
+                dbRouteRemark.insertRouteRemark(objResponse.getArrRouteRemark());
+                dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
+
+                dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
+                dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
+
+                dbShVanLoadingView.insertSHRouteVanLoading(objResponse.getArrSHVanLoading());
+                dbShOutletSaleView.insertSHOutletSale(objResponse.getArrSHOutletSale());
+
+                final long endtime = System.currentTimeMillis();
+                Log.i("Total Time: ", String.valueOf(endtime - startTime));
+            } catch (Exception e) {
+                return false;
+            }
+            return loginResponse.getReturnCode();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean status) {
+            if (status) {
+                updateBarHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        RetrofitUtil.hideDialog();
+                    }
+                }, 500);
+                SnackbarUtil.showSnackbar(getView(), getString(R.string.str_sync_complete));
+            } else {
+                updateBarHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        RetrofitUtil.hideDialog();
+                    }
+                }, 500);
+                new SampleDialog("", getString(R.string.str_error_sync_data), getContext());
+            }
+
+        }
     }
 }
