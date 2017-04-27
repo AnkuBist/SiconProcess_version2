@@ -2,21 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hgil.siconprocess_view.activity.fragments.baseLevel.depotList.DepotListFragment">
-
-    <TextView
-        android:id="@+id/tvZoneName"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorBackgroundBlack"
-        android:elevation="5dp"
-        android:gravity="center"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/text_size_extra_large" />
+    tools:context="com.hgil.siconprocess_view.activity.fragments.baseLevel.zoneList.ZoneListFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvDepotList"
-        android:layout_marginTop="50dp"
+        android:id="@+id/rvZoneList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none" />
@@ -25,9 +14,9 @@
         android:id="@+id/tvEmpty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:text="No Depot found"
+        android:text="No Zone found"
         android:textColor="@color/colorTextBlack"
         android:textSize="@dimen/text_size_large"
         android:visibility="gone" />

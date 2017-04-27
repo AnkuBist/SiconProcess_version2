@@ -16,7 +16,9 @@
     <string name="str_synchronizing_data_started">Synchronizing Data Started</string>
 
     <!--drawer base nav items-->
+    <string name="str_nav_zone_list">Zone List</string>
     <string name="str_nav_depot_list">Depot List</string>
+    <string name="str_route_list">Route List</string>
     <string name="str_nav_remarks_summary">Remarks Summary</string>
     <string name="str_nav_planner">Planner</string>
     <string name="str_nav_logout">Logout</string>
@@ -59,4 +61,7 @@
     <string name="status_stop"><font color='#FF8E8E93'>Stopped</font></string> <!--gray-->
     <string name="status_completed"><font color='#FF4CD964'>COMPLETED</font></string> <!--red-->
     <string name="status_pending"><font color='#FFFF3B30'>PENDING</font></string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

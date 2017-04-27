@@ -106,22 +106,22 @@ public class DaySummaryFragment extends Route_Base_Fragment {
         tvOpening.setText(strRupee + Math.round(route_outstanding));
 
         /*gross sale amount*/
-        tvGrossSale.setText(strRupee +  Math.round(route_total_sale));
+        tvGrossSale.setText(strRupee + Math.round(route_total_sale));
 
         /*rejection amount ouver route*/
-        tvRejAmount.setText(strRupee +  Math.round(route_rej_amount));
+        tvRejAmount.setText(strRupee + Math.round(route_rej_amount));
 
         // get total bill value
-        tvTotalBillValue.setText(strRupee +  Math.round(net_sale_amount));
+        tvTotalBillValue.setText(strRupee + Math.round(net_sale_amount));
 
-        tvTodayCollection.setText(strRupee +  Math.round(route_total_collection));
+        tvTodayCollection.setText(strRupee + Math.round(route_total_collection));
 
-        tvTotalOS.setText(strRupee +  Math.round(route_outstanding + net_sale_amount - route_total_collection));
+        tvTotalOS.setText(strRupee + Math.round(route_outstanding + net_sale_amount - route_total_collection));
 
         double rejPrct = 0.00;
         if (route_total_sale > 0)
             rejPrct = route_rej_amount / route_total_sale;
 
-        tvRejPercentage.setText(String.valueOf(rejPrct) + "%");
+        tvRejPercentage.setText(String.valueOf(Utility.roundTwoDecimals(rejPrct)) + "%");
     }
 }

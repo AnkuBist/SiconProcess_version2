@@ -14,6 +14,7 @@ import com.hgil.siconprocess_view.database.SHVanLoadingView;
 import com.hgil.siconprocess_view.database.SaleHistoryView;
 import com.hgil.siconprocess_view.database.TodaySaleView;
 import com.hgil.siconprocess_view.database.VanStockView;
+import com.hgil.siconprocess_view.database.ZoneView;
 import com.hgil.siconprocess_view.database.localDb.OutletRemarkTable;
 import com.hgil.siconprocess_view.database.localDb.PlannerTable;
 import com.hgil.siconprocess_view.retrofit.RetrofitService;
@@ -38,6 +39,7 @@ import retrofit2.Response;
 public class SynchronizeDataBase extends Fragment {
 
     /*sync process*/
+    private ZoneView dbZoneView;
     private RouteView dbRouteView;
     private OutletView dbOutletView;
     private DemandTargetView dbDemandTargetView;
@@ -87,6 +89,7 @@ public class SynchronizeDataBase extends Fragment {
     private Handler updateBarHandler;
 
     private void initialiseDBObj() {
+        dbZoneView = new ZoneView(getContext());
         dbRouteView = new RouteView(getContext());
         dbOutletView = new OutletView(getContext());
         dbDemandTargetView = new DemandTargetView(getContext());
@@ -105,6 +108,7 @@ public class SynchronizeDataBase extends Fragment {
     }
 
     private void eraseAllTableData() {
+        dbZoneView.eraseTable();
         dbRouteView.eraseTable();
         dbOutletView.eraseTable();
         dbDemandTargetView.eraseTable();
@@ -154,6 +158,7 @@ public class SynchronizeDataBase extends Fragment {
                                 ObjLoginResponse objResponse = loginResult.getObjLoginResponse();
 
                                 // sync data to local table and views
+                                dbZoneView.insertZone(objResponse.getArrZones());
                                 dbRouteView.insertRoutes(objResponse.getArrRoutes());
                                 dbOutletView.insertOutlet(objResponse.getArrOutlets());
                                 dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());

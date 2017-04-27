@@ -34,7 +34,7 @@ public abstract class Base_Fragment extends SynchronizeDataBase {
     protected TextView tvNavTitle, tvNavDate;
     protected ImageView imgSync;
     protected RouteModel routeModel;
-    protected String depotName, routeId, routeName, loginId;
+    protected String zoneName, depotName, routeId, routeName, loginId;
 
     @BindString(R.string.strRupee)
     protected String strRupee;
@@ -68,6 +68,7 @@ public abstract class Base_Fragment extends SynchronizeDataBase {
         super.onCreate(savedInstanceState);
         // setRetainInstance(true);
         routeModel = SiconApp.getInstance().getRouteModel();
+        zoneName = SiconApp.getInstance().getZoneName();
         depotName = SiconApp.getInstance().getDepotName();
         routeId = SiconApp.getInstance().getRouteId();
         routeName = SiconApp.getInstance().getRouteName();
@@ -127,6 +128,10 @@ public abstract class Base_Fragment extends SynchronizeDataBase {
 
     public RouteModel getRouteModel() {
         return routeModel;
+    }
+
+    public String getZoneName() {
+        return zoneName;
     }
 
     public String getDepotName() {

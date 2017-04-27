@@ -12,7 +12,7 @@ import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.adapter.depotList.DepotListAdapter;
 import com.hgil.siconprocess_view.adapter.depotList.DepotModel;
 import com.hgil.siconprocess_view.base.Base_Fragment;
-import com.hgil.siconprocess_view.database.RouteView;
+import com.hgil.siconprocess_view.database.ZoneView;
 
 import java.util.ArrayList;
 
@@ -23,21 +23,27 @@ import butterknife.BindView;
  */
 public class DepotListFragment extends Base_Fragment {
 
+    private static String ZONE_NAME = "zone_name";
+    @BindView(R.id.tvZoneName)
+    TextView tvZoneName;
     @BindView(R.id.rvDepotList)
     RecyclerView rvDepotList;
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
 
     private DepotListAdapter depotListAdapter;
-    private RouteView routeView;
+    private ZoneView zoneView;
     private ArrayList<DepotModel> arrDepot = new ArrayList<>();
 
     public DepotListFragment() {
         // Required empty public constructor
     }
 
-    public static DepotListFragment newInstance() {
+    public static DepotListFragment newInstance(String zoneName) {
         DepotListFragment fragment = new DepotListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(ZONE_NAME, zoneName);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -47,10 +53,22 @@ public class DepotListFragment extends Base_Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            zoneName = getArguments().getString(ZONE_NAME);
+        }
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (zoneName != null)
+            tvZoneName.setText(zoneName);
+
         showSyncButton();
-        setTitle("Depot List");
+        setTitle(getString(R.string.str_nav_depot_list));
 
         initializeListData();
 
@@ -67,14 +85,14 @@ public class DepotListFragment extends Base_Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvDepotList.setLayoutManager(linearLayoutManager);
-        
+
         if (arrDepot != null)
             arrDepot.clear();
         else
             arrDepot = new ArrayList<>();
 
-        routeView = new RouteView(getActivity());
-        arrDepot.addAll(routeView.getDepotList());
+        zoneView = new ZoneView(getActivity());
+        arrDepot.addAll(zoneView.getDepotList(zoneName));
         depotListAdapter = new DepotListAdapter(getActivity(), arrDepot);
         rvDepotList.setAdapter(depotListAdapter);
         onResume();

@@ -68,7 +68,7 @@ public class RouteListFragment extends Base_Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         hideSyncButton();
-        setTitle("Route List");
+        setTitle(getString(R.string.str_route_list));
 
         if (depotName != null)
             tvDepotName.setText(depotName);
@@ -89,7 +89,7 @@ public class RouteListFragment extends Base_Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvRouteList.setLayoutManager(linearLayoutManager);
 
-        if(arrRoute!=null)
+        if (arrRoute != null)
             arrRoute.clear();
         else
             arrRoute = new ArrayList<>();

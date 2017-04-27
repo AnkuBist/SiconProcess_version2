@@ -357,4 +357,17 @@ public class RouteView extends SQLiteOpenHelper {
         return sortedArrayList;
     }
 
+    /*get depot name*/
+    public String getDepotName(String depot_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT distinct " + DEPOT_NAME + " FROM " + TABLE_NAME + " where " + DEPOT_ID + "=?", new String[]{depot_id});
+        String depotName = "";
+        if (res.moveToFirst()) {
+            depotName = res.getString(res.getColumnIndex(DEPOT_NAME));
+        }
+        res.close();
+        db.close();
+        return depotName;
+    }
+
 }

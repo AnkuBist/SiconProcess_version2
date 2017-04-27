@@ -17,10 +17,14 @@ import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SHRouteVanLoadi
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.SaleHistoryModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.TodaySaleModel;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.VanStockModel;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.ZoneModel;
 
 import java.util.List;
 
 public class ObjLoginResponse {
+    @SerializedName("arrZones")
+    @Expose
+    private List<ZoneModel> arrZones;
     @SerializedName("arrRoutes")
     @Expose
     private List<RouteModel> arrRoutes;
@@ -61,6 +65,13 @@ public class ObjLoginResponse {
     @Expose
     private List<SHOutletItemSaleModel> arrSHOutletSale;
 
+    public List<ZoneModel> getArrZones() {
+        return arrZones;
+    }
+
+    public void setArrZones(List<ZoneModel> arrZones) {
+        this.arrZones = arrZones;
+    }
 
     public List<RouteModel> getArrRoutes() {
         return arrRoutes;

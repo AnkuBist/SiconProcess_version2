@@ -24,9 +24,9 @@ import android.widget.Toast;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.LoginActivity;
-import com.hgil.siconprocess_view.activity.fragments.baseLevel.depotList.DepotListFragment;
 import com.hgil.siconprocess_view.activity.fragments.baseLevel.planner.PlanListFragment;
 import com.hgil.siconprocess_view.activity.fragments.baseLevel.remarkSummary.RemarkRouteListFragment;
+import com.hgil.siconprocess_view.activity.fragments.baseLevel.zoneList.ZoneListFragment;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.homeTabs.RouteHomeFragment;
 import com.hgil.siconprocess_view.base.Base_Activity;
 import com.hgil.siconprocess_view.utils.Utility;
@@ -95,9 +95,9 @@ public class RouteListActivity extends Base_Activity {
             tvNavHeader.setText(output);
         }*/
 
-        MenuItem menuItem = nvDrawer.getMenu().findItem(R.id.nav_depot_list);
+        MenuItem menuItem = nvDrawer.getMenu().findItem(R.id.nav_zone_list);
 
-        DepotListFragment fragment = DepotListFragment.newInstance();
+        ZoneListFragment fragment = ZoneListFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right)
                 .replace(R.id.base_frame, fragment)
@@ -145,8 +145,8 @@ public class RouteListActivity extends Base_Activity {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
-            case R.id.nav_depot_list:
-                fragment = DepotListFragment.newInstance();
+            case R.id.nav_zone_list:
+                fragment = ZoneListFragment.newInstance();
                 break;
             case R.id.nav_remarks_summary:
                 fragment = RemarkRouteListFragment.newInstance();
@@ -172,7 +172,7 @@ public class RouteListActivity extends Base_Activity {
             String fragClassName = fragment.getClass().getName();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            if (menuItem.getItemId() != R.id.nav_depot_list) {
+            if (menuItem.getItemId() != R.id.nav_zone_list) {
                 // Insert the fragment by replacing any existing fragment
                 boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
                 if (!fragmentPopped) {

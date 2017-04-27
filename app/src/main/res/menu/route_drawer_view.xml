@@ -2,9 +2,9 @@
 
     <group android:checkableBehavior="none">
         <item
-            android:id="@+id/nav_depot_list"
+            android:id="@+id/nav_zone_list"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/str_nav_depot_list" />
+            android:title="@string/str_nav_zone_list" />
         <item
             android:id="@+id/nav_remarks_summary"
             android:icon="@mipmap/ic_launcher"

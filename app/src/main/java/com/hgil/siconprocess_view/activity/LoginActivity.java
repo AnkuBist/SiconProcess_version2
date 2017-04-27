@@ -24,6 +24,7 @@ import com.hgil.siconprocess_view.database.SHVanLoadingView;
 import com.hgil.siconprocess_view.database.SaleHistoryView;
 import com.hgil.siconprocess_view.database.TodaySaleView;
 import com.hgil.siconprocess_view.database.VanStockView;
+import com.hgil.siconprocess_view.database.ZoneView;
 import com.hgil.siconprocess_view.database.localDb.OutletRemarkTable;
 import com.hgil.siconprocess_view.database.localDb.PlannerTable;
 import com.hgil.siconprocess_view.retrofit.RetrofitService;
@@ -57,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.tvAppVersion)
     TextView tvAppVersion;
 
+    private ZoneView dbZoneView;
     private RouteView dbRouteView;
     private OutletView dbOutletView;
     private DemandTargetView dbDemandTargetView;
@@ -98,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initialiseDBObj() {
+        dbZoneView = new ZoneView(this);
         dbRouteView = new RouteView(this);
         dbOutletView = new OutletView(this);
         dbDemandTargetView = new DemandTargetView(this);
@@ -171,6 +174,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void eraseAllTableData() {
+        dbZoneView.eraseTable();
         dbRouteView.eraseTable();
         dbOutletView.eraseTable();
         dbDemandTargetView.eraseTable();
@@ -234,6 +238,7 @@ public class LoginActivity extends AppCompatActivity {
                                 final long startTime = System.currentTimeMillis();
 
                                 // sync data to local table and views
+                                dbZoneView.insertZone(objResponse.getArrZones());
                                 dbRouteView.insertRoutes(objResponse.getArrRoutes());
                                 dbOutletView.insertOutlet(objResponse.getArrOutlets());
                                 dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
