@@ -22,7 +22,7 @@ public interface RetrofitService {
 
     @FormUrlEncoded
     @POST(API.SYNC_URL)
-    Call<loginResponse> syncRemarkPlan(@Field("login_id") String username, @Field("sync_data") String sync_data);
+    Call<loginResponse> syncRemarkPlan(@Field("login_id") String username, @Field("lastSyncDate") String lastSyncDate, @Field("sync_data") String sync_data);
 
    /* @FormUrlEncoded
     @POST(API.SYNC_URL)

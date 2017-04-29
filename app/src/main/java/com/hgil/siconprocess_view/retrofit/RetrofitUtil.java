@@ -22,8 +22,8 @@ public class RetrofitUtil {
 
     public static RetrofitService retrofitClient() {
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(500, TimeUnit.SECONDS)
-                .connectTimeout(500, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -40,11 +40,9 @@ public class RetrofitUtil {
         loading = ProgressDialog.show(context, title, "Please Wait...", false, false);
     }
 
-
     public static void updateDialogTitle(String title) {
         loading.setTitle(title);
     }
-
 
     public static void hideDialog() {
         if (loading != null && loading.isShowing())

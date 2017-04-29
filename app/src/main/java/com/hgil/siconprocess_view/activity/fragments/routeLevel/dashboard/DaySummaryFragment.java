@@ -120,7 +120,7 @@ public class DaySummaryFragment extends Route_Base_Fragment {
 
         double rejPrct = 0.00;
         if (route_total_sale > 0)
-            rejPrct = route_rej_amount / route_total_sale;
+            rejPrct = (route_rej_amount / route_total_sale)*100;
 
         tvRejPercentage.setText(String.valueOf(Utility.roundTwoDecimals(rejPrct)) + "%");
     }

@@ -31,6 +31,7 @@ public class Utility {
     public static final String LAST_LOGIN_PASSWORD = "last_login_password";
     public static final String LOGIN_STATUS = "login_status";
     public static final String LAST_LOGIN_DATE = "last_login_date";
+    public static final String LAST_SYNC_DATE = "last_sync_date";
 
     /*check internet connection*/
     private static boolean isNetworkAvailable(Context context) {
@@ -40,39 +41,39 @@ public class Utility {
     }
 
     /*save shared preferences*/
-    public static void savePreference(Activity activity, String key, String value) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+    public static void savePreference(Context context, String key, String value) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(key, value);
         editor.apply();
     }
 
     /*read shared preferences*/
-    public static String readPreference(Activity activity, String key) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+    public static String readPreference(Context context, String key) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String restoredText = preferences.getString(key, "");
         return restoredText;
     }
 
     /*save boolean shared preferences*/
-    public static void saveLoginStatus(Activity activity, String key, boolean value) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+    public static void saveLoginStatus(Context context, String key, boolean value) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(key, value);
         editor.apply();
     }
 
     /*read boolean shared preferences*/
-    public static boolean readLoginStatus(Activity activity, String key) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+    public static boolean readLoginStatus(Context context, String key) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean restoredStatus = preferences.getBoolean(key, false);
         return restoredStatus;
     }
 
 
     /*clear shared preference data*/
-    public static void clearPreference(Activity activity) {
-        PreferenceManager.getDefaultSharedPreferences(activity).edit().clear().apply();
+    public static void clearPreference(Context context) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().clear().apply();
     }
 
     // get timestamp

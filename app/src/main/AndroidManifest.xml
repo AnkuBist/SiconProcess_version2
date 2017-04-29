@@ -9,8 +9,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!--    <uses-permission android:name="android.permission.SEND_SMS" />-->
 
+    <!--android:name="com.hgil.siconprocess_view.base.SiconApp"-->
     <application
-        android:name="com.hgil.siconprocess_view.base.SiconApp"
+        android:name=".base.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

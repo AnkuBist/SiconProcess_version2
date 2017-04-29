@@ -25,6 +25,7 @@ import com.hgil.siconprocess_view.retrofit.RetrofitUtil;
 import com.hgil.siconprocess_view.retrofit.loginResponse.ObjLoginResponse;
 import com.hgil.siconprocess_view.retrofit.loginResponse.SyncData;
 import com.hgil.siconprocess_view.retrofit.loginResponse.loginResponse;
+import com.hgil.siconprocess_view.utils.Utility;
 import com.hgil.siconprocess_view.utils.ui.SampleDialog;
 import com.hgil.siconprocess_view.utils.ui.SnackbarUtil;
 
@@ -59,6 +60,8 @@ public class SynchronizeDataBase extends Fragment {
     private SHVanLoadingView dbShVanLoadingView;
     private SHOutletSaleView dbShOutletSaleView;
 
+    private String last_sync_date = null;
+
     public SynchronizeDataBase() {
     }
 
@@ -70,6 +73,8 @@ public class SynchronizeDataBase extends Fragment {
                 RetrofitUtil.showDialog(getContext(), getString(R.string.str_synchronizing_data));
             }
         });
+        last_sync_date = Utility.readPreference(getContext(), Utility.LAST_SYNC_DATE);
+
         // call sync data here
         new Thread(new Runnable() {
             @Override
@@ -86,7 +91,7 @@ public class SynchronizeDataBase extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                synchronizedDataResponse(login_id, jObj);
+                synchronizedDataResponse(login_id, last_sync_date, jObj);
             }
         }).start();
     }
@@ -133,15 +138,24 @@ public class SynchronizeDataBase extends Fragment {
         dbShOutletSaleView.eraseTable();
     }
 
+    private void clearSyncOnlyData() {
+        dbRouteView.eraseTable();
+        dbVanStock.eraseTable();
+        dbOutletView.eraseTable();
+        dbDemandTargetView.eraseTable();
+        dbTodaySale.eraseTable();
+    }
+
+
     /*retrofit call test to fetch data from server*/
-    public void synchronizedDataResponse(final String user_id, final JSONObject syncData) {
+    public void synchronizedDataResponse(final String user_id, final String last_sync_date, final JSONObject syncData) {
         updateBarHandler.post(new Runnable() {
             public void run() {
                 RetrofitUtil.updateDialogTitle(getString(R.string.str_synchronizing_data));
             }
         });
         RetrofitService service = RetrofitUtil.retrofitClient();
-        Call<loginResponse> apiCall = service.syncRemarkPlan(user_id, syncData.toString());
+        Call<loginResponse> apiCall = service.syncRemarkPlan(user_id, last_sync_date, syncData.toString());
         apiCall.enqueue(new Callback<loginResponse>() {
             @Override
             public void onResponse(Call<loginResponse> call, Response<loginResponse> response) {
@@ -155,9 +169,6 @@ public class SynchronizeDataBase extends Fragment {
 
                 // rest call to read data from api service
                 if (loginResult.getReturnCode()) {
-                    // erase all masterTables data
-                    eraseAllTableData();
-
                     //async process
                     new syncDataToLocalDb(loginResult).execute();
                     /*try {
@@ -238,22 +249,41 @@ public class SynchronizeDataBase extends Fragment {
                 ObjLoginResponse objResponse = loginResponse.getObjLoginResponse();
 
                 final long startTime = System.currentTimeMillis();
-                // sync data to local table and views
-                dbZoneView.insertZone(objResponse.getArrZones());
-                dbRouteView.insertRoutes(objResponse.getArrRoutes());
-                dbOutletView.insertOutlet(objResponse.getArrOutlets());
-                dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
-                dbVanStock.insertVanStock(objResponse.getArrVanStock());
-                dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
-                dbPlanTable.insertUserPlan(objResponse.getArrPlan());
-                dbRouteRemark.insertRouteRemark(objResponse.getArrRouteRemark());
-                dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
+                if (last_sync_date.matches(Utility.getCurDate())) {
+                    clearSyncOnlyData();
+                    dbRouteView.insertRoutes(objResponse.getArrRoutes());
+                    dbVanStock.insertVanStock(objResponse.getArrVanStock());
+                    dbOutletView.insertOutlet(objResponse.getArrOutlets());
+                    dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
+                    dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
+                } else {
+                    // erase all masterTables data
+                    eraseAllTableData();
 
-                dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
-                dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
+                    // sync data to local table and views
+                    dbZoneView.insertZone(objResponse.getArrZones());
+                    dbRouteView.insertRoutes(objResponse.getArrRoutes());
+                    dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
 
-                dbShVanLoadingView.insertSHRouteVanLoading(objResponse.getArrSHVanLoading());
-                dbShOutletSaleView.insertSHOutletSale(objResponse.getArrSHOutletSale());
+                    // sync only data
+                    dbVanStock.insertVanStock(objResponse.getArrVanStock());
+                    dbOutletView.insertOutlet(objResponse.getArrOutlets());
+                    dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
+                    dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
+
+                    // plans and remarks info
+                    dbPlanTable.insertUserPlan(objResponse.getArrPlan());
+                    dbRouteRemark.insertRouteRemark(objResponse.getArrRouteRemark());
+                    dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
+
+                    // sale history details
+                    dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
+                    dbShVanLoadingView.insertSHRouteVanLoading(objResponse.getArrSHVanLoading());
+                    dbShOutletSaleView.insertSHOutletSale(objResponse.getArrSHOutletSale());
+                }
+
+                //update sync date to local
+                Utility.savePreference(getContext(), Utility.LAST_SYNC_DATE, Utility.getCurDate());
 
                 final long endtime = System.currentTimeMillis();
                 Log.i("Total Time: ", String.valueOf(endtime - startTime));

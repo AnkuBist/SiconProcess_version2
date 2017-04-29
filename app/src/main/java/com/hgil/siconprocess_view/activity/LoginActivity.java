@@ -42,6 +42,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+//import retrofit2.Response;
+
 public class LoginActivity extends AppCompatActivity {
 
     private static final int APP_PERMISSION = 105;
@@ -86,6 +88,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        //initiateDialog();
 
         // read shared preference if any
         saved_id = Utility.readPreference(this, Utility.USER_ID);
@@ -158,6 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                 //TODO--- this is a test code remove these lines and uncomment the below code after this
                 // check for login
                 getUserLogin(username, password);
+                //makeJsonObjectRequest(username, password);
 
                 //Snackbar.make(coordinateLayout, "Please erase app data before login with different user!", Snackbar.LENGTH_LONG).show();
             }
@@ -238,10 +243,10 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void run() {
 
-                        *//*updateBarHandler.post(new Runnable() {
+                        *//**//*updateBarHandler.post(new Runnable() {
                             public void run() {
                                 RetrofitUtil.updateDialogTitle("Writing Data To Local");//getString(R.string.str_login_detail_fetch));
-                                *//*
+                                *//**//*
                                 ObjLoginResponse objResponse = loginResult.getObjLoginResponse();
                                 final long startTime = System.currentTimeMillis();
 
@@ -334,17 +339,19 @@ public class LoginActivity extends AppCompatActivity {
                 // sync data to local table and views
                 dbZoneView.insertZone(objResponse.getArrZones());
                 dbRouteView.insertRoutes(objResponse.getArrRoutes());
+                dbVanStock.insertVanStock(objResponse.getArrVanStock());
                 dbOutletView.insertOutlet(objResponse.getArrOutlets());
                 dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
-                dbVanStock.insertVanStock(objResponse.getArrVanStock());
-                dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
+                dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
+                dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
+
+                // plans and remarks info
                 dbPlanTable.insertUserPlan(objResponse.getArrPlan());
                 dbRouteRemark.insertRouteRemark(objResponse.getArrRouteRemark());
                 dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
 
-                dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
-                dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
-
+                // sale history details
+                dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
                 dbShVanLoadingView.insertSHRouteVanLoading(objResponse.getArrSHVanLoading());
                 dbShOutletSaleView.insertSHOutletSale(objResponse.getArrSHOutletSale());
 
@@ -354,6 +361,7 @@ public class LoginActivity extends AppCompatActivity {
                 Utility.saveLoginStatus(LoginActivity.this, Utility.LOGIN_STATUS, true);
                 Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_ID, login_id);
                 Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_DATE, Utility.getCurDate());
+                Utility.savePreference(LoginActivity.this, Utility.LAST_SYNC_DATE, Utility.getCurDate());
             } catch (Exception e) {
                 return false;
             }
@@ -423,5 +431,111 @@ public class LoginActivity extends AppCompatActivity {
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }*/
+
+
+    /*volley task*/
+    // Progress dialog
+    /*private ProgressDialog pDialog;
+
+    public void initiateDialog() {
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Please wait...");
+        pDialog.setCancelable(false);
+    }
+
+    private void showpDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hidepDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
+    }
+
+    private static String TAG = LoginActivity.class.getSimpleName();*/
+
+    /**
+     * Method to make json object request where json response starts wtih {
+     */
+   /* private void makeJsonObjectRequest(final String username, final String password) {
+
+        showpDialog();
+
+        String urlJsonObj = API.BASE_URL + API.LOGIN_URL;
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("login_id", username);
+        params.put("password", password);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlJsonObj,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, response.toString());
+                        JSONObject responseObj = null;
+                        try {
+                            Gson g = new Gson();
+                            loginResponse syncBean = g.fromJson(response, loginResponse.class);
+
+                            //responseObj = new JSONObject(response);
+                            // Parsing json object response
+                            // response will be a json object
+                            if (syncBean.getReturnCode()) {
+                                String strResponse = response.toString();
+                                Log.e(TAG, "onResponse: " + strResponse);
+
+                                // do background task here
+                                // erase all masterTables data
+                                eraseAllTableData();
+
+                                //async process
+                                new syncDataToLocalDb(username, syncBean).execute();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                        hidepDialog();
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_SHORT).show();
+                // hide the progress dialog
+                hidepDialog();
+            }
+        }) {
+            *//* @Override
+             public String getBodyContentType() {
+                 return "application/x-www-form-urlencoded";// charset=UTF-8";
+             }*//*
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> pars = new HashMap<String, String>();
+                pars.put("Content-Type", "application/x-www-form-urlencoded");
+                return pars;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("login_id", username);
+                params.put("password", password);
+                return params;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(stringRequest);
+    }*/
+
 
 }
