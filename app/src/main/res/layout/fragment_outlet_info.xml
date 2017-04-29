@@ -43,13 +43,13 @@
             style="@style/OutletInfoEtStyle" />
 
         <!--dealer type-->
-        <TextView
+        <!--<TextView
             style="@style/OutletInfoTvLabel"
             android:text="Dealer Type" />
 
         <EditText
             android:id="@+id/etDealerType"
-            style="@style/OutletInfoEtStyle" />
+            style="@style/OutletInfoEtStyle" />-->
 
         <!--dealer account number-->
         <TextView

@@ -119,7 +119,8 @@ public class Utility {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        SimpleDateFormat simpleDateformat = new SimpleDateFormat("E, dd MMMM"); // the day of the week abbreviated
+        //SimpleDateFormat simpleDateformat = new SimpleDateFormat("E, dd MMMM"); // the day of the week abbreviated
+        SimpleDateFormat simpleDateformat = new SimpleDateFormat("E, dd"); // the day of the week abbreviated
         return simpleDateformat.format(startDate);
     }
 

@@ -19,13 +19,14 @@ import java.util.List;
  */
 
 public class ZoneView extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     private static final String DATABASE_NAME = "Sicon_Zone";
     private static final String TABLE_NAME = "Zone_Master_table";
 
     private static final String ZONE_NAME = "zoneName";
     private static final String DEPOT_ID = "depotId";
+    private static final String DEPOT_NAME = "Depot_Name";
     private static final String ZONE_SEQUENCE = "zoneSequence";
 
     private Context mContext;
@@ -38,7 +39,7 @@ public class ZoneView extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + ZONE_NAME + " TEXT NULL, "
-                + DEPOT_ID + " TEXT NULL, " + ZONE_SEQUENCE + " INTEGER NULL)");
+                + DEPOT_ID + " TEXT NULL, " + DEPOT_NAME + " TEXT NULL, " + ZONE_SEQUENCE + " INTEGER NULL)");
     }
 
     @Override
@@ -59,6 +60,7 @@ public class ZoneView extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ZONE_NAME, zoneModel.getZoneName());
         contentValues.put(DEPOT_ID, zoneModel.getDepotId());
+        contentValues.put(DEPOT_NAME, zoneModel.getDepotName());
         contentValues.put(ZONE_SEQUENCE, zoneModel.getZoneSequence());
 
         db.insert(TABLE_NAME, null, contentValues);
@@ -76,6 +78,7 @@ public class ZoneView extends SQLiteOpenHelper {
         // Get the numeric indexes for each of the columns that we're updating
         final int zoneNameColumn = ih.getColumnIndex(ZONE_NAME);
         final int depotIdColumn = ih.getColumnIndex(DEPOT_ID);
+        final int depotNameColumn = ih.getColumnIndex(DEPOT_NAME);
         final int zoneSequenceColumn = ih.getColumnIndex(ZONE_SEQUENCE);
 
         try {
@@ -85,6 +88,7 @@ public class ZoneView extends SQLiteOpenHelper {
 
                 ih.bind(zoneNameColumn, zoneModel.getZoneName());
                 ih.bind(depotIdColumn, zoneModel.getDepotId());
+                ih.bind(depotNameColumn, zoneModel.getDepotName());
                 ih.bind(zoneSequenceColumn, zoneModel.getZoneSequence());
 
                 ih.execute();
@@ -130,23 +134,17 @@ public class ZoneView extends SQLiteOpenHelper {
     /*DISTINCT DEPOTS ON SELECTED ZONE*/
     /*get unique depots for login user*/
     public ArrayList<DepotModel> getDepotList(String zoneName) {
-        RouteView routeView = new RouteView(mContext);
         ArrayList<DepotModel> array_list = new ArrayList<DepotModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT distinct " + DEPOT_ID + " FROM " + TABLE_NAME + " where " + ZONE_NAME + "=?",
+        Cursor res = db.rawQuery("SELECT distinct " + DEPOT_ID + ", " + DEPOT_NAME + " FROM " + TABLE_NAME + " where " + ZONE_NAME + "=?",
                 new String[]{zoneName});
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 DepotModel depotModel = new DepotModel();
-                String depot_id = res.getString(res.getColumnIndex(DEPOT_ID));
-                depotModel.setDepot_id(depot_id);
-
-                String depotName = routeView.getDepotName(depot_id);
-                if (depotName != null && !depotName.matches("")) {
-                    depotModel.setDepot_name(depotName);
-                    array_list.add(depotModel);
-                }
+                depotModel.setDepot_id(res.getString(res.getColumnIndex(DEPOT_ID)));
+                depotModel.setDepot_name(res.getString(res.getColumnIndex(DEPOT_NAME)));
+                array_list.add(depotModel);
                 res.moveToNext();
             }
         }

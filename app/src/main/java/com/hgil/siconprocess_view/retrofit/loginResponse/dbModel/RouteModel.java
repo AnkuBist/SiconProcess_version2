@@ -11,9 +11,9 @@ public class RouteModel {
     @SerializedName("depot_id")
     @Expose
     private String depotId;
-    @SerializedName("depot_name")
+   /* @SerializedName("depot_name")
     @Expose
-    private String depotName;
+    private String depotName;*/
     @SerializedName("route_id")
     @Expose
     private String routeId;
@@ -38,13 +38,13 @@ public class RouteModel {
         this.depotId = depotId;
     }
 
-    public String getDepotName() {
+/*    public String getDepotName() {
         return depotName;
     }
 
     public void setDepotName(String depotName) {
         this.depotName = depotName;
-    }
+    }*/
 
     public String getRouteId() {
         return routeId;

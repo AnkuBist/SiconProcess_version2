@@ -15,6 +15,9 @@ public class ZoneModel {
     @SerializedName("depotId")
     @Expose
     private String depotId;
+    @SerializedName("depotName")
+    @Expose
+    private String depotName;
     @SerializedName("zoneSequence")
     @Expose
     private Integer zoneSequence;
@@ -33,6 +36,14 @@ public class ZoneModel {
 
     public void setDepotId(String depotId) {
         this.depotId = depotId;
+    }
+
+    public String getDepotName() {
+        return depotName;
+    }
+
+    public void setDepotName(String depotName) {
+        this.depotName = depotName;
     }
 
     public Integer getZoneSequence() {

@@ -382,5 +382,4 @@ public class TodaySaleView extends SQLiteOpenHelper {
         return item_count;
     }
 
-
 }

@@ -24,8 +24,8 @@ public class OutletInfoFragment extends Route_Base_Fragment {
     TextView etDealerCode;
     @BindView(R.id.etRouteName)
     TextView etRouteName;
-    @BindView(R.id.etDealerType)
-    TextView etDealerType;
+    /*  @BindView(R.id.etDealerType)
+      TextView etDealerType;*/
     @BindView(R.id.etDealerContact)
     TextView etDealerContact;
 
@@ -67,7 +67,7 @@ public class OutletInfoFragment extends Route_Base_Fragment {
         etDealerName.setText(outletModel.getCustomerName());
         etDealerCode.setText(outletModel.getCustomerId());
         etRouteName.setText(outletModel.getRouteName());
-        etDealerType.setText(outletModel.getCType());
+        //etDealerType.setText(outletModel.getCType());
         etDealerContact.setText(outletModel.getContactNo());
     }
 }

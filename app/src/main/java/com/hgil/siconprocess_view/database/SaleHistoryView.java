@@ -19,7 +19,7 @@ import java.util.List;
 public class SaleHistoryView extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 2;
 
-    private static final String DATABASE_NAME = "GOGB_Sale_History_db";
+    private static final String DATABASE_NAME = "GoDb_Sale_History_db";
     private static final String TABLE_NAME = "Outlet_Sale_History_table";
 
     private static final String ROUTE_ID = "route_id";

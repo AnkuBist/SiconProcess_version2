@@ -175,10 +175,8 @@ public class SaleRejHistoryFragment extends Route_Base_Fragment {
     }
 
     private void updateLabel() {
-
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
         etFromDate.setText(sdf.format(myCalendar.getTime()));
     }
 
@@ -188,5 +186,4 @@ public class SaleRejHistoryFragment extends Route_Base_Fragment {
         Calendar today = Calendar.getInstance();
         etToDate.setText(sdf.format(today.getTime()));
     }
-
 }

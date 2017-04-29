@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.hgil.siconprocess_view.adapter.depotList.DepotModel;
 import com.hgil.siconprocess_view.adapter.routeList.RouteListModel;
 import com.hgil.siconprocess_view.database.localDb.OutletRemarkTable;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;
@@ -23,13 +22,13 @@ import java.util.List;
  */
 
 public class RouteView extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
 
     private static final String DATABASE_NAME = "Sicon_route";
     private static final String TABLE_NAME = "V_SD_Route_Master";
 
     private static final String DEPOT_ID = "Depot_id";
-    private static final String DEPOT_NAME = "Depot_Name";
+    //private static final String DEPOT_NAME = "Depot_Name";
     private static final String ROUTE_ID = "Route_Id";
     private static final String ROUTE_NAME = "Route_Name";
     private static final String CASHIER_NAME = "Cashier_Name";
@@ -48,8 +47,9 @@ public class RouteView extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + //DEPOT_ID + " TEXT NULL, "
-                DEPOT_ID + " TEXT NULL, " + DEPOT_NAME + " TEXT NULL, " +
-                ROUTE_ID + " TEXT NULL, " + ROUTE_NAME + " TEXT NULL, " + CASHIER_NAME + " TEXT NULL, "
+                DEPOT_ID + " TEXT NULL, "
+                //+ DEPOT_NAME + " TEXT NULL, " +
+                + ROUTE_ID + " TEXT NULL, " + ROUTE_NAME + " TEXT NULL, " + CASHIER_NAME + " TEXT NULL, "
                 + PSMID + " TEXT NULL, " + PSM_NAME + " TEXT NULL)");
         //+ CUSTOMER_ID + " TEXT NULL, " + CUSTOMER_NAME + " TEXT NULL, "
         // + CONTACT_NO + " TEXT NULL)");
@@ -72,7 +72,7 @@ public class RouteView extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(DEPOT_ID, routeModel.getDepotId());
-        contentValues.put(DEPOT_NAME, routeModel.getDepotName());
+        //contentValues.put(DEPOT_NAME, routeModel.getDepotName());
         contentValues.put(ROUTE_ID, routeModel.getRouteId());
         contentValues.put(ROUTE_NAME, routeModel.getRouteName());
         contentValues.put(CASHIER_NAME, routeModel.getCashierName());
@@ -120,7 +120,7 @@ public class RouteView extends SQLiteOpenHelper {
 
         // Get the numeric indexes for each of the columns that we're updating
         final int depotIdColumn = ih.getColumnIndex(DEPOT_ID);
-        final int depotNameColumn = ih.getColumnIndex(DEPOT_NAME);
+        //final int depotNameColumn = ih.getColumnIndex(DEPOT_NAME);
         final int routeIdColumn = ih.getColumnIndex(ROUTE_ID);
         final int routeNameColumn = ih.getColumnIndex(ROUTE_NAME);
         final int cashierNameColumn = ih.getColumnIndex(CASHIER_NAME);
@@ -133,7 +133,7 @@ public class RouteView extends SQLiteOpenHelper {
                 ih.prepareForInsert();
 
                 ih.bind(depotIdColumn, routeModel.getDepotId());
-                ih.bind(depotNameColumn, routeModel.getDepotName());
+                //ih.bind(depotNameColumn, routeModel.getDepotName());
                 ih.bind(routeIdColumn, routeModel.getRouteId());
                 ih.bind(routeNameColumn, routeModel.getRouteName());
                 ih.bind(cashierNameColumn, routeModel.getCashierName());
@@ -162,7 +162,7 @@ public class RouteView extends SQLiteOpenHelper {
         RouteModel routeModel = new RouteModel();
         if (res.moveToFirst()) {
             routeModel.setDepotId(res.getString(res.getColumnIndex(DEPOT_ID)));
-            routeModel.setDepotName(res.getString(res.getColumnIndex(DEPOT_NAME)));
+            //routeModel.setDepotName(res.getString(res.getColumnIndex(DEPOT_NAME)));
             routeModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
             routeModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
             routeModel.setCashierName(res.getString(res.getColumnIndex(CASHIER_NAME)));
@@ -206,7 +206,7 @@ public class RouteView extends SQLiteOpenHelper {
             //while (res.isAfterLast() == false) {
             //routeModel.setDepot(res.getString(res.getColumnIndex(DEPOT_ID)));
             routeModel.setDepotId(res.getString(res.getColumnIndex(DEPOT_ID)));
-            routeModel.setDepotName(res.getString(res.getColumnIndex(DEPOT_NAME)));
+            //routeModel.setDepotName(res.getString(res.getColumnIndex(DEPOT_NAME)));
             routeModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
             routeModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
             routeModel.setCashierName(res.getString(res.getColumnIndex(CASHIER_NAME)));
@@ -232,7 +232,7 @@ public class RouteView extends SQLiteOpenHelper {
                 RouteModel routeModel = new RouteModel();
                 ///routeModel.setDepot(res.getString(res.getColumnIndex(DEPOT_ID)));
                 routeModel.setDepotId(res.getString(res.getColumnIndex(DEPOT_ID)));
-                routeModel.setDepotName(res.getString(res.getColumnIndex(DEPOT_NAME)));
+                //routeModel.setDepotName(res.getString(res.getColumnIndex(DEPOT_NAME)));
                 routeModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
                 routeModel.setRouteName(res.getString(res.getColumnIndex(ROUTE_NAME)));
                 routeModel.setCashierName(res.getString(res.getColumnIndex(CASHIER_NAME)));
@@ -310,7 +310,7 @@ public class RouteView extends SQLiteOpenHelper {
     }
 
     /*get unique depots for login user*/
-    public ArrayList<DepotModel> getDepotList() {
+    /*public ArrayList<DepotModel> getDepotList() {
         ArrayList<DepotModel> array_list = new ArrayList<DepotModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -327,7 +327,7 @@ public class RouteView extends SQLiteOpenHelper {
         res.close();
         db.close();
         return array_list;
-    }
+    }*/
 
     /*GET DEPOT ROUTES*/
     public ArrayList<RouteListModel> getDepotRouteList(String depot_id) {
@@ -357,17 +357,17 @@ public class RouteView extends SQLiteOpenHelper {
         return sortedArrayList;
     }
 
-    /*get depot name*/
-    public String getDepotName(String depot_id) {
+    /*get route name*/
+    public String getRouteName(String route_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT distinct " + DEPOT_NAME + " FROM " + TABLE_NAME + " where " + DEPOT_ID + "=?", new String[]{depot_id});
-        String depotName = "";
+        Cursor res = db.rawQuery("SELECT distinct " + ROUTE_NAME + " FROM " + TABLE_NAME + " where " + ROUTE_ID + "=?", new String[]{route_id});
+        String routeName = "";
         if (res.moveToFirst()) {
-            depotName = res.getString(res.getColumnIndex(DEPOT_NAME));
+            routeName = res.getString(res.getColumnIndex(ROUTE_NAME));
         }
         res.close();
         db.close();
-        return depotName;
+        return routeName;
     }
 
 }

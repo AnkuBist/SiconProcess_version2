@@ -46,7 +46,7 @@ public class SaleRejAdapter extends RecyclerView.Adapter<SaleRejAdapter.ViewHold
         if (saleHistoryModel.getGrossSale() > 0)
             rejPrct = Utility.roundTwoDecimals(((grossSale - saleHistoryModel.getNetSale()) / grossSale) * 100);
 
-        holder.tvSaleAmt.setText(String.valueOf(Math.round(grossSale) + "/\n" + rejPrct));
+        holder.tvSaleAmt.setText(String.valueOf(Math.round(grossSale) + "/" + rejPrct));
         //holder.tvRejPrct.setText(String.valueOf(Utility.roundTwoDecimals(saleHistoryModel.getRejPrct())));
         holder.tvVanStockSale.setText(String.valueOf(saleHistoryModel.getItemsSold() + "/" + saleHistoryModel.getRoute_van_stock()));
 

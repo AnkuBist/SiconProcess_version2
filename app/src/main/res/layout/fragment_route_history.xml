@@ -83,22 +83,22 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.6"
+            android:layout_weight="1.2"
             android:gravity="left|center_vertical"
             android:paddingLeft="5dp"
             android:text="Date"
             android:textColor="@color/colorTextBlack"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.1"
+            android:layout_weight="1.5"
             android:gravity="center_horizontal|center_vertical"
-            android:text="Gross/\nRej%"
+            android:text="Gross/Rej%"
             android:textColor="@color/colorTextBlack"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
         <TextView
@@ -108,7 +108,7 @@
             android:gravity="center_vertical|center_horizontal"
             android:text="Rejection %age"
             android:textColor="@color/colorTextBlack"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             android:visibility="gone" />
 
@@ -119,7 +119,7 @@
             android:gravity="center_vertical|center_horizontal"
             android:text="Sale SKU/\nT. SKU"
             android:textColor="@color/colorTextBlack"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
     </LinearLayout>
