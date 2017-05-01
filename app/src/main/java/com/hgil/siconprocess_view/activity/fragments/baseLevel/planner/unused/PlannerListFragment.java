@@ -59,10 +59,10 @@ public class PlannerListFragment extends Base_Fragment {
         hideSyncButton();
         setTitle("Route Planner");
 
-        if(arrRoute!=null)
+        if (arrRoute != null)
             arrRoute.clear();
         else
-        arrRoute = new ArrayList<>();
+            arrRoute = new ArrayList<>();
 
         routeView = new RouteView(getActivity());
         arrRoute.addAll(routeView.getRouteList());

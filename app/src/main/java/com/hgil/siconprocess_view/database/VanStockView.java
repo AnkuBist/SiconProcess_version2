@@ -1,6 +1,5 @@
 package com.hgil.siconprocess_view.database;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -56,31 +55,9 @@ public class VanStockView extends SQLiteOpenHelper {
         db.close();
     }
 
-    //insert single
-    public boolean insertVanStock(VanStockModel vanStockModel) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(ROUTE_ID, vanStockModel.getRouteId());
-        contentValues.put(ITEM_ID, vanStockModel.getItemId());
-        contentValues.put(ITEM_QTY, vanStockModel.getItemQty());
-        db.insert(TABLE_NAME, null, contentValues);
-        db.close();
-        return true;
-    }
-
     // insert multiple
     public boolean insertVanStock(List<VanStockModel> arrVanStock) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        /*for (int i = 0; i < arrOutletSale.size(); i++) {
-            VanStockModel vanStockModel = arrOutletSale.get(i);
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(ROUTE_ID, vanStockModel.getRouteId());
-            contentValues.put(ITEM_ID, vanStockModel.getItemId());
-            contentValues.put(ITEM_QTY, vanStockModel.getItemQty());
-            db.insert(TABLE_NAME, null, contentValues);
-        }*/
-
         DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, TABLE_NAME);
 
         // Get the numeric indexes for each of the columns that we're updating
@@ -106,19 +83,6 @@ public class VanStockView extends SQLiteOpenHelper {
         db.close();
         return true;
     }
-
-   /* public String getCustomerContact(String customer_id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT " + CONTACT_NO + " FROM " + TABLE_NAME + " WHERE " + INVOICE_ID + "=?", new String[]{customer_id});
-
-        String contact = "";
-        if (res.moveToFirst()) {
-            contact = res.getString(res.getColumnIndex(CONTACT_NO));
-        }
-        res.close();
-        db.close();
-        return contact;
-    }*/
 
     public int numberOfRows() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -160,7 +124,6 @@ public class VanStockView extends SQLiteOpenHelper {
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 VanStkModel vanStockModel = new VanStkModel();
-                //vanStockModel.set(res.getString(res.getColumnIndex(ROUTE_ID)));
                 String item_id = res.getString(res.getColumnIndex(ITEM_ID));
                 vanStockModel.setItem_id(item_id);
                 vanStockModel.setLoadQty(res.getInt(res.getColumnIndex(ITEM_QTY)));
@@ -172,7 +135,7 @@ public class VanStockView extends SQLiteOpenHelper {
                 vanStockModel.setSample(todaySaleModel.getSampleQty());
                 vanStockModel.setMarket_rejection(todaySaleModel.getOtherRej());
                 vanStockModel.setFresh_rejection(todaySaleModel.getFreshRej());
-                vanStockModel.setLeft_over(vanStockModel.getLoadQty() - vanStockModel.getGross_sale());
+                vanStockModel.setLeft_over(vanStockModel.getLoadQty() - vanStockModel.getGross_sale() - vanStockModel.getFresh_rejection());
                 array_list.add(vanStockModel);
                 res.moveToNext();
             }
@@ -209,7 +172,7 @@ public class VanStockView extends SQLiteOpenHelper {
     /* van route items loaded count*/
     public int routeItemLoadCount(String route_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT count(" + ITEM_ID + ") AS items FROM " + TABLE_NAME + " WHERE " + ROUTE_ID + "=?",
+        Cursor res = db.rawQuery("SELECT count(" + ITEM_ID + ") AS items FROM " + TABLE_NAME + " WHERE " + ROUTE_ID + "=? and " + ITEM_ID + " not like '%CR100001%'",
                 new String[]{route_id});
 
         int item_count = 0;
@@ -240,6 +203,12 @@ public class VanStockView extends SQLiteOpenHelper {
                 itemSaleVarianceModel.setItem_name(itemDetailView.getItemName(item_id));
                 itemSaleVarianceModel.setTotal_customers(total_customers);
                 itemSaleVarianceModel.setItem_access_count(todaySaleView.itemPurchaseCustomerCount(route_id, item_id));
+
+                /*item leftover*/
+                TodaySaleModel todaySaleModel = todaySaleView.getRouteItemSale(route_id, item_id);
+                int item_loading = res.getInt(res.getColumnIndex(ITEM_QTY));
+                itemSaleVarianceModel.setItem_leftover(item_loading - todaySaleModel.getLoading() - todaySaleModel.getFreshRej());
+
                 itemSaleVarianceModel.setItem_sequence(itemDetailView.getItemSequence(item_id));
                 array_list.add(itemSaleVarianceModel);
                 res.moveToNext();
@@ -256,5 +225,20 @@ public class VanStockView extends SQLiteOpenHelper {
         });
 
         return sortedArrayList;
+    }
+
+    /*route total item loading in pieces*/
+    public int routeTotalLoading(String route_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT sum(" + ITEM_QTY + ") AS item_qty FROM " + TABLE_NAME + " WHERE " + ROUTE_ID + "=? and " + ITEM_ID + " not like '%CR100001%'",
+                new String[]{route_id});
+
+        int item_count = 0;
+        if (res.moveToFirst()) {
+            item_count = res.getInt(res.getColumnIndex("item_qty"));
+        }
+        res.close();
+        db.close();
+        return item_count;
     }
 }

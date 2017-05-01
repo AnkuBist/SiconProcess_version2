@@ -227,7 +227,7 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
                 // do nothing
                 //ft.replace(R.id.flContent, fragment);
             }
-            
+
             ft.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             ft.commit();
 

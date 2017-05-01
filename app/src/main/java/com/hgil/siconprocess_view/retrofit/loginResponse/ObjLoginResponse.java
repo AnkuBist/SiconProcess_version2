@@ -38,12 +38,6 @@ public class ObjLoginResponse {
     @SerializedName("arrVanStock")
     @Expose
     private List<VanStockModel> arrVanStock;
-    /* @SerializedName("arrOutletSale")
-     @Expose
-     private List<OutletSaleModel> arrOutletSale;*/
-   /* @SerializedName("arrPayment")
-    @Expose
-    private List<PaymentModel> arrPayment;*/
     @SerializedName("arrSaleHistory")
     @Expose
     private List<SaleHistoryModel> arrSaleHistory;
@@ -108,22 +102,6 @@ public class ObjLoginResponse {
     public void setArrVanStock(List<VanStockModel> arrVanStock) {
         this.arrVanStock = arrVanStock;
     }
-
-    /*public List<OutletSaleModel> getArrOutletSale() {
-        return arrOutletSale;
-    }
-
-    public void setArrOutletSale(List<OutletSaleModel> arrOutletSale) {
-        this.arrOutletSale = arrOutletSale;
-    }
-
-    public List<PaymentModel> getArrPayment() {
-        return arrPayment;
-    }
-
-    public void setArrPayment(List<PaymentModel> arrPayment) {
-        this.arrPayment = arrPayment;
-    }*/
 
     public List<SaleHistoryModel> getArrSaleHistory() {
         return arrSaleHistory;

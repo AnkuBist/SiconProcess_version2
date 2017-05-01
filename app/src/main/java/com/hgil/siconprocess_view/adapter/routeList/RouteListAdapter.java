@@ -3,6 +3,7 @@ package com.hgil.siconprocess_view.adapter.routeList;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.View
 
     @Override
     public RouteListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_route, null, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_depot_route, null, false);
         RouteListAdapter.ViewHolder vh = new RouteListAdapter.ViewHolder(v);
         return vh;
     }
@@ -43,13 +44,29 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.View
     @Override
     public void onBindViewHolder(final RouteListAdapter.ViewHolder holder, int position) {
         final RouteListModel routeListModel = mDataset.get(position);
+
         holder.tvRouteName.setText(routeListModel.getRoute_name());
+
+        String itemInfo = "<B><font color='" + mContext.getResources().getColor(R.color.colorTextBlack) + "'>" + "LO/TL: "
+                + "</font></B>" + routeListModel.getRoute_leftover() + "/" + routeListModel.getRoute_total_loading();
+        String saleInfo = "<B><font color='" + mContext.getResources().getColor(R.color.colorTextBlack) + "'>" + "PC/TC: "
+                + "</font></B>" + routeListModel.getRoute_productive_calls() + "/" + routeListModel.getRoute_target_calls();
+        String rejPrct = "<B><font color='" + mContext.getResources().getColor(R.color.colorTextBlack) + "'>" + "Rej %: "
+                + "</font></B>" + routeListModel.getRoute_rej_prct();
+        holder.tvItemInfo.setText(Html.fromHtml(itemInfo));
+        holder.tvSaleInfo.setText(Html.fromHtml(saleInfo));
+        holder.tvRejPrct.setText(Html.fromHtml(rejPrct));
+
+        /*holder.tvItemInfo.setText("LO/TL: "
+                + routeListModel.getRoute_leftover() + "/" + routeListModel.getRoute_total_loading());
+        holder.tvSaleInfo.setText("PC/TC: "
+                + routeListModel.getRoute_productive_calls() + "/" + routeListModel.getRoute_target_calls());
+        holder.tvRejPrct.setText("Rej %: " + routeListModel.getRoute_rej_prct());*/
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, NavRouteBaseActivity.class);
-
                 String route_id = routeListModel.getRoute_id();
 
                 // first assign value to application
@@ -61,13 +78,10 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.View
                 SiconApp.getInstance().setRouteName(routeModel.getRouteName());
                 SiconApp.getInstance().setCashierName(routeModel.getCashierName());
 
-                //intent.putExtra("route_id", routeListModel.getRoute_id());
                 mContext.startActivity(intent);
                 ((RouteListActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-
             }
         });
-
         holder.setIsRecyclable(false);
     }
 
@@ -79,6 +93,12 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvRouteName)
         public TextView tvRouteName;
+        @BindView(R.id.tvItemInfo)
+        public TextView tvItemInfo;
+        @BindView(R.id.tvSaleInfo)
+        public TextView tvSaleInfo;
+        @BindView(R.id.tvRejPrct)
+        public TextView tvRejPrct;
 
         public ViewHolder(View v) {
             super(v);

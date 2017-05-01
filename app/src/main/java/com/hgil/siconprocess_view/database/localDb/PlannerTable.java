@@ -69,19 +69,6 @@ public class PlannerTable extends SQLiteOpenHelper {
     // insert multiple
     public boolean insertUserPlan(List<PlanModel> arrUserPlan) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-       /* for (int i = 0; i < arrUserPlan.size(); i++) {
-            PlanModel planModel = arrUserPlan.get(i);
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(USER_ID, planModel.getUserId());
-            contentValues.put(PLAN, planModel.getUserPlan());
-            contentValues.put(PLAN_DATE, planModel.getPlanDate());
-            *//*if (hasObject(db, planModel.getUserId(), planModel.getPlanDate()))
-                db.update(TABLE_NAME, contentValues, USER_ID + "=? AND " + PLAN_DATE + "=?", new String[]{planModel.getUserId(), planModel.getPlanDate()});
-            else*//*
-                db.insert(TABLE_NAME, null, contentValues);
-        }*/
-
         DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, TABLE_NAME);
 
         // Get the numeric indexes for each of the columns that we're updating
@@ -104,7 +91,6 @@ public class PlannerTable extends SQLiteOpenHelper {
         } finally {
             db.endTransaction();
         }
-
         db.close();
         return true;
     }
@@ -122,19 +108,6 @@ public class PlannerTable extends SQLiteOpenHelper {
         cursor.close();          // Don't forget to close your cursor
         return hasObject;
     }
-
-   /* public String getCustomerContact(String customer_id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT " + CONTACT_NO + " FROM " + TABLE_NAME + " WHERE " + INVOICE_ID + "=?", new String[]{customer_id});
-
-        String contact = "";
-        if (res.moveToFirst()) {
-            contact = res.getString(res.getColumnIndex(CONTACT_NO));
-        }
-        res.close();
-        db.close();
-        return contact;
-    }*/
 
     public int numberOfRows() {
         SQLiteDatabase db = this.getReadableDatabase();

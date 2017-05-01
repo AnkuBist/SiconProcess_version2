@@ -61,6 +61,7 @@ public class SynchronizeDataBase extends Fragment {
     private SHOutletSaleView dbShOutletSaleView;
 
     private String last_sync_date = null;
+    private Handler updateBarHandler;
 
     public SynchronizeDataBase() {
     }
@@ -95,8 +96,6 @@ public class SynchronizeDataBase extends Fragment {
             }
         }).start();
     }
-
-    private Handler updateBarHandler;
 
     private void initialiseDBObj() {
         dbZoneView = new ZoneView(getContext());
@@ -146,7 +145,6 @@ public class SynchronizeDataBase extends Fragment {
         dbTodaySale.eraseTable();
     }
 
-
     /*retrofit call test to fetch data from server*/
     public void synchronizedDataResponse(final String user_id, final String last_sync_date, final JSONObject syncData) {
         updateBarHandler.post(new Runnable() {
@@ -164,60 +162,30 @@ public class SynchronizeDataBase extends Fragment {
                         RetrofitUtil.updateDialogTitle(getString(R.string.str_synchronizing_data_started));
                     }
                 });
+                try {
+                    final loginResponse loginResult = response.body();
 
-                final loginResponse loginResult = response.body();
-
-                // rest call to read data from api service
-                if (loginResult.getReturnCode()) {
-                    //async process
-                    new syncDataToLocalDb(loginResult).execute();
-                    /*try {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                ObjLoginResponse objResponse = loginResult.getObjLoginResponse();
-
-                                // sync data to local table and views
-                                dbZoneView.insertZone(objResponse.getArrZones());
-                                dbRouteView.insertRoutes(objResponse.getArrRoutes());
-                                dbOutletView.insertOutlet(objResponse.getArrOutlets());
-                                dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
-                                dbVanStock.insertVanStock(objResponse.getArrVanStock());
-                                dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
-                                dbPlanTable.insertUserPlan(objResponse.getArrPlan());
-                                dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
-
-                                dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
-                                dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
-
-                                dbShVanLoadingView.insertSHRouteVanLoading(objResponse.getArrSHVanLoading());
-                                dbShOutletSaleView.insertSHOutletSale(objResponse.getArrSHOutletSale());
-                            }
-                        }).start();
+                    // rest call to read data from api service
+                    if (loginResult.getReturnCode()) {
+                        //async process
+                        new syncDataToLocalDb(loginResult).execute();
+                    } else {
                         updateBarHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 RetrofitUtil.hideDialog();
                             }
                         }, 500);
-                        SnackbarUtil.showSnackbar(getView(), getString(R.string.str_sync_complete));
-                    } catch (Exception e) {
-                        updateBarHandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                RetrofitUtil.hideDialog();
-                            }
-                        }, 500);
-                        new SampleDialog("", getString(R.string.str_error_sync_data), getContext());
-                    }*/
-                } else {
+                        new SampleDialog("", loginResult.getStrMessage(), getContext());
+                    }
+                } catch (Exception e) {
                     updateBarHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             RetrofitUtil.hideDialog();
                         }
                     }, 500);
-                    new SampleDialog("", loginResult.getStrMessage(), getContext());
+                    new SampleDialog("", getString(R.string.str_error_sync_data), getContext());
                 }
             }
 
@@ -312,7 +280,6 @@ public class SynchronizeDataBase extends Fragment {
                 }, 500);
                 new SampleDialog("", getString(R.string.str_error_sync_data), getContext());
             }
-
         }
     }
 }

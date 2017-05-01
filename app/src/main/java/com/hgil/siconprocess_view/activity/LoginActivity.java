@@ -220,87 +220,38 @@ public class LoginActivity extends AppCompatActivity {
                         RetrofitUtil.updateDialogTitle(getString(R.string.str_login_detail_fetch));
                     }
                 });
+                try {
+                    final loginResponse loginResult = response.body();
 
-                final loginResponse loginResult = response.body();
-
-                // rest call to read data from api service
-                if (loginResult.getReturnCode()) {
-                    // save user password for local login purpose
-                    Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_PASSWORD, password);
-                    if (cbSignIn.isChecked()) {
-                        // save the password for the next login too
-                        Utility.savePreference(LoginActivity.this, Utility.USER_ID, user_id);
+                    // rest call to read data from api service
+                    if (loginResult.getReturnCode()) {
+                        // save user password for local login purpose
+                        Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_PASSWORD, password);
+                        if (cbSignIn.isChecked()) {
+                            // save the password for the next login too
+                            Utility.savePreference(LoginActivity.this, Utility.USER_ID, user_id);
+                        }
+                        // erase all masterTables data
+                        eraseAllTableData();
+                        //async process
+                        new syncDataToLocalDb(user_id, loginResult).execute();
+                    } else {
+                        updateBarHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                RetrofitUtil.hideDialog();
+                            }
+                        }, 500);
+                        new SampleDialog("", loginResult.getStrMessage(), LoginActivity.this);
                     }
-
-                    // erase all masterTables data
-                    eraseAllTableData();
-
-                    //async process
-                    new syncDataToLocalDb(user_id, loginResult).execute();
-
-                   /* try {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                        *//**//*updateBarHandler.post(new Runnable() {
-                            public void run() {
-                                RetrofitUtil.updateDialogTitle("Writing Data To Local");//getString(R.string.str_login_detail_fetch));
-                                *//**//*
-                                ObjLoginResponse objResponse = loginResult.getObjLoginResponse();
-                                final long startTime = System.currentTimeMillis();
-
-                                // sync data to local table and views
-                                dbZoneView.insertZone(objResponse.getArrZones());
-                                dbRouteView.insertRoutes(objResponse.getArrRoutes());
-                                dbOutletView.insertOutlet(objResponse.getArrOutlets());
-                                dbDemandTargetView.insertDemandTarget(objResponse.getArrDemandTarget());
-                                dbVanStock.insertVanStock(objResponse.getArrVanStock());
-                                dbSaleHistory.insertSaleHistory(objResponse.getArrSaleHistory());
-                                dbPlanTable.insertUserPlan(objResponse.getArrPlan());
-                                dbRouteRemark.insertRouteRemark(objResponse.getArrRouteRemark());
-                                dbOutletRemark.insertOutletRemark(objResponse.getArrRemark());
-
-                                dbTodaySale.insertTodaySale(objResponse.getArrTodaySale());
-                                dbItemDetail.insertItemInfo(objResponse.getArrItemDetail());
-
-                                dbShVanLoadingView.insertSHRouteVanLoading(objResponse.getArrSHVanLoading());
-                                dbShOutletSaleView.insertSHOutletSale(objResponse.getArrSHOutletSale());
-
-                                final long endtime = System.currentTimeMillis();
-                                Log.i("Total Time: ", String.valueOf(endtime - startTime));
-
-                                Utility.saveLoginStatus(LoginActivity.this, Utility.LOGIN_STATUS, true);
-                                Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_ID, user_id);
-                                Utility.savePreference(LoginActivity.this, Utility.LAST_LOGIN_DATE, Utility.getCurDate());
-                            }
-                        }).start();
-                        updateBarHandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                RetrofitUtil.hideDialog();
-                            }
-                        }, 500);
-                        startActivity(new Intent(LoginActivity.this, RouteListActivity.class));
-                        finish();
-                        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-                    } catch (Exception e) {
-                        updateBarHandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                RetrofitUtil.hideDialog();
-                            }
-                        }, 500);
-                        new SampleDialog("", getString(R.string.str_error_login), LoginActivity.this);
-                    }*/
-                } else {
+                } catch (Exception e) {
                     updateBarHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             RetrofitUtil.hideDialog();
                         }
                     }, 500);
-                    new SampleDialog("", loginResult.getStrMessage(), LoginActivity.this);
+                    new SampleDialog("", getString(R.string.str_error_login), LoginActivity.this);
                 }
             }
 
@@ -317,7 +268,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 
     /*async process*/
     private class syncDataToLocalDb extends AsyncTask<Void, Void, Boolean> {

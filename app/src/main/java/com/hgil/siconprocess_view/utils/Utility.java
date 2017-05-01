@@ -191,7 +191,7 @@ public class Utility {
     /*calculate time difference*/
     public static String timeVariance(String date1, String date2) {
 
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         Date Date1 = null, Date2 = null;
         try {
             Date1 = format.parse(date1);

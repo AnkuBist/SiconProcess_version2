@@ -1,6 +1,5 @@
 package com.hgil.siconprocess_view.database;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -52,20 +51,6 @@ public class ZoneView extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME); //delete all rows in a table
         db.close();
-    }
-
-    //insert single
-    public boolean insertZone(ZoneModel zoneModel) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(ZONE_NAME, zoneModel.getZoneName());
-        contentValues.put(DEPOT_ID, zoneModel.getDepotId());
-        contentValues.put(DEPOT_NAME, zoneModel.getDepotName());
-        contentValues.put(ZONE_SEQUENCE, zoneModel.getZoneSequence());
-
-        db.insert(TABLE_NAME, null, contentValues);
-        db.close();
-        return true;
     }
 
     // insert multiple routes

@@ -9,6 +9,7 @@ public class SkuSaleDetailModel {
     private String item_name;
     private int total_customers;
     private int item_access_count;
+    private int item_leftover;
     private int item_sequence;
 
     public String getItem_name() {
@@ -33,6 +34,14 @@ public class SkuSaleDetailModel {
 
     public void setItem_access_count(int item_access_count) {
         this.item_access_count = item_access_count;
+    }
+
+    public int getItem_leftover() {
+        return item_leftover;
+    }
+
+    public void setItem_leftover(int item_leftover) {
+        this.item_leftover = item_leftover;
     }
 
     public int getItem_sequence() {

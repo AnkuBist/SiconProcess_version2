@@ -80,24 +80,6 @@ public class OutletRemarkTable extends SQLiteOpenHelper {
     // insert multiple
     public boolean insertOutletRemark(List<OutletRemarkModel> arrOutletRemark) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-     /*   for (int i = 0; i < arrOutletRemark.size(); i++) {
-            OutletRemarkModel outletRemarkModel = arrOutletRemark.get(i);
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(USER_ID, outletRemarkModel.getUser_id());
-            contentValues.put(ROUTE_ID, outletRemarkModel.getRoute_id());
-            contentValues.put(ROUTE_NAME, outletRemarkModel.getRoute_name());
-            contentValues.put(OUTLET_ID, outletRemarkModel.getOutlet_id());
-            contentValues.put(OUTLET_NAME, outletRemarkModel.getOutlet_name());
-            contentValues.put(REMARK, outletRemarkModel.getRemark());
-            contentValues.put(REMARK_DATE, Utility.getCurDate());
-           *//* if (hasObject(db, outletRemarkModel.getUser_id(), outletRemarkModel.getRoute_id(), outletRemarkModel.getOutlet_id(), outletRemarkModel.getRemark_date()))
-                db.update(TABLE_NAME, contentValues, USER_ID + "=? AND " + ROUTE_ID + "=? AND " + OUTLET_ID + "=? AND " + REMARK_DATE + "=?",
-                        new String[]{outletRemarkModel.getUser_id(), outletRemarkModel.getRoute_id(), outletRemarkModel.getOutlet_id(), outletRemarkModel.getRemark_date()});
-            else*//*
-                db.insert(TABLE_NAME, null, contentValues);
-        }*/
-
         DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, TABLE_NAME);
 
         // Get the numeric indexes for each of the columns that we're updating
@@ -139,7 +121,6 @@ public class OutletRemarkTable extends SQLiteOpenHelper {
                 ROUTE_ID + "=? AND " + OUTLET_ID + "=? AND " + REMARK_DATE + "=?";
 
         Cursor cursor = db.rawQuery(selectString, new String[]{user_id, route_id, outlet_id, remark_date});
-
         boolean hasObject = false;
         if (cursor.moveToFirst()) {
             hasObject = true;
@@ -153,34 +134,18 @@ public class OutletRemarkTable extends SQLiteOpenHelper {
     // check if the record exists or not
     public boolean hasRoute(String route_id) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        String selectString = "SELECT * FROM " + TABLE_NAME + " WHERE " +//+ USER_ID + "=? AND " +
+        String selectString = "SELECT * FROM " + TABLE_NAME + " WHERE " +
                 ROUTE_ID + "=?";
-
         Cursor cursor = db.rawQuery(selectString, new String[]{route_id});
 
         boolean hasObject = false;
         if (cursor.moveToFirst()) {
             hasObject = true;
         }
-
         cursor.close();          // Don't forget to close your cursor
         db.close();
         return hasObject;
     }
-
-   /* public String getCustomerContact(String customer_id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT " + CONTACT_NO + " FROM " + TABLE_NAME + " WHERE " + INVOICE_ID + "=?", new String[]{customer_id});
-
-        String contact = "";
-        if (res.moveToFirst()) {
-            contact = res.getString(res.getColumnIndex(CONTACT_NO));
-        }
-        res.close();
-        db.close();
-        return contact;
-    }*/
 
     public int numberOfRows() {
         SQLiteDatabase db = this.getReadableDatabase();

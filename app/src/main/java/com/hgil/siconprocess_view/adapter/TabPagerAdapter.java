@@ -38,9 +38,6 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
             case 2:
                 RouteHomeCompleteFragment tab3 = RouteHomeCompleteFragment.newInstance();
                 return tab3;
-           /* case 3:
-                OutletSaleLT100Fragment tab4 = OutletSaleLT100Fragment.newInstance();
-                return tab4;*/
             default:
                 return null;
         }
@@ -62,8 +59,6 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
                 return "Pending";
             case 2:
                 return "Complete";
-           /* case 3:
-                return "Sale < 100";*/
         }
         return null;
     }

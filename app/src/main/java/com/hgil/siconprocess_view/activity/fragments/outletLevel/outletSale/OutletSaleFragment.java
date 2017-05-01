@@ -14,7 +14,6 @@ import com.hgil.siconprocess_view.adapter.outletSale.OutletSaleAdapter;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
 import com.hgil.siconprocess_view.database.TodaySaleView;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.TodaySaleModel;
-import com.hgil.siconprocess_view.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -65,7 +64,7 @@ public class OutletSaleFragment extends Route_Base_Fragment {
 
         invoiceAdapter = new OutletSaleAdapter(getActivity(), arrSaleItems);
 
-        if(arrSaleItems!=null)
+        if (arrSaleItems != null)
             arrSaleItems.clear();
         else
             arrSaleItems = new ArrayList<>();

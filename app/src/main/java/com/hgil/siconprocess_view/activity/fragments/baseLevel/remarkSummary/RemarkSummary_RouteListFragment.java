@@ -59,10 +59,10 @@ public class RemarkSummary_RouteListFragment extends Base_Fragment {
         hideSyncButton();
         setTitle(getString(R.string.str_nav_remarks_summary));
 
-        if(arrRoute!=null)
+        if (arrRoute != null)
             arrRoute.clear();
         else
-        arrRoute = new ArrayList<>();
+            arrRoute = new ArrayList<>();
 
         routeView = new RouteView(getActivity());
         arrRoute.addAll(routeView.getRemarkRouteList());

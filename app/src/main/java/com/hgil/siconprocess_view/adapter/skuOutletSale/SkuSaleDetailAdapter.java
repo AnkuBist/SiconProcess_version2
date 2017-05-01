@@ -47,6 +47,7 @@ public class SkuSaleDetailAdapter extends RecyclerView.Adapter<SkuSaleDetailAdap
         // - replace the contents of the view with that element
         final SkuSaleDetailModel skuSaleDetailModel = mDataset.get(position);
         holder.tvItemName.setText(skuSaleDetailModel.getItem_name());
+        holder.tvItemLeftOver.setText(String.valueOf(skuSaleDetailModel.getItem_leftover()));
         holder.tvSaleCount.setText(String.valueOf(skuSaleDetailModel.getItem_access_count() + "/" + skuSaleDetailModel.getTotal_customers()));
 
         holder.setIsRecyclable(false);
@@ -65,6 +66,8 @@ public class SkuSaleDetailAdapter extends RecyclerView.Adapter<SkuSaleDetailAdap
         // each data item is just a string in this case
         @BindView(R.id.tvItemName)
         public TextView tvItemName;
+        @BindView(R.id.tvItemLeftOver)
+        public TextView tvItemLeftOver;
         @BindView(R.id.tvSaleCount)
         public TextView tvSaleCount;
 

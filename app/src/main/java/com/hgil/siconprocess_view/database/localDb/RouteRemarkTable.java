@@ -75,24 +75,6 @@ public class RouteRemarkTable extends SQLiteOpenHelper {
     // insert multiple
     public boolean insertRouteRemark(List<RouteRemarkModel> arrRouteRemark) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-     /*   for (int i = 0; i < arrRouteRemark.size(); i++) {
-            RouteRemarkModel routeRemarkModel = arrRouteRemark.get(i);
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(USER_ID, routeRemarkModel.getUser_id());
-            contentValues.put(ROUTE_ID, routeRemarkModel.getRoute_id());
-            contentValues.put(ROUTE_NAME, routeRemarkModel.getRoute_name());
-            contentValues.put(OUTLET_ID, routeRemarkModel.getOutlet_id());
-            contentValues.put(OUTLET_NAME, routeRemarkModel.getOutlet_name());
-            contentValues.put(REMARK, routeRemarkModel.getRemark());
-            contentValues.put(REMARK_DATE, Utility.getCurDate());
-           *//* if (hasObject(db, routeRemarkModel.getUser_id(), routeRemarkModel.getRoute_id(), routeRemarkModel.getOutlet_id(), routeRemarkModel.getRemark_date()))
-                db.update(TABLE_NAME, contentValues, USER_ID + "=? AND " + ROUTE_ID + "=? AND " + OUTLET_ID + "=? AND " + REMARK_DATE + "=?",
-                        new String[]{routeRemarkModel.getUser_id(), routeRemarkModel.getRoute_id(), routeRemarkModel.getOutlet_id(), routeRemarkModel.getRemark_date()});
-            else*//*
-                db.insert(TABLE_NAME, null, contentValues);
-        }*/
-
         DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, TABLE_NAME);
 
         // Get the numeric indexes for each of the columns that we're updating
@@ -159,19 +141,6 @@ public class RouteRemarkTable extends SQLiteOpenHelper {
         db.close();
         return hasObject;
     }
-
-   /* public String getCustomerContact(String customer_id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT " + CONTACT_NO + " FROM " + TABLE_NAME + " WHERE " + INVOICE_ID + "=?", new String[]{customer_id});
-
-        String contact = "";
-        if (res.moveToFirst()) {
-            contact = res.getString(res.getColumnIndex(CONTACT_NO));
-        }
-        res.close();
-        db.close();
-        return contact;
-    }*/
 
     public int numberOfRows() {
         SQLiteDatabase db = this.getReadableDatabase();

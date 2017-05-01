@@ -1,6 +1,5 @@
 package com.hgil.siconprocess_view.database;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -54,31 +53,9 @@ public class DemandTargetView extends SQLiteOpenHelper {
         db.close();
     }
 
-    //insert single
-    public boolean insertDemandTarget(DemandTargetModel demandTargetModel) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(ROUTE_ID, demandTargetModel.getRouteId());
-        contentValues.put(ITEM_ID, demandTargetModel.getItemId());
-        contentValues.put(TARGET_QTY, demandTargetModel.getTargetQty());
-        db.insert(TABLE_NAME, null, contentValues);
-        db.close();
-        return true;
-    }
-
     // insert multiple
     public boolean insertDemandTarget(List<DemandTargetModel> arrDemandTarget) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-       /* for (int i = 0; i < arrDemandTarget.size(); i++) {
-            DemandTargetModel demandTargetModel = arrDemandTarget.get(i);
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(ROUTE_ID, demandTargetModel.getRouteId());
-            contentValues.put(ITEM_ID, demandTargetModel.getItemId());
-            contentValues.put(TARGET_QTY, demandTargetModel.getTargetQty());
-            db.insert(TABLE_NAME, null, contentValues);
-        }*/
-
         DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, TABLE_NAME);
 
         // Get the numeric indexes for each of the columns that we're updating
@@ -101,23 +78,9 @@ public class DemandTargetView extends SQLiteOpenHelper {
         } finally {
             db.endTransaction();
         }
-
         db.close();
         return true;
     }
-
-   /* public String getCustomerContact(String customer_id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT " + CONTACT_NO + " FROM " + TABLE_NAME + " WHERE " + INVOICE_ID + "=?", new String[]{customer_id});
-
-        String contact = "";
-        if (res.moveToFirst()) {
-            contact = res.getString(res.getColumnIndex(CONTACT_NO));
-        }
-        res.close();
-        db.close();
-        return contact;
-    }*/
 
     public int numberOfRows() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -166,7 +129,6 @@ public class DemandTargetView extends SQLiteOpenHelper {
                 demandTargetModel.setItem_name(itemDetailView.getItemName(item_id));
                 demandTargetModel.setItem_sequence(itemDetailView.getItemSequence(item_id));
                 demandTargetModel.setAchieved(todaySaleView.routeItemSaleQty(route_id, demandTargetModel.getItemId()));
-                //demandTargetModel.setVariance(demandTargetModel.getTarget() - demandTargetModel.getAchieved());
                 demandTargetModel.setVariance(demandTargetModel.getAchieved() - demandTargetModel.getTarget());
 
                 array_list.add(demandTargetModel);
@@ -182,8 +144,6 @@ public class DemandTargetView extends SQLiteOpenHelper {
                 return Integer.valueOf(p1.getItem_sequence()).compareTo(p2.getItem_sequence());
             }
         });
-
-
         return sortedArrayList;
     }
 }
