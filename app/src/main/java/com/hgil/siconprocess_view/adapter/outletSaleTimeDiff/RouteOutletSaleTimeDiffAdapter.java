@@ -66,8 +66,9 @@ public class RouteOutletSaleTimeDiffAdapter extends RecyclerView.Adapter<RouteOu
             holder.customer_item.setBackgroundColor(mContext.getResources().getColor(R.color.colorBackgroundGreen));
         }
 
-        if (routeCustomerModel.getSale_time() != null && !routeCustomerModel.getSale_time().matches("") && !routeCustomerModel.getSale_time().matches("00:00"))
-            holder.tvSaleTime.setText("Sale Time: " + routeCustomerModel.getSale_time());
+        String saleTime = routeCustomerModel.getSale_time();
+        if (saleTime != null && !saleTime.matches("") && !saleTime.matches("00:00"))
+            holder.tvSaleTime.setText("Sale Time: " + saleTime);
         else
             holder.tvSaleTime.setVisibility(View.GONE);
 
@@ -76,8 +77,9 @@ public class RouteOutletSaleTimeDiffAdapter extends RecyclerView.Adapter<RouteOu
         else
             holder.tvAmountReceived.setVisibility(View.GONE);
 
-        if (routeCustomerModel.getTime_diff() != null && !routeCustomerModel.getTime_diff().matches("00:00") && position != 0)
-            holder.tvSaleTimeDiff.setText("Travel Time: " + routeCustomerModel.getTime_diff());
+        String travelTime = routeCustomerModel.getTime_diff();
+        if (travelTime != null && !travelTime.matches("") && !travelTime.matches("00:00"))
+            holder.tvSaleTimeDiff.setText("Travel Time: " + travelTime);
         else
             holder.tvSaleTimeDiff.setVisibility(View.GONE);
 

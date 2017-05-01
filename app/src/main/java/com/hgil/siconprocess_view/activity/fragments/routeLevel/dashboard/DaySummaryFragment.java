@@ -9,7 +9,6 @@ import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
 import com.hgil.siconprocess_view.database.OutletView;
 import com.hgil.siconprocess_view.database.TodaySaleView;
-import com.hgil.siconprocess_view.utils.Utility;
 
 import butterknife.BindView;
 
@@ -120,8 +119,8 @@ public class DaySummaryFragment extends Route_Base_Fragment {
 
         double rejPrct = 0.00;
         if (route_total_sale > 0)
-            rejPrct = (route_rej_amount / route_total_sale)*100;
+            rejPrct = (route_rej_amount / route_total_sale) * 100;
 
-        tvRejPercentage.setText(String.valueOf(Utility.roundTwoDecimals(rejPrct)) + "%");
+        tvRejPercentage.setText(String.valueOf(Math.round(rejPrct)) + "%");
     }
 }

@@ -68,15 +68,21 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
             holder.customer_item.setBackgroundColor(mContext.getResources().getColor(R.color.colorBackgroundGreen));
         }
 
-        if (routeCustomerModel.getSale_time() != null && !routeCustomerModel.getSale_time().matches("")
-                && !routeCustomerModel.getSale_time().matches("00:00")) {
-            holder.tvSaleTime.setText("Sale Time: " + routeCustomerModel.getSale_time());
-
+        String saleTime = routeCustomerModel.getSale_time();
+        if (saleTime != null && !saleTime.matches("") && !saleTime.matches("00:00")) {
+            holder.tvSaleTime.setText("Sale Time: " + saleTime);
             /*sku updates*/
             holder.tvSkuDetail.setText("" + routeCustomerModel.getOutlet_purchased_sku() + "/" + routeCustomerModel.getVan_total_sku());
-
         } else {
             holder.tvSaleTime.setVisibility(View.GONE);
+        }
+
+        /* travel time*/
+        String travelTime = routeCustomerModel.getTime_diff();
+        if (travelTime != null && !travelTime.matches("") && !travelTime.matches("00:00")) {
+            holder.tvTravelTime.setText("Travel Time: " + travelTime);
+        } else {
+            holder.tvTravelTime.setVisibility(View.GONE);
         }
 
         holder.customer_item.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +124,8 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
         public TextView tvTotalSaleAmt;
         @BindView(R.id.tvSaleTime)
         public TextView tvSaleTime;
+        @BindView(R.id.tvTravelTime)
+        public TextView tvTravelTime;
         @BindView(R.id.customer_item)
         public LinearLayout customer_item;
 

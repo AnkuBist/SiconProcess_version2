@@ -133,9 +133,11 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
         MenuItem menuItem = nvDrawer.getMenu().findItem(R.id.nav_home_route);
 
         RouteHomeFragment fragment = RouteHomeFragment.newInstance();
+        //String fragClassName = fragment.getClass().getName();
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right)
                 .replace(R.id.flContent, fragment)
+                //.addToBackStack(fragClassName)
                 .commit();
 
         //menuItem.setChecked(true);
@@ -181,11 +183,6 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_home:
-                //fragment = RouteHomeFragment.newInstance();
-                // start nav base activity here only
-                //Intent intent = new Intent(this, RouteListActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //startActivity(intent);
                 this.finish();
                 // from right to left
                 overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
@@ -221,18 +218,16 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
             String fragClassName = fragment.getClass().getName();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            if (menuItem.getItemId() != R.id.nav_home) {
-                // Insert the fragment by replacing any existing fragment
-                boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
-                if (!fragmentPopped) {
-                    ft.replace(R.id.flContent, fragment);
-                    ft.addToBackStack(fragClassName);
-                }
-            } else {
+            // Insert the fragment by replacing any existing fragment
+            boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
+            if (!fragmentPopped) {
                 ft.replace(R.id.flContent, fragment);
+                ft.addToBackStack(fragClassName);
+            } else {
+                // do nothing
+                //ft.replace(R.id.flContent, fragment);
             }
-            //fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            
             ft.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             ft.commit();
 

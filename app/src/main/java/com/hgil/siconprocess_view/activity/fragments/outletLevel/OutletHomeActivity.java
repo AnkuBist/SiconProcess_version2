@@ -202,15 +202,14 @@ public class OutletHomeActivity extends Route_Base_Activity {
             String fragClassName = fragment.getClass().getName();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            if (menuItem.getItemId() != R.id.nav_route_home) {
-                // Insert the fragment by replacing any existing fragment
-                boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
-                if (!fragmentPopped) {
-                    ft.replace(R.id.flInvoiceContent, fragment);
-                    ft.addToBackStack(fragClassName);
-                }
-            } else {
+            // Insert the fragment by replacing any existing fragment
+            boolean fragmentPopped = fragmentManager.popBackStackImmediate(fragClassName, 0);
+            if (!fragmentPopped) {
                 ft.replace(R.id.flInvoiceContent, fragment);
+                ft.addToBackStack(fragClassName);
+            } else {
+                //do nothing
+                //ft.replace(R.id.flInvoiceContent, fragment);
             }
 
             ft.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);

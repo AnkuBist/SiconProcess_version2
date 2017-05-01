@@ -336,6 +336,7 @@ public class OutletView extends SQLiteOpenHelper {
 
         int van_sku_count = new VanStockView(mContext).routeItemLoadCount(route_id);
 
+        String date1 = "00:00", date2 = "00:00";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=? ORDER BY " + INV_TIME, new String[]{route_id});
         if (res.moveToFirst()) {
@@ -352,6 +353,15 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setVan_total_sku(van_sku_count);
                 routeCustomerModel.setOutlet_purchased_sku(todaySaleView.routeOutletItemSaleCount(
                         routeCustomerModel.getRouteId(), routeCustomerModel.getCustomerId()));
+
+                /* calculate time difference between users*/
+                String time_diff = "00:00";
+                date1 = date2;
+                date2 = routeCustomerModel.getSale_time();
+                if (date2 != null && !date2.matches("00:00") && !date1.matches("00:00")) {
+                    time_diff = Utility.timeVariance(date1, date2);
+                }
+                routeCustomerModel.setTime_diff(time_diff);
 
                 array_list.add(routeCustomerModel);
                 res.moveToNext();
@@ -399,8 +409,6 @@ public class OutletView extends SQLiteOpenHelper {
                 new String[]{route_id, "Completed"});
 
         String date1 = "00:00", date2 = "00:00";
-        int i1 = 0;
-
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
                 RouteCustomerModel routeCustomerModel = new RouteCustomerModel();
@@ -418,15 +426,12 @@ public class OutletView extends SQLiteOpenHelper {
                 String time_diff = "00:00";
                 date1 = date2;
                 date2 = res.getString(res.getColumnIndex(INV_TIME));
-                if (i1 == 0) {
-                    // do nothing
-                } else {
+                if (date2 != null && !date2.matches("00:00") && !date1.matches("00:00")) {
                     time_diff = Utility.timeVariance(date1, date2);
-                    routeCustomerModel.setTime_diff(time_diff);
                 }
+                routeCustomerModel.setTime_diff(time_diff);
 
                 array_list.add(routeCustomerModel);
-                i1++;
                 res.moveToNext();
             }
         }
@@ -478,8 +483,6 @@ public class OutletView extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String date1 = "00:00", date2 = "00:00";
-        int i1 = 0;
-
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + ROUTE_ID + "=? ORDER BY " + INV_TIME, new String[]{route_id});
         if (res.moveToFirst()) {
             while (res.isAfterLast() == false) {
@@ -494,26 +497,15 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
 
                 String time_diff = "00:00";
-
                 date1 = date2;
-
                 date2 = res.getString(res.getColumnIndex(INV_TIME));
-                if (i1 == 0) {
-                    // do nothing
-                } else {
+                if (date2 != null && !date2.matches("00:00") && !date1.matches("00:00")) {
                     time_diff = Utility.timeVariance(date1, date2);
                     routeCustomerModel.setTime_diff(time_diff);
                 }
 
-                //if (routeCustomerModel.getCash_received() > 0)
-                //    routeCustomerModel.setCustStatus("Completed");
-                //  else
-                //    routeCustomerModel.setCustStatus("Pending");
-
                 if (res.getDouble(res.getColumnIndex(INV_AMOUNT)) > 0)
                     array_list.add(routeCustomerModel);
-
-                i1++;
                 res.moveToNext();
             }
         }
