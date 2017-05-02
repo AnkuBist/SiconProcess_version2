@@ -5,16 +5,36 @@
     android:background="@color/colorWhite"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvRouteName"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingBottom="7dp"
-        android:paddingLeft="12dp"
-        android:paddingTop="10dp"
-        android:textColor="@color/colorTextBlue"
-        android:textSize="@dimen/text_size_medium" />
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvRouteName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:paddingBottom="7dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/colorRLTextBlue"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:id="@+id/tvRouteStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvRouteName"
+            android:gravity="right|top"
+            android:paddingLeft="3dp"
+            android:text="*"
+            android:textColor="@color/colorHotPink"
+            android:textSize="@dimen/text_size_extra_large"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -48,5 +48,7 @@
         android:layout_height="35dp"
         android:layout_gravity="right|center_vertical"
         android:layout_marginRight="8dp"
-        android:src="@android:drawable/stat_notify_sync_noanim" />
+        android:src="@mipmap/ic_launcher_1" />
+
+    <!--android:src="@android:drawable/stat_notify_sync_noanim"-->
 </android.support.v7.widget.Toolbar>

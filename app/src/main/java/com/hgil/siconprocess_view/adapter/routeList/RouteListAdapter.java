@@ -47,21 +47,20 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.View
 
         holder.tvRouteName.setText(routeListModel.getRoute_name());
 
-        String itemInfo = "<B><font color='" + mContext.getResources().getColor(R.color.colorTextBlack) + "'>" + "LO/TL: "
-                + "</font></B>" + routeListModel.getRoute_leftover() + "/" + routeListModel.getRoute_total_loading();
-        String saleInfo = "<B><font color='" + mContext.getResources().getColor(R.color.colorTextBlack) + "'>" + "PC/TC: "
-                + "</font></B>" + routeListModel.getRoute_productive_calls() + "/" + routeListModel.getRoute_target_calls();
-        String rejPrct = "<B><font color='" + mContext.getResources().getColor(R.color.colorTextBlack) + "'>" + "Rej %: "
-                + "</font></B>" + routeListModel.getRoute_rej_prct();
+        String itemInfo = "<font color='" + mContext.getResources().getColor(R.color.colorRLTextBlack) + "'>" + "LO/TL: "
+                + "</font>" +"<B>" + routeListModel.getRoute_leftover() + "/" + routeListModel.getRoute_total_loading() +"</B>" ;
+        String saleInfo = "<font color='" + mContext.getResources().getColor(R.color.colorRLTextBlack) + "'>" + "PC/TC: "
+                + "</font>" + "<B>" +routeListModel.getRoute_productive_calls() + "/" + routeListModel.getRoute_target_calls()+"</B>";
+        String rejPrct = "<font color='" + mContext.getResources().getColor(R.color.colorRLTextBlack) + "'>" + "R%: "
+                + "</font>" + "<B>" + routeListModel.getRoute_rej_prct()+"</B>";
         holder.tvItemInfo.setText(Html.fromHtml(itemInfo));
         holder.tvSaleInfo.setText(Html.fromHtml(saleInfo));
         holder.tvRejPrct.setText(Html.fromHtml(rejPrct));
 
-        /*holder.tvItemInfo.setText("LO/TL: "
-                + routeListModel.getRoute_leftover() + "/" + routeListModel.getRoute_total_loading());
-        holder.tvSaleInfo.setText("PC/TC: "
-                + routeListModel.getRoute_productive_calls() + "/" + routeListModel.getRoute_target_calls());
-        holder.tvRejPrct.setText("Rej %: " + routeListModel.getRoute_rej_prct());*/
+        if (routeListModel.getRouteCloseStatus() == 1)
+            holder.tvRouteStatus.setVisibility(View.VISIBLE);
+        else
+            holder.tvRouteStatus.setVisibility(View.GONE);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +98,8 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.View
         public TextView tvSaleInfo;
         @BindView(R.id.tvRejPrct)
         public TextView tvRejPrct;
+        @BindView(R.id.tvRouteStatus)
+        public TextView tvRouteStatus;
 
         public ViewHolder(View v) {
             super(v);

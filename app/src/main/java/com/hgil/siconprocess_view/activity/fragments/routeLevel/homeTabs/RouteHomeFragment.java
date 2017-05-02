@@ -43,7 +43,6 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
         tabLayout.addTab(tabLayout.newTab().setText("All"));
         tabLayout.addTab(tabLayout.newTab().setText("Pending"));
         tabLayout.addTab(tabLayout.newTab().setText("Complete"));
-        //tabLayout.addTab(tabLayout.newTab().setText("Sale < 100"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         initializeTabs();
@@ -80,7 +79,6 @@ public class RouteHomeFragment extends Route_Base_Fragment implements TabLayout.
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        //viewPager.setCurrentItem(tab.getPosition());
     }
 
     @Override

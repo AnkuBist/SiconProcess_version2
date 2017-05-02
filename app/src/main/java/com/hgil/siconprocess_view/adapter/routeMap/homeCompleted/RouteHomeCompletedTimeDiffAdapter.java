@@ -92,9 +92,6 @@ public class RouteHomeCompletedTimeDiffAdapter extends RecyclerView.Adapter<Rout
         holder.customer_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* if (routeCustomerModel.getCustStatus().matches("Pending")) {
-                    //do nothing as the route is not processed yet
-                }*/
                 //launch activity with updated nav bar
                 Intent intent = new Intent(mContext, OutletHomeActivity.class);
                 intent.putExtra("customer_id", routeCustomerModel.getCustomerId());

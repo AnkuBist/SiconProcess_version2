@@ -52,7 +52,6 @@ public class OutletHomeActivity extends Route_Base_Activity {
     @BindView(R.id.flInvoiceContent)
     FrameLayout containerFrame;
 
-    boolean doubleBackToExitPressedOnce = false;
     private ActionBarDrawerToggle drawerToggle;
 
     @Override
@@ -87,20 +86,15 @@ public class OutletHomeActivity extends Route_Base_Activity {
         TextView tvNavHeader = (TextView) navHeaderView.findViewById(R.id.tvNavHeader);
 
         imgNavIcon.setImageResource(R.mipmap.harvest_logo);
-        if (getDepotName() != null) {
-            //String output_depot = getDepotName().substring(0, 1).toUpperCase() + getDepotName().substring(1).toLowerCase();
+        if (getDepotName() != null)
             tvNavDepot.setText(getDepotName());
-        }
 
-        if (getRouteName() != null) {
-            //String output_route = getRouteName().substring(0, 1).toUpperCase() + getRouteName().substring(1).toLowerCase();
+        if (getRouteName() != null)
             tvNavHeader.setText(getRouteName());
-        }
 
         // nav footer
         NavigationView temp_nv = (NavigationView) mDrawer.findViewById(R.id.temp_nv);
 
-        //LinearLayout layout = (LinearLayout) nvDrawer.findViewById(R.id.footer_layout);
         TextView textName = (TextView) temp_nv.findViewById(R.id.tvCashierName);
         if (getCashierName() != null && !getCashierName().matches(""))
             textName.setText(getCashierName());
@@ -110,23 +104,12 @@ public class OutletHomeActivity extends Route_Base_Activity {
         TextView textPhone = (TextView) temp_nv.findViewById(R.id.tvCashierNo);
         textPhone.setVisibility(View.GONE);
 
-        /*textPhone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO call phone
-            }
-        });*/
-
         MenuItem menuItem = nvDrawer.getMenu().findItem(R.id.nav_today_sale);
-
         OutletSaleFragment fragment = OutletSaleFragment.newInstance(customer_id, customer_name);
         getSupportFragmentManager().beginTransaction().replace(R.id.flInvoiceContent, fragment).commit();
 
-        //menuItem.setChecked(true);
-
         tvNavTitle.setText(menuItem.getTitle());
         tvNavDate.setText(Utility.getDateMonth());
-        // firstLaunch();
     }
 
     @Override
@@ -138,13 +121,7 @@ public class OutletHomeActivity extends Route_Base_Activity {
             customer_id = getIntent().getStringExtra("customer_id");
             customer_name = getIntent().getStringExtra("customer_name");
         }
-
         setup();
-    }
-
-    // set default home nav item selected and launch this on first view
-    private void firstLaunch() {
-        nvDrawer.getMenu().performIdentifierAction(R.id.nav_today_sale, 0);
     }
 
     @Override
@@ -171,15 +148,12 @@ public class OutletHomeActivity extends Route_Base_Activity {
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_route_home:
-                //fragment = RouteHomeFragment.newInstance();
                 // start nav base activity here only
                 Intent intent = new Intent(this, NavRouteBaseActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 // from right to left
                 overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-                // from left to right
-                //overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
                 break;
             case R.id.nav_today_sale:
                 fragment = OutletSaleFragment.newInstance(customer_id, customer_name);
@@ -207,16 +181,10 @@ public class OutletHomeActivity extends Route_Base_Activity {
             if (!fragmentPopped) {
                 ft.replace(R.id.flInvoiceContent, fragment);
                 ft.addToBackStack(fragClassName);
-            } else {
-                //do nothing
-                //ft.replace(R.id.flInvoiceContent, fragment);
             }
 
             ft.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             ft.commit();
-
-            // Highlight the selected item has been done by NavigationView
-            //menuItem.setChecked(true);
 
             // Set action bar title
             tvNavTitle.setText(menuItem.getTitle());
@@ -241,7 +209,6 @@ public class OutletHomeActivity extends Route_Base_Activity {
             }//this method helps you to aside menu drawer
         };
         return toggle;
-
     }
 
     @Override

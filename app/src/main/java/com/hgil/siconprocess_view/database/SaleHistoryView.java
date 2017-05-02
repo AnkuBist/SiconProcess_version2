@@ -151,4 +151,41 @@ public class SaleHistoryView extends SQLiteOpenHelper {
         db.close();
         return array_list;
     }
+
+
+    /*average outlet sale*/
+    public double avgCustomerNetSale(String route_id, String outlet_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT sum(" + NET_SALE + ") as " + NET_SALE + " FROM " + TABLE_NAME
+                        + " where " + ROUTE_ID + "=? AND " + OUTLET_CODE + "=? GROUP BY " + ROUTE_ID + "," + OUTLET_CODE,
+                new String[]{route_id, outlet_id});
+        double net_sale = 0;
+        if (res.moveToFirst()) {
+            net_sale = (res.getDouble(res.getColumnIndex(NET_SALE)));
+        }
+
+        res.close();
+        db.close();
+        return net_sale;
+    }
+
+    /*average outlet rejection percentage*/
+    public long avgCustomerRejPrct(String route_id, String outlet_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT sum(" + GROSS_SALE + ") as " + GROSS_SALE
+                        + ", sum(" + NET_SALE + ") as " + NET_SALE + " FROM " + TABLE_NAME
+                        + " where " + ROUTE_ID + "=? AND " + OUTLET_CODE + "=? GROUP BY " + ROUTE_ID + "," + OUTLET_CODE,
+                new String[]{route_id, outlet_id});
+        long rej_prct = 0;
+        if (res.moveToFirst()) {
+            double gross_sale = (res.getDouble(res.getColumnIndex(GROSS_SALE)));
+            double net_sale = (res.getDouble(res.getColumnIndex(NET_SALE)));
+            if (gross_sale > 0)
+                rej_prct = Math.round(((gross_sale - net_sale) / gross_sale) * 100);
+        }
+
+        res.close();
+        db.close();
+        return rej_prct;
+    }
 }

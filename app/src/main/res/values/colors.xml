@@ -15,10 +15,20 @@
     <color name="colorTextGrey">#ADAAAD</color>
     <color name="colorTextLightGrey">#D2D2D2</color>
 
+    <color name="colorRLTextBlue">#0477ac</color>
+    <color name="colorRLTextBlack">#232323</color>
+
+
     <!--background green-->
     <color name="colorBackgroundGreen">#4D4CD964</color>
     <color name="colorTextRed">#FFFF3B30</color>
     <color name="colorTextGreen">#FF4CD964</color>
+
+    <!--pink colors-->
+    <color name="colorPink">#FFC0CB</color>
+    <color name="colorLightPink">#FFB6C1</color>
+    <color name="colorHotPink">#FF69B4</color>
+    <color name="colorDeedPink">#FF1493</color>
 
 
 </resources>

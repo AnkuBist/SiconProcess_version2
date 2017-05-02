@@ -26,6 +26,9 @@ public class RouteModel {
     @SerializedName("PSM_Name")
     @Expose
     private String pSMName;
+    @SerializedName("route_close_status")
+    @Expose
+    private int routeCloseStatus;
 
     public String getDepotId() {
         return depotId;
@@ -73,5 +76,13 @@ public class RouteModel {
 
     public void setPSMName(String pSMName) {
         this.pSMName = pSMName;
+    }
+
+    public int getRouteCloseStatus() {
+        return routeCloseStatus;
+    }
+
+    public void setRouteCloseStatus(int routeCloseStatus) {
+        this.routeCloseStatus = routeCloseStatus;
     }
 }

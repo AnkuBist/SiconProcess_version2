@@ -31,11 +31,6 @@ public class SplashActivity extends Activity {
                 String lastLoginDate = Utility.readPreference(SplashActivity.this, Utility.LAST_LOGIN_DATE);
                 boolean loginStatus = Utility.readLoginStatus(SplashActivity.this, Utility.LOGIN_STATUS);
 
-                // this is not needed to sync data
-               /* // check if there exists any relevant data to sync to server
-                if (checkSyncData())
-                    // sync data here before login
-                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));*/
                 //direct pass user to home if user has already logged same day with any of the last saved id.
                 if ((Utility.getCurDate()).matches(lastLoginDate) && loginStatus)
                     startActivity(new Intent(SplashActivity.this, RouteListActivity.class));
@@ -49,26 +44,4 @@ public class SplashActivity extends Activity {
             }
         }, SPLASH_TIME_OUT);
     }
-
-/*    private InvoiceOutTable invoiceOutTable;
-    private CustomerRejectionTable rejectionTable;
-    private PaymentTable paymentTable;
-    private NextDayOrderTable nextDayOrderTable;*/
-
-    /*public void initializeTableObjects() {
-        invoiceOutTable = new InvoiceOutTable(this);
-        rejectionTable = new CustomerRejectionTable(this);
-        paymentTable = new PaymentTable(this);
-        nextDayOrderTable = new NextDayOrderTable(this);
-    }*/
-
-    /*private boolean checkSyncData() {
-        initializeTableObjects();
-        if (invoiceOutTable.numberOfRows() > 0
-                || rejectionTable.numberOfRows() > 0
-                || paymentTable.numberOfRows() > 0
-                || nextDayOrderTable.numberOfRows() > 0)
-            return true;
-        else return false;
-    }*/
 }

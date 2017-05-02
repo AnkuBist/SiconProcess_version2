@@ -223,7 +223,8 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
                 routeCustomerModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
-                routeCustomerModel.setSaleAmount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
+                double saleAmount = res.getDouble(res.getColumnIndex(INV_AMOUNT));
+                routeCustomerModel.setSaleAmount(saleAmount);
                 routeCustomerModel.setSale_time(res.getString(res.getColumnIndex(INV_TIME)));
                 routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
 
@@ -239,6 +240,9 @@ public class OutletView extends SQLiteOpenHelper {
                     time_diff = Utility.timeVariance(date1, date2);
                 }
                 routeCustomerModel.setTime_diff(time_diff);
+
+                double rejPrct = ((saleAmount - res.getDouble(res.getColumnIndex(NET_AMOUNT))) / saleAmount) * 100;
+                routeCustomerModel.setRejPrct(rejPrct);
 
                 array_list.add(routeCustomerModel);
                 res.moveToNext();

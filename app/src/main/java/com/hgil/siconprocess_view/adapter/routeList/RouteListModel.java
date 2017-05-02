@@ -13,6 +13,7 @@ public class RouteListModel {
     private int route_productive_calls;
     private int route_target_calls;
     private int route_rej_prct;
+    private int routeCloseStatus;
 
     public String getRoute_name() {
         return route_name;
@@ -68,5 +69,13 @@ public class RouteListModel {
 
     public void setRoute_rej_prct(int route_rej_prct) {
         this.route_rej_prct = route_rej_prct;
+    }
+
+    public int getRouteCloseStatus() {
+        return routeCloseStatus;
+    }
+
+    public void setRouteCloseStatus(int routeCloseStatus) {
+        this.routeCloseStatus = routeCloseStatus;
     }
 }

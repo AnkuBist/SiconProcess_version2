@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 public class RouteView extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
 
     private static final String DATABASE_NAME = "Sicon_route";
     private static final String TABLE_NAME = "V_SD_Route_Master";
@@ -32,6 +32,7 @@ public class RouteView extends SQLiteOpenHelper {
     private static final String CASHIER_NAME = "Cashier_Name";
     private static final String PSMID = "PSMID";
     private static final String PSM_NAME = "PSM_Name";
+    private static final String ROUTE_CLOSE_STATUS = "route_close_status";
     // private static final String CONTACT_NO = "Contact_no";
 
     private Context mContext;
@@ -45,7 +46,7 @@ public class RouteView extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + DEPOT_ID + " TEXT NULL, "
                 + ROUTE_ID + " TEXT NULL, " + ROUTE_NAME + " TEXT NULL, " + CASHIER_NAME + " TEXT NULL, "
-                + PSMID + " TEXT NULL, " + PSM_NAME + " TEXT NULL)");
+                + PSMID + " TEXT NULL, " + PSM_NAME + " TEXT NULL, " + ROUTE_CLOSE_STATUS + " INTEGER NULL)");
         // + CONTACT_NO + " TEXT NULL)");
     }
 
@@ -74,6 +75,7 @@ public class RouteView extends SQLiteOpenHelper {
         final int cashierNameColumn = ih.getColumnIndex(CASHIER_NAME);
         final int psmIdColumn = ih.getColumnIndex(PSMID);
         final int psmNameColumn = ih.getColumnIndex(PSM_NAME);
+        final int routeCloseStatusColumn = ih.getColumnIndex(ROUTE_CLOSE_STATUS);
 
         try {
             db.beginTransaction();
@@ -86,6 +88,7 @@ public class RouteView extends SQLiteOpenHelper {
                 ih.bind(cashierNameColumn, routeModel.getCashierName());
                 ih.bind(psmIdColumn, routeModel.getPSMID());
                 ih.bind(psmNameColumn, routeModel.getPSMName());
+                ih.bind(routeCloseStatusColumn, routeModel.getRouteCloseStatus());
 
                 ih.execute();
             }
@@ -114,6 +117,7 @@ public class RouteView extends SQLiteOpenHelper {
             routeModel.setCashierName(res.getString(res.getColumnIndex(CASHIER_NAME)));
             routeModel.setPSMID(res.getString(res.getColumnIndex(PSMID)));
             routeModel.setPSMName(res.getString(res.getColumnIndex(PSM_NAME)));
+            routeModel.setRouteCloseStatus(res.getInt(res.getColumnIndex(ROUTE_CLOSE_STATUS)));
         }
         res.close();
         db.close();
@@ -138,6 +142,7 @@ public class RouteView extends SQLiteOpenHelper {
             routeModel.setCashierName(res.getString(res.getColumnIndex(CASHIER_NAME)));
             routeModel.setPSMID(res.getString(res.getColumnIndex(PSMID)));
             routeModel.setPSMName(res.getString(res.getColumnIndex(PSM_NAME)));
+            routeModel.setRouteCloseStatus(res.getInt(res.getColumnIndex(ROUTE_CLOSE_STATUS)));
         }
         res.close();
         db.close();
@@ -158,6 +163,7 @@ public class RouteView extends SQLiteOpenHelper {
                 routeModel.setCashierName(res.getString(res.getColumnIndex(CASHIER_NAME)));
                 routeModel.setPSMID(res.getString(res.getColumnIndex(PSMID)));
                 routeModel.setPSMName(res.getString(res.getColumnIndex(PSM_NAME)));
+                routeModel.setRouteCloseStatus(res.getInt(res.getColumnIndex(ROUTE_CLOSE_STATUS)));
 
                 array_list.add(routeModel);
                 res.moveToNext();
@@ -241,13 +247,13 @@ public class RouteView extends SQLiteOpenHelper {
                 routeModel.setRoute_name(res.getString(res.getColumnIndex(ROUTE_NAME)));
 
                 /*other route related information*/
-                // route target calls
+                //route target calls
                 int total_calls = outletView.routeTargetCalls(route_id);
 
-                // route productive calls
+                //route productive calls
                 int productive_calls = outletView.routeProductiveCalls(route_id);
 
-                //  total route sale amount
+                //total route sale amount
                 double route_total_sale = outletView.routeTotalSale(route_id);
                 double route_rej_amount = todaySaleView.getRouteRejAmount(route_id);
 
@@ -261,6 +267,8 @@ public class RouteView extends SQLiteOpenHelper {
                 routeModel.setRoute_productive_calls(productive_calls);
                 routeModel.setRoute_target_calls(total_calls);
                 routeModel.setRoute_rej_prct((int) rejPrct);
+
+                routeModel.setRouteCloseStatus(res.getInt(res.getColumnIndex(ROUTE_CLOSE_STATUS)));
 
                 array_list.add(routeModel);
                 res.moveToNext();

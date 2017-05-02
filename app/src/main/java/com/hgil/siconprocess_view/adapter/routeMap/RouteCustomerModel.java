@@ -16,6 +16,7 @@ public class RouteCustomerModel {
     private String sale_time;
     private String time_diff;
 
+    private double rejPrct;
     private int van_total_sku;
     private int outlet_purchased_sku;
 
@@ -105,5 +106,13 @@ public class RouteCustomerModel {
 
     public void setOutlet_purchased_sku(int outlet_purchased_sku) {
         this.outlet_purchased_sku = outlet_purchased_sku;
+    }
+
+    public double getRejPrct() {
+        return rejPrct;
+    }
+
+    public void setRejPrct(double rejPrct) {
+        this.rejPrct = rejPrct;
     }
 }

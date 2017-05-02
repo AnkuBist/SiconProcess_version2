@@ -64,17 +64,9 @@ public class RouteListActivity extends Base_Activity {
         actionbar.setDisplayShowTitleEnabled(false);
         actionbar.setDefaultDisplayHomeAsUpEnabled(false);
         actionbar.setDisplayHomeAsUpEnabled(false);
-        /*actionbar.setDisplayShowCustomEnabled(true);
-        actionbar.setDisplayShowHomeEnabled(false);
-
-        actionbar.setDisplayUseLogoEnabled(false);
-        actionbar.setHomeButtonEnabled(false);*/
 
         // drawer hamburger icons
         drawerToggle = setupDrawerToggle();
-
-        // to disable hamburger icon
-        //drawerToggle.setDrawerIndicatorEnabled(false);
 
         // Tie DrawerLayout events to the ActionBarToggle
         mDrawer.addDrawerListener(drawerToggle);
@@ -88,26 +80,17 @@ public class RouteListActivity extends Base_Activity {
         TextView tvNavHeader = (TextView) navHeaderView.findViewById(R.id.tvNavHeader);
 
         imgNavIcon.setImageResource(R.mipmap.harvest_logo);
-        //imgNavIcon.setImageResource(R.mipmap.harvest_logo);
         tvNavHeader.setText("App Version: " + Utility.getAppVersion(this));
-       /* if (getRouteName() != null) {
-            String output = getRouteName().substring(0, 1).toUpperCase() + getRouteName().substring(1).toLowerCase();
-            tvNavHeader.setText(output);
-        }*/
 
         MenuItem menuItem = nvDrawer.getMenu().findItem(R.id.nav_zone_list);
-
         ZoneListFragment fragment = ZoneListFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right)
                 .replace(R.id.base_frame, fragment)
                 .commit();
 
-        //menuItem.setChecked(true);
-
         tvNavTitle.setText(menuItem.getTitle());
         tvNavDate.setText(Utility.getDateMonth());
-        // firstLaunch();
     }
 
     @Override
@@ -115,11 +98,6 @@ public class RouteListActivity extends Base_Activity {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_route_list);
         setup();
-    }
-
-    // set default home nav item selected and launch this on first view
-    public void firstLaunch() {
-        nvDrawer.getMenu().performIdentifierAction(R.id.nav_home, 0);
     }
 
     @Override
@@ -177,16 +155,10 @@ public class RouteListActivity extends Base_Activity {
             if (!fragmentPopped) {
                 ft.replace(R.id.base_frame, fragment);
                 ft.addToBackStack(fragClassName);
-            } else {
-                //do nothing
-                //ft.replace(R.id.base_frame, fragment);
             }
 
             ft.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             ft.commit();
-
-            // Highlight the selected item has been done by NavigationView
-            //menuItem.setChecked(true);
 
             // Set action bar title
             tvNavTitle.setText(menuItem.getTitle());
@@ -194,11 +166,6 @@ public class RouteListActivity extends Base_Activity {
         }
         // Close the navigation drawer
         mDrawer.closeDrawers();
-    }
-
-    // make call to home tab on some button click
-    public void clickHome() {
-        selectDrawerItem(nvDrawer.getMenu().getItem(R.id.nav_home));
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {

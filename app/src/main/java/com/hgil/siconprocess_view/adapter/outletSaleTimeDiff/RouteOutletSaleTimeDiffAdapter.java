@@ -83,21 +83,6 @@ public class RouteOutletSaleTimeDiffAdapter extends RecyclerView.Adapter<RouteOu
         else
             holder.tvSaleTimeDiff.setVisibility(View.GONE);
 
-        /*holder.customer_item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               *//* if (routeCustomerModel.getCustStatus().matches("Pending")) {
-                    //do nothing as the route is not processed yet
-                }*//*
-                //launch activity with updated nav bar
-                Intent intent = new Intent(mContext, OutletHomeActivity.class);
-                intent.putExtra("customer_id", routeCustomerModel.getCustomerId());
-                intent.putExtra("customer_name", routeCustomerModel.getCustomerName());
-                mContext.startActivity(intent);
-                ((NavRouteBaseActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-            }
-        });*/
-
         holder.setIsRecyclable(false);
     }
 

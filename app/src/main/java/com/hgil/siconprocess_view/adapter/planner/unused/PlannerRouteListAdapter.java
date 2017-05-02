@@ -65,12 +65,7 @@ public class PlannerRouteListAdapter extends RecyclerView.Adapter<PlannerRouteLi
                 SiconApp.getInstance().setRouteName(routeModel.getRouteName());
                 SiconApp.getInstance().setCashierName(routeModel.getCashierName());
 
-                //intent.putExtra("route_id", routeListModel.getRoute_id());
                 PlannerFragment fragment = PlannerFragment.newInstance();
-                //((RouteListActivity) mContext).
-                //((PlannerListFragment) mContext)
-
-                //mContext.getApplicationContext().launchRouteFragment(fragment);
 
                 String fragClassName = fragment.getClass().getName();
                 FragmentManager fragmentManager = ((RouteListActivity) mContext).getSupportFragmentManager();
@@ -79,10 +74,6 @@ public class PlannerRouteListAdapter extends RecyclerView.Adapter<PlannerRouteLi
                         .replace(R.id.base_frame, fragment)
                         .addToBackStack(fragClassName)
                         .commit();
-
-               /* mContext.startActivity(intent);
-                ((RouteListActivity) mContext).overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);*/
-
             }
         });
 

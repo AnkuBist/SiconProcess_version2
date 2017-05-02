@@ -19,8 +19,6 @@ public class DaySummaryFragment extends Route_Base_Fragment {
 
     @BindView(R.id.tvRouteName)
     TextView tvRouteName;
-    /*    @BindView(R.id.tvTargetCalls)
-        TextView tvTargetCalls;*/
     @BindView(R.id.tvTotalCalls)
     TextView tvTotalCalls;
     @BindView(R.id.tvProductiveCalls)
@@ -33,8 +31,6 @@ public class DaySummaryFragment extends Route_Base_Fragment {
     TextView tvGrossSale;
     @BindView(R.id.tvRejAmount)
     TextView tvRejAmount;
-    /*  @BindView(R.id.tvAvgBillValue)
-      TextView tvAvgBillValue;*/
     @BindView(R.id.tvTodayCollection)
     TextView tvTodayCollection;
     @BindView(R.id.tvTotalOS)
@@ -89,12 +85,8 @@ public class DaySummaryFragment extends Route_Base_Fragment {
 
         //  total route sale amount
         double route_total_sale = outletView.routeTotalSale(getRouteId());
-
         double route_rej_amount = todaySaleView.getRouteRejAmount(getRouteId());
-        //double net_sale_amount = route_total_sale - route_rej_amount;
-
         double net_sale_amount = outletView.routeNetSale(getRouteId());
-
         double route_outstanding = outletView.routeOutstanding(getRouteId());
 
         // get total outlet calls made
@@ -112,9 +104,7 @@ public class DaySummaryFragment extends Route_Base_Fragment {
 
         // get total bill value
         tvTotalBillValue.setText(strRupee + Math.round(net_sale_amount));
-
         tvTodayCollection.setText(strRupee + Math.round(route_total_collection));
-
         tvTotalOS.setText(strRupee + Math.round(route_outstanding + net_sale_amount - route_total_collection));
 
         double rejPrct = 0.00;

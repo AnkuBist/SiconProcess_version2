@@ -22,9 +22,6 @@ public class OutletSaleItem {
     TextView tvSaleQty;
     @BindView(R.id.tvRejQty)
     TextView tvRejQty;
-
-    /* @BindView(R.id.etQuantity)
-     EditText etQuantity;*/
     @BindString(R.string.strRupee)
     String strRupee;
     private Context mContext;

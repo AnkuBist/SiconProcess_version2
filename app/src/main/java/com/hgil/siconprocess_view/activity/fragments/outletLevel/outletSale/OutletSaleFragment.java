@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,9 +22,6 @@ import butterknife.BindView;
  * A simple {@link Fragment} subclass.
  */
 public class OutletSaleFragment extends Route_Base_Fragment {
-    public double grandTotal = 0.00;
-    @BindView(R.id.tvInvoiceTotal)
-    TextView tvInvoiceTotal;
     @BindView(R.id.tvCustomerName)
     TextView tvCustomerName;
     @BindView(R.id.rvCustomerInvoice)
@@ -42,7 +38,6 @@ public class OutletSaleFragment extends Route_Base_Fragment {
     }
 
     public static OutletSaleFragment newInstance(String customer_id, String customer_name) {
-        Log.e("TAG", "newInstance");
         OutletSaleFragment fragment = new OutletSaleFragment();
         Bundle bundle = new Bundle();
         bundle.putString(CUSTOMER_ID, customer_id);
@@ -70,8 +65,6 @@ public class OutletSaleFragment extends Route_Base_Fragment {
             arrSaleItems = new ArrayList<>();
 
         arrSaleItems.addAll(todaySaleView.getRouteSaleByOutlet(customer_id));
-
-        // grandTotal = outletSaleView.outletSaleAmount(customer_id);
     }
 
     @Override
@@ -99,7 +92,6 @@ public class OutletSaleFragment extends Route_Base_Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        tvInvoiceTotal.setText(strRupee + String.valueOf(Math.round(grandTotal)));
         if (arrSaleItems.size() == 0) {
             tvEmpty.setVisibility(View.VISIBLE);
             rvCustomerInvoice.setVisibility(View.GONE);

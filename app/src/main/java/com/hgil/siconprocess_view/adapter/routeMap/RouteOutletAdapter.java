@@ -85,12 +85,17 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
             holder.tvTravelTime.setVisibility(View.GONE);
         }
 
+        /*customer rejection percentage*/
+        double rejPrct = routeCustomerModel.getRejPrct();
+        if (rejPrct > 0)
+            holder.tvRejPrct.setText("Rej: " + Math.round(rejPrct) + "%");
+        else
+            holder.tvRejPrct.setVisibility(View.GONE);
+
+
         holder.customer_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* if (routeCustomerModel.getCustStatus().matches("Pending")) {
-                    //do nothing as the route is not processed yet
-                }*/
                 //launch activity with updated nav bar
                 Intent intent = new Intent(mContext, OutletHomeActivity.class);
                 intent.putExtra("customer_id", routeCustomerModel.getCustomerId());
@@ -124,6 +129,8 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
         public TextView tvTotalSaleAmt;
         @BindView(R.id.tvSaleTime)
         public TextView tvSaleTime;
+        @BindView(R.id.tvRejPrct)
+        public TextView tvRejPrct;
         @BindView(R.id.tvTravelTime)
         public TextView tvTravelTime;
         @BindView(R.id.customer_item)

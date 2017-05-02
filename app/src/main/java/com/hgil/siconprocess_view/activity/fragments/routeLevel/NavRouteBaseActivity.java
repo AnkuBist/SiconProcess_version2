@@ -50,7 +50,6 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
     @BindView(R.id.flContent)
 
     FrameLayout containerFrame;
-    boolean doubleBackToExitPressedOnce = false;
     private ActionBarDrawerToggle drawerToggle;
 
     @Override
@@ -64,30 +63,12 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
         actionbar.setDisplayShowTitleEnabled(false);
         actionbar.setDefaultDisplayHomeAsUpEnabled(false);
         actionbar.setDisplayHomeAsUpEnabled(false);
-        /*actionbar.setDisplayShowCustomEnabled(true);
-        actionbar.setDisplayShowHomeEnabled(false);
-
-        actionbar.setDisplayUseLogoEnabled(false);
-        actionbar.setHomeButtonEnabled(false);*/
 
         // drawer hamburger icons
         drawerToggle = setupDrawerToggle();
 
-        // to disable hamburger icon
-        //drawerToggle.setDrawerIndicatorEnabled(false);
-
         // Tie DrawerLayout events to the ActionBarToggle
         mDrawer.addDrawerListener(drawerToggle);
-
-      /*  //TODO initialize Sicon app object here only
-        String route_id = getIntent().getStringExtra("route_id");*/
-
-/*        RouteView routeView = new RouteView(this);
-        RouteModel routeModel = routeView.getRouteById(route_id);
-
-        SiconApp.getInstance().setRouteModel(routeModel);
-        SiconApp.getInstance().setRouteId(route_id);
-        SiconApp.getInstance().setRouteName(routeModel.getRouteName());*/
 
         // Setup drawer view
         setupDrawerContent(nvDrawer);
@@ -99,15 +80,11 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
         TextView tvNavHeader = (TextView) navHeaderView.findViewById(R.id.tvNavHeader);
 
         imgNavIcon.setImageResource(R.mipmap.harvest_logo);
-        if (getDepotName() != null) {
-            //String output_depot = getDepotName().substring(0, 1).toUpperCase() + getDepotName().substring(1).toLowerCase();
+        if (getDepotName() != null)
             tvNavDepot.setText(getDepotName());
-        }
 
-        if (getRouteName() != null) {
-            //String output_route = getRouteName().substring(0, 1).toUpperCase() + getRouteName().substring(1).toLowerCase();
+        if (getRouteName() != null)
             tvNavHeader.setText(getRouteName());
-        }
 
         // nav footer
         NavigationView temp_nv = (NavigationView) mDrawer.findViewById(R.id.temp_nv);
@@ -121,30 +98,17 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
 
         TextView textPhone = (TextView) temp_nv.findViewById(R.id.tvCashierNo);
         textPhone.setVisibility(View.GONE);
-        //textPhone.setText("9023503384");
-
-       /* textPhone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO call phone
-            }
-        });*/
 
         MenuItem menuItem = nvDrawer.getMenu().findItem(R.id.nav_home_route);
 
         RouteHomeFragment fragment = RouteHomeFragment.newInstance();
-        //String fragClassName = fragment.getClass().getName();
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right)
                 .replace(R.id.flContent, fragment)
-                //.addToBackStack(fragClassName)
                 .commit();
-
-        //menuItem.setChecked(true);
 
         tvNavTitle.setText(menuItem.getTitle());
         tvNavDate.setText(Utility.getDateMonth());
-        // firstLaunch();
     }
 
     @Override
@@ -152,11 +116,6 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_nav_base);
         setup();
-    }
-
-    // set default home nav item selected and launch this on first view
-    public void firstLaunch() {
-        nvDrawer.getMenu().performIdentifierAction(R.id.nav_home, 0);
     }
 
     @Override
@@ -186,8 +145,6 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
                 this.finish();
                 // from right to left
                 overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-                // from left to right
-                //overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
                 break;
             case R.id.nav_home_route:
                 fragment = RouteHomeFragment.newInstance();
@@ -223,16 +180,10 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
             if (!fragmentPopped) {
                 ft.replace(R.id.flContent, fragment);
                 ft.addToBackStack(fragClassName);
-            } else {
-                // do nothing
-                //ft.replace(R.id.flContent, fragment);
             }
 
             ft.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left, R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             ft.commit();
-
-            // Highlight the selected item has been done by NavigationView
-            //menuItem.setChecked(true);
 
             // Set action bar title
             tvNavTitle.setText(menuItem.getTitle());
@@ -240,11 +191,6 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
         }
         // Close the navigation drawer
         mDrawer.closeDrawers();
-    }
-
-    // make call to home tab on some button click
-    public void clickHome() {
-        selectDrawerItem(nvDrawer.getMenu().getItem(R.id.nav_home));
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
@@ -294,30 +240,6 @@ public class NavRouteBaseActivity extends Route_Base_Activity {
             }
         }
     }
-
-   /* @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            super.onBackPressed();
-            overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-        } else {
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed();
-                overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-                return;
-            }
-
-            this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    doubleBackToExitPressedOnce = false;
-                }
-            }, 2000);
-        }
-    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
