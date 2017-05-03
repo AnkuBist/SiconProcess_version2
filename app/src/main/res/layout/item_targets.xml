@@ -9,16 +9,25 @@
         android:elevation="5dp"
         android:minHeight="50dp"
         android:orientation="horizontal"
-        android:weightSum="5">
+        android:weightSum="7">
 
         <!--template of items in this list-->
         <TextView
             android:id="@+id/tvItemName"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:gravity="left|center_vertical"
             android:paddingLeft="5dp"
+            android:textColor="@color/colorTextBlack"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:id="@+id/tvLoading"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
             android:textColor="@color/colorTextBlack"
             android:textSize="@dimen/text_size_medium" />
 

@@ -11,6 +11,7 @@ public class RouteCustomerModel {
     private String customerId;
     private String customerName;
     private String custStatus;
+    private String sms_time;
     private double saleAmount;
     private double cash_received;
     private String sale_time;
@@ -66,6 +67,14 @@ public class RouteCustomerModel {
 
     public void setCustStatus(String custStatus) {
         this.custStatus = custStatus;
+    }
+
+    public String getSms_time() {
+        return sms_time;
+    }
+
+    public void setSms_time(String sms_time) {
+        this.sms_time = sms_time;
     }
 
     public String getSale_time() {

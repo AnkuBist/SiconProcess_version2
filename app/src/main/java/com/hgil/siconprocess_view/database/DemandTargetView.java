@@ -115,6 +115,7 @@ public class DemandTargetView extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         TodaySaleView todaySaleView = new TodaySaleView(mContext);
         ItemDetailView itemDetailView = new ItemDetailView(mContext);
+        VanStockView vanStockView = new VanStockView(mContext);
 
         ArrayList<RouteTargetModel> array_list = new ArrayList<>();
 
@@ -124,6 +125,7 @@ public class DemandTargetView extends SQLiteOpenHelper {
                 RouteTargetModel demandTargetModel = new RouteTargetModel();
                 String item_id = res.getString(res.getColumnIndex(ITEM_ID));
                 demandTargetModel.setItemId(item_id);
+                demandTargetModel.setLoading(vanStockView.routeItemLoading(route_id, item_id));
                 demandTargetModel.setTarget(res.getInt(res.getColumnIndex(TARGET_QTY)));
 
                 demandTargetModel.setItem_name(itemDetailView.getItemName(item_id));

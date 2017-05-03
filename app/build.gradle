@@ -8,8 +8,8 @@ android {
         applicationId "com.hgil.siconprocess_view"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 9
-        versionName "1.6.5"
+        versionCode 10
+        versionName "1.7.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

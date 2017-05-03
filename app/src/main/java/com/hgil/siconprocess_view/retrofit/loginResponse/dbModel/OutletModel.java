@@ -21,7 +21,10 @@ public class OutletModel {
     private String customerName;
     @SerializedName("sale_status")
     @Expose
-    private String sale_status;
+    private String saleStatus;
+    @SerializedName("sms_time")
+    @Expose
+    private String smsTime;
     @SerializedName("ContactNo")
     @Expose
     private String contactNo;
@@ -73,12 +76,20 @@ public class OutletModel {
         this.customerName = customerName;
     }
 
-    public String getSale_status() {
-        return sale_status;
+    public String getSaleStatus() {
+        return saleStatus;
     }
 
-    public void setSale_status(String sale_status) {
-        this.sale_status = sale_status;
+    public void setSaleStatus(String saleStatus) {
+        this.saleStatus = saleStatus;
+    }
+
+    public String getSmsTime() {
+        return smsTime;
+    }
+
+    public void setSmsTime(String smsTime) {
+        this.smsTime = smsTime;
     }
 
     public String getContactNo() {

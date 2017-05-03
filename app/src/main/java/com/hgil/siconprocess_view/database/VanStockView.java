@@ -169,6 +169,21 @@ public class VanStockView extends SQLiteOpenHelper {
         return crate_loading;
     }
 
+    /*van item loading*/
+     /*get user crate loading*/
+    public int routeItemLoading(String route_id, String item_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT " + ITEM_QTY + " FROM " + TABLE_NAME + " WHERE " + ROUTE_ID + "=? and " + ITEM_ID + "=?",
+                new String[]{route_id, item_id});
+        int item_loading = 0;
+        if (res.moveToFirst()) {
+            item_loading = res.getInt(res.getColumnIndex(ITEM_QTY));
+        }
+        res.close();
+        db.close();
+        return item_loading;
+    }
+
     /* van route items loaded count*/
     public int routeItemLoadCount(String route_id) {
         SQLiteDatabase db = this.getReadableDatabase();

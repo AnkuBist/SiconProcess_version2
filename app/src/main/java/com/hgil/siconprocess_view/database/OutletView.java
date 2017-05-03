@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 public class OutletView extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
 
     private static final String DATABASE_NAME = "Sicon_Customer_db";
     private static final String TABLE_NAME = "V_SD_Customer_Route_Mapping";
@@ -27,6 +27,7 @@ public class OutletView extends SQLiteOpenHelper {
     private static final String CUSTOMER_ID = "Customer_Id";
     private static final String CUSTOMER_NAME = "Customer_Name";
     private static final String SALE_STATUS = "sale_status";
+    private static final String SMS_TIME = "sms_time";
     private static final String CONTACT_NO = "ContactNo";
     private static final String OUTSTANDING = "outstanding";
     private static final String INV_AMOUNT = "inv_amount";
@@ -44,7 +45,7 @@ public class OutletView extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + ROUTE_ID + " TEXT NULL, "
-                + CUSTOMER_ID + " TEXT NULL, " + CUSTOMER_NAME + " TEXT NULL, " + SALE_STATUS + " TEXT NULL, "
+                + CUSTOMER_ID + " TEXT NULL, " + CUSTOMER_NAME + " TEXT NULL, " + SALE_STATUS + " TEXT NULL, " + SMS_TIME + " TEXT NULL, "
                 + CONTACT_NO + " TEXT NULL, " + OUTSTANDING + " REAL NULL, " + INV_AMOUNT + " REAL NULL, "
                 + NET_AMOUNT + " REAL NULL, " + CASH_PAYMENT + " REAL NULL, " + INV_TIME + " TEXT NULL)");
     }
@@ -71,6 +72,7 @@ public class OutletView extends SQLiteOpenHelper {
         final int customerIdColumn = ih.getColumnIndex(CUSTOMER_ID);
         final int customerNameColumn = ih.getColumnIndex(CUSTOMER_NAME);
         final int saleStatusColumn = ih.getColumnIndex(SALE_STATUS);
+        final int smsTimeColumn = ih.getColumnIndex(SMS_TIME);
         final int contactNoColumn = ih.getColumnIndex(CONTACT_NO);
         final int outstandingColumn = ih.getColumnIndex(OUTSTANDING);
         final int invAmountColumn = ih.getColumnIndex(INV_AMOUNT);
@@ -86,10 +88,11 @@ public class OutletView extends SQLiteOpenHelper {
                 ih.bind(routeIdColumn, outletModel.getRouteId());
                 ih.bind(customerIdColumn, outletModel.getCustomerId());
                 ih.bind(customerNameColumn, outletModel.getCustomerName());
-                if ((outletModel.getSale_status()).matches("SMS_SENT"))
+                if ((outletModel.getSaleStatus()).matches("SMS_SENT"))
                     ih.bind(saleStatusColumn, "Completed");
                 else
                     ih.bind(saleStatusColumn, "Pending");
+                ih.bind(smsTimeColumn, outletModel.getSmsTime());
                 ih.bind(contactNoColumn, outletModel.getContactNo());
                 ih.bind(outstandingColumn, outletModel.getOutstanding());
                 ih.bind(invAmountColumn, outletModel.getInv_amount());
@@ -138,7 +141,7 @@ public class OutletView extends SQLiteOpenHelper {
                 outletModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
                 outletModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 outletModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
-                outletModel.setSale_status(res.getString(res.getColumnIndex(SALE_STATUS)));
+                outletModel.setSaleStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
                 outletModel.setContactNo(res.getString(res.getColumnIndex(CONTACT_NO)));
                 outletModel.setOutstanding(res.getDouble(res.getColumnIndex(OUTSTANDING)));
                 outletModel.setInv_amount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
@@ -167,7 +170,7 @@ public class OutletView extends SQLiteOpenHelper {
             outletModel.setRouteName(routeView.getRouteName(outletModel.getRouteId()));
             outletModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
             outletModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
-            outletModel.setSale_status(res.getString(res.getColumnIndex(SALE_STATUS)));
+            outletModel.setSaleStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
             outletModel.setContactNo(res.getString(res.getColumnIndex(CONTACT_NO)));
             outletModel.setOutstanding(res.getDouble(res.getColumnIndex(OUTSTANDING)));
             outletModel.setInv_amount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
@@ -192,7 +195,7 @@ public class OutletView extends SQLiteOpenHelper {
                 outletModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
                 outletModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
                 outletModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
-                outletModel.setSale_status(res.getString(res.getColumnIndex(SALE_STATUS)));
+                outletModel.setSaleStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
                 outletModel.setContactNo(res.getString(res.getColumnIndex(CONTACT_NO)));
                 outletModel.setOutstanding(res.getDouble(res.getColumnIndex(OUTSTANDING)));
                 outletModel.setInv_amount(res.getDouble(res.getColumnIndex(INV_AMOUNT)));
@@ -227,6 +230,7 @@ public class OutletView extends SQLiteOpenHelper {
                 routeCustomerModel.setSaleAmount(saleAmount);
                 routeCustomerModel.setSale_time(res.getString(res.getColumnIndex(INV_TIME)));
                 routeCustomerModel.setCustStatus(res.getString(res.getColumnIndex(SALE_STATUS)));
+                routeCustomerModel.setSms_time(res.getString(res.getColumnIndex(SMS_TIME)));
 
                 routeCustomerModel.setVan_total_sku(van_sku_count);
                 routeCustomerModel.setOutlet_purchased_sku(todaySaleView.routeOutletItemSaleCount(

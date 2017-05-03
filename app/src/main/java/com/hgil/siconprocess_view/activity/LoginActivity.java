@@ -1,10 +1,15 @@
 package com.hgil.siconprocess_view.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +40,7 @@ import com.hgil.siconprocess_view.retrofit.loginResponse.ObjLoginResponse;
 import com.hgil.siconprocess_view.retrofit.loginResponse.loginResponse;
 import com.hgil.siconprocess_view.utils.Utility;
 import com.hgil.siconprocess_view.utils.ui.SampleDialog;
+import com.hgil.siconprocess_view.utils.utilPermission.UtilIMEI;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +49,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 //import retrofit2.Response;
-
 public class LoginActivity extends AppCompatActivity {
 
     private static final int APP_PERMISSION = 105;
@@ -56,11 +61,10 @@ public class LoginActivity extends AppCompatActivity {
     CheckBox cbSignIn;
     @BindView(R.id.btnSubmit)
     Button btnSubmit;
-    @BindView(R.id.coordinateLayout)
-    CoordinatorLayout coordinateLayout;
-
     @BindView(R.id.tvAppVersion)
     TextView tvAppVersion;
+    @BindView(R.id.coordinateLayout)
+    CoordinatorLayout coordinateLayout;
 
     private ZoneView dbZoneView;
     private RouteView dbRouteView;
@@ -80,7 +84,6 @@ public class LoginActivity extends AppCompatActivity {
     private SHOutletSaleView dbShOutletSaleView;
 
     private String existing_id = "", saved_id = "";
-
     private Handler updateBarHandler;
 
     @Override
@@ -102,8 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         /// initialise database objects
         initialiseDBObj();
         updateBarHandler = new Handler();
-
-        //askAppPermission();
+        askAppPermission();
     }
 
     private void initialiseDBObj() {
@@ -161,7 +163,13 @@ public class LoginActivity extends AppCompatActivity {
 
                 //TODO--- this is a test code remove these lines and uncomment the below code after this
                 // check for login
-                getUserLogin(username, password);
+                String imeiNumber = UtilIMEI.getIMEINumber(this);
+                if (imeiNumber == null)
+                    UtilIMEI.checkAndroidVersionForPhoneState(this);
+                else {
+                    Utility.savePreference(this, Utility.DEVICE_IMEI, imeiNumber);
+                    getUserLogin(username, password, imeiNumber);
+                }
                 //makeJsonObjectRequest(username, password);
 
                 //Snackbar.make(coordinateLayout, "Please erase app data before login with different user!", Snackbar.LENGTH_LONG).show();
@@ -203,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /*retrofit call test to fetch data from server*/
-    public void getUserLogin(final String user_id, final String password) {
+    public void getUserLogin(final String user_id, final String password, String imei_number) {
         updateBarHandler.post(new Runnable() {
             public void run() {
                 RetrofitUtil.showDialog(LoginActivity.this, getString(R.string.str_login));
@@ -211,7 +219,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         RetrofitService service = RetrofitUtil.retrofitClient();
-        Call<loginResponse> apiCall = service.postUserLogin(user_id, password);
+        Call<loginResponse> apiCall = service.postUserLogin(user_id, password, imei_number);
         apiCall.enqueue(new Callback<loginResponse>() {
             @Override
             public void onResponse(Call<loginResponse> call, Response<loginResponse> response) {
@@ -273,7 +281,6 @@ public class LoginActivity extends AppCompatActivity {
     private class syncDataToLocalDb extends AsyncTask<Void, Void, Boolean> {
         String login_id;
         loginResponse loginResponse;
-
 
         public syncDataToLocalDb(String login_id, loginResponse loginResponse) {
             this.login_id = login_id;
@@ -339,34 +346,34 @@ public class LoginActivity extends AppCompatActivity {
                 }, 500);
                 new SampleDialog("", getString(R.string.str_error_login), LoginActivity.this);
             }
-
         }
     }
 
-
-   /* private void askAppPermission() {
+    private void askAppPermission() {
         if (Build.VERSION.SDK_INT >= 23) {
-            int check_COARSE_LOCATION = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
-            int check_FINE_LOCATION = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+            // int check_COARSE_LOCATION = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+            // int check_FINE_LOCATION = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
             int check_READ_PHONE_STATE = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
-            int check_SEND_SMS = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
+            //int check_SEND_SMS = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
 
-            if (check_COARSE_LOCATION != PackageManager.PERMISSION_GRANTED ||
-                    check_FINE_LOCATION != PackageManager.PERMISSION_GRANTED ||
-                    check_READ_PHONE_STATE != PackageManager.PERMISSION_GRANTED ||
-                    check_SEND_SMS != PackageManager.PERMISSION_GRANTED) {
+            if (check_READ_PHONE_STATE != PackageManager.PERMISSION_GRANTED) {
+
+                //check_COARSE_LOCATION != PackageManager.PERMISSION_GRANTED ||
+                //check_FINE_LOCATION != PackageManager.PERMISSION_GRANTED ||
+                //    check_SEND_SMS != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.SEND_SMS}, APP_PERMISSION);
+                        // Manifest.permission.ACCESS_COARSE_LOCATION,
+                        //Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.READ_PHONE_STATE
+                        //Manifest.permission.SEND_SMS
+                }, APP_PERMISSION);
                 return;
             }
         }
-    }*/
+    }
 
     // request permissions result
-   /* @Override
+    @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case APP_PERMISSION:
@@ -380,8 +387,7 @@ public class LoginActivity extends AppCompatActivity {
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-    }*/
-
+    }
 
     /*volley task*/
     // Progress dialog

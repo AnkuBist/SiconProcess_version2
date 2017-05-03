@@ -32,6 +32,7 @@ public class Utility {
     public static final String LOGIN_STATUS = "login_status";
     public static final String LAST_LOGIN_DATE = "last_login_date";
     public static final String LAST_SYNC_DATE = "last_sync_date";
+    public static final String DEVICE_IMEI = "device_imei";
 
     /*check internet connection*/
     private static boolean isNetworkAvailable(Context context) {

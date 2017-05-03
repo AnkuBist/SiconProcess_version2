@@ -26,16 +26,16 @@
             android:alpha="0.5"
             android:elevation="5dp"
             android:orientation="horizontal"
-            android:weightSum="5">
+            android:weightSum="7">
 
             <!--template of items in this list-->
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:background="@color/colorBackgroundBlack"
-                android:gravity="center_horizontal|center_vertical"
+                android:gravity="left|center_vertical"
                 android:singleLine="true"
                 android:text="Item Name"
                 android:textColor="@color/colorWhite"
@@ -48,7 +48,7 @@
                 android:background="@color/colorBackgroundBlack"
                 android:gravity="center_horizontal|center_vertical"
                 android:singleLine="true"
-                android:text="Target"
+                android:text="D"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_size_medium" />
 
@@ -59,7 +59,7 @@
                 android:background="@color/colorBackgroundBlack"
                 android:gravity="center_horizontal|center_vertical"
                 android:singleLine="true"
-                android:text="Achieved"
+                android:text="T"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_size_medium" />
 
@@ -70,7 +70,18 @@
                 android:background="@color/colorBackgroundBlack"
                 android:gravity="center_horizontal|center_vertical"
                 android:singleLine="true"
-                android:text="Variance"
+                android:text="A"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorBackgroundBlack"
+                android:gravity="center_horizontal|center_vertical"
+                android:singleLine="true"
+                android:text="V"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_size_medium" />
 

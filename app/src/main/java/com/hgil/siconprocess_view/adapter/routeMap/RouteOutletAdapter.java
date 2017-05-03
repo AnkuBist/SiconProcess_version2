@@ -70,7 +70,10 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
 
         String saleTime = routeCustomerModel.getSale_time();
         if (saleTime != null && !saleTime.matches("") && !saleTime.matches("00:00")) {
-            holder.tvSaleTime.setText("Sale Time: " + saleTime);
+            String smsTime = routeCustomerModel.getSms_time();
+            if (smsTime != null && !smsTime.matches("") && !smsTime.matches("00:00"))
+                holder.tvSaleTime.setText("Sale Time: " + saleTime + "/" + smsTime);
+            else holder.tvSaleTime.setText("Sale Time: " + saleTime);
             /*sku updates*/
             holder.tvSkuDetail.setText("" + routeCustomerModel.getOutlet_purchased_sku() + "/" + routeCustomerModel.getVan_total_sku());
         } else {

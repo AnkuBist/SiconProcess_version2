@@ -61,6 +61,7 @@ public class SynchronizeDataBase extends Fragment {
     private SHOutletSaleView dbShOutletSaleView;
 
     private String last_sync_date = null;
+    private String imei_number = null;
     private Handler updateBarHandler;
 
     public SynchronizeDataBase() {
@@ -75,6 +76,7 @@ public class SynchronizeDataBase extends Fragment {
             }
         });
         last_sync_date = Utility.readPreference(getContext(), Utility.LAST_SYNC_DATE);
+        imei_number = Utility.readPreference(getContext(), Utility.DEVICE_IMEI);
 
         // call sync data here
         new Thread(new Runnable() {
@@ -92,7 +94,7 @@ public class SynchronizeDataBase extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                synchronizedDataResponse(login_id, last_sync_date, jObj);
+                synchronizedDataResponse(login_id, last_sync_date, imei_number, jObj);
             }
         }).start();
     }
@@ -146,14 +148,14 @@ public class SynchronizeDataBase extends Fragment {
     }
 
     /*retrofit call test to fetch data from server*/
-    public void synchronizedDataResponse(final String user_id, final String last_sync_date, final JSONObject syncData) {
+    public void synchronizedDataResponse(final String user_id, final String last_sync_date, String imei_number, final JSONObject syncData) {
         updateBarHandler.post(new Runnable() {
             public void run() {
                 RetrofitUtil.updateDialogTitle(getString(R.string.str_synchronizing_data));
             }
         });
         RetrofitService service = RetrofitUtil.retrofitClient();
-        Call<loginResponse> apiCall = service.syncRemarkPlan(user_id, last_sync_date, syncData.toString());
+        Call<loginResponse> apiCall = service.syncRemarkPlan(user_id, last_sync_date, imei_number, syncData.toString());
         apiCall.enqueue(new Callback<loginResponse>() {
             @Override
             public void onResponse(Call<loginResponse> call, Response<loginResponse> response) {

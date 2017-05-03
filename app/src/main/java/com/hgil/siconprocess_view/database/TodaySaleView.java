@@ -199,7 +199,7 @@ public class TodaySaleView extends SQLiteOpenHelper {
     /*item target sale over route*/
     public int routeItemSaleQty(String route_id, String item_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT sum(" + LOADING + ") AS " + LOADING + " FROM " + TABLE_NAME + " WHERE "
+        Cursor res = db.rawQuery("SELECT sum(" + LOADING + "-" + OTHER_REJ + ") AS " + LOADING + " FROM " + TABLE_NAME + " WHERE "
                 + ROUTE_ID + "=? and " + ITEM_ID + "=?", new String[]{route_id, item_id});
         int sale_qty = 0;
         if (res.moveToFirst()) {
