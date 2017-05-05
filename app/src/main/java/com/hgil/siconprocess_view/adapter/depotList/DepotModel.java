@@ -8,6 +8,8 @@ public class DepotModel {
 
     private String depot_id;
     private String depot_name;
+    private int depot_leftover;
+    private int depot_rej_prct;
 
     public String getDepot_id() {
         return depot_id;
@@ -23,5 +25,21 @@ public class DepotModel {
 
     public void setDepot_name(String depot_name) {
         this.depot_name = depot_name;
+    }
+
+    public int getDepot_leftover() {
+        return depot_leftover;
+    }
+
+    public void setDepot_leftover(int depot_leftover) {
+        this.depot_leftover = depot_leftover;
+    }
+
+    public int getDepot_rej_prct() {
+        return depot_rej_prct;
+    }
+
+    public void setDepot_rej_prct(int depot_rej_prct) {
+        this.depot_rej_prct = depot_rej_prct;
     }
 }

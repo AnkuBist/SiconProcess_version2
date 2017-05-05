@@ -43,6 +43,8 @@ public class DepotListAdapter extends RecyclerView.Adapter<DepotListAdapter.View
     public void onBindViewHolder(final DepotListAdapter.ViewHolder holder, int position) {
         final DepotModel depotModel = mDataset.get(position);
         holder.tvDepotName.setText(depotModel.getDepot_name());
+        holder.tvDepotLO.setText("LO: " + depotModel.getDepot_leftover());
+        holder.tvDepotRejPrct.setText("Rej: " + depotModel.getDepot_rej_prct() + "%");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +74,10 @@ public class DepotListAdapter extends RecyclerView.Adapter<DepotListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvDepotName)
         public TextView tvDepotName;
+        @BindView(R.id.tvDepotLO)
+        public TextView tvDepotLO;
+        @BindView(R.id.tvDepotRejPrct)
+        public TextView tvDepotRejPrct;
 
         public ViewHolder(View v) {
             super(v);

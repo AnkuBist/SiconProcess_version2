@@ -121,6 +121,7 @@ public class ZoneView extends SQLiteOpenHelper {
     public ArrayList<DepotModel> getDepotList(String zoneName) {
         ArrayList<DepotModel> array_list = new ArrayList<DepotModel>();
 
+        RouteView routeView = new RouteView(mContext);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT distinct " + DEPOT_ID + ", " + DEPOT_NAME + " FROM " + TABLE_NAME + " where " + ZONE_NAME + "=?",
                 new String[]{zoneName});
@@ -129,6 +130,11 @@ public class ZoneView extends SQLiteOpenHelper {
                 DepotModel depotModel = new DepotModel();
                 depotModel.setDepot_id(res.getString(res.getColumnIndex(DEPOT_ID)));
                 depotModel.setDepot_name(res.getString(res.getColumnIndex(DEPOT_NAME)));
+                // get depot leftover and rej prct
+                DepotModel tempModel = routeView.depotLOnRejPrct(depotModel.getDepot_id());
+                depotModel.setDepot_leftover(tempModel.getDepot_leftover());
+                depotModel.setDepot_rej_prct(tempModel.getDepot_rej_prct());
+
                 array_list.add(depotModel);
                 res.moveToNext();
             }

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.hgil.siconprocess_view.adapter.depotList.DepotModel;
 import com.hgil.siconprocess_view.adapter.routeList.RouteListModel;
 import com.hgil.siconprocess_view.database.localDb.OutletRemarkTable;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;
@@ -262,7 +263,7 @@ public class RouteView extends SQLiteOpenHelper {
                     rejPrct = (route_rej_amount / route_total_sale) * 100;
 
                 int route_van_loading = vanStockView.routeTotalLoading(route_id);
-                routeModel.setRoute_leftover(route_van_loading - todaySaleView.routeLeftOver(route_id));
+                routeModel.setRoute_leftover(route_van_loading - todaySaleView.routeSalePieces(route_id));
                 routeModel.setRoute_total_loading(vanStockView.routeTotalLoading(route_id));
                 routeModel.setRoute_productive_calls(productive_calls);
                 routeModel.setRoute_target_calls(total_calls);
@@ -297,5 +298,49 @@ public class RouteView extends SQLiteOpenHelper {
         res.close();
         db.close();
         return routeName;
+    }
+
+    /*depot rej prct and leftover*/
+    public DepotModel depotLOnRejPrct(String depot_id) {
+        OutletView outletView = new OutletView(mContext);
+        TodaySaleView todaySaleView = new TodaySaleView(mContext);
+        VanStockView vanStockView = new VanStockView(mContext);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + DEPOT_ID + "=?", new String[]{depot_id});
+
+        double rejPercentage = 0;
+        int leftOver = 0;
+
+        if (res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                String route_id = res.getString(res.getColumnIndex(ROUTE_ID));
+
+                //total route sale amount
+                double route_total_sale = outletView.routeTotalSale(route_id);
+                double route_rej_amount = todaySaleView.getRouteRejAmount(route_id);
+
+                double rejPrct = 0.00;
+                if (route_total_sale > 0)
+                    rejPrct = (route_rej_amount / route_total_sale) * 100;
+
+                int route_van_loading = vanStockView.routeTotalLoading(route_id);
+                leftOver += (route_van_loading - todaySaleView.routeSalePieces(route_id));
+                //routeModel.setRoute_total_loading(vanStockView.routeTotalLoading(route_id));
+
+                rejPercentage += (rejPrct);
+                res.moveToNext();
+            }
+        }
+
+        DepotModel depotModel = new DepotModel();
+        if (res.getColumnCount() > 0) {
+            depotModel.setDepot_id(depot_id);
+            depotModel.setDepot_leftover(leftOver);
+            depotModel.setDepot_rej_prct((int) (rejPercentage / res.getColumnCount()));
+        }
+        res.close();
+        db.close();
+        return depotModel;
     }
 }

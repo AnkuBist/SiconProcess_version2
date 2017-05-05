@@ -265,9 +265,8 @@ public class TodaySaleView extends SQLiteOpenHelper {
         return item_count;
     }
 
-    /*route leftover items in pieces*/
-      /*route total item loading in pieces*/
-    public int routeLeftOver(String route_id) {
+    /*route sale items in pieces*/
+    public int routeSalePieces(String route_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT sum(" + LOADING + "+" + FRESH_REJ + ") AS item_qty FROM " + TABLE_NAME + " WHERE " + ROUTE_ID + "=?",
                 new String[]{route_id});
