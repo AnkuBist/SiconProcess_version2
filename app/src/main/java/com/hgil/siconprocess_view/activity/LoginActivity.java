@@ -295,7 +295,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 String data = Utility.ungzip(result);
                 ObjLoginResponse objResponse = new Gson().fromJson(data, ObjLoginResponse.class);
-                // ObjLoginResponse objResponse = loginResponse.getObjLoginResponse();
+                // ObjLoginResp.onse objResponse = loginResponse.getObjLoginResponse();
                 final long startTime = System.currentTimeMillis();
 
                 // sync data to local table and views
