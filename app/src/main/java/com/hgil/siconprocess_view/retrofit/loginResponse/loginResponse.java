@@ -15,8 +15,13 @@ public class loginResponse {
     @SerializedName("strMessage")
     @Expose
     private String strMessage;
-    @SerializedName("objLoginResponse")
+    @SerializedName("loginByteResponse")
     @Expose
+    private byte[] loginByteResoponse;
+
+
+ /*   @SerializedName("objLoginResponse")
+    @Expose*/
     private ObjLoginResponse objLoginResponse;
 
     public Boolean getReturnCode() {
@@ -43,5 +48,12 @@ public class loginResponse {
         this.objLoginResponse = objLoginResponse;
     }
 
+    public byte[] getLoginByteResoponse() {
+        return loginByteResoponse;
+    }
+
+    public void setLoginByteResoponse(byte[] loginByteResoponse) {
+        this.loginByteResoponse = loginByteResoponse;
+    }
 }
 

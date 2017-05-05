@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.fragments.baseLevel.RouteListActivity;
 import com.hgil.siconprocess_view.database.DemandTargetView;
@@ -290,7 +291,11 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                ObjLoginResponse objResponse = loginResponse.getObjLoginResponse();
+                byte[] result = loginResponse.getLoginByteResoponse();
+
+                String data = Utility.ungzip(result);
+                ObjLoginResponse objResponse = new Gson().fromJson(data, ObjLoginResponse.class);
+                // ObjLoginResponse objResponse = loginResponse.getObjLoginResponse();
                 final long startTime = System.currentTimeMillis();
 
                 // sync data to local table and views
