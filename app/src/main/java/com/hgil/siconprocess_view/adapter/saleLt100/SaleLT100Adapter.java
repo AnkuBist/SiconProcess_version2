@@ -53,17 +53,17 @@ public class SaleLT100Adapter extends RecyclerView.Adapter<SaleLT100Adapter.View
         // - replace the contents of the view with that element
         final RouteCustomerModel routeCustomerModel = mDataset.get(position);
         holder.tvCustomerName.setText(routeCustomerModel.getCustomerName());
-        holder.tvTotalSaleAmt.setText("Gross Sale: " + holder.strRupee + Math.round(routeCustomerModel.getSaleAmount()));
+        holder.tvTotalSaleAmt.setText("G.Sale: " + holder.strRupee + Math.round(routeCustomerModel.getSaleAmount()));
 
         //text color change on status
         String status = routeCustomerModel.getCustStatus();
         if (status == null || status.matches("Pending")) { //status.matches("") ||
-            String colored_status = "Status:" + " <font color='" + mContext.getResources().getColor(R.color.colorTextRed) + "'>" + status
+            String colored_status = "Status:" + " <font color='" + mContext.getResources().getColor(R.color.colorTextRed) + "'>" + "P"
                     + "</font>";
             holder.tvStatus.setText(Html.fromHtml(colored_status));
             holder.customer_item.setBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
         } else if (status.matches("Completed")) {
-            String colored_status = "Status:" + " <font color='" + mContext.getResources().getColor(R.color.colorTextGreen) + "'>" + status
+            String colored_status = "Status:" + " <font color='" + mContext.getResources().getColor(R.color.colorTextGreen) + "'>" + "C"
                     + "</font>";
             holder.tvStatus.setText(Html.fromHtml(colored_status));
             holder.customer_item.setBackgroundColor(mContext.getResources().getColor(R.color.colorBackgroundGreen));
@@ -71,7 +71,7 @@ public class SaleLT100Adapter extends RecyclerView.Adapter<SaleLT100Adapter.View
 
         String saleTime = routeCustomerModel.getSale_time();
         if (saleTime != null && !saleTime.matches("") && !saleTime.matches("00:00")) {
-            holder.tvSaleTime.setText("Sale Time: " + saleTime);
+            holder.tvSaleTime.setText("S.Time: " + saleTime);
         } else {
             holder.tvSaleTime.setVisibility(View.GONE);
         }
@@ -79,7 +79,7 @@ public class SaleLT100Adapter extends RecyclerView.Adapter<SaleLT100Adapter.View
         /* travel time*/
         String travelTime = routeCustomerModel.getTime_diff();
         if (travelTime != null && !travelTime.matches("") && !travelTime.matches("00:00")) {
-            holder.tvTravelTime.setText("Travel Time: " + travelTime);
+            holder.tvTravelTime.setText("T.Time: " + travelTime);
         } else {
             holder.tvTravelTime.setVisibility(View.GONE);
         }

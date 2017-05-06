@@ -28,6 +28,7 @@ public class SaleHistoryModel {
     @Expose
     private Double netSale;
 
+    private double rejPrct;
     private int route_van_stock;
     private int outlet_sale_items;
 
@@ -85,6 +86,14 @@ public class SaleHistoryModel {
 
     public void setOutlet_sale_items(int outlet_sale_items) {
         this.outlet_sale_items = outlet_sale_items;
+    }
+
+    public double getRejPrct() {
+        return rejPrct;
+    }
+
+    public void setRejPrct(double rejPrct) {
+        this.rejPrct = rejPrct;
     }
 
     public int getRoute_van_stock() {

@@ -1,5 +1,6 @@
 package com.hgil.siconprocess_view.activity.fragments.baseLevel.routeList;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import com.hgil.siconprocess_view.adapter.routeList.RouteListAdapter;
 import com.hgil.siconprocess_view.adapter.routeList.RouteListModel;
 import com.hgil.siconprocess_view.base.Base_Fragment;
 import com.hgil.siconprocess_view.database.RouteView;
+import com.hgil.siconprocess_view.retrofit.RetrofitUtil;
 
 import java.util.ArrayList;
 
@@ -95,9 +97,10 @@ public class RouteListFragment extends Base_Fragment {
             arrRoute = new ArrayList<>();
 
         routeView = new RouteView(getActivity());
-        arrRoute.addAll(routeView.getDepotRouteList(depot_id));
         routeListAdapter = new RouteListAdapter(getActivity(), arrRoute);
         rvRouteList.setAdapter(routeListAdapter);
+        arrRoute.addAll(routeView.getDepotRouteList(depot_id));
+        //new LongOperation().execute();
         onResume();
     }
 
@@ -110,6 +113,28 @@ public class RouteListFragment extends Base_Fragment {
         } else {
             tvEmpty.setVisibility(View.GONE);
             rvRouteList.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /*async task to fetch data from local*/
+    private class LongOperation extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            arrRoute.clear();
+            arrRoute = (routeView.getDepotRouteList(depot_id));
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            routeListAdapter.updateData(arrRoute);
+            onResume();
+            RetrofitUtil.hideDialog();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            RetrofitUtil.showDialog(getContext(), "");
         }
     }
 }

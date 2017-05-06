@@ -20,7 +20,7 @@ public class loginResponse {
     private byte[] loginByteResoponse;
 
 
- /*   @SerializedName("objLoginResponse")
+    /*@SerializedName("objLoginResponse")
     @Expose*/
     private ObjLoginResponse objLoginResponse;
 

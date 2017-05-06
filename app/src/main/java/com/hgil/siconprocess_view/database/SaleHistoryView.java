@@ -136,10 +136,19 @@ public class SaleHistoryView extends SQLiteOpenHelper {
                 saleHistoryModel.setStockDate(res.getString(res.getColumnIndex(STOCK_DATE)));
                 saleHistoryModel.setOutletCode(res.getString(res.getColumnIndex(OUTLET_CODE)));
                 saleHistoryModel.setItemsSold(res.getInt(res.getColumnIndex(ITEMS_SOLD)));
-                saleHistoryModel.setGrossSale(res.getDouble(res.getColumnIndex(GROSS_SALE)));
-                saleHistoryModel.setNetSale(res.getDouble(res.getColumnIndex(NET_SALE)));
+
+                double grossSale = res.getDouble(res.getColumnIndex(GROSS_SALE));
+                double netSale = res.getDouble(res.getColumnIndex(NET_SALE));
+
+                saleHistoryModel.setGrossSale(grossSale);
+                saleHistoryModel.setNetSale(netSale);
 
                 //updating new values
+                double rejPrct = 0.00;
+                if (grossSale > 0)
+                    rejPrct = (((grossSale - netSale) / grossSale) * 100);
+
+                saleHistoryModel.setRejPrct(rejPrct);
                 saleHistoryModel.setRoute_van_stock(shVanLoadingView.routeVanLoadingHistory(saleHistoryModel.getRouteId(), saleHistoryModel.getStockDate()));
                 saleHistoryModel.setOutlet_sale_items(shOutletSaleView.outletSaleHistory(saleHistoryModel.getOutletCode(), saleHistoryModel.getStockDate()));
 
@@ -151,7 +160,6 @@ public class SaleHistoryView extends SQLiteOpenHelper {
         db.close();
         return array_list;
     }
-
 
     /*average outlet sale*/
     public double avgCustomerNetSale(String route_id, String outlet_id) {
@@ -169,6 +177,22 @@ public class SaleHistoryView extends SQLiteOpenHelper {
         return net_sale;
     }
 
+    /*average outlet sale*/
+    public double avgCustomerGrossSale(String route_id, String outlet_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT sum(" + GROSS_SALE + ") as " + GROSS_SALE + " FROM " + TABLE_NAME
+                        + " where " + ROUTE_ID + "=? AND " + OUTLET_CODE + "=? GROUP BY " + ROUTE_ID + "," + OUTLET_CODE,
+                new String[]{route_id, outlet_id});
+        double net_sale = 0;
+        if (res.moveToFirst()) {
+            net_sale = (res.getDouble(res.getColumnIndex(GROSS_SALE)));
+        }
+
+        res.close();
+        db.close();
+        return net_sale;
+    }
+
     /*average outlet rejection percentage*/
     public long avgCustomerRejPrct(String route_id, String outlet_id) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -177,15 +201,31 @@ public class SaleHistoryView extends SQLiteOpenHelper {
                         + " where " + ROUTE_ID + "=? AND " + OUTLET_CODE + "=? GROUP BY " + ROUTE_ID + "," + OUTLET_CODE,
                 new String[]{route_id, outlet_id});
         long rej_prct = 0;
+       /* long avgRejPrct = 0;*/
         if (res.moveToFirst()) {
             double gross_sale = (res.getDouble(res.getColumnIndex(GROSS_SALE)));
             double net_sale = (res.getDouble(res.getColumnIndex(NET_SALE)));
+            //  double rej_prct = 0;
             if (gross_sale > 0)
                 rej_prct = Math.round(((gross_sale - net_sale) / gross_sale) * 100);
+            /*avgRejPrct = Math.round(rej_prct / customerRowCount(route_id, outlet_id));*/
         }
 
         res.close();
         db.close();
         return rej_prct;
+    }
+
+    //get customer row count
+    public int customerRowCount(String route_id, String outlet_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT distinct " + STOCK_DATE + " FROM " + TABLE_NAME + " where " + ROUTE_ID + "=? AND " + OUTLET_CODE + "=?",
+                new String[]{route_id, outlet_id});
+
+        int rowCount = res.getCount();
+
+        res.close();
+        db.close();
+        return rowCount;
     }
 }

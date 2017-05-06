@@ -18,6 +18,8 @@ public class RouteCustomerModel {
     private String time_diff;
 
     private double rejPrct;
+    private long avgSHSale;
+    private long avgSaleRejPrct;
     private int van_total_sku;
     private int outlet_purchased_sku;
 
@@ -123,5 +125,21 @@ public class RouteCustomerModel {
 
     public void setRejPrct(double rejPrct) {
         this.rejPrct = rejPrct;
+    }
+
+    public long getAvgSHSale() {
+        return avgSHSale;
+    }
+
+    public void setAvgSHSale(long avgSHSale) {
+        this.avgSHSale = avgSHSale;
+    }
+
+    public long getAvgSaleRejPrct() {
+        return avgSaleRejPrct;
+    }
+
+    public void setAvgSaleRejPrct(long avgSaleRejPrct) {
+        this.avgSaleRejPrct = avgSaleRejPrct;
     }
 }

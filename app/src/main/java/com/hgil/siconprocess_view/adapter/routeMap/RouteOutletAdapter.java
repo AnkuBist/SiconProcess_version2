@@ -52,17 +52,17 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
         // - replace the contents of the view with that element
         final RouteCustomerModel routeCustomerModel = mDataset.get(position);
         holder.tvCustomerName.setText(routeCustomerModel.getCustomerName());
-        holder.tvTotalSaleAmt.setText("Gross Sale: " + holder.strRupee + Math.round(routeCustomerModel.getSaleAmount()));
+        holder.tvTotalSaleAmt.setText("G.Sale: " + holder.strRupee + Math.round(routeCustomerModel.getSaleAmount()));
 
         //text color change on status
         String status = routeCustomerModel.getCustStatus();
         if (status == null || status.matches("Pending")) { //status.matches("") ||
-            String colored_status = "Status:" + " <font color='" + mContext.getResources().getColor(R.color.colorTextRed) + "'>" + status
+            String colored_status = "Status:" + " <font color='" + mContext.getResources().getColor(R.color.colorTextRed) + "'>" + "P"
                     + "</font>";
             holder.tvStatus.setText(Html.fromHtml(colored_status));
             holder.customer_item.setBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
         } else if (status.matches("Completed")) {
-            String colored_status = "Status:" + " <font color='" + mContext.getResources().getColor(R.color.colorTextGreen) + "'>" + status
+            String colored_status = "Status:" + " <font color='" + mContext.getResources().getColor(R.color.colorTextGreen) + "'>" + "C"
                     + "</font>";
             holder.tvStatus.setText(Html.fromHtml(colored_status));
             holder.customer_item.setBackgroundColor(mContext.getResources().getColor(R.color.colorBackgroundGreen));
@@ -72,8 +72,8 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
         if (saleTime != null && !saleTime.matches("") && !saleTime.matches("00:00")) {
             String smsTime = routeCustomerModel.getSms_time();
             if (smsTime != null && !smsTime.matches("") && !smsTime.matches("00:00"))
-                holder.tvSaleTime.setText("Sale Time: " + saleTime + "/" + smsTime);
-            else holder.tvSaleTime.setText("Sale Time: " + saleTime);
+                holder.tvSaleTime.setText("S.Time: " + saleTime + "/" + smsTime);
+            else holder.tvSaleTime.setText("S.Time: " + saleTime);
             /*sku updates*/
             holder.tvSkuDetail.setText("" + routeCustomerModel.getOutlet_purchased_sku() + "/" + routeCustomerModel.getVan_total_sku());
         } else {
@@ -83,7 +83,7 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
         /* travel time*/
         String travelTime = routeCustomerModel.getTime_diff();
         if (travelTime != null && !travelTime.matches("") && !travelTime.matches("00:00")) {
-            holder.tvTravelTime.setText("Travel Time: " + travelTime);
+            holder.tvTravelTime.setText("T.Time: " + travelTime);
         } else {
             holder.tvTravelTime.setVisibility(View.GONE);
         }
@@ -95,6 +95,20 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
         else
             holder.tvRejPrct.setVisibility(View.GONE);
 
+        /*average customer sale history*/
+        long avgShGrossSale = routeCustomerModel.getAvgSHSale();
+        // if (avgShNetSale > 0)
+        holder.tvASHSale.setText("A.G.Sale: " + holder.strRupee + avgShGrossSale);
+        //else
+        //   holder.tvASHSale.setText("A.Sale: " + holder.strRupee + "0");
+
+        /*sale history rejection percentage*/
+        long shRejPrct = routeCustomerModel.getAvgSaleRejPrct();
+        //if (shRejPrct > 0)
+        holder.tvASHRejPrct.setText("A.Rej: " + shRejPrct + "%");
+        // else
+        //holder.tvASHRejPrct.setVisibility(View.GONE);
+        // holder.tvASHRejPrct.setText("A.Rej: " + "0" + "%");
 
         holder.customer_item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +150,10 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
         public TextView tvRejPrct;
         @BindView(R.id.tvTravelTime)
         public TextView tvTravelTime;
+        @BindView(R.id.tvASHSale)
+        public TextView tvASHSale;
+        @BindView(R.id.tvASHRejPrct)
+        public TextView tvASHRejPrct;
         @BindView(R.id.customer_item)
         public LinearLayout customer_item;
 
@@ -146,5 +164,12 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
             super(v);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    /*update adapter*/
+    public void updateData(ArrayList<RouteCustomerModel> viewModels) {
+        mDataset.clear();
+        mDataset.addAll(viewModels);
+        notifyDataSetChanged();
     }
 }

@@ -41,11 +41,11 @@ public class SaleRejAdapter extends RecyclerView.Adapter<SaleRejAdapter.ViewHold
     public void onBindViewHolder(final SaleRejAdapter.ViewHolder holder, int position) {
         final SaleHistoryModel saleHistoryModel = mDataset.get(position);
         holder.tvDate.setText(Utility.getDayMonthAbbrev(saleHistoryModel.getStockDate()));
-        double grossSale = saleHistoryModel.getGrossSale();
+        //double grossSale = saleHistoryModel.getGrossSale();
         double netSale = saleHistoryModel.getNetSale();
-        double rejPrct = 0.00;
-        if (saleHistoryModel.getGrossSale() > 0)
-            rejPrct = (((grossSale - saleHistoryModel.getNetSale()) / grossSale) * 100);
+        double rejPrct = saleHistoryModel.getRejPrct();
+       /* if (saleHistoryModel.getGrossSale() > 0)
+            rejPrct = (((grossSale - saleHistoryModel.getNetSale()) / grossSale) * 100);*/
 
         holder.tvSaleAmt.setText(String.valueOf(Math.round(netSale) + "/" + Math.round(rejPrct)));
         holder.tvVanStockSale.setText(String.valueOf(saleHistoryModel.getItemsSold() + "/" + saleHistoryModel.getRoute_van_stock()));

@@ -214,6 +214,7 @@ public class OutletView extends SQLiteOpenHelper {
     public ArrayList<RouteCustomerModel> getRouteCustomers(String route_id) {
         ArrayList<RouteCustomerModel> array_list = new ArrayList<RouteCustomerModel>();
         TodaySaleView todaySaleView = new TodaySaleView(mContext);
+        SaleHistoryView saleHistoryView = new SaleHistoryView(mContext);
 
         int van_sku_count = new VanStockView(mContext).routeItemLoadCount(route_id);
 
@@ -224,7 +225,9 @@ public class OutletView extends SQLiteOpenHelper {
             while (res.isAfterLast() == false) {
                 RouteCustomerModel routeCustomerModel = new RouteCustomerModel();
                 routeCustomerModel.setRouteId(res.getString(res.getColumnIndex(ROUTE_ID)));
-                routeCustomerModel.setCustomerId(res.getString(res.getColumnIndex(CUSTOMER_ID)));
+
+                String customer_id = res.getString(res.getColumnIndex(CUSTOMER_ID));
+                routeCustomerModel.setCustomerId(customer_id);
                 routeCustomerModel.setCustomerName(res.getString(res.getColumnIndex(CUSTOMER_NAME)));
                 double saleAmount = res.getDouble(res.getColumnIndex(INV_AMOUNT));
                 routeCustomerModel.setSaleAmount(saleAmount);
@@ -234,7 +237,13 @@ public class OutletView extends SQLiteOpenHelper {
 
                 routeCustomerModel.setVan_total_sku(van_sku_count);
                 routeCustomerModel.setOutlet_purchased_sku(todaySaleView.routeOutletItemSaleCount(
-                        routeCustomerModel.getRouteId(), routeCustomerModel.getCustomerId()));
+                        route_id, customer_id));
+
+                long avgSHSale = Math.round(saleHistoryView.avgCustomerGrossSale(route_id, customer_id) / saleHistoryView.customerRowCount(route_id, customer_id));
+                routeCustomerModel.setAvgSHSale(avgSHSale);
+                long avgSaleRejPrct = saleHistoryView.avgCustomerRejPrct(route_id, customer_id);
+                if (avgSaleRejPrct > 0)
+                    routeCustomerModel.setAvgSaleRejPrct(avgSaleRejPrct);
 
                 /* calculate time difference between users*/
                 String time_diff = "00:00";

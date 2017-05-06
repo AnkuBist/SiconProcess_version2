@@ -84,4 +84,11 @@ public class DepotListAdapter extends RecyclerView.Adapter<DepotListAdapter.View
             ButterKnife.bind(this, v);
         }
     }
+
+    /*update adapter*/
+    public void updateData(ArrayList<DepotModel> viewModels) {
+        mDataset.clear();
+        mDataset.addAll(viewModels);
+        notifyDataSetChanged();
+    }
 }

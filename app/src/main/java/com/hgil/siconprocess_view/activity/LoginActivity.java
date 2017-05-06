@@ -291,11 +291,14 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
+                //version 2
                 byte[] result = loginResponse.getLoginByteResoponse();
 
                 String data = Utility.ungzip(result);
                 ObjLoginResponse objResponse = new Gson().fromJson(data, ObjLoginResponse.class);
-                // ObjLoginResp.onse objResponse = loginResponse.getObjLoginResponse();
+
+                // version 1
+                // ObjLoginResponse objResponse = loginResponse.getObjLoginResponse();
                 final long startTime = System.currentTimeMillis();
 
                 // sync data to local table and views

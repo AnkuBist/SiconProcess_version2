@@ -89,7 +89,13 @@ public class SaleRejHistoryFragment extends Route_Base_Fragment {
 
         if (arrSaleRej.size() > 0) {
             double avgNetSale = saleHistoryView.avgCustomerNetSale(getRouteId(), customer_id) / arrSaleRej.size();
+            /*double rejPrct = 0;
+            for (SaleHistoryModel saleHistoryModel : arrSaleRej)
+                rejPrct += saleHistoryModel.getRejPrct();
+*/
             tvAvgSale.setText("Avg. Sale: " + strRupee + Math.round(avgNetSale));
+            //tvAvgRej.setText("Avg. Rej: " + Math.round(rejPrct / arrSaleRej.size()) + "%");
+            //tvAvgRej.setText("Avg. Rej: " + saleHistoryView.avgCustomerRejPrct(getRouteId(), customer_id) + "%");
         }
         tvAvgRej.setText("Avg. Rej: " + saleHistoryView.avgCustomerRejPrct(getRouteId(), customer_id) + "%");
     }

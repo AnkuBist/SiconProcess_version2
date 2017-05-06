@@ -1,5 +1,6 @@
 package com.hgil.siconprocess_view.activity.fragments.routeLevel.homeTabs;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import com.hgil.siconprocess_view.adapter.routeMap.RouteCustomerModel;
 import com.hgil.siconprocess_view.adapter.routeMap.RouteOutletAdapter;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
 import com.hgil.siconprocess_view.database.OutletView;
+import com.hgil.siconprocess_view.retrofit.RetrofitUtil;
 
 import java.util.ArrayList;
 
@@ -60,9 +62,11 @@ public class RouteHomeAllFragment extends Route_Base_Fragment {
             arrRouteMap = new ArrayList<>();
 
         outletView = new OutletView(getActivity());
-        arrRouteMap.addAll(outletView.getRouteCustomers(routeId));
         mapRAdapter = new RouteOutletAdapter(getActivity(), arrRouteMap);
         rvAllRouteMap.setAdapter(mapRAdapter);
+        arrRouteMap.addAll(outletView.getRouteCustomers(routeId));
+        //new LongOperation().execute();
+        onResume();
     }
 
     @Override
@@ -76,4 +80,27 @@ public class RouteHomeAllFragment extends Route_Base_Fragment {
             rvAllRouteMap.setVisibility(View.VISIBLE);
         }
     }
+
+    /*async task to fetch data from local*/
+    private class LongOperation extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            arrRouteMap.clear();
+            arrRouteMap = (outletView.getRouteCustomers(routeId));
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            mapRAdapter.updateData(arrRouteMap);
+            onResume();
+            RetrofitUtil.hideDialog();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            RetrofitUtil.showDialog(getContext(), "");
+        }
+    }
+
 }

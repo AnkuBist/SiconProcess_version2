@@ -1,5 +1,6 @@
 package com.hgil.siconprocess_view.activity.fragments.baseLevel.depotList;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import com.hgil.siconprocess_view.adapter.depotList.DepotListAdapter;
 import com.hgil.siconprocess_view.adapter.depotList.DepotModel;
 import com.hgil.siconprocess_view.base.Base_Fragment;
 import com.hgil.siconprocess_view.database.ZoneView;
+import com.hgil.siconprocess_view.retrofit.RetrofitUtil;
 
 import java.util.ArrayList;
 
@@ -92,9 +94,12 @@ public class DepotListFragment extends Base_Fragment {
             arrDepot = new ArrayList<>();
 
         zoneView = new ZoneView(getActivity());
-        arrDepot.addAll(zoneView.getDepotList(zoneName));
+
         depotListAdapter = new DepotListAdapter(getActivity(), arrDepot);
         rvDepotList.setAdapter(depotListAdapter);
+        arrDepot.addAll(zoneView.getDepotList(zoneName));
+        // Since reading depots will take more time run in on another thread
+        //new LongOperation().execute();
         onResume();
     }
 
@@ -107,6 +112,28 @@ public class DepotListFragment extends Base_Fragment {
         } else {
             tvEmpty.setVisibility(View.GONE);
             rvDepotList.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /*async task to fetch data from local*/
+    private class LongOperation extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            arrDepot.clear();
+            arrDepot = (zoneView.getDepotList(zoneName));
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            depotListAdapter.updateData(arrDepot);
+            onResume();
+            RetrofitUtil.hideDialog();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            RetrofitUtil.showDialog(getContext(), "");
         }
     }
 

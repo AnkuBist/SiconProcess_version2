@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.fragments.baseLevel.RouteListActivity;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.NavRouteBaseActivity;
+import com.hgil.siconprocess_view.adapter.depotList.DepotModel;
 import com.hgil.siconprocess_view.base.SiconApp;
 import com.hgil.siconprocess_view.database.RouteView;
 import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.RouteModel;
@@ -105,5 +106,12 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.View
             super(v);
             ButterKnife.bind(this, v);
         }
+    }
+
+    /*update adapter*/
+    public void updateData(ArrayList<RouteListModel> viewModels) {
+        mDataset.clear();
+        mDataset.addAll(viewModels);
+        notifyDataSetChanged();
     }
 }
