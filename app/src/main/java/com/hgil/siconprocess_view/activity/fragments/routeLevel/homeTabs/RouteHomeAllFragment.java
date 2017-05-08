@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.adapter.routeMap.RouteCustomerModel;
-import com.hgil.siconprocess_view.adapter.routeMap.RouteOutletAdapter;
+import com.hgil.siconprocess_view.adapter.routeMap.homeAll.RouteOutletAllAdapter;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
 import com.hgil.siconprocess_view.database.OutletView;
 import com.hgil.siconprocess_view.retrofit.RetrofitUtil;
@@ -30,7 +30,7 @@ public class RouteHomeAllFragment extends Route_Base_Fragment {
     @BindView(R.id.tvEmpty)
     TextView tvEmpty;
 
-    private RouteOutletAdapter mapRAdapter;
+    private RouteOutletAllAdapter mapRAdapter;
     private OutletView outletView;
     private ArrayList<RouteCustomerModel> arrRouteMap = new ArrayList<>();
 
@@ -62,7 +62,7 @@ public class RouteHomeAllFragment extends Route_Base_Fragment {
             arrRouteMap = new ArrayList<>();
 
         outletView = new OutletView(getActivity());
-        mapRAdapter = new RouteOutletAdapter(getActivity(), arrRouteMap);
+        mapRAdapter = new RouteOutletAllAdapter(getActivity(), arrRouteMap);
         rvAllRouteMap.setAdapter(mapRAdapter);
         arrRouteMap.addAll(outletView.getRouteCustomers(routeId));
         //new LongOperation().execute();

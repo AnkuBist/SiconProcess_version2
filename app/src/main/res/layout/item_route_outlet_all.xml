@@ -42,7 +42,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvCustomerName"
-        android:layout_marginTop="5dp"
         android:orientation="horizontal"
         android:paddingLeft="6dp"
         android:paddingRight="6dp">
@@ -55,22 +54,12 @@
             android:textSize="@dimen/text_size_medium"
             android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/tvTotalSaleAmt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:textColor="@color/colorTextBlack"
-            android:textSize="@dimen/text_size_medium" />
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvCustomerName"
-        android:layout_marginTop="5dp"
         android:orientation="horizontal"
         android:paddingLeft="6dp"
         android:paddingRight="6dp">
@@ -83,14 +72,6 @@
             android:textColor="@color/colorTextBlack"
             android:textSize="@dimen/text_size_medium" />
 
-        <TextView
-            android:id="@+id/tvRejPrct"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:gravity="right"
-            android:textColor="@color/colorTextBlack"
-            android:textSize="@dimen/text_size_medium" />
     </LinearLayout>
 
     <TextView
@@ -101,10 +82,38 @@
         android:textColor="@color/colorTextBlack"
         android:textSize="@dimen/text_size_medium" />
 
+    <!--today sale detail-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvCustomerName"
+        android:orientation="horizontal"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp">
+
+        <TextView
+            android:id="@+id/tvTotalSaleAmt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:textColor="@color/colorTextBlack"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:id="@+id/tvRejPrct"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="right"
+            android:textColor="@color/colorTextBlack"
+            android:textSize="@dimen/text_size_medium" />
+
+    </LinearLayout>
+
+    <!--average sale history-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingLeft="6dp"
         android:paddingRight="6dp">

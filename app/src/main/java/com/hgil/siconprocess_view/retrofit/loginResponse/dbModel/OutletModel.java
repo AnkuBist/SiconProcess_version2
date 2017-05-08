@@ -37,6 +37,9 @@ public class OutletModel {
     @SerializedName("net_amount")
     @Expose
     private double net_amount;
+    @SerializedName("rej_amount")
+    @Expose
+    private double rej_amount;
     @SerializedName("cash_payment")
     @Expose
     private double cash_payment;
@@ -138,5 +141,13 @@ public class OutletModel {
 
     public void setNet_amount(double net_amount) {
         this.net_amount = net_amount;
+    }
+
+    public double getRej_amount() {
+        return rej_amount;
+    }
+
+    public void setRej_amount(double rej_amount) {
+        this.rej_amount = rej_amount;
     }
 }

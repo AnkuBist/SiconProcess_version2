@@ -1,4 +1,4 @@
-package com.hgil.siconprocess_view.adapter.routeMap;
+package com.hgil.siconprocess_view.adapter.routeMap.homeAll;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.activity.fragments.outletLevel.OutletHomeActivity;
 import com.hgil.siconprocess_view.activity.fragments.routeLevel.NavRouteBaseActivity;
+import com.hgil.siconprocess_view.adapter.routeMap.RouteCustomerModel;
 
 import java.util.ArrayList;
 
@@ -24,22 +25,22 @@ import butterknife.ButterKnife;
  * Created by mohan.giri on 25-01-2017.
  */
 
-public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.ViewHolder> {
+public class RouteOutletAllAdapter extends RecyclerView.Adapter<RouteOutletAllAdapter.ViewHolder> {
     private Context mContext;
     private ArrayList<RouteCustomerModel> mDataset;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RouteOutletAdapter(Context mContext, ArrayList<RouteCustomerModel> myDataset) {
+    public RouteOutletAllAdapter(Context mContext, ArrayList<RouteCustomerModel> myDataset) {
         this.mContext = mContext;
         this.mDataset = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public RouteOutletAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                            int viewType) {
+    public RouteOutletAllAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                               int viewType) {
         // create a new view
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_route_map, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_route_outlet_all, parent, false);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -61,10 +62,6 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
                     + "</font>";
             holder.tvStatus.setText(Html.fromHtml(colored_status));
             holder.customer_item.setBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
-
-            // hide sale history details
-            holder.tvASHRejPrct.setVisibility(View.GONE);
-            holder.tvASHSale.setVisibility(View.GONE);
         } else if (status.matches("Completed")) {
             String colored_status = "Status:" + " <font color='" + mContext.getResources().getColor(R.color.colorTextGreen) + "'>" + "C"
                     + "</font>";
@@ -94,10 +91,10 @@ public class RouteOutletAdapter extends RecyclerView.Adapter<RouteOutletAdapter.
 
         /*customer rejection percentage*/
         double rejPrct = routeCustomerModel.getRejPrct();
-        if (rejPrct > 0)
+        //if (rejPrct > 0)
             holder.tvRejPrct.setText("Rej: " + Math.round(rejPrct) + "%");
-        else
-            holder.tvRejPrct.setVisibility(View.GONE);
+        //else
+         //   holder.tvRejPrct.setVisibility(View.GONE);
 
         /*average customer sale history*/
         long avgShGrossSale = routeCustomerModel.getAvgSHSale();

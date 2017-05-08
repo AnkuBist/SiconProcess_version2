@@ -216,8 +216,8 @@ public class TodaySaleView extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.query(TABLE_NAME, new String[]{ITEM_ID,
-                "sum(" + OTHER_REJ + ") as " + OTHER_REJ,
-                "sum(" + FRESH_REJ + ") as " + FRESH_REJ
+                "sum(" + OTHER_REJ + ") as " + OTHER_REJ
+                //"sum(" + FRESH_REJ + ") as " + FRESH_REJ
         }, ROUTE_ID + "=?", new String[]{route_id}, ITEM_ID, null, ITEM_ID);
 
         double net_rej_amount = 0.00;
@@ -225,9 +225,10 @@ public class TodaySaleView extends SQLiteOpenHelper {
             while (res.isAfterLast() == false) {
                 String item_id = res.getString(res.getColumnIndex(ITEM_ID));
                 int o_rej = res.getInt(res.getColumnIndex(OTHER_REJ));
-                int f_rej = res.getInt(res.getColumnIndex(FRESH_REJ));
+                // int f_rej = res.getInt(res.getColumnIndex(FRESH_REJ));
                 double item_price = itemDetailView.getItemPrice(item_id);
-                net_rej_amount += ((o_rej + f_rej) * item_price);
+                net_rej_amount += ((o_rej) * item_price);
+                //net_rej_amount += ((o_rej + f_rej) * item_price);
                 res.moveToNext();
             }
         }

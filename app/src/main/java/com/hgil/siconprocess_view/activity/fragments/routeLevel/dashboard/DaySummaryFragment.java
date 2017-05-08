@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.hgil.siconprocess_view.R;
 import com.hgil.siconprocess_view.base.route_base.Route_Base_Fragment;
 import com.hgil.siconprocess_view.database.OutletView;
-import com.hgil.siconprocess_view.database.TodaySaleView;
+import com.hgil.siconprocess_view.retrofit.loginResponse.dbModel.OutletModel;
 
 import butterknife.BindView;
 
@@ -72,22 +72,28 @@ public class DaySummaryFragment extends Route_Base_Fragment {
         hideSyncButton();
 
         OutletView outletView = new OutletView(getContext());
-        TodaySaleView todaySaleView = new TodaySaleView(getContext());
 
         // route target calls
         int target_calls = outletView.routeTargetCalls(getRouteId());
 
+        OutletModel outletModel = outletView.routeDaySummary(getRouteId());
+        double route_total_collection = outletModel.getCash_payment();
+        double route_total_sale = outletModel.getInv_amount();
+        double route_rej_amount = outletModel.getRej_amount();
+        double net_sale_amount = outletModel.getNet_amount();
+        double route_outstanding = outletModel.getOutstanding();
+
         // route productive calls
         int productive_calls = outletView.routeProductiveCalls(getRouteId());
 
-        // total route collection amount
+        /*// total route collection amount
         double route_total_collection = outletView.routeCashCollection(getRouteId());
 
         //  total route sale amount
         double route_total_sale = outletView.routeTotalSale(getRouteId());
         double route_rej_amount = todaySaleView.getRouteRejAmount(getRouteId());
         double net_sale_amount = outletView.routeNetSale(getRouteId());
-        double route_outstanding = outletView.routeOutstanding(getRouteId());
+        double route_outstanding = outletView.routeOutstanding(getRouteId());*/
 
         // get total outlet calls made
         tvTotalCalls.setText(String.valueOf(target_calls));
@@ -99,7 +105,7 @@ public class DaySummaryFragment extends Route_Base_Fragment {
         /*gross sale amount*/
         tvGrossSale.setText(strRupee + Math.round(route_total_sale));
 
-        /*rejection amount ouver route*/
+        /*rejection amount over route*/
         tvRejAmount.setText(strRupee + Math.round(route_rej_amount));
 
         // get total bill value

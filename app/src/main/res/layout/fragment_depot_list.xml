@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorTextGrey"
     tools:context="com.hgil.siconprocess_view.activity.fragments.baseLevel.depotList.DepotListFragment">
 
     <TextView
@@ -16,9 +17,9 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvDepotList"
-        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         android:scrollbars="none" />
 
     <TextView

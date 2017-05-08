@@ -40,7 +40,7 @@ public class SaleLT100Adapter extends RecyclerView.Adapter<SaleLT100Adapter.View
     public SaleLT100Adapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                           int viewType) {
         // create a new view
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_route_map, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sale_lt100, parent, false);
         // set the view's size, margins, paddings and layout parameters
         SaleLT100Adapter.ViewHolder vh = new SaleLT100Adapter.ViewHolder(v);
         return vh;
@@ -112,8 +112,6 @@ public class SaleLT100Adapter extends RecyclerView.Adapter<SaleLT100Adapter.View
         // each data item is just a string in this case
         @BindView(R.id.tvCustomerName)
         public TextView tvCustomerName;
-        @BindView(R.id.tvSkuDetail)
-        public TextView tvSkuDetail;
         @BindView(R.id.tvStatus)
         public TextView tvStatus;
         @BindView(R.id.tvTotalSaleAmt)

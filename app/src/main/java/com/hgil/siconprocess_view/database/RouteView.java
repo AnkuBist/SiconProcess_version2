@@ -256,7 +256,7 @@ public class RouteView extends SQLiteOpenHelper {
 
                 //total route sale amount
                 double route_total_sale = outletView.routeTotalSale(route_id);
-                double route_rej_amount = todaySaleView.getRouteRejAmount(route_id);
+                double route_rej_amount = outletView.routeRejAmount(route_id);
 
                 double rejPrct = 0.00;
                 if (route_total_sale > 0)
@@ -318,7 +318,7 @@ public class RouteView extends SQLiteOpenHelper {
 
                 //total route sale amount
                 double route_total_sale = outletView.routeTotalSale(route_id);
-                double route_rej_amount = todaySaleView.getRouteRejAmount(route_id);
+                double route_rej_amount = outletView.routeRejAmount(route_id);
 
                 double rejPrct = 0.00;
                 if (route_total_sale > 0)
